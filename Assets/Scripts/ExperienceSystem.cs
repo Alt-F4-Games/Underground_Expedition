@@ -1,30 +1,29 @@
 using UnityEngine;
 
-public class ExperienceSystem : MonoBehaviour
+public class ExperienceSystem 
 {
-    private int _currentExp;
-    [SerializeField] private float _maxExp;
-    [SerializeField] private float _porcentageExp = 50f;
+    public event Action OnLevelUp;
     
-    void Update()
+    private int _currentExp;
+    private int _maxExp;
+    
+    public ExperienceSystem(int initialMaxXP)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _currentExp += 10;
-            Debug.Log($"Experiencia aumentada:{_currentExp}");
-        }
+        _currentExp= 0;
+        _maxExp = initialMaxXP;
+    }
 
-        if (_currentExp >= _maxExp)
+    public void AddXP(int amount)
+    {
+        _currentExp += amount;
+
+        while (_currentExp >= _maxExp) 
         {
-            LevelUp();
-            _currentExp = 0;
+            _currentExp -= _maxExp;
+            OnLevelUp?.Invoke();
         }
     }
 
-    private void LevelUp()
-    {
-        float factor = 1 + (_porcentageExp / 100f);
-        _maxExp *= factor;
-        Debug.Log($"Experiencia maxima renovada:{_maxExp}");
-    }    
+    public int GetCurrentXP() => _currentExp;
+    public int GetMaxXP() => _maxExp; 
 }
