@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class LevelSystem : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private int _upgradeLevel = 1;
+    
     void Start()
     {
-        
+        ExperienceSystem.instance.OnLevelUp += UpdateLevel;
+        Debug.Log("Level:" +  _upgradeLevel);
     }
 
-    // Update is called once per frame
-    void Update()
+    void UpdateLevel(int newLevel)
     {
-        
-    }
+        _upgradeLevel += newLevel;
+        Debug.Log("Upgrade level:" + _upgradeLevel);
+    } 
 }
