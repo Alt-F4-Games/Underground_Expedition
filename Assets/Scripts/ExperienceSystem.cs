@@ -9,11 +9,12 @@ public class ExperienceSystem : MonoBehaviour
     public static ExperienceSystem instance;
 
     private int _currentExp;
-    private int _newLevel;
+    private int _newLevel = 1;
     private float _baseExp = 100;
     [SerializeField] private float _porcentageExp;
+    [SerializeField] private float _maxLevel;
     
-    void Awake() { instance = this; }
+    void Awake() { instance = this; Debug.Log("Level:" + _newLevel); }
 
     void Update()
     {
@@ -25,21 +26,31 @@ public class ExperienceSystem : MonoBehaviour
     
     public void AddXP(int amount)
     {
-        _currentExp += amount;
-        Debug.Log("Exp added:" + amount);
-        if (_currentExp >= _baseExp)
-        { 
-            OnLevelUp?.Invoke(_newLevel++);
-            IncrementBaseExp();
-            Debug.Log("Actual Exp:" + _currentExp);
-            Debug.Log("Max exp:" + _baseExp);
-            _currentExp = 0;
-           
-        }else if (_baseExp > _currentExp)
+        if(_maxLevel > _newLevel )
         {
-            Debug.Log("Actual Exp:" + _currentExp);
-            OnExperienceGained?.Invoke(_currentExp);
+            _currentExp += amount;
+            Debug.Log("Exp added:" + amount);
+            
+                if (_currentExp >= _baseExp)
+                { 
+                    _newLevel++;
+                    OnLevelUp?.Invoke(_newLevel);
+                    IncrementBaseExp();
+                    Debug.Log("Actual Exp:" + _currentExp);
+                    Debug.Log("Max exp:" + _baseExp);
+                    _currentExp = 0;
+                   
+                }else if (_baseExp > _currentExp)
+                {
+                    Debug.Log("Actual Exp:" + _currentExp);
+                    OnExperienceGained?.Invoke(_currentExp);
+                }
         }
+        else
+        {
+            Debug.Log("Max Level reached");
+            return;
+        }    
     }
 
     private void IncrementBaseExp()
