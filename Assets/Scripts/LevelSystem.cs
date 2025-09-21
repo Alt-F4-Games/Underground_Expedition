@@ -3,6 +3,7 @@ using UnityEngine;
 public class LevelSystem : MonoBehaviour
 {
     private int _actualLevel = 1;
+    private int _skillPoints;
     
     void Start()
     {
@@ -14,6 +15,11 @@ public class LevelSystem : MonoBehaviour
     {
         _actualLevel = newLevel;
         Debug.Log("Upgrade level:" + _actualLevel);
+        if (_actualLevel == 3 || _actualLevel == 6 || _actualLevel == 8)
+        {
+            _skillPoints++;
+            Debug.Log("Skill points:" + _skillPoints);
+        }
     }
      private void OnDestroy()
         {
