@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveForce = 10f;
     [SerializeField] private float groundCheckDistance = 1f;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Transform playerCamera;
     
     private bool isGrounded;
 
@@ -29,7 +30,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rigidBody.AddForce(new Vector3(input.x, 0f, input.y) * moveForce);
+        Vector3 forward = playerCamera.forward;
+        forward.y = 0f;
+        forward.Normalize();
+
+        Vector3 right = playerCamera.right;
+        right.y = 0f;
+        right.Normalize();
+        
+        Vector3 moveDirection = forward * input.y + right * input.x;
+        _rigidBody.AddForce(moveDirection * moveForce);
     }
 
     public void Jump(InputAction.CallbackContext callbackContext)
