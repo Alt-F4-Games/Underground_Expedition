@@ -9,10 +9,22 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float upForce = 250f;
     [SerializeField] private float moveForce = 10f;
+    [SerializeField] private float groundCheckDistance = 1f;
+    [SerializeField] private LayerMask groundMask;
+    
+    private bool isGrounded;
 
     void Start()
     {
         _rigidBody = GetComponent<Rigidbody>();   
+    }
+
+    void Update()
+    {
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundMask);
+        
+        Color rayColor = isGrounded ? Color.green : Color.red;
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, rayColor);
     }
 
     private void FixedUpdate()
@@ -22,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed)
+        if (callbackContext.performed && isGrounded)
         {
             _rigidBody.AddForce(Vector3.up * upForce);
             Debug.Log($"Jump {callbackContext.phase}");

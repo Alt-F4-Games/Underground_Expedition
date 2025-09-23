@@ -216,3 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upForce: 250
   moveForce: 10
+  groundCheckDistance: 1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64

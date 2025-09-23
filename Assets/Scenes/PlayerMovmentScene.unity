@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 862836542}
   - component: {fileID: 862836541}
   - component: {fileID: 862836540}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 1862512583}
   - component: {fileID: 1862512582}
   - component: {fileID: 1862512581}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,6 +686,14 @@ PrefabInstance:
     - target: {fileID: 1038458697214580114, guid: 59222ff541aa77b4e8f89ef122be68ae, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323316132545361394, guid: 59222ff541aa77b4e8f89ef122be68ae, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323316132545361394, guid: 59222ff541aa77b4e8f89ef122be68ae, type: 3}
+      propertyPath: groundCheckDistance
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 8408693241516766689, guid: 59222ff541aa77b4e8f89ef122be68ae, type: 3}
       propertyPath: m_LocalPosition.x
