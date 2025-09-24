@@ -41,4 +41,35 @@ public class HealthSystem : MonoBehaviour
    {
       _isAlive = false;
    }
+
+   public virtual void Heal(int heal)
+   {
+      if (heal <= 0)
+      {
+         Debug.LogError("Heal amount cannot be negative or zero");
+         return;
+      }
+
+      if (_currentHealth < _maxHealth && _isAlive)
+      {
+         _currentHealth += heal;
+         Debug.Log("Heal:" + heal);
+         
+         if (_currentHealth > _maxHealth) {_currentHealth = _maxHealth;}
+         
+      }
+      else
+      {
+         Debug.Log("Health is full");
+         return ;
+      }
+   }
+   
+   public virtual void Revive()
+   {
+      if (!_isAlive)
+      {
+         _isAlive = true;
+      }
+   }
 }
