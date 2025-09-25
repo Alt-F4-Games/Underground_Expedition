@@ -28,7 +28,7 @@ public class HealthSystem : MonoBehaviour
       if(!_isAlive) return;
       
       _currentHealth = Mathf.Max(_currentHealth - damage, 0);     //returns 0 if current is negative
-      Debug.Log("Damage:" + damage);
+      Debug.Log($"{gameObject.name} has taken: {damage} of damage");
       Debug.Log("Health:" + _currentHealth);
 
       if (_currentHealth <= 0)
@@ -39,6 +39,7 @@ public class HealthSystem : MonoBehaviour
 
    public virtual void Death()
    {
+      Debug.Log($"{gameObject.name} has died.");
       _isAlive = false;
    }
 
@@ -53,14 +54,17 @@ public class HealthSystem : MonoBehaviour
       if (_currentHealth < _maxHealth && _isAlive)
       {
          _currentHealth += heal;
-         Debug.Log("Heal:" + heal);
+         Debug.Log($"{gameObject.name} has healed: {heal}. Actual health: {_currentHealth}");
          
          if (_currentHealth > _maxHealth) {_currentHealth = _maxHealth;}
          
       }
       else
       {
-         Debug.Log("Health is full");
+         Debug.Log(
+            _isAlive
+         ? $"{gameObject.name} has fully healed."
+         : $"{gameObject.name} cannot heal, because it´s dead.");
          return ;
       }
    }
@@ -70,6 +74,7 @@ public class HealthSystem : MonoBehaviour
       if (!_isAlive)
       {
          _isAlive = true;
+         Debug.Log($"{gameObject.name} has revived.");
       }
    }
 }
