@@ -77,4 +77,10 @@ public class HealthSystem : MonoBehaviour
          Debug.Log($"{gameObject.name} has revived.");
       }
    }
+
+   public void SetMaxHealth(int maxHealth)
+   {
+      _maxHealth = maxHealth;
+      _currentHealth = _maxHealth;
+   }
 }
