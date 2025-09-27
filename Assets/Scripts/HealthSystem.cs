@@ -21,9 +21,9 @@ public class HealthSystem : MonoBehaviour
 
    public virtual void TakeDamage(int damage)
    {
-      if (damage < 0)
+      if (damage <= 0)
       {
-         Debug.LogError("Damage amount cannot be negative");
+         Debug.LogError("Damage amount cannot be negative or zero");
          return;
       }
       
