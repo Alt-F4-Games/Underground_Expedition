@@ -10,9 +10,11 @@ public class HealthSystem : MonoBehaviour
    
    public int CurrentHealth => _currentHealth;
    public int MaxHealth => _maxHealth;
-
+   public bool IsAlive => _isAlive;
+   
    public void Awake()
    {
+      _isAlive = true;
       _currentHealth = _maxHealth;
       Debug.Log("Health:" +  _currentHealth);
    }
@@ -39,6 +41,7 @@ public class HealthSystem : MonoBehaviour
 
    public virtual void Death()
    {
+      if (!_isAlive) return;
       Debug.Log($"{gameObject.name} has died.");
       _isAlive = false;
    }
@@ -51,21 +54,20 @@ public class HealthSystem : MonoBehaviour
          return;
       }
 
-      if (_currentHealth < _maxHealth && _isAlive)
+      if (!_isAlive)
       {
-         _currentHealth += heal;
-         Debug.Log($"{gameObject.name} has healed: {heal}. Actual health: {_currentHealth}");
-         
-         if (_currentHealth > _maxHealth) {_currentHealth = _maxHealth;}
-         
+         Debug.Log($"{gameObject.name} cannot heal because it is dead.");
+         return;
+      }
+
+      if (_currentHealth < _maxHealth)
+      {
+         _currentHealth = Mathf.Min(_currentHealth + heal, _maxHealth); // Limita inmediatamente
+         Debug.Log($"{gameObject.name} has heal {heal}. Actual health: {_currentHealth}");
       }
       else
       {
-         Debug.Log(
-            _isAlive
-         ? $"{gameObject.name} has fully healed."
-         : $"{gameObject.name} cannot heal, because it´s dead.");
-         return ;
+         Debug.Log($"{gameObject.name} is fully healed.");
       }
    }
    
@@ -74,13 +76,19 @@ public class HealthSystem : MonoBehaviour
       if (!_isAlive)
       {
          _isAlive = true;
+         _currentHealth = _maxHealth;
          Debug.Log($"{gameObject.name} has revived.");
       }
    }
 
    public void SetMaxHealth(int maxHealth)
    {
+      if (maxHealth <= 0)
+      {
+         Debug.LogError("Max health cannot be negative or zero");
+         return;
+      }
       _maxHealth = maxHealth;
-      _currentHealth = _maxHealth;
+      _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
    }
 }
