@@ -32,5 +32,14 @@ public class Inventory
                 if (quantity == 0) return true;
             }
         }
+        
+        while (quantity > 0 && slots.Count < maxSlots)
+        {
+            int amountToAdd = Mathf.Min(quantity, item.maxStack);
+            slots.Add(new InventorySlot { item = item, quantity = amountToAdd });
+            quantity -= amountToAdd;
+        }
+
+        return quantity == 0;
     }
 }
