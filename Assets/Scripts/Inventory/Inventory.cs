@@ -15,6 +15,22 @@ public class Inventory
         public ItemSO Item => item;
         public int Quantity => quantity;
     }
-    
-    
+
+    public bool AddItem(ItemSO item, int quantity = 1)
+    {
+        if (item == null || quantity <= 0) return false;
+
+        
+        foreach (var slot in slots)
+        {
+            if (slot.Item == item && slot.Quantity < item.maxStack)
+            {
+                int spaceLeft = item.maxStack - slot.Quantity;
+                int amountToAdd = Mathf.Min(quantity, spaceLeft);
+                slot.quantity += amountToAdd;
+                quantity -= amountToAdd;
+                if (quantity == 0) return true;
+            }
+        }
+    }
 }
