@@ -11,6 +11,12 @@ public class Inventory
     {
         [SerializeField] private ItemSO item;
         [SerializeField] private int quantity = 1;
+        
+        public InventorySlot(ItemSO item, int quantity)
+        {
+            this.item = item;
+            this.quantity = quantity > 0 ? quantity : 1; 
+        }
 
         public ItemSO Item => item;
         public int Quantity => quantity;
@@ -36,7 +42,7 @@ public class Inventory
         while (quantity > 0 && slots.Count < maxSlots)
         {
             int amountToAdd = Mathf.Min(quantity, item.maxStack);
-            slots.Add(new InventorySlot { item = item, quantity = amountToAdd });
+            slots.Add(new InventorySlot(item, amountToAdd));
             quantity -= amountToAdd;
         }
 
