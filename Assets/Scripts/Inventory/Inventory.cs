@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class Inventory
@@ -19,7 +20,12 @@ public class Inventory
         }
 
         public ItemSO Item => item;
-        public int Quantity => quantity;
+
+        public int Quantity
+        {
+            get => quantity;
+            internal set => quantity = value > 0 ? value : 1;
+        }
     }
 
     public bool AddItem(ItemSO item, int quantity = 1)
@@ -33,7 +39,7 @@ public class Inventory
             {
                 int spaceLeft = item.maxStack - slot.Quantity;
                 int amountToAdd = Mathf.Min(quantity, spaceLeft);
-                slot.quantity += amountToAdd;
+                slot.Quantity += amountToAdd;
                 quantity -= amountToAdd;
                 if (quantity == 0) return true;
             }
