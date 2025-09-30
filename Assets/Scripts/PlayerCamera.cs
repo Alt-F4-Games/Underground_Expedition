@@ -3,18 +3,29 @@ using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Transform playerBody;
-    [SerializeField] private float sensitivity = 100f; 
-    [SerializeField] private float clampAngle = 90f; 
+    [SerializeField] private Transform cameraPivot;
+    [SerializeField] private Camera playerCamera;
+
+    [Header("Settings")]
+    [SerializeField] private float sensitivity = 100f;
+    [SerializeField] private float clampAngle = 90f;
 
     private Vector2 lookInput;
     private float xRotation = 0f;
 
     private void Start()
     {
-        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        if (playerCamera != null && cameraPivot != null)
+        {
+            playerCamera.transform.SetParent(cameraPivot);
+            playerCamera.transform.localPosition = Vector3.zero;
+            playerCamera.transform.localRotation = Quaternion.identity;
+        }
     }
 
     private void Update()
@@ -24,8 +35,7 @@ public class PlayerCamera : MonoBehaviour
         
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -clampAngle, clampAngle);
-
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        cameraPivot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         
         playerBody.Rotate(Vector3.up * mouseX);
     }
