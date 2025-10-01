@@ -16,9 +16,9 @@ public class PlayerInteraction : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.started && heldObject == null)
+        if (context.performed && heldObject == null)
         {
-            Ray ray = new Ray(playerPivot.position, playerPivot.forward);
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
             {
                 if (hit.collider.CompareTag(interactableTag))

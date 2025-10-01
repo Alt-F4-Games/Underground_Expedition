@@ -7,6 +7,9 @@ public class GrabbableObject : MonoBehaviour, IInteractable
     private bool isHeld;
     private Transform holdPoint;
 
+    [SerializeField] private float followSpeed = 15f;
+    [SerializeField] private float rotateSpeed = 10f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,14 +20,14 @@ public class GrabbableObject : MonoBehaviour, IInteractable
         isHeld = true;
         holdPoint = interactor.GetHoldPoint();
         rb.useGravity = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        rb.linearDamping = 10f; 
     }
 
     public void Release()
     {
         isHeld = false;
         rb.useGravity = true;
-        rb.constraints = RigidbodyConstraints.None;
+        rb.linearDamping = 0f;
         holdPoint = null;
     }
 
@@ -34,7 +37,10 @@ public class GrabbableObject : MonoBehaviour, IInteractable
         {
             Vector3 targetPosition = holdPoint.position;
             Vector3 forceDirection = targetPosition - transform.position;
-            rb.linearVelocity = forceDirection * 10f; // mueve el objeto hacia el holdPoint
+            rb.linearVelocity = forceDirection * followSpeed;
+            
+            Quaternion targetRotation = holdPoint.rotation;
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotateSpeed));
         }
     }
 }
