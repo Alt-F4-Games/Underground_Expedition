@@ -55,6 +55,26 @@ public class Inventory
         return quantity == 0;
     }
     
+    public bool RemoveItem(ItemSO item, int quantity = 1)
+    {
+        if (item == null || quantity <= 0) return false;
+
+        for (int i = slots.Count - 1; i >= 0; i--)
+        {
+            if (slots[i].Item == item && slots[i].Quantity > 0)
+            {
+                int amountToRemove = Mathf.Min(quantity, slots[i].Quantity);
+                slots[i].Quantity -= amountToRemove;
+                quantity -= amountToRemove;
+
+                if (slots[i].Quantity == 0) slots.RemoveAt(i);
+
+                if (quantity == 0) return true;
+            }
+        }
+        return quantity == 0;
+    }
+    
     public List<InventorySlot> GetSlots() => new List<InventorySlot>(slots);
     public int GetAvailableSlots() => maxSlots - slots.Count;
 }
