@@ -10,7 +10,7 @@ public class PlayerInteraction : MonoBehaviour
     [Header("Interaction Settings")]
     [SerializeField] private float interactDistance = 3f;
     [SerializeField] private string interactableTag = "Interactable";
-    [SerializeField] private Transform holdPoint; // donde se "sostienen" los objetos
+    [SerializeField] private Transform holdPoint;
 
     private IInteractable heldObject;
 
