@@ -142,6 +142,20 @@ MonoBehaviour:
   OnInventoryChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &87868033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87868023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51cd1899286267b4d90e48daaf5a0bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 87868032}
+  itemToRemove: {fileID: 11400000, guid: 88e2953b890554e459b485abe31cd1e4, type: 2}
 --- !u!1 &211306963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,6 +1852,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1917438807302812132, guid: ebf55b38126862545904122612047afd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 87868032}
+    - targetCorrespondingSourceObject: {fileID: 1917438807302812132, guid: ebf55b38126862545904122612047afd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 87868033}
   m_SourcePrefab: {fileID: 100100000, guid: ebf55b38126862545904122612047afd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
