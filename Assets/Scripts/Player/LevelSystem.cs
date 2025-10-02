@@ -25,5 +25,7 @@ public class LevelSystem : MonoBehaviour
         {
             ExperienceSystem.instance.OnLevelUp -= UpdateLevel;
         }
+     
+     public int GetLevel() => _actualLevel;
 
 }
