@@ -54,4 +54,7 @@ public class Inventory
 
         return quantity == 0;
     }
+    
+    public List<InventorySlot> GetSlots() => new List<InventorySlot>(slots);
+    public int GetAvailableSlots() => maxSlots - slots.Count;
 }
