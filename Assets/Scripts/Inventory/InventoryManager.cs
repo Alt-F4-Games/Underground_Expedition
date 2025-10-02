@@ -19,16 +19,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
     
-    public void RemoveItem(ItemSO item, int quantity = 1)
+    public bool RemoveItem(ItemSO item, int quantity = 1)
     {
         if (inventory.RemoveItem(item, quantity))
         {
             OnInventoryChanged.Invoke();
             Debug.Log($"Removed {quantity} x {item.itemName} from inventory.");
+            return true;
         }
         else
         {
             Debug.Log("Failed to remove item. Insufficient quantity.");
+            return false;
         }
     }
     
