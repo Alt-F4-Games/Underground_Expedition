@@ -16,7 +16,7 @@ public class Inventory
         public InventorySlot(ItemSO item, int quantity)
         {
             this.item = item;
-            this.quantity = quantity > 0 ? quantity : 1; 
+            this.quantity = Mathf.Max(quantity, 1); 
         }
 
         public ItemSO Item => item;
@@ -24,7 +24,7 @@ public class Inventory
         public int Quantity
         {
             get => quantity;
-            internal set => quantity = value > 0 ? value : 1;
+            internal set => quantity = Mathf.Max(value, 0);
         }
     }
 
@@ -67,7 +67,7 @@ public class Inventory
                 slots[i].Quantity -= amountToRemove;
                 quantity -= amountToRemove;
 
-                if (slots[i].Quantity == 0) slots.RemoveAt(i);
+                if (slots[i].Quantity <= 0) slots.RemoveAt(i);
 
                 if (quantity == 0) return true;
             }
