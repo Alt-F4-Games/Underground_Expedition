@@ -18,20 +18,18 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (context.performed && heldObject == null)
         {
+
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
             if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
             {
+
                 if (hit.collider.CompareTag(interactableTag))
                 {
+
                     if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
                     {
                         interactable.Interact(this);
-                        
-                        if (interactable is IHoldable holdable)
-                        {
-                            heldObject = holdable;
-                        }
                     }
                 }
             }
