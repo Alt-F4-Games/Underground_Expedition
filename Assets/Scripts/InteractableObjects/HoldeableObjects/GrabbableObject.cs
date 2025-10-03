@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class GrabbableObject : MonoBehaviour, IInteractable
+public class GrabbableObject : MonoBehaviour, IHoldable
 {
     private Rigidbody rb;
     private bool isHeld;
