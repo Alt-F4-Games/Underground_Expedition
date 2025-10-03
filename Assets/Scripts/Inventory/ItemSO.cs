@@ -16,8 +16,10 @@ public class ItemSO :  ScriptableObject
     public Sprite icon;
     public ItemType itemType;
     public int maxStack = 1;
-    
-    [Header("Tool Properties")]
+
+    [Header("Tool Properties")] 
+    public bool isTool;
+    public bool isActiveTool;
     public bool hasDurability;
     public int maxDurability;
 
@@ -45,5 +47,11 @@ public class ItemSO :  ScriptableObject
                 break;
         }
     }
+
+    public bool IsTool => itemType == ItemType.ToolActive || itemType == ItemType.ToolPassive;
+    public bool IsActiveTool => itemType == ItemType.ToolActive;
+    public bool IsPassiveTool => itemType == ItemType.ToolPassive;
+    public bool IsPickup => itemType == ItemType.Pickup;
+    public bool IsKeyItem => itemType == ItemType.KeyItem;
 
 }
