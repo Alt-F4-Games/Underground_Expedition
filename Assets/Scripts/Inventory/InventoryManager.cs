@@ -18,4 +18,19 @@ public class InventoryManager : MonoBehaviour
             inventorySystem = GetComponent<InventorySystem>();
     }
     
+    public bool AddItem(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
+    {
+        bool added = inventorySystem.TryAddItem(item, qty, slotType);
+        if (added)
+        {
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"[InventoryManager] Added {item.itemName} x{qty} to {slotType}");
+        }
+        else
+        {
+            Debug.LogWarning($"[InventoryManager] Failed to add {item.itemName} x{qty} to {slotType}");
+        }
+        return added;
+    }
+
 }
