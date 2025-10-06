@@ -95,4 +95,35 @@ public class InventorySystem : MonoBehaviour
         return new List<InventorySlot>(GetDict(slotType).Values);
     }
 
+    private Dictionary<ItemSO, InventorySlot> GetDict(SlotType type)
+    {
+        return type switch
+        {
+            SlotType.Hotbar => _hotbarSlots,
+            SlotType.Equip  => _equipSlots,
+            _               => _baseSlots
+        };
+    }
+
+    private int GetCapacity(SlotType type)
+    {
+        return type switch
+        {
+            SlotType.Hotbar => _hotbarCapacity,
+            SlotType.Equip  => _equipCapacity,
+            _               => _baseCapacity
+        };
+    }
+
+    private bool IsValidSlotType(ItemSO item, SlotType slotType)
+    {
+        if (item == null) return false;
+
+        if (item.IsPickup && slotType != SlotType.Base) return false;
+        if (item.IsActiveTool && slotType == SlotType.Equip) return false;
+        if (item.IsPassiveTool && slotType == SlotType.Hotbar) return false;
+
+        return true;
+    }
+
 }
