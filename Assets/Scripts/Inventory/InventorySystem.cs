@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum SlotType { Base, Hotbar, Equip }
 
-[Serializable] 
+[Serializable]
 public class InventorySlot
 {
     public ItemSO item;
@@ -17,14 +17,48 @@ public class InventorySlot
     }
 }
 
-
 public class InventorySystem : MonoBehaviour
 {
-    private Dictionary<ItemSO, InventorySlot> baseSlots   = new Dictionary<ItemSO, InventorySlot>();
-    private Dictionary<ItemSO, InventorySlot> hotbarSlots = new Dictionary<ItemSO, InventorySlot>();
-    private Dictionary<ItemSO, InventorySlot> equipSlots  = new Dictionary<ItemSO, InventorySlot>();
+    public event Action OnInventoryChanged;
+    
+    
+    [SerializeField] Dictionary<ItemSO, InventorySlot> _baseSlots   = new Dictionary<ItemSO, InventorySlot>();
+    [SerializeField]private Dictionary<ItemSO, InventorySlot> _hotbarSlots = new Dictionary<ItemSO, InventorySlot>();
+    [SerializeField]private Dictionary<ItemSO, InventorySlot> _equipSlots  = new Dictionary<ItemSO, InventorySlot>();
+    
+    
+    private int _baseCapacity   = 3;
+    private int _hotbarCapacity = 3;
+    private int _equipCapacity  = 3;
 
-    private int baseCapacity   = 3;
-    private int hotbarCapacity = 3;
-    private int equipCapacity  = 3;
+    
+    public bool TryAddItem(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
+    {
+        if (item == null || qty <= 0) return false;
+        if (!IsValidSlotType(item, slotType)) return false;
+
+        var dict= GetDict(slotType);
+        int capacity = GetCapacity(slotType);
+
+        
+        if (dict.TryGetValue(item, out var slot))
+        {
+            int space = Mathf.Min(qty, item.maxStack - slot.quantity);
+            if (space <= 0) return false;
+            slot.quantity += space;
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+
+        
+        if (dict.Count < capacity)
+        {
+            dict[item] = new InventorySlot(item, Mathf.Min(qty, item.maxStack));
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+
+        return false;
+    }
+    
 }
