@@ -61,4 +61,12 @@ public class InventorySystem : MonoBehaviour
         return false;
     }
     
+    public bool TryRemoveItem(ItemSO item, SlotType slotType = SlotType.Base)
+    {
+        var dict = GetDict(slotType);
+        bool removed = dict.Remove(item);
+        if (removed) OnInventoryChanged?.Invoke();
+        return removed;
+    }
+
 }
