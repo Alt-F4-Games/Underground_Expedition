@@ -13,4 +13,16 @@ public class Pickup : MonoBehaviour
         col.isTrigger = true;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        var inventoryManager = other.GetComponent<InventoryManager>();
+        if (inventoryManager == null) return;
+
+        bool added = inventoryManager.AddItem(item, quantity, SlotType.Base);
+        if (added)
+        {
+            Destroy(gameObject);
+        }
+        
+    }
 }
