@@ -69,4 +69,19 @@ public class InventorySystem : MonoBehaviour
         return removed;
     }
 
+    public bool TryRemoveQuantity(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
+    {
+        if (item == null || qty <= 0) return false;
+
+        var dict = GetDict(slotType);
+        if (!dict.TryGetValue(item, out var slot)) return false;
+        if (slot.quantity < qty) return false;
+
+        slot.quantity -= qty;
+        if (slot.quantity == 0) dict.Remove(item);
+
+        OnInventoryChanged?.Invoke();
+        return true;
+    }
+
 }
