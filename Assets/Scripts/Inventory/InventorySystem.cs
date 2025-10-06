@@ -90,4 +90,9 @@ public class InventorySystem : MonoBehaviour
         OnInventoryChanged?.Invoke();
     }
 
+    public List<InventorySlot> GetSlots(SlotType slotType)
+    {
+        return new List<InventorySlot>(GetDict(slotType).Values);
+    }
+
 }
