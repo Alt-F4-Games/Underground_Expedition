@@ -64,5 +64,13 @@ public class InventoryManager : MonoBehaviour
         }
         return removed;
     }
+
+    
+    public void ExpandBase(int newCapacity)
+    {
+        inventorySystem.ExpandBaseCapacity(newCapacity);
+        OnInventoryChanged?.Invoke();
+        Debug.Log($"[InventoryManager] Base capacity expanded to {newCapacity}");
+    }
     
 }
