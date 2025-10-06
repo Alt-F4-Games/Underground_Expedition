@@ -72,5 +72,10 @@ public class InventoryManager : MonoBehaviour
         OnInventoryChanged?.Invoke();
         Debug.Log($"[InventoryManager] Base capacity expanded to {newCapacity}");
     }
+
     
+    public List<InventorySlot> GetSlots(SlotType slotType)
+    {
+        return inventorySystem.GetSlots(slotType);
+    }
 }
