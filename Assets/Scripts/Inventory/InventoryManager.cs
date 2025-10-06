@@ -8,5 +8,8 @@ public class InventoryManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InventorySystem inventorySystem;
+
+    [Header("Events")]
+    public UnityEvent OnInventoryChanged;
     
 }
