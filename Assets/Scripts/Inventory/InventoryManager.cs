@@ -48,5 +48,21 @@ public class InventoryManager : MonoBehaviour
         }
         return removed;
     }
+
+    
+    public bool RemoveQuantity(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
+    {
+        bool removed = inventorySystem.TryRemoveQuantity(item, qty, slotType);
+        if (removed)
+        {
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"[InventoryManager] Removed {item.itemName} x{qty} from {slotType}");
+        }
+        else
+        {
+            Debug.LogWarning($"[InventoryManager] Failed to remove {item.itemName} x{qty} from {slotType}");
+        }
+        return removed;
+    }
     
 }
