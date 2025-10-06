@@ -11,5 +11,11 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent OnInventoryChanged;
+
+    private void Awake()
+    {
+        if (inventorySystem == null)
+            inventorySystem = GetComponent<InventorySystem>();
+    }
     
 }
