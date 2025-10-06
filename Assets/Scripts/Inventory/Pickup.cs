@@ -23,6 +23,9 @@ public class Pickup : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+        else
+        {
+            Debug.LogWarning($"Could not pick up {item.itemName} x{quantity}: inventory full or invalid slot.");
+        }
     }
 }
