@@ -124,7 +124,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1917438807302812132, guid: ebf55b38126862545904122612047afd, type: 3}
   m_PrefabInstance: {fileID: 8089304983651596118}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &87868032
+--- !u!114 &87868024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,13 +136,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b056500aac791d4185c794ff50f6469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory:
-    slots: []
-    maxSlots: 8
+  inventorySystem: {fileID: 87868025}
   OnInventoryChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &87868033
+--- !u!114 &87868025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,11 +149,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 87868023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51cd1899286267b4d90e48daaf5a0bb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ae89d65b22188340b07b3d4158040fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 87868032}
-  itemToRemove: {fileID: 11400000, guid: 88e2953b890554e459b485abe31cd1e4, type: 2}
 --- !u!1 &211306963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,8 +1002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff3b8b3df50e5a43a49cef78071aac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 88e2953b890554e459b485abe31cd1e4, type: 2}
-  quantity: 8
+  item: {fileID: 11400000, guid: b54bbaa13ec43e94bb8250edcf3bae8c, type: 2}
+  quantity: 1
 --- !u!65 &861508863
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1345,8 +1341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff3b8b3df50e5a43a49cef78071aac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 88e2953b890554e459b485abe31cd1e4, type: 2}
-  quantity: 8
+  item: {fileID: 11400000, guid: b54bbaa13ec43e94bb8250edcf3bae8c, type: 2}
+  quantity: 1
 --- !u!65 &1223495954
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1851,10 +1847,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1917438807302812132, guid: ebf55b38126862545904122612047afd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 87868032}
+      addedObject: {fileID: 87868025}
     - targetCorrespondingSourceObject: {fileID: 1917438807302812132, guid: ebf55b38126862545904122612047afd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 87868033}
+      addedObject: {fileID: 87868024}
   m_SourcePrefab: {fileID: 100100000, guid: ebf55b38126862545904122612047afd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
