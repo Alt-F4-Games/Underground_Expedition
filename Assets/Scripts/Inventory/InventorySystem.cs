@@ -84,4 +84,10 @@ public class InventorySystem : MonoBehaviour
         return true;
     }
 
+    public void ExpandBaseCapacity(int newCapacity)
+    {
+        _baseCapacity = Mathf.Max(_baseCapacity, newCapacity);
+        OnInventoryChanged?.Invoke();
+    }
+
 }
