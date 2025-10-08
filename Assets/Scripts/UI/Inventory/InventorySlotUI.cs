@@ -12,6 +12,10 @@ public class InventorySlotUI : MonoBehaviour,
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI qtyText;
 
+    [Header("Drop Settings")]
+    [SerializeField] private KeyCode dropKey = KeyCode.Q;   
+    
+
     private ItemSO currentItem;
     private int currentQty;
     private bool isHovered;
@@ -19,7 +23,19 @@ public class InventorySlotUI : MonoBehaviour,
     public int SlotIndex { get; set; }
     public SlotType SlotType { get; set; }
     public InventoryManager Manager { get; set; }
-    
+
+    private void Update()
+    {
+        if (isHovered && HasItem && Input.GetKeyDown(dropKey))
+        {
+            DropOneItem();
+        }
+    }
+
+    private void DropOneItem()
+    {
+        
+    }
 
     public void Setup(ItemSO item, int quantity)
     {
