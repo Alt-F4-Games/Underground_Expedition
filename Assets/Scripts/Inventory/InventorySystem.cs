@@ -45,5 +45,25 @@ public class InventorySystem : MonoBehaviour
         _ => 0
     };
 
+    private List<InventorySlot> GetList(SlotType type) => type switch
+    {
+        SlotType.Base => baseSlots,
+        SlotType.Equip => equipSlots,
+        SlotType.Hotbar => hotbarSlots,
+        _ => baseSlots
+    };
+
+    public List<InventorySlot> GetOrderedSlots(SlotType type)
+    {
+        var list = GetList(type);
+        int capacity = GetCapacityPublic(type);
+        var result = new List<InventorySlot>(capacity);
+
+        for (int i = 0; i < capacity; i++)
+            result.Add(i < list.Count ? list[i] : new InventorySlot());
+
+        return result;
+    }
+
    
 }
