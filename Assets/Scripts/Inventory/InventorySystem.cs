@@ -136,5 +136,71 @@ public class InventorySystem : MonoBehaviour
         return false;
     }
 
-    
+    public bool MoveItem(SlotType fromType, int fromIndex, SlotType toType, int toIndex)
+    {
+        var fromList = GetList(fromType);
+        var toList   = GetList(toType);
+
+        if (fromIndex < 0 || fromIndex >= fromList.Count) return false;
+        if (toIndex < 0 || toIndex >= GetCapacityPublic(toType)) return false;
+
+        var src = fromList[fromIndex];
+        if (src == null || src.item == null || src.quantity <= 0) return false;
+
+        if (!IsValidSlotType(src.item, toType)) return false;
+
+        while (toList.Count <= toIndex)
+            toList.Add(new InventorySlot());
+
+        var dst = toList[toIndex];
+
+        if (fromType != toType)
+        {
+            foreach (var slot in toList)
+            {
+                if (slot != dst && slot.item == src.item)
+                    return false;
+            }
+        }
+
+        if (dst.item == src.item && dst.quantity < src.item.maxStack)
+        {
+            int space = src.item.maxStack - dst.quantity;
+            int move = Mathf.Min(space, src.quantity);
+            dst.quantity += move;
+            src.quantity -= move;
+            if (src.quantity <= 0) src.item = null;
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+
+        if (dst.item == null)
+        {
+            dst.item = src.item;
+            dst.quantity = src.quantity;
+            src.item = null;
+            src.quantity = 0;
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+
+        if (fromType == toType && dst.item != null && dst.item != src.item)
+        {
+            var tempItem = dst.item;
+            var tempQty = dst.quantity;
+
+            dst.item = src.item;
+            dst.quantity = src.quantity;
+
+            src.item = tempItem;
+            src.quantity = tempQty;
+
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+
+        return false;
+    }
+
+   
 }
