@@ -23,5 +23,19 @@ public class InventorySystem : MonoBehaviour
     private List<InventorySlot> hotbarSlots = new();
 
     public System.Action OnInventoryChanged;
-    
+
+    private void Awake()
+    {
+        EnsureCapacity(baseSlots, baseCapacity);
+        EnsureCapacity(equipSlots, equipCapacity);
+        EnsureCapacity(hotbarSlots, hotbarCapacity);
+    }
+
+    private void EnsureCapacity(List<InventorySlot> list, int capacity)
+    {
+        while (list.Count < capacity)
+            list.Add(new InventorySlot());
+    }
+
+   
 }
