@@ -12,5 +12,12 @@ public class WorldItemPickup : MonoBehaviour
         var col = GetComponent<Collider>();
         col.isTrigger = true;
     }
-    
+
+    public void Setup(ItemSO newItem, int qty)
+    {
+        item = newItem;
+        quantity = qty;
+    }
+
+   
 }
