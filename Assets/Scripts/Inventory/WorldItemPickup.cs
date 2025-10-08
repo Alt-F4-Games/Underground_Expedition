@@ -19,5 +19,19 @@ public class WorldItemPickup : MonoBehaviour
         quantity = qty;
     }
 
-   
+    private void OnTriggerEnter(Collider other)
+    {
+        var inventoryManager = other.GetComponent<InventoryManager>();
+        if (inventoryManager == null) return;
+
+        bool added = inventoryManager.AddItem(item, quantity, SlotType.Base);
+        if (added)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning($"Could not pick up {item.itemName} x{quantity}: inventory full or invalid slot.");
+        }
+    }
 }
