@@ -14,12 +14,13 @@ public class InventorySlotUI : MonoBehaviour,
 
     private ItemSO currentItem;
     private int currentQty;
+    private bool isHovered;
 
     public int SlotIndex { get; set; }
     public SlotType SlotType { get; set; }
     public InventoryManager Manager { get; set; }
-
     
+
     public void Setup(ItemSO item, int quantity)
     {
         currentItem = item;
@@ -55,7 +56,8 @@ public class InventorySlotUI : MonoBehaviour,
     public void Clear() => Setup(null, 0);
 
     public void OnPointerClick(PointerEventData eventData) { }
-   
+    public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
+    public void OnPointerExit(PointerEventData eventData) => isHovered = false;
 
     public ItemSO CurrentItem => currentItem;
     public int CurrentQuantity => currentQty;
