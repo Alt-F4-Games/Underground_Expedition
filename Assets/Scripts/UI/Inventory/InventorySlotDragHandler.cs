@@ -31,4 +31,10 @@ public class InventorySlotDragHandler : MonoBehaviour,
         rt.sizeDelta = new Vector2(64, 64);
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (dragIcon != null)
+            dragIcon.transform.position = eventData.position;
+    }
+
 }
