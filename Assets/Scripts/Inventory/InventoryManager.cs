@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,65 +16,5 @@ public class InventoryManager : MonoBehaviour
         if (inventorySystem == null)
             inventorySystem = GetComponent<InventorySystem>();
     }
-    
-    public bool AddItem(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
-    {
-        bool added = inventorySystem.TryAddItem(item, qty, slotType);
-        if (added)
-        {
-            OnInventoryChanged?.Invoke();
-            Debug.Log($"[InventoryManager] Added {item.itemName} x{qty} to {slotType}");
-        }
-        else
-        {
-            Debug.LogWarning($"[InventoryManager] Failed to add {item.itemName} x{qty} to {slotType}");
-        }
-        return added;
-    }
 
-    
-    public bool RemoveItem(ItemSO item, SlotType slotType = SlotType.Base)
-    {
-        bool removed = inventorySystem.TryRemoveItem(item, slotType);
-        if (removed)
-        {
-            OnInventoryChanged?.Invoke();
-            Debug.Log($"[InventoryManager] Removed all of {item.itemName} from {slotType}");
-        }
-        else
-        {
-            Debug.LogWarning($"[InventoryManager] Could not remove {item.itemName} from {slotType}");
-        }
-        return removed;
-    }
-
-    
-    public bool RemoveQuantity(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
-    {
-        bool removed = inventorySystem.TryRemoveQuantity(item, qty, slotType);
-        if (removed)
-        {
-            OnInventoryChanged?.Invoke();
-            Debug.Log($"[InventoryManager] Removed {item.itemName} x{qty} from {slotType}");
-        }
-        else
-        {
-            Debug.LogWarning($"[InventoryManager] Failed to remove {item.itemName} x{qty} from {slotType}");
-        }
-        return removed;
-    }
-
-    
-    public void ExpandBase(int newCapacity)
-    {
-        inventorySystem.ExpandBaseCapacity(newCapacity);
-        OnInventoryChanged?.Invoke();
-        Debug.Log($"[InventoryManager] Base capacity expanded to {newCapacity}");
-    }
-
-    
-    public List<InventorySlot> GetSlots(SlotType slotType)
-    {
-        return inventorySystem.GetSlots(slotType);
-    }
 }
