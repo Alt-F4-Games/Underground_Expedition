@@ -202,5 +202,13 @@ public class InventorySystem : MonoBehaviour
         return false;
     }
 
-   
+    public void ExpandBaseCapacity(int newCapacity)
+    {
+        if (newCapacity > baseCapacity && newCapacity <= maxBaseCapacity)
+        {
+            baseCapacity = newCapacity;
+            EnsureCapacity(baseSlots, baseCapacity);
+            OnInventoryChanged?.Invoke();
+        }
+    }
 }
