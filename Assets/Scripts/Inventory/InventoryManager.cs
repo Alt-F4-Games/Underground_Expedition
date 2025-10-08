@@ -47,4 +47,20 @@ public class InventoryManager : MonoBehaviour
         return removed;
     }
 
+    public bool MoveItem(SlotType fromType, int fromIndex, SlotType toType, int toIndex)
+    {
+        bool moved = inventorySystem.MoveItem(fromType, fromIndex, toType, toIndex);
+        if (moved)
+        {
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"[InventoryManager] Moved item from {fromType}[{fromIndex}] to {toType}[{toIndex}]");
+        }
+        else
+        {
+            Debug.LogWarning($"[InventoryManager] Failed to move item from {fromType}[{fromIndex}] to {toType}[{toIndex}]");
+        }
+        return moved;
+    }
+
+    
 }
