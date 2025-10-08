@@ -14,4 +14,11 @@ public class InventoryInputHandler : MonoBehaviour
             inventoryUI = FindObjectOfType<InventoryUI>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(toggleKey))
+        {
+            inventoryUI.ToggleVisibility();
+        }
+    }
 }
