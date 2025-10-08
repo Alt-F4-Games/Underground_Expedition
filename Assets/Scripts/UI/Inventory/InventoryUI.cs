@@ -54,5 +54,35 @@ public class InventoryUI : MonoBehaviour
         _initialized = true;
     }
 
-   
+    private void CreateSlotsForContainer(Transform container, List<InventorySlotUI> list, int count, SlotType slotType)
+    {
+        if (container == null || slotPrefab == null) return;
+
+        for (int i = container.childCount - 1; i >= 0; i--)
+            Destroy(container.GetChild(i).gameObject);
+
+        list.Clear();
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject go = Instantiate(slotPrefab, container, false);
+            var slotUI = go.GetComponent<InventorySlotUI>();
+            if (slotUI != null)
+            {
+                slotUI.Clear();
+                slotUI.SlotIndex = i;
+                slotUI.SlotType = slotType;
+                slotUI.Manager = inventoryManager;
+
+                // ✅ Asignar referencia al jugador en runtime
+                var player = GameObject.FindWithTag("Player");
+                if (player != null)
+                    slotUI.playerTransform = player.transform;
+
+                list.Add(slotUI);
+            }
+        }
+    }
+
+    
 }
