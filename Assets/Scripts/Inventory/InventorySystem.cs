@@ -77,5 +77,46 @@ public class InventorySystem : MonoBehaviour
         };
     }
 
+    public bool TryAddItem(ItemSO item, int qty, SlotType slotType, bool ignoreValidation = false)
+    {
+        if (item == null || qty <= 0) return false;
+        if (!ignoreValidation && !IsValidSlotType(item, slotType)) return false;
+
+        var list = GetList(slotType);
+        int capacity = GetCapacityPublic(slotType);
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var slot = list[i];
+            if (slot.item == item)
+            {
+                if (slot.quantity >= item.maxStack)
+                    return false;
+
+                int space = item.maxStack - slot.quantity;
+                int add = Mathf.Min(space, qty);
+                slot.quantity += add;
+                OnInventoryChanged?.Invoke();
+                return true;
+            }
+        }
+
+        for (int i = 0; i < capacity; i++)
+        {
+            if (i >= list.Count) list.Add(new InventorySlot());
+            var slot = list[i];
+            if (slot.item == null)
+            {
+                int add = Mathf.Min(qty, item.maxStack);
+                slot.item = item;
+                slot.quantity = add;
+                OnInventoryChanged?.Invoke();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     
 }
