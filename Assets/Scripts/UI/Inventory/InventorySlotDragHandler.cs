@@ -37,4 +37,12 @@ public class InventorySlotDragHandler : MonoBehaviour,
             dragIcon.transform.position = eventData.position;
     }
 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (dragIcon != null)
+            Destroy(dragIcon);
+
+        dragSourceSlot = null;
+    }
+
 }
