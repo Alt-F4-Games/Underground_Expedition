@@ -45,4 +45,11 @@ public class InventorySlotDragHandler : MonoBehaviour,
         dragSourceSlot = null;
     }
 
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (dragSourceSlot == null || dragSourceSlot == slotUI) return;
+
+        TryMoveItem(dragSourceSlot, slotUI);
+    }
+
 }
