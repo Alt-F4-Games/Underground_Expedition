@@ -62,5 +62,8 @@ public class InventoryManager : MonoBehaviour
         return moved;
     }
 
-    
+    public List<InventorySlot> GetSlots(SlotType slotType)
+    {
+        return inventorySystem.GetOrderedSlots(slotType);
+    }
 }
