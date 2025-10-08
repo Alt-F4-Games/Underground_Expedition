@@ -7,4 +7,10 @@ public class WorldItemPickup : MonoBehaviour
     [SerializeField] private ItemSO item;
     [SerializeField, Min(1)] private int quantity = 1;
 
+    private void Reset()
+    {
+        var col = GetComponent<Collider>();
+        col.isTrigger = true;
+    }
+    
 }
