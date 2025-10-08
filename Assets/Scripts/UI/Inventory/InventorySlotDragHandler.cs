@@ -52,4 +52,19 @@ public class InventorySlotDragHandler : MonoBehaviour,
         TryMoveItem(dragSourceSlot, slotUI);
     }
 
+    private void TryMoveItem(InventorySlotUI from, InventorySlotUI to)
+    {
+        var invSys = from.Manager.GetComponent<InventorySystem>();
+        if (invSys == null) return;
+
+        Debug.Log($"Mover: {from.CurrentItem?.itemName} {from.SlotType}[{from.SlotIndex}] → {to.SlotType}[{to.SlotIndex}]");
+
+        bool ok = invSys.MoveItem(from.SlotType, from.SlotIndex, to.SlotType, to.SlotIndex);
+        if (!ok)
+        {
+            Debug.LogWarning("Invalid movement o destination slot busy/incompatible.");
+        }
+
+        from.Manager.OnInventoryChanged?.Invoke();
+    }
 }
