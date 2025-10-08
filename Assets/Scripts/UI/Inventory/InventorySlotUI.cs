@@ -15,7 +15,8 @@ public class InventorySlotUI : MonoBehaviour,
     [Header("Drop Settings")]
     [SerializeField] private KeyCode dropKey = KeyCode.Q;   
     [SerializeField] private GameObject worldItemPrefab;    
-    
+
+    [HideInInspector] public Transform playerTransform;     
 
     private ItemSO currentItem;
     private int currentQty;
@@ -35,18 +36,17 @@ public class InventorySlotUI : MonoBehaviour,
 
     private void DropOneItem()
     {
-        
         ItemSO itemToDrop = currentItem;
-
-       
+        
         bool removed = Manager.RemoveQuantity(itemToDrop, 1, SlotType);
         if (!removed) return;
-
         
-        if (worldItemPrefab != null )
+        if (worldItemPrefab != null && playerTransform != null)
         {
+            Vector3 dropPos = playerTransform.position + playerTransform.forward * 1.5f;
+            dropPos.y = playerTransform.position.y;
 
-            var go = Instantiate(worldItemPrefab, Vector3.zero, Quaternion.identity);
+            var go = Instantiate(worldItemPrefab, dropPos, Quaternion.identity);
 
             var pickup = go.GetComponent<WorldItemPickup>();
             if (pickup != null)
