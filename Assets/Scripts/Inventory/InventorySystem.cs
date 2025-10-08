@@ -65,5 +65,17 @@ public class InventorySystem : MonoBehaviour
         return result;
     }
 
-   
+    public bool IsValidSlotType(ItemSO item, SlotType targetSlot)
+    {
+        if (item == null) return false;
+        return item.itemType switch
+        {
+            ItemType.Pickup => targetSlot == SlotType.Base,
+            ItemType.ToolActive => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
+            ItemType.ToolPassive => targetSlot == SlotType.Base || targetSlot == SlotType.Equip,
+            _ => false
+        };
+    }
+
+    
 }
