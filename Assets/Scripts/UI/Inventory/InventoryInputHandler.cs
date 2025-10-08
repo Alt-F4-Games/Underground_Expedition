@@ -8,4 +8,10 @@ public class InventoryInputHandler : MonoBehaviour
     [Header("Input Settings")]
     [SerializeField] private KeyCode toggleKey = KeyCode.I;
 
+    private void Reset()
+    {
+        if (inventoryUI == null)
+            inventoryUI = FindObjectOfType<InventoryUI>();
+    }
+
 }
