@@ -7,6 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private MonoBehaviour playerCameraController; 
 
     [Header("Slots Containers")]
     [SerializeField] private Transform equipContainer;    
@@ -41,7 +42,18 @@ public class InventoryUI : MonoBehaviour
             ToggleVisibility();
     }
 
-    
+    private void OnEnable()
+    {
+        if (inventoryManager != null)
+            inventoryManager.OnInventoryChanged.AddListener(RefreshAll);
+        RefreshAll();
+    }
+
+    private void OnDisable()
+    {
+        if (inventoryManager != null)
+            inventoryManager.OnInventoryChanged.RemoveListener(RefreshAll);
+    }
 
     private void EnsureInitialized()
     {
@@ -84,7 +96,7 @@ public class InventoryUI : MonoBehaviour
                 slotUI.SlotType = slotType;
                 slotUI.Manager = inventoryManager;
 
-                // ✅ Asignar referencia al jugador en runtime
+                
                 var player = GameObject.FindWithTag("Player");
                 if (player != null)
                     slotUI.playerTransform = player.transform;
@@ -131,5 +143,28 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    
+    public void ToggleVisibility()
+    {
+        if (inventoryPanelRoot == null) return;
+        bool next = !inventoryPanelRoot.activeSelf;
+        inventoryPanelRoot.SetActive(next);
+
+        if (next)
+        {
+            RefreshAll();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            if (playerCameraController != null)
+                playerCameraController.enabled = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            if (playerCameraController != null)
+                playerCameraController.enabled = true;
+        }
+    }
 }
