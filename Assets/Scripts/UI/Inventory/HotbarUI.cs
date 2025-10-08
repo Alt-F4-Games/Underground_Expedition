@@ -12,4 +12,10 @@ public class HotbarUI : MonoBehaviour
     private List<InventorySlotUI> hotbarSlots = new List<InventorySlotUI>();
     private int lastCapacity = -1;
 
+    private void Start()
+    {
+        CreateSlots();
+        Refresh();
+    }
+
 }
