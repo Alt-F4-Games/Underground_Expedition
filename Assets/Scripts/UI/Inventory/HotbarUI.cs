@@ -18,4 +18,16 @@ public class HotbarUI : MonoBehaviour
         Refresh();
     }
 
+    private void OnEnable()
+    {
+        if (inventoryManager != null)
+            inventoryManager.OnInventoryChanged.AddListener(Refresh);
+    }
+
+    private void OnDisable()
+    {
+        if (inventoryManager != null)
+            inventoryManager.OnInventoryChanged.RemoveListener(Refresh);
+    }
+
 }
