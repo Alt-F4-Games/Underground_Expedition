@@ -1,16 +1,63 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class InventorySlotUI : MonoBehaviour
+[RequireComponent(typeof(Button))]
+public class InventorySlotUI : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("UI References")]
+    [SerializeField] private Image frameImage;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TextMeshProUGUI qtyText;
+
+    private ItemSO currentItem;
+    private int currentQty;
+
+    public int SlotIndex { get; set; }
+    public SlotType SlotType { get; set; }
+    public InventoryManager Manager { get; set; }
+
+    
+    public void Setup(ItemSO item, int quantity)
     {
-        
+        currentItem = item;
+        currentQty = Mathf.Max(0, quantity);
+
+        if (iconImage != null)
+            iconImage.enabled = false;
+        if (qtyText != null)
+            qtyText.text = string.Empty;
+
+        if (item != null)
+        {
+            if (iconImage != null)
+            {
+                iconImage.sprite = item.icon;
+                iconImage.enabled = true;
+                iconImage.color = Color.white;
+            }
+
+            if (qtyText != null)
+                qtyText.text = quantity > 1 ? quantity.ToString() : string.Empty;
+        }
+        else
+        {
+            if (iconImage != null)
+                iconImage.sprite = null;
+
+            if (qtyText != null)
+                qtyText.text = string.Empty;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Clear() => Setup(null, 0);
+
+    public void OnPointerClick(PointerEventData eventData) { }
+   
+
+    public ItemSO CurrentItem => currentItem;
+    public int CurrentQuantity => currentQty;
+    public bool HasItem => currentItem != null;
 }
