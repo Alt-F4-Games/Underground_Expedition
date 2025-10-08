@@ -15,5 +15,20 @@ public class InventorySlotDragHandler : MonoBehaviour,
         slotUI = GetComponent<InventorySlotUI>();
     }
 
-   
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (!slotUI.HasItem) return;
+
+        dragSourceSlot = slotUI;
+
+        dragIcon = new GameObject("DragIcon");
+        dragIcon.transform.SetParent(transform.root);
+        var img = dragIcon.AddComponent<Image>();
+        img.sprite = slotUI.CurrentItem.icon;
+        img.raycastTarget = false;
+
+        var rt = dragIcon.GetComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(64, 64);
+    }
+
 }
