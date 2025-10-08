@@ -118,5 +118,23 @@ public class InventorySystem : MonoBehaviour
         return false;
     }
 
+    public bool TryRemoveQuantity(ItemSO item, int qty, SlotType slotType)
+    {
+        var list = GetList(slotType);
+        for (int i = 0; i < list.Count; i++)
+        {
+            var slot = list[i];
+            if (slot.item == item)
+            {
+                if (slot.quantity < qty) return false;
+                slot.quantity -= qty;
+                if (slot.quantity == 0) slot.item = null;
+                OnInventoryChanged?.Invoke();
+                return true;
+            }
+        }
+        return false;
+    }
+
     
 }
