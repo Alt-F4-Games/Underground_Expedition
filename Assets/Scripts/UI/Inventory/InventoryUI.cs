@@ -9,12 +9,15 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private InventoryManager inventoryManager;
 
     [Header("Slots Containers")]
-    [SerializeField] private Transform equipContainer;    // Grid para Equipamiento
-    [SerializeField] private Transform backpackContainer; // Grid para Mochila (Base)
+    [SerializeField] private Transform equipContainer;    
+    [SerializeField] private Transform backpackContainer; 
 
     [Header("Slot prefab")]
     [SerializeField] private GameObject slotPrefab;
-    
+
+    [Header("UI root / Input")]
+    [SerializeField] private KeyCode toggleKey = KeyCode.I;
+    [SerializeField] private GameObject inventoryPanelRoot; 
 
     [Header("Options")]
     [SerializeField] private int defaultBackpackCapacity = 20;
@@ -26,6 +29,18 @@ public class InventoryUI : MonoBehaviour
     private bool _initialized = false;
     private int _lastBackpackCap = -1;
     private int _lastEquipCap = -1;
+
+    private void Start()
+    {
+        EnsureInitialized();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(toggleKey))
+            ToggleVisibility();
+    }
+
     
 
     private void EnsureInitialized()
