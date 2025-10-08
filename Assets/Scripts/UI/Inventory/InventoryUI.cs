@@ -85,6 +85,7 @@ public class InventoryUI : MonoBehaviour
 
         list.Clear();
 
+        
         for (int i = 0; i < count; i++)
         {
             GameObject go = Instantiate(slotPrefab, container, false);
