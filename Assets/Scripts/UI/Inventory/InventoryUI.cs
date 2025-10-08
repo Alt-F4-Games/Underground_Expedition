@@ -26,13 +26,8 @@ public class InventoryUI : MonoBehaviour
     private bool _initialized = false;
     private int _lastBackpackCap = -1;
     private int _lastEquipCap = -1;
-
-    private void Start()
-    {
-        EnsureInitialized();
-    }
-
     
+
     private void EnsureInitialized()
     {
         if (_initialized) return;
@@ -81,6 +76,43 @@ public class InventoryUI : MonoBehaviour
 
                 list.Add(slotUI);
             }
+        }
+    }
+
+    public void RefreshAll()
+    {
+        if (!_initialized) EnsureInitialized();
+        if (!_initialized) return;
+
+        var invSys = inventoryManager.GetComponent<InventorySystem>();
+        List<InventorySlot> equipData = invSys != null ? invSys.GetOrderedSlots(SlotType.Equip) : new List<InventorySlot>(new InventorySlot[_lastEquipCap > 0 ? _lastEquipCap : defaultEquipCapacity]);
+        List<InventorySlot> baseData  = invSys != null ? invSys.GetOrderedSlots(SlotType.Base)  : new List<InventorySlot>(new InventorySlot[_lastBackpackCap > 0 ? _lastBackpackCap : defaultBackpackCapacity]);
+
+        int newEquipCap = equipData.Count;
+        int newBackCap = baseData.Count;
+        if (newEquipCap != _lastEquipCap)
+        {
+            CreateSlotsForContainer(equipContainer, _equipSlots, newEquipCap, SlotType.Equip);
+            _lastEquipCap = newEquipCap;
+        }
+        if (newBackCap != _lastBackpackCap)
+        {
+            CreateSlotsForContainer(backpackContainer, _backpackSlots, newBackCap, SlotType.Base);
+            _lastBackpackCap = newBackCap;
+        }
+
+        FillSlotsList(_equipSlots, equipData);
+        FillSlotsList(_backpackSlots, baseData);
+    }
+
+    private void FillSlotsList(List<InventorySlotUI> uiSlots, List<InventorySlot> data)
+    {
+        for (int i = 0; i < uiSlots.Count; i++)
+        {
+            if (i < data.Count && data[i] != null && data[i].item != null)
+                uiSlots[i].Setup(data[i].item, data[i].quantity);
+            else
+                uiSlots[i].Clear();
         }
     }
 
