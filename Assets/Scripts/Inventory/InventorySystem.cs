@@ -37,5 +37,13 @@ public class InventorySystem : MonoBehaviour
             list.Add(new InventorySlot());
     }
 
+    public int GetCapacityPublic(SlotType type) => type switch
+    {
+        SlotType.Base => baseCapacity,
+        SlotType.Equip => equipCapacity,
+        SlotType.Hotbar => hotbarCapacity,
+        _ => 0
+    };
+
    
 }
