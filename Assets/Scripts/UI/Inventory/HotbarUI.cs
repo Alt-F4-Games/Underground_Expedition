@@ -59,4 +59,22 @@ public class HotbarUI : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(hotbarContainer as RectTransform);
     }
 
+    public void Refresh()
+    {
+        var invSys = inventoryManager.GetComponent<InventorySystem>();
+        if (invSys == null) return;
+
+        var data = invSys.GetOrderedSlots(SlotType.Hotbar);
+
+        if (data.Count != lastCapacity)
+            CreateSlots();
+
+        for (int i = 0; i < hotbarSlots.Count; i++)
+        {
+            if (i < data.Count && data[i] != null && data[i].item != null)
+                hotbarSlots[i].Setup(data[i].item, data[i].quantity);
+            else
+                hotbarSlots[i].Clear();
+        }
+    }
 }
