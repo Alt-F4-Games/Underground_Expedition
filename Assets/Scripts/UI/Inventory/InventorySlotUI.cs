@@ -11,6 +11,7 @@ public class InventorySlotUI : MonoBehaviour,
     [SerializeField] private Image frameImage;
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI qtyText;
+    [SerializeField] private GameObject highlightFrame;
 
     [Header("Drop Settings")]
     [SerializeField] private KeyCode dropKey = KeyCode.Q;   
@@ -86,6 +87,12 @@ public class InventorySlotUI : MonoBehaviour,
             if (qtyText != null)
                 qtyText.text = string.Empty;
         }
+    }
+    
+    public void SetHighlight(bool active)
+    {
+        if (highlightFrame != null)
+            highlightFrame.SetActive(active);
     }
 
     public void Clear() => Setup(null, 0);
