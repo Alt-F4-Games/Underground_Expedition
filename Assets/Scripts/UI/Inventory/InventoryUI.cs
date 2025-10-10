@@ -168,4 +168,6 @@ public class InventoryUI : MonoBehaviour
                 playerCameraController.enabled = true;
         }
     }
+    
+    public bool IsVisible() => inventoryPanelRoot != null && inventoryPanelRoot.activeSelf;
 }
