@@ -77,4 +77,15 @@ public class HotbarUI : MonoBehaviour
                 hotbarSlots[i].Clear();
         }
     }
+    
+    public int SlotCount => hotbarSlots.Count;
+
+    public void HighlightSlot(int index)
+    {
+        for (int i = 0; i < hotbarSlots.Count; i++)
+        {
+            hotbarSlots[i].SetHighlight(i == index);
+        }
+    }
+    
 }
