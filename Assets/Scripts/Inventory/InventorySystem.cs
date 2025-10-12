@@ -73,6 +73,7 @@ public class InventorySystem : MonoBehaviour
             ItemType.Pickup => targetSlot == SlotType.Base,
             ItemType.ToolActive => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
             ItemType.ToolPassive => targetSlot == SlotType.Base || targetSlot == SlotType.Equip,
+            ItemType.KeyItem => targetSlot == SlotType.Base,
             _ => false
         };
     }
