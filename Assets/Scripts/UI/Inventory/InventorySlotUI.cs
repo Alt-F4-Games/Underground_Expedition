@@ -93,7 +93,28 @@ public class InventorySlotUI : MonoBehaviour,
             highlightFrame.SetActive(active);
     }
     
-    
+    public void Refresh(InventorySlot slotData)
+    {
+        if (slotData != null && slotData.item != null)
+        {
+            currentItem = slotData.item;
+            currentQty = slotData.quantity;
+
+            if (iconImage != null)
+            {
+                iconImage.sprite = currentItem.icon;
+                iconImage.enabled = true;
+                iconImage.color = Color.white;
+            }
+
+            if (qtyText != null)
+                qtyText.text = currentQty > 1 ? currentQty.ToString() : string.Empty;
+        }
+        else
+        {
+            Clear(); 
+        }
+    }
 
     public void Clear()
     {
