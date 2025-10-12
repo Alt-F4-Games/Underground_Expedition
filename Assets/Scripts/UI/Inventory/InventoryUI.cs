@@ -137,10 +137,14 @@ public class InventoryUI : MonoBehaviour
     {
         for (int i = 0; i < uiSlots.Count; i++)
         {
-            if (i < data.Count && data[i] != null && data[i].item != null)
-                uiSlots[i].Setup(data[i].item, data[i].quantity);
+            if (i < data.Count)
+            {
+                uiSlots[i].Refresh(data[i]); 
+            }
             else
+            {
                 uiSlots[i].Clear();
+            }
         }
     }
 
