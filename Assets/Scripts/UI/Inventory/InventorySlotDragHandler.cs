@@ -7,8 +7,11 @@ public class InventorySlotDragHandler : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     private InventorySlotUI slotUI;
+
     private static GameObject dragIcon;
+    private static RectTransform dragIconRect;
     private static InventorySlotUI dragSourceSlot;
+    private static Canvas dragCanvas;
 
     private void Awake()
     {
@@ -18,23 +21,28 @@ public class InventorySlotDragHandler : MonoBehaviour,
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!slotUI.HasItem) return;
-
         dragSourceSlot = slotUI;
 
-        dragIcon = new GameObject("DragIcon");
-        dragIcon.transform.SetParent(transform.root);
-        var img = dragIcon.AddComponent<Image>();
+        if (dragCanvas == null)
+            dragCanvas = GetComponentInParent<Canvas>();
+
+        dragIcon = new GameObject("DragIcon", typeof(RectTransform), typeof(Image));
+        dragIcon.transform.SetParent(dragCanvas.transform, false);
+
+        var img = dragIcon.GetComponent<Image>();
         img.sprite = slotUI.CurrentItem.icon;
+        img.preserveAspect = true;
         img.raycastTarget = false;
 
-        var rt = dragIcon.GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(64, 64);
+        dragIconRect = dragIcon.GetComponent<RectTransform>();
+        dragIconRect.sizeDelta = new Vector2(64, 64);
+        dragIconRect.position = eventData.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (dragIcon != null)
-            dragIcon.transform.position = eventData.position;
+        if (dragIconRect != null)
+            dragIconRect.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -57,13 +65,9 @@ public class InventorySlotDragHandler : MonoBehaviour,
         var invSys = from.Manager.GetComponent<InventorySystem>();
         if (invSys == null) return;
 
-        Debug.Log($"Mover: {from.CurrentItem?.itemName} {from.SlotType}[{from.SlotIndex}] → {to.SlotType}[{to.SlotIndex}]");
-
         bool ok = invSys.MoveItem(from.SlotType, from.SlotIndex, to.SlotType, to.SlotIndex);
         if (!ok)
-        {
-            Debug.LogWarning("Invalid movement o destination slot busy/incompatible.");
-        }
+            Debug.LogWarning("Invalid movement or destination slot busy/incompatible.");
 
         from.Manager.OnInventoryChanged?.Invoke();
     }
