@@ -13,17 +13,19 @@ public class InventorySlot
 public class InventorySystem : MonoBehaviour
 {
     [Header("Capacities")]
-    [SerializeField] private int baseCapacity = 3;   
+    [SerializeField] private int defaultBaseCapacity = 3;
     [SerializeField] private int equipCapacity = 3;  
     [SerializeField] private int hotbarCapacity = 3; 
     [SerializeField] private int maxBaseCapacity = 9; 
-
+    private int baseCapacity = 3; 
+    
     private List<InventorySlot> baseSlots = new();
     private List<InventorySlot> equipSlots = new();
     private List<InventorySlot> hotbarSlots = new();
 
     public System.Action OnInventoryChanged;
-
+    
+    
     private void Awake()
     {
         EnsureCapacity(baseSlots, baseCapacity);
@@ -163,7 +165,7 @@ public class InventorySystem : MonoBehaviour
                     return false;
             }
         }
-
+        
         if (dst.item == src.item && dst.quantity < src.item.maxStack)
         {
             int space = src.item.maxStack - dst.quantity;
@@ -171,20 +173,28 @@ public class InventorySystem : MonoBehaviour
             dst.quantity += move;
             src.quantity -= move;
             if (src.quantity <= 0) src.item = null;
+
             OnInventoryChanged?.Invoke();
+            
+            
+
             return true;
         }
-
+        
         if (dst.item == null)
         {
             dst.item = src.item;
             dst.quantity = src.quantity;
             src.item = null;
             src.quantity = 0;
+
             OnInventoryChanged?.Invoke();
+            
+            
+
             return true;
         }
-
+        
         if (fromType == toType && dst.item != null && dst.item != src.item)
         {
             var tempItem = dst.item;
@@ -197,12 +207,18 @@ public class InventorySystem : MonoBehaviour
             src.quantity = tempQty;
 
             OnInventoryChanged?.Invoke();
+            
+            
+
             return true;
         }
 
         return false;
     }
 
+    
+
+    
     public void ExpandBaseCapacity(int newCapacity)
     {
         if (newCapacity > baseCapacity && newCapacity <= maxBaseCapacity)
