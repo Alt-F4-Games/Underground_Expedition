@@ -62,17 +62,12 @@ public class InventorySlotUI : MonoBehaviour,
         currentItem = item;
         currentQty = Mathf.Max(0, quantity);
 
-        if (iconImage != null)
-            iconImage.enabled = false;
-        if (qtyText != null)
-            qtyText.text = string.Empty;
-
         if (item != null)
         {
             if (iconImage != null)
             {
                 iconImage.sprite = item.icon;
-                iconImage.enabled = true;
+                iconImage.enabled = true; 
                 iconImage.color = Color.white;
             }
 
@@ -82,7 +77,10 @@ public class InventorySlotUI : MonoBehaviour,
         else
         {
             if (iconImage != null)
+            {
                 iconImage.sprite = null;
+                iconImage.enabled = false; 
+            }
 
             if (qtyText != null)
                 qtyText.text = string.Empty;
@@ -94,8 +92,10 @@ public class InventorySlotUI : MonoBehaviour,
         if (highlightFrame != null)
             highlightFrame.SetActive(active);
     }
+    
+    
 
-    public void Clear() => Setup(null, 0);
+    public void Clear() { Setup(null, 0); }
 
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
