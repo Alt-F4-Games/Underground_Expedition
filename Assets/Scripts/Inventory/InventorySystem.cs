@@ -177,7 +177,8 @@ public class InventorySystem : MonoBehaviour
 
             OnInventoryChanged?.Invoke();
             
-            
+            if (fromType == SlotType.Equip || toType == SlotType.Equip)
+                RecomputeEquipEffects();
 
             return true;
         }
@@ -191,7 +192,8 @@ public class InventorySystem : MonoBehaviour
 
             OnInventoryChanged?.Invoke();
             
-            
+            if (fromType == SlotType.Equip || toType == SlotType.Equip)
+                RecomputeEquipEffects();
 
             return true;
         }
@@ -209,7 +211,8 @@ public class InventorySystem : MonoBehaviour
 
             OnInventoryChanged?.Invoke();
             
-            
+            if (fromType == SlotType.Equip || toType == SlotType.Equip)
+                RecomputeEquipEffects();
 
             return true;
         }
