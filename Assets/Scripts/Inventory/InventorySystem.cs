@@ -25,6 +25,7 @@ public class InventorySystem : MonoBehaviour
 
     public System.Action OnInventoryChanged;
     
+    private bool leafBagEffectApplied = false;
     
     private void Awake()
     {
@@ -216,7 +217,26 @@ public class InventorySystem : MonoBehaviour
         return false;
     }
 
-    
+    private void RecomputeEquipEffects()
+    {
+        baseCapacity = defaultBaseCapacity;
+        
+        foreach (var slot in equipSlots)
+        {
+            if (slot.item != null && slot.item.name == "LeafBag")
+            {
+                baseCapacity = maxBaseCapacity;
+                break;
+            }
+        }
+        
+        if (baseSlots.Count > baseCapacity)
+            baseSlots.RemoveRange(baseCapacity, baseSlots.Count - baseCapacity);
+        else
+            EnsureCapacity(baseSlots, baseCapacity);
+
+        OnInventoryChanged?.Invoke();
+    }
 
     
     public void ExpandBaseCapacity(int newCapacity)
