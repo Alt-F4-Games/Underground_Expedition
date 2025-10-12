@@ -13,14 +13,21 @@ public class InventorySlotDragHandler : MonoBehaviour,
     private static InventorySlotUI dragSourceSlot;
     private static Canvas dragCanvas;
 
+    private CanvasGroup canvasGroup;
+
     private void Awake()
     {
         slotUI = GetComponent<InventorySlotUI>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
         if (!slotUI.HasItem) return;
+
         dragSourceSlot = slotUI;
 
         if (dragCanvas == null)
@@ -37,6 +44,8 @@ public class InventorySlotDragHandler : MonoBehaviour,
         dragIconRect = dragIcon.GetComponent<RectTransform>();
         dragIconRect.sizeDelta = new Vector2(64, 64);
         dragIconRect.position = eventData.position;
+
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -47,9 +56,8 @@ public class InventorySlotDragHandler : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (dragIcon != null)
-            Destroy(dragIcon);
-
+        SafeDestroyDragIcon();
+        canvasGroup.blocksRaycasts = true;
         dragSourceSlot = null;
     }
 
@@ -58,6 +66,13 @@ public class InventorySlotDragHandler : MonoBehaviour,
         if (dragSourceSlot == null || dragSourceSlot == slotUI) return;
 
         TryMoveItem(dragSourceSlot, slotUI);
+
+        SafeDestroyDragIcon();
+
+        var srcGroup = dragSourceSlot.GetComponent<CanvasGroup>();
+        if (srcGroup != null) srcGroup.blocksRaycasts = true;
+
+        dragSourceSlot = null;
     }
 
     private void TryMoveItem(InventorySlotUI from, InventorySlotUI to)
@@ -70,5 +85,15 @@ public class InventorySlotDragHandler : MonoBehaviour,
             Debug.LogWarning("Invalid movement or destination slot busy/incompatible.");
 
         from.Manager.OnInventoryChanged?.Invoke();
+    }
+
+    private static void SafeDestroyDragIcon()
+    {
+        if (dragIcon != null)
+        {
+            Object.Destroy(dragIcon);
+            dragIcon = null;
+            dragIconRect = null;
+        }
     }
 }
