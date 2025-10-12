@@ -54,6 +54,10 @@ public class InventoryManager : MonoBehaviour
         {
             OnInventoryChanged?.Invoke();
             Debug.Log($"[InventoryManager] Moved item from {fromType}[{fromIndex}] to {toType}[{toIndex}]");
+            
+            var ui = FindObjectOfType<InventoryUI>();
+            if (ui != null)
+                ui.RefreshAll();
         }
         else
         {
