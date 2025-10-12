@@ -95,7 +95,11 @@ public class InventorySlotUI : MonoBehaviour,
     
     
 
-    public void Clear() { Setup(null, 0); }
+    public void Clear()
+    {
+        Setup(null, 0);
+        Debug.Log($"[InventorySlotUI] Slot {SlotIndex} ({SlotType}) limpiado");
+    }
 
     public void OnPointerClick(PointerEventData eventData) { }
     public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
