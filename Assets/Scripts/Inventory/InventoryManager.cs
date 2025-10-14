@@ -1,38 +1,73 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(InventorySystem))]
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory = new Inventory();
+    [Header("References")]
+    [SerializeField] private InventorySystem inventorySystem;
+
+    [Header("Events")]
     public UnityEvent OnInventoryChanged;
-    
-    public void AddItem(ItemSO item, int quantity = 1)
+
+    private void Awake()
     {
-        if (inventory.AddItem(item, quantity))
+        if (inventorySystem == null)
+            inventorySystem = GetComponent<InventorySystem>();
+    }
+
+    public bool AddItem(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
+    {
+        bool added = inventorySystem.TryAddItem(item, qty, slotType);
+        if (added)
         {
-            OnInventoryChanged.Invoke();
-            Debug.Log($"Added {item.itemName} x{quantity} to inventory");
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"[InventoryManager] Added {item.itemName} x{qty} to {slotType}");
         }
         else
         {
-            Debug.Log("Inventory full or invalid item");
+            Debug.LogWarning($"[InventoryManager] Failed to add {item.itemName} x{qty} to {slotType}");
         }
+        return added;
     }
-    
-    public bool RemoveItem(ItemSO item, int quantity = 1)
+
+    public bool RemoveQuantity(ItemSO item, int qty = 1, SlotType slotType = SlotType.Base)
     {
-        if (inventory.RemoveItem(item, quantity))
+        bool removed = inventorySystem.TryRemoveQuantity(item, qty, slotType);
+        if (removed)
         {
-            OnInventoryChanged.Invoke();
-            Debug.Log($"Removed {quantity} x {item.itemName} from inventory.");
-            return true;
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"[InventoryManager] Removed {item.itemName} x{qty} from {slotType}");
         }
         else
         {
-            Debug.Log("Failed to remove item. Insufficient quantity.");
-            return false;
+            Debug.LogWarning($"[InventoryManager] Failed to remove {item.itemName} x{qty} from {slotType}");
         }
+        return removed;
     }
-    
-    public Inventory GetInventory() => inventory;
+
+    public bool MoveItem(SlotType fromType, int fromIndex, SlotType toType, int toIndex)
+    {
+        bool moved = inventorySystem.MoveItem(fromType, fromIndex, toType, toIndex);
+        if (moved)
+        {
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"[InventoryManager] Moved item from {fromType}[{fromIndex}] to {toType}[{toIndex}]");
+            
+            var ui = FindObjectOfType<InventoryUI>();
+            if (ui != null)
+                ui.RefreshAll();
+        }
+        else
+        {
+            Debug.LogWarning($"[InventoryManager] Failed to move item from {fromType}[{fromIndex}] to {toType}[{toIndex}]");
+        }
+        return moved;
+    }
+
+    public List<InventorySlot> GetSlots(SlotType slotType)
+    {
+        return inventorySystem.GetOrderedSlots(slotType);
+    }
 }
