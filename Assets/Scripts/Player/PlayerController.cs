@@ -17,12 +17,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float sensitivity = 100f;
     [SerializeField] private float clampAngle = 85f;
 
+    [Header("Footstep Settings")]
+    [SerializeField] private float footstepInterval = 0.4f; // tiempo entre sonidos
+
     private CharacterController controller;
     private Vector2 moveInput;
     private Vector2 lookInput;
 
     private float xRotation = 0f;
     private float yVelocity;
+    private float footstepTimer;
 
     private void Awake()
     {
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleCamera();
         HandleMovement();
+        HandleFootsteps();
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -82,7 +87,7 @@ public class PlayerController : MonoBehaviour
         yVelocity += gravity * Time.deltaTime;
         controller.Move(Vector3.up * yVelocity * Time.deltaTime);
     }
-    
+
     private void HandleCamera()
     {
         float mouseX = lookInput.x * sensitivity * Time.deltaTime;
@@ -94,5 +99,27 @@ public class PlayerController : MonoBehaviour
         cameraPivot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         
         transform.Rotate(Vector3.up * mouseX);
+    }
+
+    private void HandleFootsteps()
+    {
+        // Detectar si hay input de movimiento y está en el suelo
+        bool isMoving = moveInput.sqrMagnitude > 0.1f;
+        bool isGrounded = controller.isGrounded;
+
+        if (isMoving && isGrounded)
+        {
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0f)
+            {
+                SoundManager.Instance.Play("playerwalk1");
+                footstepTimer = footstepInterval;
+            }
+        }
+        else
+        {
+            // Reinicia el timer si no está caminando
+            footstepTimer = 0f;
+        }
     }
 }
