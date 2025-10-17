@@ -15,14 +15,6 @@ public class ExperienceSystem : MonoBehaviour
     [SerializeField] private float _maxLevel;
     
     void Awake() { instance = this; Debug.Log("Level:" + _newLevel); }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddXP(10);
-        }
-    }
     
     public void AddXP(int amount)
     {

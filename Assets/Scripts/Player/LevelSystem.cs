@@ -27,5 +27,6 @@ public class LevelSystem : MonoBehaviour
         }
      
      public int GetLevel() => _actualLevel;
+     public int GetSkillPoints() => _skillPoints;
 
 }

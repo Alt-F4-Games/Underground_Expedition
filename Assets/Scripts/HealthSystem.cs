@@ -43,6 +43,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
    {
       if (!_isAlive) return;
       Debug.Log($"{gameObject.name} has died.");
+      Destroy(gameObject);
       _isAlive = false;
    }
 
