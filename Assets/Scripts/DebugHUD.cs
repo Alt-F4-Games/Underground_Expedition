@@ -12,6 +12,7 @@ public class DebugHUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI expText;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI SkillText;
 
     private void Update()
     {
@@ -28,6 +29,11 @@ public class DebugHUD : MonoBehaviour
         if (levelSys != null)
         {
             levelText.text = $"Nivel: {levelSys.GetLevel()}";
+        }
+
+        if (SkillText != null)
+        {
+            SkillText.text = $"Skill Points: {levelSys.GetSkillPoints()}";
         }
     }
 }

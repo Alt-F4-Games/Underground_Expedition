@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HealthSystem : MonoBehaviour
+public class HealthSystem : MonoBehaviour, IDamageable
 {
    [Header("Stats")]
    [SerializeField] protected int _maxHealth = 100;
@@ -43,6 +43,7 @@ public class HealthSystem : MonoBehaviour
    {
       if (!_isAlive) return;
       Debug.Log($"{gameObject.name} has died.");
+      Destroy(gameObject);
       _isAlive = false;
    }
 

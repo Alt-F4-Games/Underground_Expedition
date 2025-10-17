@@ -1,0 +1,132 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+[RequireComponent(typeof(Button))]
+public class InventorySlotUI : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+{
+    [Header("UI References")]
+    [SerializeField] private Image frameImage;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TextMeshProUGUI qtyText;
+    [SerializeField] private GameObject highlightFrame;
+
+    [Header("Drop Settings")]
+    [SerializeField] private KeyCode dropKey = KeyCode.Q;   
+    [SerializeField] private GameObject worldItemPrefab;    
+
+    [HideInInspector] public Transform playerTransform;     
+
+    private ItemSO currentItem;
+    private int currentQty;
+    private bool isHovered;
+
+    public int SlotIndex { get; set; }
+    public SlotType SlotType { get; set; }
+    public InventoryManager Manager { get; set; }
+
+    private void Update()
+    {
+        if (isHovered && HasItem && Input.GetKeyDown(dropKey))
+        {
+            DropOneItem();
+        }
+    }
+
+    private void DropOneItem()
+    {
+        ItemSO itemToDrop = currentItem;
+        
+        bool removed = Manager.RemoveQuantity(itemToDrop, 1, SlotType);
+        if (!removed) return;
+        
+        if (worldItemPrefab != null && playerTransform != null)
+        {
+            Vector3 dropPos = playerTransform.position + playerTransform.forward * 1.5f;
+            dropPos.y = playerTransform.position.y;
+
+            var go = Instantiate(worldItemPrefab, dropPos, Quaternion.identity);
+
+            var pickup = go.GetComponent<WorldItemPickup>();
+            if (pickup != null)
+                pickup.Setup(itemToDrop, 1); 
+        }
+
+        Debug.Log($"[InventorySlotUI] Dropped 1x {itemToDrop.itemName}");
+    }
+
+    public void Setup(ItemSO item, int quantity)
+    {
+        currentItem = item;
+        currentQty = Mathf.Max(0, quantity);
+
+        if (item != null)
+        {
+            if (iconImage != null)
+            {
+                iconImage.sprite = item.icon;
+                iconImage.enabled = true; 
+                iconImage.color = Color.white;
+            }
+
+            if (qtyText != null)
+                qtyText.text = quantity > 1 ? quantity.ToString() : string.Empty;
+        }
+        else
+        {
+            if (iconImage != null)
+            {
+                iconImage.sprite = null;
+                iconImage.enabled = false; 
+            }
+
+            if (qtyText != null)
+                qtyText.text = string.Empty;
+        }
+    }
+    
+    public void SetHighlight(bool active)
+    {
+        if (highlightFrame != null)
+            highlightFrame.SetActive(active);
+    }
+    
+    public void Refresh(InventorySlot slotData)
+    {
+        if (slotData != null && slotData.item != null)
+        {
+            currentItem = slotData.item;
+            currentQty = slotData.quantity;
+
+            if (iconImage != null)
+            {
+                iconImage.sprite = currentItem.icon;
+                iconImage.enabled = true;
+                iconImage.color = Color.white;
+            }
+
+            if (qtyText != null)
+                qtyText.text = currentQty > 1 ? currentQty.ToString() : string.Empty;
+        }
+        else
+        {
+            Clear(); 
+        }
+    }
+
+    public void Clear()
+    {
+        Setup(null, 0);
+        Debug.Log($"[InventorySlotUI] Slot {SlotIndex} ({SlotType}) limpiado");
+    }
+
+    public void OnPointerClick(PointerEventData eventData) { }
+    public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
+    public void OnPointerExit(PointerEventData eventData) => isHovered = false;
+
+    public ItemSO CurrentItem => currentItem;
+    public int CurrentQuantity => currentQty;
+    public bool HasItem => currentItem != null;
+}
