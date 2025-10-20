@@ -18,6 +18,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
     [SerializeField] private NetworkObject _playerprefab;
 
+    private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
+    
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
@@ -70,7 +72,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
     }
-
+    
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
+    {
+        
+    }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
     }
@@ -79,9 +85,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     {
     }
 
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    {
-    }
+    
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
