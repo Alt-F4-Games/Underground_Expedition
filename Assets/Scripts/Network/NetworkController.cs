@@ -70,7 +70,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         if (!_networkRunner.IsServer) return;
 
-        _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
+        var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
+        _players.Add(player,playerSpawned);
     }
     
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
