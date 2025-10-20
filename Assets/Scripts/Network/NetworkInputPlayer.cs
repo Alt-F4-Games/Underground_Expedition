@@ -5,8 +5,8 @@ namespace Network
 {
     public struct NetworkInputPlayer : INetworkInput
     {   
-        public const byte JumpButton = 1;
-        public byte Buttons;
-        public Vector2 Direction;
+        public const byte JUMP_BUTTON = 1;
+        public NetworkButtons Buttons;
+        public Vector3 MoveDirection;
     }
 }
