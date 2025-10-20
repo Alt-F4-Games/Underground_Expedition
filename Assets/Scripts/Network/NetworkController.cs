@@ -76,7 +76,12 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        
+       if(!_networkRunner.IsServer) return;
+       
+       if (_players.Remove(player, out var playerSpawned))
+       {
+           _networkRunner.Despawn(playerSpawned);
+       }
     }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
