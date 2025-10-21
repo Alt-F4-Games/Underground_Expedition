@@ -20,4 +20,9 @@ public class NetworkPlayerController : NetworkBehaviour
     {
         _characterController = GetComponent<NetworkCharacterController>();
     }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (!GetInput(out NetworkInputPlayer inputPlayer)) return;
+    }
 }
