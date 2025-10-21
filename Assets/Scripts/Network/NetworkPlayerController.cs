@@ -2,8 +2,10 @@
 using Network;
 using UnityEngine;
 
+[RequireComponent(typeof(NetworkCharacterController))]
 public class NetworkPlayerController : NetworkBehaviour
 {
+    private NetworkCharacterController _characterController;
     [SerializeField] private Renderer _renderer;
 
     public override void Spawned()
@@ -13,5 +15,9 @@ public class NetworkPlayerController : NetworkBehaviour
             _renderer.material.color = Color.yellow;
         }
     }
-    
+
+    private void Awake()
+    {
+        _characterController = GetComponent<NetworkCharacterController>();
+    }
 }
