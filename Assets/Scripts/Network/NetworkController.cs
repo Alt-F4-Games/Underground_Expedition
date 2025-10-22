@@ -23,6 +23,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     
     private Vector2 _moveInput; 
+    private bool _jumpPressed;
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
@@ -34,6 +35,10 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         _moveInput = context.ReadValue<Vector2>();
     }
     
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        _jumpPressed = context.ReadValue<float>() > 0;
+    }
     
     private async void CreateRoom()
     {
@@ -98,6 +103,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         var InputPlayer = new NetworkInputPlayer();
         
         InputPlayer.MoveDirection = new Vector3(_moveInput.x,0 ,_moveInput.y );
+        InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
+        
         input.Set(InputPlayer);
     }
     
