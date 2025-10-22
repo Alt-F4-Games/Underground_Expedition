@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
             footstepTimer -= Time.deltaTime;
             if (footstepTimer <= 0f)
             {
-                SoundManager.Instance.Play("playerwalk1");
+                SoundManager.Instance.Play("walktest");
                 footstepTimer = footstepInterval;
             }
         }
