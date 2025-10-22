@@ -29,5 +29,10 @@ public class NetworkPlayerController : NetworkBehaviour
         
         Vector3 moveVector = inputPlayer.MoveDirection.normalized;
         _characterController.Move(moveVector * _moveSpeed * Runner.DeltaTime);
+
+        if (inputPlayer.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
+        {
+            _characterController.Jump();
+        }
     }
 }
