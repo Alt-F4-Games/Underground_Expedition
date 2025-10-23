@@ -110,8 +110,10 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         
         InputPlayer.MoveDirection = new Vector3(_moveInput.x,0 ,_moveInput.y );
         InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
+        InputPlayer.MouseRotation = _lookInput;
         
         input.Set(InputPlayer);
+        _lookInput = Vector2.zero;
     }
     
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
