@@ -40,6 +40,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     {
         _jumpPressed = context.ReadValue<float>() > 0;
     }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _lookInput = context.ReadValue<Vector2>();
+    }
     
     private async void CreateRoom()
     {
