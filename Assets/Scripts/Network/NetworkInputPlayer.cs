@@ -8,5 +8,6 @@ namespace Network
         public const byte JUMP_BUTTON = 1;
         public NetworkButtons Buttons;
         public Vector3 MoveDirection;
+        public Vector2 MouseRotation;
     }
 }
