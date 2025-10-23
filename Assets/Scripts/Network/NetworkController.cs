@@ -24,6 +24,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     private Vector2 _moveInput; 
     private bool _jumpPressed;
+    private Vector2 _lookInput;
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
