@@ -34,6 +34,17 @@ public class NetworkPlayerController : NetworkBehaviour
         Vector3 moveVector = inputPlayer.MoveDirection.normalized;
         _characterController.Move(moveVector * _moveSpeed * Runner.DeltaTime);
 
+        if (Object.HasInputAuthority)
+        {
+            float xRotation = inputPlayer.MouseRotation.x * _mouseSensitivity;
+            transform.Rotate(0, xRotation * Runner.DeltaTime, 0);
+            
+            float yRotation = inputPlayer.MouseRotation.y * _mouseSensitivity;
+            CameraPitch -= yRotation;
+            CameraPitch = Mathf.Clamp(CameraPitch, -90, 90);
+        }
+        _playercameraPivot.localRotation = Quaternion.Euler(CameraPitch, 0, 0);
+
         if (inputPlayer.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
         {
             _characterController.Jump();
