@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -24,5 +25,15 @@ public class UIManager : MonoBehaviour
     public void HideScreen(GameObject screenToHide)
     {
         screenToHide.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
     }
 }
