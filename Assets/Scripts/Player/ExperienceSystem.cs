@@ -52,4 +52,5 @@ public class ExperienceSystem : MonoBehaviour
         _baseExp = Mathf.CeilToInt(_baseExp / 10f) * 10;
     }
     public int GetCurrentXP() => _currentExp;
+    public float GetMaxExp() => _baseExp;
 }
