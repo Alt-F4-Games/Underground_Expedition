@@ -15,4 +15,14 @@ public class UIManager : MonoBehaviour
             instance = this;
         }
     }
+
+    public void ShowScreen(GameObject screenToShow)
+    {
+        screenToShow.SetActive(true);   
+    }
+
+    public void HideScreen(GameObject screenToHide)
+    {
+        screenToHide.SetActive(false);
+    }
 }
