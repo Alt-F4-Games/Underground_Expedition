@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance {get; private set;}
 
+    [Header("Experience")]
+    [SerializeField] private TextMeshProUGUI _experienceText;
+    [SerializeField] private TextMeshProUGUI _levelText;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -36,4 +40,11 @@ public class UIManager : MonoBehaviour
     {
         
     }
+    
+    private void HandleLevelUp(int newLevel)
+    {
+        _levelText.text = "NIVEL: " + newLevel.ToString();
+    }
+    
+    
 }
