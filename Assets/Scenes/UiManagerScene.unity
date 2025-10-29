@@ -7837,7 +7837,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -9014,7 +9014,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lvl
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9185,39 +9185,6 @@ MonoBehaviour:
   equipCapacity: 3
   hotbarCapacity: 3
   maxBaseCapacity: 9
---- !u!114 &718093767 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1091102029537792756, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
-  m_PrefabInstance: {fileID: 2104998867}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718093764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b82ac8a7b7b09b94e837147ff75ab5af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &718093769 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 980561123819937086, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
-  m_PrefabInstance: {fileID: 2104998867}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718093764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037666bcbb777804c8c8c327a62c8bf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &718093770 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8317698467107625525, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
-  m_PrefabInstance: {fileID: 2104998867}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718093764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e90b95190aaca14e81d0cc9456b3464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &786523506
 GameObject:
   m_ObjectHideFlags: 0
@@ -9252,7 +9219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -161, y: -113.7}
+  m_AnchoredPosition: {x: -295, y: 42.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &786523508
@@ -9462,14 +9429,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 842240027}
-  - component: {fileID: 842240028}
   m_Layer: 0
   m_Name: DebugHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &842240027
 Transform:
   m_ObjectHideFlags: 0
@@ -9485,25 +9451,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 488935260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &842240028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842240026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa52effd2b69a3a4bb938902200dc11b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHealth: {fileID: 718093767}
-  experienceSys: {fileID: 718093769}
-  levelSys: {fileID: 718093770}
-  healthText: {fileID: 1526839622}
-  expText: {fileID: 1659282449}
-  levelText: {fileID: 700783228}
-  SkillText: {fileID: 786523508}
 --- !u!4 &850139418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2162190139215769313, guid: 717e84130a53055429df6aaea4a98532, type: 3}
@@ -12266,7 +12213,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -161, y: -132}
+  m_AnchoredPosition: {x: -295, y: 61.4}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1659282449
@@ -12569,9 +12516,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0398d2a6181f510409815824d3fbf5f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _experienceText: {fileID: 0}
-  _levelText: {fileID: 0}
-  experienceSlider: {fileID: 0}
+  _experienceText: {fileID: 1659282449}
+  _levelText: {fileID: 700783228}
+  experienceRadialFill: {fileID: 421564855}
 --- !u!4 &1708834270
 Transform:
   m_ObjectHideFlags: 0
@@ -14058,6 +14005,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 980561123819937086, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
+      propertyPath: _maxLevel
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 980561123819937086, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
+      propertyPath: _porcentageExp
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1857956690685722074, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
       propertyPath: clampAngle
       value: 88.6
@@ -14235,6 +14190,7 @@ Canvas:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1708834270}
   - {fileID: 488935260}
   - {fileID: 512412849}
   - {fileID: 936148150}
@@ -14253,4 +14209,3 @@ SceneRoots:
   - {fileID: 1018016787}
   - {fileID: 2032085748}
   - {fileID: 2104998867}
-  - {fileID: 1708834270}
