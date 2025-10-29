@@ -11,6 +11,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _experienceText;
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private Image experienceRadialFill;
+    
+    [Header("Health")]
+    [SerializeField] private Slider _healthSlider;
+    [SerializeField] private HealthSystem _playerHealth;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -44,6 +48,16 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogWarning("UIManager: No se pudo suscribir a ExperienceSystem. Instancia no encontrada.");
         }
+        
+        if (_playerHealth != null)
+        {
+            _playerHealth.OnHealthChanged += HandleHealthChanged;
+            HandleHealthChanged(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("UIManager: No hay referencia al HealthSystem del jugador.");
+        }
     }
 
     private void OnDisable()
@@ -53,6 +67,8 @@ public class UIManager : MonoBehaviour
             ExperienceSystem.instance.OnExperienceGained -= HandleExperienceGained;
             ExperienceSystem.instance.OnLevelUp -= HandleLevelUp;
         }
+        
+        if (_playerHealth != null){_playerHealth.OnHealthChanged -= HandleHealthChanged;}
     }
     
     private void HandleLevelUp(int newLevel)
@@ -81,4 +97,6 @@ public class UIManager : MonoBehaviour
             _experienceText.text = currentExp.ToString() + " / " + maxExp.ToString();
         }
     }
+
+    private void HandleHealthChanged(int currentHealth, int maxHealth) {}
 }
