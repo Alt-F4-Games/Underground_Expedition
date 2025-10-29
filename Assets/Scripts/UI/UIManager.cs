@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("Experience")]
     [SerializeField] private TextMeshProUGUI _experienceText;
     [SerializeField] private TextMeshProUGUI _levelText;
-    [SerializeField] private Slider experienceSlider;
+    [SerializeField] private Image experienceRadialFill;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -57,17 +57,24 @@ public class UIManager : MonoBehaviour
     
     private void HandleLevelUp(int newLevel)
     {
-        _levelText.text = "NIVEL: " + newLevel.ToString();
+        _levelText.text = newLevel.ToString();
     }
     
     private void HandleExperienceGained(int currentExp)
     {
         float maxExp = ExperienceSystem.instance.GetMaxExp();
-        
+        float normalizedExp = 0f;
+
         if (maxExp > 0)
         {
-            experienceSlider.value = (float)currentExp / maxExp;
+            normalizedExp = (float)currentExp / maxExp;
         }
+        
+        if (experienceRadialFill != null)
+        {
+            experienceRadialFill.fillAmount = normalizedExp;
+        }
+        
         
         if (_experienceText != null)
         {
