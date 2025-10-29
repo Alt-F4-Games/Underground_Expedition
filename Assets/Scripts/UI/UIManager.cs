@@ -98,5 +98,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void HandleHealthChanged(int currentHealth, int maxHealth) {}
+    private void HandleHealthChanged(int currentHealth, int maxHealth)
+    {
+        if (_healthSlider == null) return; 
+
+        if (maxHealth > 0) { _healthSlider.value = (float)currentHealth / (float)maxHealth; }
+    }
 }
