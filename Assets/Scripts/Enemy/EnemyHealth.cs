@@ -22,8 +22,7 @@ public class EnemyHealth : HealthSystem
             _enemyAI.enabled = false;
         }
 
-        // Podés reemplazar esto por animación de muerte o efecto
-        Debug.Log($"{gameObject.name} ha muerto. Desactivando IA...");
+        Debug.Log($"{gameObject.name} die");
         Destroy(gameObject, 2f); // opcional
     }
 }
