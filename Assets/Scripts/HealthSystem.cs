@@ -8,6 +8,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
    protected int _currentHealth;
    protected bool _isAlive;
    
+   public event Action<int, int> OnHealthChanged;
    public int CurrentHealth => _currentHealth;
    public int MaxHealth => _maxHealth;
    public bool IsAlive => _isAlive;
