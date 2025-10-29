@@ -35,12 +35,24 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        if (ExperienceSystem.instance != null)
+        {
+            ExperienceSystem.instance.OnExperienceGained += HandleExperienceGained;
+            ExperienceSystem.instance.OnLevelUp += HandleLevelUp;
+        }
+        else
+        {
+            Debug.LogWarning("UIManager: No se pudo suscribir a ExperienceSystem. Instancia no encontrada.");
+        }
     }
 
     private void OnDisable()
     {
-        
+        if (ExperienceSystem.instance != null)
+        {
+            ExperienceSystem.instance.OnExperienceGained -= HandleExperienceGained;
+            ExperienceSystem.instance.OnLevelUp -= HandleLevelUp;
+        }
     }
     
     private void HandleLevelUp(int newLevel)
