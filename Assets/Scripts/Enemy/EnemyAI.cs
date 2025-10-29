@@ -36,15 +36,12 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         eyePoint ??= transform;
 
-        // Crear los estados y establecer el inicial
         var patrol = new EnemyPatrolState(this);
         var chase = new EnemyChaseState(this);
         var attack = new EnemyAttackState(this);
 
         stateMachine.Initialize(patrol);
 
-        // Registrar posibles transiciones (opcional)
-        // No necesario si lo manejas desde los estados directamente
     }
 
     private void Update()
