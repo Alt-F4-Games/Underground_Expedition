@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _experienceText;
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private Image experienceRadialFill;
+    [SerializeField] private TextMeshProUGUI _skillPointsText;
     
     [Header("Health")]
     [SerializeField] private Slider _healthSlider;
@@ -58,6 +59,15 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogWarning("UIManager: No hay referencia al HealthSystem del jugador.");
         }
+
+        if (LevelSystem.instance != null)
+        {
+            LevelSystem.instance.OnSkillPointsChanged += HandleSkillPointsChanged;
+        }
+        else
+        {
+            Debug.LogWarning("UIManager: No se pudo suscribir a LevelSystem. Instancia no encontrada.");
+        }
     }
 
     private void OnDisable()
@@ -69,6 +79,8 @@ public class UIManager : MonoBehaviour
         }
         
         if (_playerHealth != null){_playerHealth.OnHealthChanged -= HandleHealthChanged;}
+        
+        if(LevelSystem.instance != null){LevelSystem.instance.OnSkillPointsChanged -= HandleSkillPointsChanged;}
     }
     
     private void HandleLevelUp(int newLevel)
@@ -103,5 +115,10 @@ public class UIManager : MonoBehaviour
         if (_healthSlider == null) return; 
 
         if (maxHealth > 0) { _healthSlider.value = (float)currentHealth / (float)maxHealth; }
+    }
+
+    private void HandleSkillPointsChanged(int currentSkillPoints)
+    {
+        _skillPointsText.text = currentSkillPoints.ToString();
     }
 }
