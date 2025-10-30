@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class LevelSystem : MonoBehaviour
 {
+    public static LevelSystem instance;
     private int _actualLevel = 1;
     private int _skillPoints;
     
     public event Action<int> OnSkillPointsChanged;
+
+    void Awake() { instance = this; }
 
     void Start()
     {
