@@ -2,7 +2,7 @@
 
 public class SpawnPoint : MonoBehaviour
 {
-    [Header("Identificador único del punto de spawn")]
+    [Header("Unique identifier of the spawn point")]
     public string spawnID;
 
 #if UNITY_EDITOR

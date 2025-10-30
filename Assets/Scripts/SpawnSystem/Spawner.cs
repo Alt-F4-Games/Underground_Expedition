@@ -21,13 +21,13 @@ public class Spawner : MonoBehaviour
         var spawnable = database.GetSpawnableByID(objectID);
         if (spawnable == null)
         {
-            Debug.LogWarning($"[Spawner] No se encontró objeto con ID: {objectID}");
+            Debug.LogWarning($"[Spawner] Object not found with ID: {objectID}");
             return null;
         }
 
         if (!spawnPoints.TryGetValue(spawnID, out var spawnPoint))
         {
-            Debug.LogWarning($"[Spawner] No se encontró punto de spawn con ID: {spawnID}");
+            Debug.LogWarning($"[Spawner] Spawn point not found with ID: {spawnID}");
             return null;
         }
 
