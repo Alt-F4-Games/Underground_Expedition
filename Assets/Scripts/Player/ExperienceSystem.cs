@@ -18,31 +18,42 @@ public class ExperienceSystem : MonoBehaviour
     
     public void AddXP(int amount)
     {
-        if(_maxLevel > _newLevel )
+        if (_newLevel >= _maxLevel)
         {
-            _currentExp += amount;
-            Debug.Log("Exp added:" + amount);
-            
-                if (_currentExp >= _baseExp)
-                { 
-                    _newLevel++;
-                    OnLevelUp?.Invoke(_newLevel);
-                    IncrementBaseExp();
-                    Debug.Log("Actual Exp:" + _currentExp);
-                    Debug.Log("Max exp:" + _baseExp);
-                    _currentExp = 0;
-                   
-                }else if (_baseExp > _currentExp)
-                {
-                    Debug.Log("Actual Exp:" + _currentExp);
-                    OnExperienceGained?.Invoke(_currentExp);
-                }
-        }
-        else
-        {
+            if (_currentExp != 0)
+            {
+                _currentExp = 0;
+                OnExperienceGained?.Invoke(_currentExp);
+            }
             Debug.Log("Max Level reached");
-            return;
-        }    
+            return; 
+        }
+        _currentExp += amount;
+        Debug.Log("Exp added:" + amount);
+        OnExperienceGained?.Invoke(_currentExp);
+        
+        while (_currentExp >= _baseExp && _maxLevel > _newLevel)
+        {
+            int leftoverExp = _currentExp - (int)_baseExp;
+        
+            _newLevel++;
+            OnLevelUp?.Invoke(_newLevel); 
+            IncrementBaseExp();           
+        
+            _currentExp = leftoverExp;    
+            OnExperienceGained?.Invoke(_currentExp);
+        
+            Debug.Log("Actual Exp:" + _currentExp);
+            Debug.Log("Max exp:" + _baseExp);
+
+            if (_maxLevel <= _newLevel)
+            {
+                _currentExp = 0; 
+                OnExperienceGained?.Invoke(_currentExp); 
+                Debug.Log("Max Level reached");
+                return;
+            }
+        }
     }
 
     private void IncrementBaseExp()
@@ -52,4 +63,5 @@ public class ExperienceSystem : MonoBehaviour
         _baseExp = Mathf.CeilToInt(_baseExp / 10f) * 10;
     }
     public int GetCurrentXP() => _currentExp;
+    public float GetMaxExp() => _baseExp;
 }

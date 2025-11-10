@@ -1,10 +1,16 @@
+using System;
 using UnityEngine;
 
 public class LevelSystem : MonoBehaviour
 {
+    public static LevelSystem instance;
     private int _actualLevel = 1;
     private int _skillPoints;
     
+    public event Action<int> OnSkillPointsChanged;
+
+    void Awake() { instance = this; }
+
     void Start()
     {
         ExperienceSystem.instance.OnLevelUp += UpdateLevel;
@@ -18,6 +24,7 @@ public class LevelSystem : MonoBehaviour
         if (_actualLevel == 3 || _actualLevel == 6 || _actualLevel == 8)
         {
             _skillPoints++;
+            OnSkillPointsChanged?.Invoke(_skillPoints);
             Debug.Log("Skill points:" + _skillPoints);
         }
     }
