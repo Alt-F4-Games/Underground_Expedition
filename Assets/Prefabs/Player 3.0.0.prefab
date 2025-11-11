@@ -220,6 +220,8 @@ GameObject:
   - component: {fileID: 980561123819937086}
   - component: {fileID: 1802297147355720147}
   - component: {fileID: 1091102029537792756}
+  - component: {fileID: 8592524688628553905}
+  - component: {fileID: 3386115772334973713}
   m_Layer: 3
   m_Name: Player 3.0.0
   m_TagString: Player
@@ -235,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7305547501876809094}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9999465, z: -0, w: -0.010348675}
+  m_LocalRotation: {x: -0, y: -0.9999464, z: 0, w: -0.010349503}
   m_LocalPosition: {x: 6.919855, y: -0.32, z: 4.667266}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -451,7 +453,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5000001
-  m_SlopeLimit: 45
+  m_SlopeLimit: 50
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -471,10 +473,10 @@ MonoBehaviour:
   cameraPivot: {fileID: 7745846438944331570}
   playerCamera: {fileID: 8228261941343674196}
   moveSpeed: 5
-  jumpHeight: 1.5
+  jumpHeight: 0.74
   gravity: -9.81
   sensitivity: 100
-  clampAngle: 85
+  clampAngle: 88.6
   footstepInterval: 0.4
 --- !u!114 &2656907638817102868
 MonoBehaviour:
@@ -517,8 +519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 037666bcbb777804c8c8c327a62c8bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _porcentageExp: 0
-  _maxLevel: 10
+  _porcentageExp: 50
+  _maxLevel: 8
 --- !u!114 &1802297147355720147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,6 +556,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+--- !u!114 &8592524688628553905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7305547501876809094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae89d65b22188340b07b3d4158040fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultBaseCapacity: 3
+  equipCapacity: 3
+  hotbarCapacity: 3
+  maxBaseCapacity: 9
+--- !u!114 &3386115772334973713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7305547501876809094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b056500aac791d4185c794ff50f6469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySystem: {fileID: 8592524688628553905}
+  OnInventoryChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7659970528300269417
 GameObject:
   m_ObjectHideFlags: 0
