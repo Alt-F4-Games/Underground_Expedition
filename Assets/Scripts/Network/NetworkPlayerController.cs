@@ -31,22 +31,8 @@ public class NetworkPlayerController : NetworkBehaviour
     {
         if (!GetInput(out NetworkInputPlayer inputPlayer)) return;
         
-        if (Object.HasInputAuthority)
-        {
-            float xRotation = inputPlayer.MouseRotation.x * _mouseSensitivity;
-            transform.Rotate(0, xRotation * Runner.DeltaTime, 0);
-            
-            float yRotation = inputPlayer.MouseRotation.y * _mouseSensitivity;
-            CameraPitch -= yRotation;
-            CameraPitch = Mathf.Clamp(CameraPitch, -90, 90);
-        }
-        _playercameraPivot.localRotation = Quaternion.Euler(CameraPitch, 0, 0);
-
-        
         Vector3 moveVector = inputPlayer.MoveDirection.normalized;
-        Vector3 worldMoveDirection = transform.rotation * moveVector;
-        _characterController.Move(worldMoveDirection * _moveSpeed * Runner.DeltaTime);
-        
+        _characterController.Move(moveVector * _moveSpeed * Runner.DeltaTime);
         
         if (inputPlayer.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
         {
