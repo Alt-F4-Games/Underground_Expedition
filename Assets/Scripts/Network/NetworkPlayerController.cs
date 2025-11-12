@@ -8,10 +8,11 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField] private Transform _playercameraPivot;
     [SerializeField] private float _mouseSensitivity = 2f;
     [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] private Renderer _renderer; 
+    private Camera _playerCamera;
     
     private NetworkCharacterController _characterController;
-    [Networked] private float CameraPitch {get; set;}
+    
     
     
     public override void Spawned()
@@ -19,6 +20,13 @@ public class NetworkPlayerController : NetworkBehaviour
         if (HasInputAuthority)
         {
             _renderer.material.color = Color.yellow;
+        }
+
+        if (HasInputAuthority)
+        {
+            _playerCamera = Camera.main;
+            if (_playerCamera != null)
+                _playerCamera.GetComponent<NetworkPlayerCamera>().CameraPivot = _playercameraPivot;
         }
     }
 
