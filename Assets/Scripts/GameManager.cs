@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class EnemySpawnData
+{
+    public string enemyID;
+    public string spawnPointID;
+    public float respawnTime;
+
+    public EnemySpawnData(string id, string sp, float time)
+    {
+        enemyID = id;
+        spawnPointID = sp;
+        respawnTime = time;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -14,8 +29,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Enemy Settings")]
     [SerializeField] private Spawner spawner;
-    [SerializeField] private List<string> enemyIDsToSpawn = new(); 
-    [SerializeField] private List<string> spawnPointsToUse = new(); 
+    [SerializeField] private List<string> enemyIDsToSpawn = new();
+    [SerializeField] private List<string> spawnPointsToUse = new();
+
+    [Header("Respawn Settings")]
+    [SerializeField] private List<float> respawnTimes = new();
+
+    private List<EnemySpawnData> enemySpawnData = new();
     private List<GameObject> activeEnemies = new();
 
     [Header("Game State")]
@@ -26,7 +46,7 @@ public class GameManager : MonoBehaviour
     public int playerScore = 0;
     public int levelProgress = 0;
     public float playTime = 0f;
-    
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -59,7 +79,9 @@ public class GameManager : MonoBehaviour
         SpawnPlayer();
         StartGame();
     }
-    
+
+    // PLAYER
+
     public void SpawnPlayer()
     {
         if (playerPrefab == null || playerSpawnPoint == null)
@@ -77,10 +99,6 @@ public class GameManager : MonoBehaviour
         if (UIManager.instance != null)
         {
             UIManager.instance.SetPlayer(currentPlayer);
-        }
-
-        if (UIManager.instance != null)
-        {
             UIManager.instance.SetExperienceSystems(
                 Player.ExperienceSystem.instance,
                 Player.LevelSystem.instance
@@ -88,9 +106,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (health != null)
-        {
             StartCoroutine(WatchPlayerHealth(health));
-        }
     }
 
     private IEnumerator WatchPlayerHealth(HealthSystem health)
@@ -115,41 +131,69 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayerStats()
     {
+        // Implementar si necesitás reiniciar stats
     }
-    
+
+    // ENEMIES
+
+    private void PrepareEnemySpawnData()
+    {
+        enemySpawnData.Clear();
+        int count = Mathf.Min(enemyIDsToSpawn.Count, spawnPointsToUse.Count, respawnTimes.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            enemySpawnData.Add(new EnemySpawnData(
+                enemyIDsToSpawn[i],
+                spawnPointsToUse[i],
+                respawnTimes[i]
+            ));
+        }
+    }
+
     public void SpawnEnemies()
     {
-        if (spawner == null)
-            return;
+        if (spawner == null) return;
 
         ClearEnemies();
+        PrepareEnemySpawnData();
 
-        int totalToSpawn = Mathf.Min(enemyIDsToSpawn.Count, spawnPointsToUse.Count);
-        for (int i = 0; i < totalToSpawn; i++)
+        foreach (var data in enemySpawnData)
         {
-            var enemy = spawner.Spawn(enemyIDsToSpawn[i], spawnPointsToUse[i]);
-            if (enemy != null)
-            {
-                activeEnemies.Add(enemy);
+            SpawnSingleEnemy(data);
+        }
+    }
 
-                var h = enemy.GetComponent<HealthSystem>();
-                if (h != null)
-                {
-                    StartCoroutine(WatchEnemyHealth(enemy, h));
-                }
+    private void SpawnSingleEnemy(EnemySpawnData data)
+    {
+        var enemy = spawner.Spawn(data.enemyID, data.spawnPointID);
+
+        if (enemy != null)
+        {
+            activeEnemies.Add(enemy);
+
+            var health = enemy.GetComponent<HealthSystem>();
+            if (health != null)
+            {
+                StartCoroutine(WatchEnemyHealth(enemy, health, data));
             }
         }
     }
 
-    private IEnumerator WatchEnemyHealth(GameObject enemy, HealthSystem health)
+    private IEnumerator WatchEnemyHealth(GameObject enemy, HealthSystem health, EnemySpawnData data)
     {
         while (health != null && health.IsAlive)
             yield return null;
 
+        // Enemy died
         if (enemy != null)
-        {
             activeEnemies.Remove(enemy);
-        }
+
+        // Respawn timer
+        yield return new WaitForSeconds(data.respawnTime);
+
+        // Spawn again
+        SpawnSingleEnemy(data);
     }
 
     public void ClearEnemies()
@@ -161,7 +205,9 @@ public class GameManager : MonoBehaviour
         }
         activeEnemies.Clear();
     }
-    
+
+    // GAME STATE 
+
     public void StartGame()
     {
         isGameRunning = true;
@@ -191,7 +237,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
+
     public void LoadScene(string sceneName)
     {
         StartCoroutine(LoadSceneRoutine(sceneName));
@@ -203,7 +249,9 @@ public class GameManager : MonoBehaviour
         while (!async.isDone)
             yield return null;
     }
-    
+
+    // SAVE DATA
+
     public void SaveData()
     {
         PlayerPrefs.SetInt("PlayerScore", playerScore);
@@ -222,4 +270,5 @@ public class GameManager : MonoBehaviour
         SaveData();
     }
 }
+
 
