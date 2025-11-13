@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Enemy;
 
 public class Spawner : MonoBehaviour
 {
@@ -32,6 +33,51 @@ public class Spawner : MonoBehaviour
         }
 
         GameObject obj = Instantiate(spawnable.prefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+
+        // 🧠 Configurar enemigos automáticamente
+        if (obj.TryGetComponent(out EnemyAI enemy))
+        {
+            if (spawnable is SpawnableObjectEnemy enemyData)
+            {
+                // --- Detection ---
+                if (enemyData.viewDistance > 0)
+                    enemy.viewDistance = enemyData.viewDistance;
+                if (enemyData.viewAngle > 0)
+                    enemy.viewAngle = enemyData.viewAngle;
+
+                // --- Attack ---
+                if (enemyData.attackRange > 0)
+                    enemy.attackRange = enemyData.attackRange;
+                if (enemyData.attackDamage > 0)
+                    enemy.attackDamage = enemyData.attackDamage;
+                if (enemyData.attackCooldown > 0)
+                    enemy.attackCooldown = enemyData.attackCooldown;
+
+                // --- Patrol ---
+                if (enemyData.waypointTolerance > 0)
+                    enemy.waypointTolerance = enemyData.waypointTolerance;
+            }
+
+            // 🧩 Generar un PatrolPath dinámico si hay waypoints definidos
+            if (spawnPoint.additionalWaypoints.Count > 0)
+            {
+                GameObject pathGO = new GameObject($"{spawnID}_DynamicPath");
+                pathGO.transform.SetParent(transform);
+                var path = pathGO.AddComponent<PatrolPath>();
+
+                // El primer punto siempre es el spawn point
+                path.Waypoints.Add(spawnPoint.transform);
+
+                // Luego los adicionales
+                foreach (var wp in spawnPoint.additionalWaypoints)
+                {
+                    if (wp != null)
+                        path.Waypoints.Add(wp);
+                }
+
+                enemy.patrolPath = path;
+            }
+        }
 
         if (spawnable.lifeTime > 0)
             Destroy(obj, spawnable.lifeTime);

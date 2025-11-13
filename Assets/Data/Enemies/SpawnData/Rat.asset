@@ -9,10 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7df788e304e69f04bb71697da9875030, type: 3}
+  m_Script: {fileID: 11500000, guid: 36c95910bdd143589ff9cf0663fca92a, type: 3}
   m_Name: Rat
   m_EditorClassIdentifier: 
   objectID: enemy_rat
   prefab: {fileID: 3236958381893528882, guid: 8825f4f10fd46b34fa83ab43aa82ad3f, type: 3}
   lifeTime: 0
   maxInstances: 0
+  viewDistance: 0
+  viewAngle: 0
+  attackRange: 0
+  attackDamage: 0
+  attackCooldown: 0
+  waypointTolerance: 0
+  defaultPatrolPath: {fileID: 0}
