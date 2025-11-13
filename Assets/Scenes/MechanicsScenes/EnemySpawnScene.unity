@@ -1199,17 +1199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b056500aac791d4185c794ff50f6469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &718093767 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1091102029537792756, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
-  m_PrefabInstance: {fileID: 2104998867}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b82ac8a7b7b09b94e837147ff75ab5af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &718093774 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5757356936207059852, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
@@ -1909,6 +1898,17 @@ Transform:
   - {fileID: 1603245646}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1323347578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 772001083114727111, guid: 5fb9d569248d5a542a9deec62c799abf, type: 3}
+  m_PrefabInstance: {fileID: 2104998867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db253b6bf38347b48ea6be405142b442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1371716054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2600,7 +2600,7 @@ MonoBehaviour:
   experienceRadialFill: {fileID: 421564855}
   _skillPointsText: {fileID: 786523508}
   _healthSlider: {fileID: 167587116}
-  _playerHealth: {fileID: 718093767}
+  _playerHealth: {fileID: 1323347578}
 --- !u!4 &1708834270
 Transform:
   m_ObjectHideFlags: 0
