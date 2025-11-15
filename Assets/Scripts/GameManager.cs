@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform playerSpawnPoint;
     private GameObject currentPlayer;
 
+    [Header("Respawn Points")]
+    private RespawnPoint currentRespawnPoint;
+
     [Header("Enemy Settings")]
     [SerializeField] private Spawner spawner;
     [SerializeField] private List<string> enemyIDsToSpawn = new();
@@ -84,15 +87,22 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
-        if (playerPrefab == null || playerSpawnPoint == null)
+        if (playerPrefab == null)
             return;
 
         if (currentPlayer != null)
-        {
             Destroy(currentPlayer);
+
+        Vector3 spawnPos = playerSpawnPoint.position;
+        Quaternion spawnRot = playerSpawnPoint.rotation;
+
+        if (currentRespawnPoint != null)
+        {
+            spawnPos = currentRespawnPoint.transform.position;
+            spawnRot = currentRespawnPoint.transform.rotation;
         }
 
-        currentPlayer = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
+        currentPlayer = Instantiate(playerPrefab, spawnPos, spawnRot);
 
         var health = currentPlayer.GetComponent<HealthSystem>();
 
@@ -107,6 +117,11 @@ public class GameManager : MonoBehaviour
 
         if (health != null)
             StartCoroutine(WatchPlayerHealth(health));
+    }
+
+    public void SetRespawnPoint(RespawnPoint point)
+    {
+        currentRespawnPoint = point;
     }
 
     private IEnumerator WatchPlayerHealth(HealthSystem health)
@@ -185,14 +200,11 @@ public class GameManager : MonoBehaviour
         while (health != null && health.IsAlive)
             yield return null;
 
-        // Enemy died
         if (enemy != null)
             activeEnemies.Remove(enemy);
 
-        // Respawn timer
         yield return new WaitForSeconds(data.respawnTime);
 
-        // Spawn again
         SpawnSingleEnemy(data);
     }
 
@@ -270,5 +282,3 @@ public class GameManager : MonoBehaviour
         SaveData();
     }
 }
-
-
