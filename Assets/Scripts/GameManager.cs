@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayerStats()
     {
-        // Implementar si necesitás reiniciar stats
+        // Implementar a futuro
     }
 
     // ENEMIES
