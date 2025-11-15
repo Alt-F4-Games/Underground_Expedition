@@ -6,7 +6,7 @@ public class TorchController : MonoBehaviour
     [Tooltip("Transform where the particle effects will be instantiated.")]
     [SerializeField] private Transform particleSpawnPoint;
 
-    [Tooltip("Particle prefab for when the torch is lit.")]
+    [Tooltip("Particle prefab used when the torch is lit.")]
     [SerializeField] private ParticleSystem fireParticlesPrefab;
 
     [Tooltip("Whether the torch starts turned on.")]
@@ -21,21 +21,21 @@ public class TorchController : MonoBehaviour
         else
             TurnOff();
     }
-    
+
     public void TurnOn()
     {
         if (fireParticlesPrefab == null || particleSpawnPoint == null)
         {
-            Debug.LogWarning($"{name}: FireParticlesPrefab or ParticleSpawnPoint not assigned.");
+            Debug.LogWarning($"{name}: FireParticlesPrefab or ParticleSpawnPoint is not assigned.");
             return;
         }
 
         if (currentFireParticles == null)
         {
             currentFireParticles = Instantiate(
-                fireParticlesPrefab, 
-                particleSpawnPoint.position, 
-                particleSpawnPoint.rotation, 
+                fireParticlesPrefab,
+                particleSpawnPoint.position,
+                particleSpawnPoint.rotation,
                 particleSpawnPoint
             );
         }
@@ -43,13 +43,13 @@ public class TorchController : MonoBehaviour
         if (!currentFireParticles.isPlaying)
             currentFireParticles.Play();
     }
-    
+
     public void TurnOff()
     {
         if (currentFireParticles != null && currentFireParticles.isPlaying)
             currentFireParticles.Stop();
     }
-    
+
     public void SetTorchState(bool state)
     {
         if (state)

@@ -30,15 +30,13 @@ public class LeverSwitch : MonoBehaviour, IInteractable
     private float t = 0f;
     private bool isAnimating = false;
 
-
     private void Start()
     {
         if (leverBone == null)
-            Debug.LogWarning($"{name}: leverBone is not assigned in the inspector.");
+            Debug.LogWarning($"{name}: leverBone is not assigned.");
 
         ApplyImmediateVisual(IsOn);
     }
-
 
     private void Update()
     {
@@ -53,7 +51,6 @@ public class LeverSwitch : MonoBehaviour, IInteractable
             isAnimating = false;
     }
 
-
     public void Interact(PlayerInteraction player)
     {
         Debug.Log($"Interacted with lever: {name}");
@@ -62,12 +59,10 @@ public class LeverSwitch : MonoBehaviour, IInteractable
 
     public void Release() { }
 
-
     public void Toggle()
     {
         SetState(!IsOn, true);
     }
-
 
     public void SetState(bool newState, bool animate = true)
     {
@@ -95,7 +90,6 @@ public class LeverSwitch : MonoBehaviour, IInteractable
         OnToggle?.Invoke(IsOn);
     }
 
-
     private void ApplyImmediateVisual(bool state)
     {
         if (leverBone == null) return;
@@ -104,7 +98,6 @@ public class LeverSwitch : MonoBehaviour, IInteractable
         leverBone.localRotation = Quaternion.Euler(targetRotEuler);
         isAnimating = false;
     }
-
 
 #if UNITY_EDITOR
     private void OnValidate()

@@ -22,24 +22,24 @@ public class PuzzleSwitchController : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent OnPuzzleCompleted;
+    public UnityEvent<PuzzleSwitchController> OnPuzzleStateChanged;
 
     private bool puzzleCompleted = false;
+    public bool IsPuzzleCompleted => puzzleCompleted;
 
     private void Start()
     {
         ValidateSetup();
-
         ApplyRandomStart();
-        
         StartCoroutine(VerifyTorchesAfterSetup());
-        
+
         for (int i = 0; i < levers.Length; i++)
         {
             int index = i;
             levers[i].OnToggle.AddListener((state) => OnLeverChanged(index, state));
         }
     }
-    
+
     private void ApplyRandomStart()
     {
         for (int i = 0; i < levers.Length; i++)
@@ -61,6 +61,8 @@ public class PuzzleSwitchController : MonoBehaviour
 
         if (finalTorch != null)
             finalTorch.SetTorchState(false);
+
+        OnPuzzleStateChanged?.Invoke(this);
     }
 
     private void OnLeverChanged(int leverIndex, bool state)
@@ -90,6 +92,7 @@ public class PuzzleSwitchController : MonoBehaviour
         {
             if (finalTorch != null)
                 finalTorch.SetTorchState(false);
+            OnPuzzleStateChanged?.Invoke(this);
             return;
         }
 
@@ -99,6 +102,7 @@ public class PuzzleSwitchController : MonoBehaviour
     private void CompletePuzzle()
     {
         if (puzzleCompleted) return;
+
         puzzleCompleted = true;
 
         if (finalTorch != null)
@@ -113,6 +117,7 @@ public class PuzzleSwitchController : MonoBehaviour
                 obj.SetActive(false);
 
         OnPuzzleCompleted?.Invoke();
+        OnPuzzleStateChanged?.Invoke(this);
     }
 
     private void ValidateSetup()
