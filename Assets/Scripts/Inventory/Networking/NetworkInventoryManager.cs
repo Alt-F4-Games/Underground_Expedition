@@ -1,4 +1,6 @@
+using Fusion;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +8,7 @@ using UnityEngine;
 /// networked inventory system. For now, it remains as a placeholder.
 /// </summary>
 
-public class NetworkInventoryManager : MonoBehaviour
+public class NetworkInventoryManager : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] private NetworkInventorySystem inventorySystem;
@@ -14,7 +16,7 @@ public class NetworkInventoryManager : MonoBehaviour
     public NetworkInventorySystem Inventory => inventorySystem;
 
     [Header("Events")]
-    public System.Action OnInventoryChanged;
+    public Action OnInventoryChanged;
 
     private void Awake()
     {
@@ -39,25 +41,6 @@ public class NetworkInventoryManager : MonoBehaviour
         OnInventoryChanged?.Invoke();
     }
     
-    public bool AddItem(ItemSO item, int qty, SlotType slotType = SlotType.Base)
-    {
-        if (inventorySystem == null) return false;
-        return inventorySystem.TryAddItem(item, qty, slotType);
-    }
-    
-    public bool RemoveItem(ItemSO item, int qty, SlotType slotType = SlotType.Base)
-    {
-        if (inventorySystem == null) return false;
-        return inventorySystem.TryRemoveQuantity(item, qty, slotType);
-    }
-
-    public bool MoveItem(SlotType from, int fromIndex, SlotType to, int toIndex)
-    {
-        if (inventorySystem == null) return false;
-        return inventorySystem.MoveItem(from, fromIndex, to, toIndex);
-    }
-    
-    
-    public List<InventorySlot> GetSlots(SlotType type)
-        => inventorySystem.GetOrderedSlots(type);
+    public List<InventorySlot> GetSlots(SlotType type) =>
+        inventorySystem != null ? inventorySystem.GetOrderedSlots(type) : null;
 }
