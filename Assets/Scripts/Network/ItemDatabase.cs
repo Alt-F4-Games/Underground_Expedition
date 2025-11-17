@@ -78,4 +78,6 @@ public class ItemDatabase : ScriptableObject
 
         return null;
     }
+
+    public int Count => idToEntry.Count;
 }
