@@ -41,6 +41,36 @@ public class NetworkInventoryManager : NetworkBehaviour
         OnInventoryChanged?.Invoke();
     }
     
+    // ==================================================================
+    // RPC REQUEST TO ADD ITEM
+    // ==================================================================
+
+    public void RequestAddItem(int itemId, int qty, SlotType slotType)
+    {
+        if (!Object.HasInputAuthority)
+        {
+            Debug.LogWarning("[NetworkInventoryManager] RequestAddItem called without authority.");
+            return;
+        }
+
+        RPC_RequestAddItem(itemId, qty, slotType);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestAddItem(int itemId, int qty, SlotType slotType)
+    {
+        if (!Object.HasStateAuthority) return;
+
+        var item = ItemDatabase.Instance.GetItemById(itemId);
+        if (item == null) return;
+
+        inventorySystem.TryAddItem(item, qty, slotType);
+    }
+
+    // ==================================================================
+    // UI Helper
+    // ==================================================================
+    
     public List<InventorySlot> GetSlots(SlotType type) =>
         inventorySystem != null ? inventorySystem.GetOrderedSlots(type) : null;
 }
