@@ -17,6 +17,11 @@ public class ItemDatabase : ScriptableObject
     private Dictionary<int, Entry> idToEntry = new();
     private Dictionary<string, int> nameToId = new();
     
+    private void OnEnable()
+    {
+        Rebuild();
+    }
+
     [ContextMenu("Rebuild Database")]
     public void Rebuild()
     {
