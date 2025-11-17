@@ -26,4 +26,16 @@ public class NetworkInventoryManager : MonoBehaviour
         if (inventorySystem == null) return false;
         return inventorySystem.TryAddItem(item, qty, slotType);
     }
+    
+    public bool RemoveItem(ItemSO item, int qty, SlotType slotType = SlotType.Base)
+    {
+        if (inventorySystem == null) return false;
+        return inventorySystem.TryRemoveQuantity(item, qty, slotType);
+    }
+
+    public bool MoveItem(SlotType from, int fromIndex, SlotType to, int toIndex)
+    {
+        if (inventorySystem == null) return false;
+        return inventorySystem.MoveItem(from, fromIndex, to, toIndex);
+    }
 }
