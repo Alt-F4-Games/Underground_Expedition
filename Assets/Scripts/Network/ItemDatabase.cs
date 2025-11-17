@@ -13,4 +13,7 @@ public class ItemDatabase : ScriptableObject
     }
 
     [SerializeField] private List<Entry> entries = new();
+    
+    private Dictionary<int, Entry> idToEntry = new();
+    private Dictionary<string, int> nameToId = new();
 }
