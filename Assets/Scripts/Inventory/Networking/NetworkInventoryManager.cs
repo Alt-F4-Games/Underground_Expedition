@@ -46,10 +46,7 @@ public class NetworkInventoryManager : NetworkBehaviour
         OnEquippedItemChanged -= HandleEquipChanged;
     }
 
-    private void HandleInventoryChanged()
-    {
-        OnInventoryChanged?.Invoke();
-    }
+    private void HandleInventoryChanged() => OnInventoryChanged?.Invoke();
     
     private void HandleEquipChanged(int id)
     {
@@ -69,7 +66,7 @@ public class NetworkInventoryManager : NetworkBehaviour
     }
     
     // ==================================================================
-    // EQUIP
+    // REQUESTS (equip + inventory)
     // ==================================================================
 
     public void RequestEquipItem(int itemId)
@@ -92,10 +89,6 @@ public class NetworkInventoryManager : NetworkBehaviour
     {
         OnEquippedItemChanged?.Invoke(itemId);
     }
-    
-    // ==================================================================
-    // ADD
-    // ==================================================================
 
     public void RequestAddItem(int itemId, int qty, SlotType slotType)
     {
@@ -109,14 +102,9 @@ public class NetworkInventoryManager : NetworkBehaviour
         if (!Object.HasStateAuthority) return;
 
         var item = ItemDatabase.Instance.GetItemById(itemId);
-        if (item == null) return;
-
-        inventorySystem.TryAddItem(item, qty, slotType);
+        if (item != null)
+            inventorySystem.TryAddItem(item, qty, slotType);
     }
-
-    // ==================================================================
-    // REMOVE
-    // ==================================================================
 
     public void RequestRemoveItem(int itemId, int qty, SlotType slotType)
     {
@@ -130,14 +118,9 @@ public class NetworkInventoryManager : NetworkBehaviour
         if (!Object.HasStateAuthority) return;
 
         var item = ItemDatabase.Instance.GetItemById(itemId);
-        if (item == null) return;
-
-        inventorySystem.TryRemoveQuantity(item, qty, slotType);
+        if (item != null)
+            inventorySystem.TryRemoveQuantity(item, qty, slotType);
     }
-
-    // ==================================================================
-    // MOVE
-    // ==================================================================
 
     public void RequestMoveItem(SlotType from, int fromIndex, SlotType to, int toIndex)
     {
@@ -149,14 +132,30 @@ public class NetworkInventoryManager : NetworkBehaviour
     private void RPC_RequestMoveItem(SlotType from, int fromIndex, SlotType to, int toIndex)
     {
         if (!Object.HasStateAuthority) return;
-
         inventorySystem.MoveItem(from, fromIndex, to, toIndex);
     }
 
     // ==================================================================
-    // UI
+    // UI ACCESS
     // ==================================================================
-    
-    public List<InventorySlot> GetSlots(SlotType type) =>
-        inventorySystem != null ? inventorySystem.GetOrderedSlots(type) : null;
+
+    public List<InventorySlot> GetSlots(SlotType type)
+        => inventorySystem.GetOrderedSlots(type);
+
+    // ==================================================================
+    // SAVE / LOAD PLACEHOLDERS
+    // ==================================================================
+
+    public  PlayerInventoryData SaveInventory()
+    {
+        return inventorySystem.SerializeInventory(EquippedItemId);
+    }
+
+    public void LoadInventory(PlayerInventoryData data)
+    {
+        if (!Object.HasStateAuthority) return;
+        inventorySystem.DeserializeInventory(data);
+        EquippedItemId = data.equippedItemId;
+        RPC_NotifyEquipped(EquippedItemId);
+    }
 }
