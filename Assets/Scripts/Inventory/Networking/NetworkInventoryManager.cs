@@ -15,19 +15,15 @@ public class NetworkInventoryManager : MonoBehaviour
     [Header("Events")]
     public System.Action OnInventoryChanged;
 
-    // --- Public API to be implemented later ---
-    public void RequestAddPlaceholder()
+    private void Awake()
     {
-        Debug.Log("[InventoryManager] Add request placeholder");
+        if (inventorySystem == null)
+            Debug.LogError("[NetworkInventoryManager] Missing inventory system reference!");
     }
-
-    public void RequestRemovePlaceholder()
+    
+    public bool AddItem(ItemSO item, int qty, SlotType slotType = SlotType.Base)
     {
-        Debug.Log("[InventoryManager] Remove request placeholder");
-    }
-
-    public void RequestMovePlaceholder()
-    {
-        Debug.Log("[InventoryManager] Move request placeholder");
+        if (inventorySystem == null) return false;
+        return inventorySystem.TryAddItem(item, qty, slotType);
     }
 }
