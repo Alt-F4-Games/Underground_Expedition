@@ -12,9 +12,11 @@ public class NetworkInventoryManager : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] private NetworkInventorySystem inventorySystem;
+    [SerializeField] private Transform handTransform;
 
-    [Networked]
-    public int EquippedItemId { get; set; } = -1;
+    [Networked] public int EquippedItemId { get; set; } = -1;
+    
+    private GameObject equippedObject;
     
     [Header("Events")]
     public Action OnInventoryChanged;
@@ -24,33 +26,46 @@ public class NetworkInventoryManager : NetworkBehaviour
     {
         if (inventorySystem == null)
             Debug.LogError("[NetworkInventoryManager] Missing inventory system reference!");
-    }
-    
-    public override void FixedUpdateNetwork()
-    {
-        if (GetBehaviourState() == BehaviourState.Activated)
-        {
-            // react to any replicated change
-            if (Object.HasStateAuthority)
-                return;
-        }
+        if (handTransform == null)
+            Debug.LogWarning("[NetworkInventoryManager] No handTransform assigned (equip will still sync but not display).");
     }
     
     private void OnEnable()
     {
         if (inventorySystem != null)
             inventorySystem.OnInventoryChanged += HandleInventoryChanged;
+        
+        OnEquippedItemChanged += HandleEquipChanged;
     }
 
     private void OnDisable()
     {
         if (inventorySystem != null)
             inventorySystem.OnInventoryChanged -= HandleInventoryChanged;
+        
+        OnEquippedItemChanged -= HandleEquipChanged;
     }
 
     private void HandleInventoryChanged()
     {
         OnInventoryChanged?.Invoke();
+    }
+    
+    private void HandleEquipChanged(int id)
+    {
+        if (equippedObject != null)
+            Destroy(equippedObject);
+
+        if (id < 0) return;
+
+        var prefab = ItemDatabase.Instance.GetEquipPrefabById(id);
+        if (prefab == null) return;
+        if (handTransform == null) return;
+
+        equippedObject = Instantiate(prefab, handTransform);
+        equippedObject.transform.localPosition = Vector3.zero;
+        equippedObject.transform.localRotation = Quaternion.identity;
+        equippedObject.transform.localScale = Vector3.one;
     }
     
     // ==================================================================
