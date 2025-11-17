@@ -7,16 +7,16 @@ public class ItemDatabase : ScriptableObject
     [System.Serializable]
     public struct Entry
     {
-        public string keyName; 
+        public string keyName;
         public ItemSO item;
         public GameObject equipPrefab;
     }
 
     [SerializeField] private List<Entry> entries = new();
-    
+
     private Dictionary<int, Entry> idToEntry = new();
     private Dictionary<string, int> nameToId = new();
-    
+
     private void OnEnable()
     {
         Rebuild();
@@ -43,7 +43,7 @@ public class ItemDatabase : ScriptableObject
             nameToId[key] = i;
         }
     }
-    
+
     public int GetId(ItemSO item)
     {
         if (item == null)
@@ -53,7 +53,7 @@ public class ItemDatabase : ScriptableObject
 
         if (nameToId.TryGetValue(key, out int id))
             return id;
-        
+
         foreach (var kv in idToEntry)
         {
             if (kv.Value.item == item)
@@ -61,5 +61,21 @@ public class ItemDatabase : ScriptableObject
         }
 
         return -1;
+    }
+
+    public ItemSO GetItemById(int id)
+    {
+        if (idToEntry.TryGetValue(id, out var e))
+            return e.item;
+
+        return null;
+    }
+
+    public GameObject GetEquipPrefabById(int id)
+    {
+        if (idToEntry.TryGetValue(id, out var e))
+            return e.equipPrefab;
+
+        return null;
     }
 }
