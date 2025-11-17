@@ -26,4 +26,8 @@ public class NetworkInventorySystem : MonoBehaviour
 
         Debug.Log("[NetworkInventorySystem] Initialized placeholder slot arrays.");
     }
+    
+    public LocalSlot GetBaseSlot(int i) => baseSlots[i];
+    public LocalSlot GetEquipSlot(int i) => equipSlots[i];
+    public LocalSlot GetHotbarSlot(int i) => hotbarSlots[i];
 }
