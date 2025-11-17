@@ -42,17 +42,12 @@ public class NetworkInventoryManager : NetworkBehaviour
     }
     
     // ==================================================================
-    // RPC REQUEST TO ADD ITEM
+    // ADD
     // ==================================================================
 
     public void RequestAddItem(int itemId, int qty, SlotType slotType)
     {
-        if (!Object.HasInputAuthority)
-        {
-            Debug.LogWarning("[NetworkInventoryManager] RequestAddItem called without authority.");
-            return;
-        }
-
+        if (!Object.HasInputAuthority) return;
         RPC_RequestAddItem(itemId, qty, slotType);
     }
 
@@ -68,7 +63,46 @@ public class NetworkInventoryManager : NetworkBehaviour
     }
 
     // ==================================================================
-    // UI Helper
+    // REMOVE
+    // ==================================================================
+
+    public void RequestRemoveItem(int itemId, int qty, SlotType slotType)
+    {
+        if (!Object.HasInputAuthority) return;
+        RPC_RequestRemoveItem(itemId, qty, slotType);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestRemoveItem(int itemId, int qty, SlotType slotType)
+    {
+        if (!Object.HasStateAuthority) return;
+
+        var item = ItemDatabase.Instance.GetItemById(itemId);
+        if (item == null) return;
+
+        inventorySystem.TryRemoveQuantity(item, qty, slotType);
+    }
+
+    // ==================================================================
+    // MOVE
+    // ==================================================================
+
+    public void RequestMoveItem(SlotType from, int fromIndex, SlotType to, int toIndex)
+    {
+        if (!Object.HasInputAuthority) return;
+        RPC_RequestMoveItem(from, fromIndex, to, toIndex);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestMoveItem(SlotType from, int fromIndex, SlotType to, int toIndex)
+    {
+        if (!Object.HasStateAuthority) return;
+
+        inventorySystem.MoveItem(from, fromIndex, to, toIndex);
+    }
+
+    // ==================================================================
+    // UI
     // ==================================================================
     
     public List<InventorySlot> GetSlots(SlotType type) =>
