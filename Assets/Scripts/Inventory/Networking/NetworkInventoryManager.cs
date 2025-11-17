@@ -13,15 +13,27 @@ public class NetworkInventoryManager : NetworkBehaviour
     [Header("References")]
     [SerializeField] private NetworkInventorySystem inventorySystem;
 
-    public NetworkInventorySystem Inventory => inventorySystem;
-
+    [Networked]
+    public int EquippedItemId { get; set; } = -1;
+    
     [Header("Events")]
     public Action OnInventoryChanged;
+    public Action<int> OnEquippedItemChanged;
 
     private void Awake()
     {
         if (inventorySystem == null)
             Debug.LogError("[NetworkInventoryManager] Missing inventory system reference!");
+    }
+    
+    public override void FixedUpdateNetwork()
+    {
+        if (GetBehaviourState() == BehaviourState.Activated)
+        {
+            // react to any replicated change
+            if (Object.HasStateAuthority)
+                return;
+        }
     }
     
     private void OnEnable()
@@ -39,6 +51,31 @@ public class NetworkInventoryManager : NetworkBehaviour
     private void HandleInventoryChanged()
     {
         OnInventoryChanged?.Invoke();
+    }
+    
+    // ==================================================================
+    // EQUIP
+    // ==================================================================
+
+    public void RequestEquipItem(int itemId)
+    {
+        if (!Object.HasInputAuthority) return;
+        RPC_RequestEquip(itemId);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestEquip(int itemId)
+    {
+        if (!Object.HasStateAuthority) return;
+
+        EquippedItemId = itemId;
+        RPC_NotifyEquipped(itemId);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_NotifyEquipped(int itemId)
+    {
+        OnEquippedItemChanged?.Invoke(itemId);
     }
     
     // ==================================================================
