@@ -43,4 +43,23 @@ public class ItemDatabase : ScriptableObject
             nameToId[key] = i;
         }
     }
+    
+    public int GetId(ItemSO item)
+    {
+        if (item == null)
+            return -1;
+
+        string key = item.itemName;
+
+        if (nameToId.TryGetValue(key, out int id))
+            return id;
+        
+        foreach (var kv in idToEntry)
+        {
+            if (kv.Value.item == item)
+                return kv.Key;
+        }
+
+        return -1;
+    }
 }
