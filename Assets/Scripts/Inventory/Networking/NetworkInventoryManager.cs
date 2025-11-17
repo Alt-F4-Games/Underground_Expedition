@@ -7,8 +7,10 @@ using UnityEngine;
 
 public class NetworkInventoryManager : MonoBehaviour
 {
-    [Header("Future References")]
-    [SerializeField] private MonoBehaviour futureInventorySystem; // to be replaced
+    [Header("References")]
+    [SerializeField] private NetworkInventorySystem inventorySystem;
+
+    public NetworkInventorySystem Inventory => inventorySystem;
 
     [Header("Events")]
     public System.Action OnInventoryChanged;
