@@ -22,6 +22,23 @@ public class NetworkInventoryManager : MonoBehaviour
             Debug.LogError("[NetworkInventoryManager] Missing inventory system reference!");
     }
     
+    private void OnEnable()
+    {
+        if (inventorySystem != null)
+            inventorySystem.OnInventoryChanged += HandleInventoryChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (inventorySystem != null)
+            inventorySystem.OnInventoryChanged -= HandleInventoryChanged;
+    }
+
+    private void HandleInventoryChanged()
+    {
+        OnInventoryChanged?.Invoke();
+    }
+    
     public bool AddItem(ItemSO item, int qty, SlotType slotType = SlotType.Base)
     {
         if (inventorySystem == null) return false;
