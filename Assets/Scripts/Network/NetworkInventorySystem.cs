@@ -30,4 +30,23 @@ public class NetworkInventorySystem : MonoBehaviour
     public LocalSlot GetBaseSlot(int i) => baseSlots[i];
     public LocalSlot GetEquipSlot(int i) => equipSlots[i];
     public LocalSlot GetHotbarSlot(int i) => hotbarSlots[i];
+    
+    // --- PLACEHOLDER METHODS (will be replaced with RPC logic later) ---
+    public bool TryAddItemPlaceholder(int itemId, int qty)
+    {
+        Debug.Log($"[NetworkInventorySystem] Placeholder Add itemId={itemId} qty={qty}");
+        return true;
+    }
+
+    public bool TryRemoveItemPlaceholder(int itemId, int qty)
+    {
+        Debug.Log($"[NetworkInventorySystem] Placeholder Remove itemId={itemId} qty={qty}");
+        return true;
+    }
+
+    public bool TryMoveItemPlaceholder()
+    {
+        Debug.Log($"[NetworkInventorySystem] Placeholder Move");
+        return true;
+    }
 }
