@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -38,4 +39,8 @@ public class NetworkInventoryManager : MonoBehaviour
         if (inventorySystem == null) return false;
         return inventorySystem.MoveItem(from, fromIndex, to, toIndex);
     }
+    
+    
+    public List<InventorySlot> GetSlots(SlotType type)
+        => inventorySystem.GetOrderedSlots(type);
 }
