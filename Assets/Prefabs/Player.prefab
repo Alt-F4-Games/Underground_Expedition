@@ -428,6 +428,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3c99ab89-f796-4f25-a2b1-40f5ea486181
     m_ActionName: 'Keyboard/Attack[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1857956690685722074}
+        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
+        m_MethodName: OnSprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ab458dbd-81d2-4db3-9174-39d5a13269a4
+    m_ActionName: 'Keyboard/Sprint[/Keyboard/shift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Keyboard
@@ -473,11 +489,13 @@ MonoBehaviour:
   cameraPivot: {fileID: 7745846438944331570}
   playerCamera: {fileID: 8228261941343674196}
   moveSpeed: 5
+  sprintSpeed: 8
   jumpHeight: 0.74
   gravity: -9.81
   sensitivity: 100
   clampAngle: 88.6
-  footstepInterval: 0.4
+  walkFootstepInterval: 0.4
+  sprintFootstepInterval: 0.25
 --- !u!114 &2656907638817102868
 MonoBehaviour:
   m_ObjectHideFlags: 0
