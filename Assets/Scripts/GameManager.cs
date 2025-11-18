@@ -27,15 +27,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform playerSpawnPoint;
     private GameObject currentPlayer;
 
-    [Header("Respawn Points")]
-    private RespawnPoint currentRespawnPoint;
-
     [Header("Enemy Settings")]
     [SerializeField] private Spawner spawner;
     [SerializeField] private List<string> enemyIDsToSpawn = new();
     [SerializeField] private List<string> spawnPointsToUse = new();
-
-    [Header("Respawn Settings")]
     [SerializeField] private List<float> respawnTimes = new();
 
     private List<EnemySpawnData> enemySpawnData = new();
@@ -83,23 +78,24 @@ public class GameManager : MonoBehaviour
         StartGame();
     }
 
-    // PLAYER
+    // ---------------------- PLAYER ----------------------
 
     public void SpawnPlayer()
     {
-        if (playerPrefab == null)
-            return;
+        if (playerPrefab == null) return;
 
         if (currentPlayer != null)
             Destroy(currentPlayer);
 
-        Vector3 spawnPos = playerSpawnPoint.position;
-        Quaternion spawnRot = playerSpawnPoint.rotation;
+        Transform respawnTransform = RespawnSystem.Instance.GetCurrentRespawnTransform();
 
-        if (currentRespawnPoint != null)
+        Vector3 spawnPos = playerSpawnPoint != null ? playerSpawnPoint.position : Vector3.zero;
+        Quaternion spawnRot = playerSpawnPoint != null ? playerSpawnPoint.rotation : Quaternion.identity;
+
+        if (respawnTransform != null)
         {
-            spawnPos = currentRespawnPoint.transform.position;
-            spawnRot = currentRespawnPoint.transform.rotation;
+            spawnPos = respawnTransform.position;
+            spawnRot = respawnTransform.rotation;
         }
 
         currentPlayer = Instantiate(playerPrefab, spawnPos, spawnRot);
@@ -117,11 +113,6 @@ public class GameManager : MonoBehaviour
 
         if (health != null)
             StartCoroutine(WatchPlayerHealth(health));
-    }
-
-    public void SetRespawnPoint(RespawnPoint point)
-    {
-        currentRespawnPoint = point;
     }
 
     private IEnumerator WatchPlayerHealth(HealthSystem health)
@@ -146,10 +137,10 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayerStats()
     {
-        // Implementar a futuro
+        // Future implementation
     }
 
-    // ENEMIES
+    // ---------------------- ENEMIES ----------------------
 
     private void PrepareEnemySpawnData()
     {
@@ -174,9 +165,7 @@ public class GameManager : MonoBehaviour
         PrepareEnemySpawnData();
 
         foreach (var data in enemySpawnData)
-        {
             SpawnSingleEnemy(data);
-        }
     }
 
     private void SpawnSingleEnemy(EnemySpawnData data)
@@ -189,9 +178,7 @@ public class GameManager : MonoBehaviour
 
             var health = enemy.GetComponent<HealthSystem>();
             if (health != null)
-            {
                 StartCoroutine(WatchEnemyHealth(enemy, health, data));
-            }
         }
     }
 
@@ -218,7 +205,7 @@ public class GameManager : MonoBehaviour
         activeEnemies.Clear();
     }
 
-    // GAME STATE 
+    // ---------------------- GAME STATE ----------------------
 
     public void StartGame()
     {
@@ -262,7 +249,7 @@ public class GameManager : MonoBehaviour
             yield return null;
     }
 
-    // SAVE DATA
+    // ---------------------- SAVE ----------------------
 
     public void SaveData()
     {
@@ -280,5 +267,20 @@ public class GameManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveData();
+    }
+
+    // ---------------------- RESPAWN POINT FINDER ----------------------
+
+    public RespawnPoint FindSpawnPointByID(string id)
+    {
+        RespawnPoint[] points = FindObjectsOfType<RespawnPoint>();
+
+        foreach (var p in points)
+        {
+            if (p.respawnID == id)
+                return p;
+        }
+
+        return null;
     }
 }

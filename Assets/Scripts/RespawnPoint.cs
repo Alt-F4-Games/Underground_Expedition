@@ -2,6 +2,7 @@
 
 public class RespawnPoint : MonoBehaviour
 {
+    [Header("Unique Respawn Identifier")]
     public string respawnID;
 
     private void OnDrawGizmos()
