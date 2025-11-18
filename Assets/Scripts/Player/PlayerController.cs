@@ -40,18 +40,34 @@ namespace Player
         [Tooltip("Footstep interval while sprinting.")]
         [SerializeField] private float sprintFootstepInterval = 0.25f;
 
+        [Header("Sprint Settings")]
+        [Tooltip("Maximum time (in seconds) that the player can sprint.")]
+        [SerializeField] private float sprintDuration = 3f;
+
+        [Tooltip("Cooldown time before sprint becomes available again.")]
+        [SerializeField] private float sprintCooldown = 2f;
+
         private CharacterController controller;
         private Vector2 moveInput;
         private Vector2 lookInput;
 
         private float xRotation = 0f;
         private float yVelocity;
+
         private float footstepTimer;
+
         private bool isSprinting;
+        private bool canSprint = true;
+
+        private float sprintTimer;
+        private float sprintCooldownTimer;
 
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
+
+            // Initialize sprint timer
+            sprintTimer = sprintDuration;
 
             // Lock cursor for FPS control
             Cursor.lockState = CursorLockMode.Locked;
@@ -70,6 +86,7 @@ namespace Player
         {
             HandleCamera();
             HandleMovement();
+            UpdateSprintTimers();
             HandleFootsteps();
         }
         
@@ -95,11 +112,41 @@ namespace Player
 
         public void OnSprint(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.started && canSprint)
                 isSprinting = true;
 
             if (context.canceled)
                 isSprinting = false;
+        }
+        
+        // Sprint Timer Logic
+
+        private void UpdateSprintTimers()
+        {
+            // If sprinting, drain stamina
+            if (isSprinting && canSprint)
+            {
+                sprintTimer -= Time.deltaTime;
+
+                if (sprintTimer <= 0f)
+                {
+                    // Out of sprint stamina — begin cooldown
+                    canSprint = false;
+                    isSprinting = false;
+                    sprintCooldownTimer = sprintCooldown;
+                }
+            }
+            else if (!canSprint)
+            {
+                // If in cooldown, restore after cooldown time
+                sprintCooldownTimer -= Time.deltaTime;
+
+                if (sprintCooldownTimer <= 0f)
+                {
+                    canSprint = true;
+                    sprintTimer = sprintDuration;
+                }
+            }
         }
         
         // Movement Logic
@@ -114,18 +161,15 @@ namespace Player
             forward.Normalize();
             right.Normalize();
 
-            // Choose correct speed (walk or sprint)
-            float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+            // Select correct speed
+            float currentSpeed = (isSprinting && canSprint) ? sprintSpeed : moveSpeed;
 
-            // Build movement vector
             Vector3 moveDir = (forward * moveInput.y + right * moveInput.x).normalized;
             controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
-            // Reset downward velocity when grounded
             if (controller.isGrounded && yVelocity < 0)
                 yVelocity = -0.5f;
 
-            // Apply gravity
             yVelocity += gravity * Time.deltaTime;
             controller.Move(Vector3.up * yVelocity * Time.deltaTime);
         }
@@ -137,12 +181,10 @@ namespace Player
             float mouseX = lookInput.x * sensitivity * Time.deltaTime;
             float mouseY = lookInput.y * sensitivity * Time.deltaTime;
 
-            // Vertical rotation (pitch)
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -clampAngle, clampAngle);
             cameraPivot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-            // Horizontal rotation (yaw)
             transform.Rotate(Vector3.up * mouseX);
         }
         
@@ -159,8 +201,7 @@ namespace Player
                 return;
             }
 
-            // Select correct footstep interval based on sprint state
-            float interval = isSprinting ? sprintFootstepInterval : walkFootstepInterval;
+            float interval = (isSprinting && canSprint) ? sprintFootstepInterval : walkFootstepInterval;
 
             footstepTimer -= Time.deltaTime;
 
@@ -172,3 +213,4 @@ namespace Player
         }
     }
 }
+
