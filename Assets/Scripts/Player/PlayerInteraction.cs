@@ -1,48 +1,51 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInteraction : MonoBehaviour
+namespace Player
 {
-    [Header("References")]
-    [SerializeField] private Transform playerPivot;
-    [SerializeField] private Camera playerCamera;
-
-    [Header("Interaction Settings")]
-    [SerializeField] private float interactDistance = 3f;
-    [SerializeField] private string interactableTag = "Interactable";
-    [SerializeField] private Transform holdPoint;
-
-    private IHoldable heldObject;
-
-    public void OnInteract(InputAction.CallbackContext context)
+    public class PlayerInteraction : MonoBehaviour
     {
-        if (context.performed && heldObject == null)
+        [Header("References")]
+        [SerializeField] private Transform playerPivot;
+        [SerializeField] private Camera playerCamera;
+
+        [Header("Interaction Settings")]
+        [SerializeField] private float interactDistance = 3f;
+        [SerializeField] private string interactableTag = "Interactable";
+        [SerializeField] private Transform holdPoint;
+
+        private IHoldable heldObject;
+
+        public void OnInteract(InputAction.CallbackContext context)
         {
-
-            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
+            if (context.performed && heldObject == null)
             {
 
-                if (hit.collider.CompareTag(interactableTag))
+                Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
+                if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
                 {
 
-                    if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
+                    if (hit.collider.CompareTag(interactableTag))
                     {
-                        interactable.Interact(this);
+
+                        if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
+                        {
+                            interactable.Interact(this);
+                        }
                     }
                 }
             }
+            else if (context.canceled && heldObject != null)
+            {
+                heldObject.Release();
+                heldObject = null;
+            }
         }
-        else if (context.canceled && heldObject != null)
-        {
-            heldObject.Release();
-            heldObject = null;
-        }
-    }
 
-    public Transform GetHoldPoint()
-    {
-        return holdPoint;
+        public Transform GetHoldPoint()
+        {
+            return holdPoint;
+        }
     }
 }
