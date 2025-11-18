@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.7505
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.2468686
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.14510918
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
       propertyPath: m_LocalRotation.w
@@ -60,7 +60,9 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -5754084199372789682, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
+    - {fileID: -7511558181221131132, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -71,11 +73,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 761162140240795229}
   m_SourcePrefab: {fileID: 100100000, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
---- !u!23 &7408112678948788770 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
-  m_PrefabInstance: {fileID: 8146856259345041062}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9065213110933060599 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 350e572a7ce75e24396a979c059e5402, type: 3}
@@ -100,8 +97,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.017194305, y: 0.016674278, z: 0.0029194772}
-  m_Center: {x: 0.000037752987, y: 0.000018136203, z: 0.0015656849}
+  m_Size: {x: 0.042947244, y: 0.03844428, z: 0.014640923}
+  m_Center: {x: -0.002196142, y: -0.004424877, z: 0.0074264086}
 --- !u!114 &761162140240795229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +114,7 @@ MonoBehaviour:
   damageAmount: 20
   requirePlayerTag: 0
   useColorFeedback: 1
-  plateRenderer: {fileID: 7408112678948788770}
+  plateRenderer: {fileID: 0}
   idleColor: {r: 0, g: 1, b: 0, a: 1}
   pressedColor: {r: 1, g: 0, b: 0, a: 1}
   verboseLogs: 1
