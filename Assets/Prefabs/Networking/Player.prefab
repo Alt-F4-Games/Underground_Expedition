@@ -155,6 +155,8 @@ GameObject:
   - component: {fileID: 6570093051209352819}
   - component: {fileID: 3550813516045307566}
   - component: {fileID: 6436779314724841193}
+  - component: {fileID: 6926954798261749035}
+  - component: {fileID: 3985953796020749275}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -275,6 +277,8 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 3550813516045307566}
   - {fileID: 6436779314724841193}
+  - {fileID: 6926954798261749035}
+  - {fileID: 3985953796020749275}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -336,6 +340,37 @@ MonoBehaviour:
   _mouseSensitivity: 2
   _moveSpeed: 5
   _renderer: {fileID: 4537851723476280760}
+--- !u!114 &6926954798261749035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4326f4907a87ae4fbd79cd7d5e18c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BaseSlots: []
+  _EquipSlots: []
+  _HotbarSlots: []
+--- !u!114 &3985953796020749275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad545388eaf1de4d80c0dcc2ed55069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handTransform: {fileID: 7978791791616280588}
+  inventorySystem: {fileID: 6926954798261749035}
+  worldItemPrefab: {fileID: 554443575852828146, guid: d13fd83161a3bed49882289eda880586, type: 3}
+  _SelectedHotbarIndex: 0
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0

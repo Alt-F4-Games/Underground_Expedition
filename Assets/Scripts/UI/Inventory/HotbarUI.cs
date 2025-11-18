@@ -4,88 +4,95 @@ using UnityEngine.UI;
 
 public class HotbarUI : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private Transform hotbarContainer;
     [SerializeField] private GameObject slotPrefab;
 
-    private List<InventorySlotUI> hotbarSlots = new List<InventorySlotUI>();
-    private int lastCapacity = -1;
+    private List<InventorySlotUI> _slots = new();
+    private NetworkInventoryManager _currentManager;
 
     private void Start()
     {
-        CreateSlots();
+        if (NetworkInventoryManager.Local != null) ConnectToLocalPlayer();
+        NetworkInventoryManager.OnLocalPlayerSpawned += ConnectToLocalPlayer;
+    }
+
+    private void OnDestroy()
+    {
+        NetworkInventoryManager.OnLocalPlayerSpawned -= ConnectToLocalPlayer;
+        if (_currentManager != null)
+        {
+            var sys = _currentManager.GetComponent<NetworkInventorySystem>();
+            if (sys != null) sys.OnInventoryChanged -= Refresh;
+        }
+    }
+
+    private void ConnectToLocalPlayer()
+    {
+        _currentManager = NetworkInventoryManager.Local;
+        var sys = _currentManager.GetComponent<NetworkInventorySystem>();
+        
+        sys.OnInventoryChanged += Refresh;
+        
+        CreateSlots(sys.GetCapacity(SlotType.Hotbar));
         Refresh();
     }
 
-    private void OnEnable()
+    private void CreateSlots(int count)
     {
-        if (inventoryManager != null)
-            inventoryManager.OnInventoryChanged.AddListener(Refresh);
-    }
+        foreach (Transform child in hotbarContainer) Destroy(child.gameObject);
+        _slots.Clear();
 
-    private void OnDisable()
-    {
-        if (inventoryManager != null)
-            inventoryManager.OnInventoryChanged.RemoveListener(Refresh);
-    }
-
-    private void CreateSlots()
-    {
-        if (inventoryManager == null || slotPrefab == null || hotbarContainer == null) return;
-
-        var invSys = inventoryManager.GetComponent<InventorySystem>();
-        int capacity = invSys != null ? invSys.GetCapacityPublic(SlotType.Hotbar) : 3;
-
-        for (int i = hotbarContainer.childCount - 1; i >= 0; i--)
-            Destroy(hotbarContainer.GetChild(i).gameObject);
-        hotbarSlots.Clear();
-
-        for (int i = 0; i < capacity; i++)
+        for (int i = 0; i < count; i++)
         {
-            GameObject go = Instantiate(slotPrefab, hotbarContainer, false);
-            var slotUI = go.GetComponent<InventorySlotUI>();
-            if (slotUI != null)
-            {
-                slotUI.Clear();
-                slotUI.SlotIndex = i;
-                slotUI.SlotType = SlotType.Hotbar;
-                slotUI.Manager = inventoryManager;
-                hotbarSlots.Add(slotUI);
-            }
+            GameObject go = Instantiate(slotPrefab, hotbarContainer);
+            var ui = go.GetComponent<InventorySlotUI>();
+            
+            ui.SlotIndex = i;
+            ui.SlotType = SlotType.Hotbar;
+            ui.Manager = _currentManager;
+            
+            _slots.Add(ui);
         }
-
-        lastCapacity = capacity;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(hotbarContainer as RectTransform);
     }
 
     public void Refresh()
     {
-        var invSys = inventoryManager.GetComponent<InventorySystem>();
-        if (invSys == null) return;
-
-        var data = invSys.GetOrderedSlots(SlotType.Hotbar);
-
-        if (data.Count != lastCapacity)
-            CreateSlots();
-
-        for (int i = 0; i < hotbarSlots.Count; i++)
+        if (_currentManager == null) return;
+        var sys = _currentManager.GetComponent<NetworkInventorySystem>();
+        
+        for(int i = 0; i < _slots.Count; i++)
         {
-            if (i < data.Count && data[i] != null && data[i].item != null)
-                hotbarSlots[i].Setup(data[i].item, data[i].quantity);
-            else
-                hotbarSlots[i].Clear();
+            _slots[i].Refresh(sys.HotbarSlots[i]);
+            
+            // Opcional: Highlight si es el seleccionado
+            bool isSelected = (_currentManager.SelectedHotbarIndex == i);
+            _slots[i].SetHighlight(isSelected);
         }
     }
     
-    public int SlotCount => hotbarSlots.Count;
-
-    public void HighlightSlot(int index)
+    // Update para input de selección de hotbar (Mouse scroll)
+    private void Update()
     {
-        for (int i = 0; i < hotbarSlots.Count; i++)
+        if (_currentManager == null || !Application.isFocused) return;
+        
+        // Evitar scroll si el inventario está abierto
+        // Aquí podrías chequear InventoryUI.IsVisible() si tienes referencia
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0)
         {
-            hotbarSlots[i].SetHighlight(i == index);
+            int current = _currentManager.SelectedHotbarIndex;
+            int max = _slots.Count;
+            
+            // Lógica circular
+            if (scroll > 0) current--;
+            else current++;
+
+            if (current < 0) current = max - 1;
+            if (current >= max) current = 0;
+
+            // Enviar RPC para cambiar selección
+            _currentManager.Input_SetSelectedHotbar(current);
         }
     }
-    
 }

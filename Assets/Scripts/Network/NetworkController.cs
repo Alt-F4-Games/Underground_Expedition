@@ -22,6 +22,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     
+    [SerializeField] private NetworkObject _testItemPrefab;
+    
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private Vector2 _lookInput;
@@ -92,6 +94,19 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
         _players.Add(player,playerSpawned);
+        
+        if (player == _networkRunner.LocalPlayer && _testItemPrefab != null)
+        {
+            Vector3 itemPos = new Vector3(3,0,0) + new Vector3(2, 1, 0); // 2 metros al costado
+            var itemObj = _networkRunner.Spawn(_testItemPrefab, itemPos, Quaternion.identity);
+            
+            // Inicializamos sus datos (ID 1, Cantidad 5)
+            if (itemObj.TryGetComponent<NetworkWorldItem>(out var worldItem))
+            {
+                // Asegurate que el ID 1 exista en tu Base de Datos
+                worldItem.Init(1, 5); 
+            }
+        }
     }
     
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

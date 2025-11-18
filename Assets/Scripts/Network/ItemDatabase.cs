@@ -1,83 +1,65 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Inventory/ItemDatabase")]
+[CreateAssetMenu(menuName = "Inventory/Item Database")]
 public class ItemDatabase : ScriptableObject
 {
+    public static ItemDatabase Instance { get; private set; }
+
     [System.Serializable]
     public struct Entry
     {
-        public string keyName;
+        public int id; // ID manual para asegurar consistencia entre builds
         public ItemSO item;
-        public GameObject equipPrefab;
+        public GameObject equipPrefab; // El modelo 3D para la mano
     }
 
     [SerializeField] private List<Entry> entries = new();
 
-    private Dictionary<int, Entry> idToEntry = new();
-    private Dictionary<string, int> nameToId = new();
+    private Dictionary<int, Entry> _lookup = new();
 
-    private void OnEnable()
+    // Se ejecuta al cargar el juego o al entrar en Play Mode
+    public void Initialize()
     {
-        Rebuild();
+        Instance = this;
+        _lookup.Clear();
+        foreach (var entry in entries)
+        {
+            if (!_lookup.ContainsKey(entry.id))
+            {
+                _lookup.Add(entry.id, entry);
+            }
+        }
+        Debug.Log($"[ItemDatabase] Initialized with {entries.Count} items.");
     }
 
-    [ContextMenu("Rebuild Database")]
-    public void Rebuild()
+    // Llamar a esto en un script de inicio general si es necesario, 
+    // o usar RuntimeInitializeOnLoadMethod
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void LoadDatabase()
     {
-        idToEntry.Clear();
-        nameToId.Clear();
-
-        for (int i = 0; i < entries.Count; i++)
-        {
-            var e = entries[i];
-            idToEntry[i] = e;
-
-            if (e.item == null)
-                continue;
-
-            string key = string.IsNullOrEmpty(e.keyName)
-                ? e.item.itemName
-                : e.keyName;
-
-            nameToId[key] = i;
-        }
-    }
-
-    public int GetId(ItemSO item)
-    {
-        if (item == null)
-            return -1;
-
-        string key = item.itemName;
-
-        if (nameToId.TryGetValue(key, out int id))
-            return id;
-
-        foreach (var kv in idToEntry)
-        {
-            if (kv.Value.item == item)
-                return kv.Key;
-        }
-
-        return -1;
+        var db = Resources.Load<ItemDatabase>("ItemDatabase"); 
+        if (db != null) db.Initialize();
     }
 
     public ItemSO GetItemById(int id)
     {
-        if (idToEntry.TryGetValue(id, out var e))
-            return e.item;
-
+        if (_lookup.TryGetValue(id, out var entry)) return entry.item;
         return null;
     }
 
-    public GameObject GetEquipPrefabById(int id)
+    public GameObject GetEquipPrefab(int id)
     {
-        if (idToEntry.TryGetValue(id, out var e))
-            return e.equipPrefab;
-
+        if (_lookup.TryGetValue(id, out var entry)) return entry.equipPrefab;
         return null;
     }
 
-    public int Count => idToEntry.Count;
+    public int GetIdByItem(ItemSO item)
+    {
+        foreach (var kvp in _lookup)
+        {
+            if (kvp.Value.item == item) return kvp.Key;
+        }
+        return 0; // 0 = Vacío/No encontrado
+    }
 }
