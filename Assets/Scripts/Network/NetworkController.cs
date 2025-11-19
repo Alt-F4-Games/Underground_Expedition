@@ -95,15 +95,16 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
         _players.Add(player,playerSpawned);
         
+        
+        //TODO: Move this logic to Spawner.cs, this is only to test 
         if (player == _networkRunner.LocalPlayer && _testItemPrefab != null)
         {
-            Vector3 itemPos = new Vector3(3,0,0) + new Vector3(2, 1, 0); // 2 metros al costado
+            Vector3 itemPos = new Vector3(3,0,0) + new Vector3(2, 1, 0);                  // 2 metros al costado
             var itemObj = _networkRunner.Spawn(_testItemPrefab, itemPos, Quaternion.identity);
             
-            // Inicializamos sus datos (ID 1, Cantidad 5)
+            
             if (itemObj.TryGetComponent<NetworkWorldItem>(out var worldItem))
             {
-                // Asegurate que el ID 1 exista en tu Base de Datos
                 worldItem.Init(1, 1); 
             }
         }
