@@ -14,6 +14,7 @@ public class HotbarUI : MonoBehaviour
     {
         if (NetworkInventoryManager.Local != null) ConnectToLocalPlayer();
         NetworkInventoryManager.OnLocalPlayerSpawned += ConnectToLocalPlayer;
+        NetworkInventoryManager.OnHotbarIndexChanged += Refresh;
     }
 
     private void OnDestroy()
@@ -23,6 +24,8 @@ public class HotbarUI : MonoBehaviour
         {
             var sys = _currentManager.GetComponent<NetworkInventorySystem>();
             if (sys != null) sys.OnInventoryChanged -= Refresh;
+            
+            NetworkInventoryManager.OnHotbarIndexChanged -= Refresh;
         }
     }
 

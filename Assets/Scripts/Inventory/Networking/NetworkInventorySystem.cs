@@ -69,47 +69,28 @@ public class NetworkInventorySystem : NetworkBehaviour
     {
         if (!HasStateAuthority) return false;
         if (quantity <= 0) return false;
-
-        var itemSO = ItemDatabase.Instance.GetItemById(itemId);
-        if (itemSO == null) return false;
-
-        var array = GetArrayByType(type);
-        int maxStack = itemSO.maxStack;
-
+        
         // 1. Intentar apilar en slots existentes
-        for (int i = 0; i < array.Length; i++)
-        {
-            NetworkInventorySlot slot = array[i];
-            
-            if (slot.ItemId == itemId && slot.Quantity < maxStack)
-            {
-                int space = maxStack - slot.Quantity;
-                int amountToAdd = Mathf.Min(space, quantity);
-                
-                slot.Quantity += amountToAdd;
-                array.Set(i, slot); // Actualizamos el array de red
-
-                quantity -= amountToAdd;
-                if (quantity <= 0) return true;
+        var slots = (type == SlotType.Base ? BaseSlots : (type == SlotType.Hotbar ? HotbarSlots : EquipSlots));
+        // 1) intentamos stackear en slot existente
+        for (int i = 0; i < GetCapacity(type); i++) {
+            var s = slots[i];
+            if (!s.IsEmpty && s.ItemId == itemId) {
+                // actualizar quantity de forma directa en NetworkArray
+                s.Quantity += quantity;
+                slots[i] = s; // escritura
+                return true;
             }
         }
-
-        // 2. Buscar slot vacío
-        for (int i = 0; i < array.Length; i++)
-        {
-            if (array[i].IsEmpty)
-            {
-                int amountToAdd = Mathf.Min(maxStack, quantity);
-                
-                array.Set(i, new NetworkInventorySlot(itemId, amountToAdd));
-                
-                quantity -= amountToAdd;
-                if (quantity <= 0) return true;
+        // 2) buscar slot vacío
+        for (int i = 0; i < GetCapacity(type); i++) {
+            var s = slots[i];
+            if (s.IsEmpty) {
+                slots[i] = new NetworkInventorySlot(itemId, quantity);
+                return true;
             }
         }
-
-        // Si llegamos aqui, sobraron items (inventario lleno)
-        return false; 
+        return false;
     }
 
     public bool Server_TryRemoveItem(int itemId, int quantity, SlotType type)

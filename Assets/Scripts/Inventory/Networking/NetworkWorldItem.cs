@@ -1,5 +1,6 @@
 using Fusion;
 using UnityEngine;
+using System.Collections;
 
 public class NetworkWorldItem : NetworkBehaviour
 {
@@ -9,15 +10,13 @@ public class NetworkWorldItem : NetworkBehaviour
     [SerializeField] private Transform visualContainer;
 
     private int _currentVisualId = -1;
-    
-    // --- NUEVA VARIABLE: Freno local ---
     private bool _isPickupRequested = false; 
+    private Coroutine _pickupTimeoutCoroutine;
 
     public void Init(int id, int qty)
     {
         ItemId = id;
         Quantity = qty;
-        // Reseteamos el freno por si el objeto es reutilizado (Object Pooling)
         _isPickupRequested = false; 
     }
     
@@ -49,18 +48,26 @@ public class NetworkWorldItem : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // 1. Si ya pedimos recogerlo, ignoramos colisiones nuevas
         if (_isPickupRequested) return;
-
         var playerManager = other.GetComponent<NetworkInventoryManager>();
         
         if (playerManager != null && playerManager.HasInputAuthority)
         {
-            // 2. Activamos el freno INMEDIATAMENTE
             _isPickupRequested = true;
-
-            // 3. Enviamos la solicitud
             playerManager.RequestPickupItem(this);
+            if (_pickupTimeoutCoroutine != null) StopCoroutine(_pickupTimeoutCoroutine);
+            _pickupTimeoutCoroutine = StartCoroutine(PickupTimeoutReset(2.0f));
         }
+    }
+    
+    public void ResetPickupRequest() {
+        _isPickupRequested = false;
+        if (_pickupTimeoutCoroutine != null) { StopCoroutine(_pickupTimeoutCoroutine); _pickupTimeoutCoroutine = null; }
+    }
+    
+    private IEnumerator PickupTimeoutReset(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        _isPickupRequested = false;
+        _pickupTimeoutCoroutine = null;
     }
 }

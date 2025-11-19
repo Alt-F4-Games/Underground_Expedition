@@ -1,3 +1,4 @@
+using System;
 using Fusion;
 using UnityEngine;
 
@@ -5,80 +6,107 @@ using UnityEngine;
 public class NetworkInventoryManager : NetworkBehaviour
 {
     [Header("Visuals")]
-    [SerializeField] private Transform handTransform; // Asigna el hueso de la mano derecha aquí
+    [SerializeField] private Transform handTransform; 
 
     [Header("References")]
     [SerializeField] private NetworkInventorySystem inventorySystem;
-    [SerializeField] private NetworkObject worldItemPrefab; // Prefab genérico para items tirados (ver siguiente script)
-
-    // Variable sincronizada: Cuál slot de la hotbar tiene seleccionado el jugador
+    [SerializeField] private NetworkObject worldItemPrefab; 
+    
     [Networked] public int SelectedHotbarIndex { get; set; }
     public static NetworkInventoryManager Local { get; private set; }
 
     private int _currentVisualItemId = -1;
     private GameObject _currentHandModel;
-    private ChangeDetector _changes;
+    private ChangeDetector _managerChanges;
+    private ChangeDetector _invChanges;
     
     public static event System.Action OnLocalPlayerSpawned;
+    public static event Action OnHotbarIndexChanged;
 
+  
+    
     public override void Spawned()
     {
         if (HasInputAuthority)
         {
             Local = this;
-        
-            // Disparar evento para avisar a la UI que ya existimos
             OnLocalPlayerSpawned?.Invoke();
+            var sys = GetComponent<NetworkInventorySystem>();
+            sys.OnInventoryChanged += UpdateHandVisuals;
+
+            UpdateHandVisuals();
         }
-        _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
-        UpdateHandVisuals(); // Actualización inicial
+        _managerChanges = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
     
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        if (Local == this) Local = null;
+        if (HasInputAuthority && Local == this) Local = null;
     }
 
     public override void Render()
     {
-        // Detectamos si cambió el índice seleccionado o el contenido del inventario
-        foreach (var change in _changes.DetectChanges(this, inventorySystem))
+        if (inventorySystem == null)
+            inventorySystem = GetComponent<NetworkInventorySystem>();
+
+        if (_managerChanges == null)
+            _managerChanges = GetChangeDetector(ChangeDetector.Source.SimulationState);
+
+        if (_invChanges == null)
+            _invChanges = inventorySystem.GetChangeDetector(ChangeDetector.Source.SimulationState);
+        
+        // Detect changes in Manager (SelectedHotbarIndex)
+        foreach (var change in _managerChanges.DetectChanges(this))
         {
-            if (change == nameof(SelectedHotbarIndex) || 
-                change == nameof(inventorySystem.HotbarSlots)) 
+            if (change == nameof(SelectedHotbarIndex))
+            {
+                UpdateHandVisuals();
+                OnHotbarIndexChanged?.Invoke();
+            }
+        }
+
+        // Detect changes in InventorySystem (HotbarSlots)
+        foreach (var change in _invChanges.DetectChanges(inventorySystem))
+        {
+            if (change == nameof(NetworkInventorySystem.HotbarSlots))
             {
                 UpdateHandVisuals();
             }
         }
     }
-
-    // --- VISUALS: Actualizar el modelo 3D en la mano ---
+    
     private void UpdateHandVisuals()
     {
-        if (handTransform == null) return;
+        var sys = GetComponent<NetworkInventorySystem>();
+        if (sys == null) return;
 
-        // 1. Obtener qué item hay en el slot seleccionado
-        var slotData = inventorySystem.GetSlotData(SlotType.Hotbar, SelectedHotbarIndex);
-        int newItemId = slotData.ItemId;
+        int index = SelectedHotbarIndex;
+        if (index < 0 || index >= sys.GetCapacity(SlotType.Hotbar))
+            return;
 
-        // 2. Si es el mismo que ya tenemos, no hacer nada (optimización)
-        if (newItemId == _currentVisualItemId) return;
+        var slot = sys.HotbarSlots[index];
 
-        // 3. Destruir modelo anterior
+        // Si no hay item → destruir modelo en mano
+        if (slot.IsEmpty)
+        {
+            if (_currentHandModel != null) Destroy(_currentHandModel);
+            _currentVisualItemId = -1;
+            return;
+        }
+
+        // Si ya está equipado, no hagas nada
+        if (_currentVisualItemId == slot.ItemId)
+            return;
+
+        // Instanciar nuevo modelo
         if (_currentHandModel != null) Destroy(_currentHandModel);
 
-        _currentVisualItemId = newItemId;
+        GameObject prefab = ItemDatabase.Instance.GetEquipPrefab(slot.ItemId);
 
-        // 4. Instanciar nuevo modelo si hay item
-        if (newItemId > 0) // 0 o -1 es vacío
+        if (prefab != null)
         {
-            GameObject prefab = ItemDatabase.Instance.GetEquipPrefab(newItemId);
-            if (prefab != null)
-            {
-                _currentHandModel = Instantiate(prefab, handTransform);
-                _currentHandModel.transform.localPosition = Vector3.zero;
-                _currentHandModel.transform.localRotation = Quaternion.identity;
-            }
+            _currentHandModel = Instantiate(prefab, handTransform);
+            _currentVisualItemId = slot.ItemId;
         }
     }
 
@@ -89,7 +117,6 @@ public class NetworkInventoryManager : NetworkBehaviour
     public void Input_SetSelectedHotbar(int index)
     {
         if (!HasInputAuthority) return;
-        // Validar rango
         if (index < 0 || index >= inventorySystem.GetCapacity(SlotType.Hotbar)) return;
         
         RPC_SetSelectedHotbar(index);
@@ -120,32 +147,24 @@ public class NetworkInventoryManager : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RPC_MoveItem(SlotType fromType, int fromIdx, SlotType toType, int toIdx)
     {
-        // El servidor ejecuta la lógica segura del Sistema
         inventorySystem.Server_MoveItem(fromType, fromIdx, toType, toIdx);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RPC_DropItem(SlotType type, int index)
     {
-        // 1. Obtener info del item antes de borrarlo
         var slot = inventorySystem.GetSlotData(type, index);
-        if (slot.ItemId <= 0) return; // Nada que tirar
-
-        // 2. Intentar quitar del inventario
-        // (Aquí asumimos tirar todo el stack, o puedes modificar para tirar 1)
+        if (slot.ItemId <= 0) return;
+        
         bool removed = inventorySystem.Server_TryRemoveItem(slot.ItemId, slot.Quantity, type);
 
         if (removed)
         {
-            // 3. Spawnear el objeto en el mundo (NetworkObject)
             if (worldItemPrefab != null)
             {
-                // Posición enfrente del jugador
                 Vector3 spawnPos = transform.position + transform.forward * 1.5f + Vector3.up;
-                
                 NetworkObject obj = Runner.Spawn(worldItemPrefab, spawnPos, Quaternion.identity);
                 
-                // Configurar el pickup
                 if (obj.TryGetComponent<NetworkWorldItem>(out var pickupScript))
                 {
                     pickupScript.Init(slot.ItemId, slot.Quantity);
@@ -157,33 +176,53 @@ public class NetworkInventoryManager : NetworkBehaviour
     public void RequestPickupItem(NetworkWorldItem item)
     {
         if (!HasInputAuthority) return;
-        
-        // Enviamos al servidor la referencia del objeto que queremos recoger
+        if (item == null || !item.Object.IsValid) return;
         RPC_RequestPickup(item);
     }
 
-    // 2. RPC que viaja al Servidor
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RPC_RequestPickup(NetworkWorldItem item)
     {
-        // VALIDACIONES DE SEGURIDAD
-        if (item == null) return; 
-        
-        // IMPORTANTE: Si el objeto no es valido (ya se despawneo) salimos
-        if (!item.Object.IsValid) return; 
+        if (!HasStateAuthority) return;
+        if (item == null || !item.Object.IsValid) {
+            // Opcional: enviar NACK al cliente
+            RPC_PickupResult(false, item.Object);
+            return;
+        }
 
-        // IMPORTANTE: Validamos distancia en el servidor para evitar trampas
-        float distance = Vector3.Distance(transform.position, item.transform.position);
-        if (distance > 3.0f) return; // Si está muy lejos, ignorar
+        var worldItem = item.GetComponent<NetworkWorldItem>();
+        if (worldItem == null) {
+            RPC_PickupResult(false, item.Object);
+            return;
+        }
 
-        // Intentar añadir
-        bool added = inventorySystem.Server_TryAddItem(item.ItemId, item.Quantity, SlotType.Base);
-
-        if (added)
-        {
-            // Despawnear
+        // Validar distancia usando la posición del StateAuthority (servidor)
+        float maxDist = 3.0f;
+        if (Vector3.Distance(transform.position, worldItem.transform.position) > maxDist) {
+            RPC_PickupResult(false, item.Object);
+            return;
+        }
+        bool added = inventorySystem.Server_TryAddItem(worldItem.ItemId, worldItem.Quantity, SlotType.Base);
+        if (added) {
             Runner.Despawn(item.Object);
-            Debug.Log($"[Server] Item {item.ItemId} picked up and despawned.");
+            RPC_PickupResult(true, item.Object);
+        } else {
+            RPC_PickupResult(false, item.Object);
+        }
+    }
+    
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    private void RPC_PickupResult(bool success, NetworkObject itemNetObj) {
+        if (itemNetObj == null) return;
+        var worldItem = itemNetObj.GetComponent<NetworkWorldItem>();
+        if (worldItem != null) {
+            if (!success) {
+                worldItem.ResetPickupRequest();
+                
+            } else {
+                // Pickup OK: el objeto habrá sido despawneado por el servidor.
+                // worldItem puede llegar a existir localmente hasta que la despawn propague; no hace falta Reset.
+            }
         }
     }
 }

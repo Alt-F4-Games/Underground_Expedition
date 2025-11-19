@@ -104,7 +104,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             if (itemObj.TryGetComponent<NetworkWorldItem>(out var worldItem))
             {
                 // Asegurate que el ID 1 exista en tu Base de Datos
-                worldItem.Init(1, 5); 
+                worldItem.Init(1, 1); 
             }
         }
     }
