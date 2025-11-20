@@ -10,7 +10,6 @@ public class NetworkInventorySystem : NetworkBehaviour
     private const int MAX_HOTBAR = 3;
 
     // --- NETWORKED DATA ---
-    // OnChanged se dispara cuando el servidor modifica estos datos
     [Networked, Capacity(MAX_BASE)] 
     public NetworkArray<NetworkInventorySlot> BaseSlots { get; }
     
