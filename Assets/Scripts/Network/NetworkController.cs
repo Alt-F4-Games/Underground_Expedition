@@ -27,6 +27,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private Vector2 _lookInput;
+    private bool worldItemsSpawned = false;
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
@@ -92,22 +93,15 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         if (!_networkRunner.IsServer) return;
 
+        //TODO: Move this logic to Spawner.cs, this is only to test 
+        if (!worldItemsSpawned)
+        {
+            SpawnWorldItems();
+            worldItemsSpawned = true;
+        }
+        
         var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
         _players.Add(player,playerSpawned);
-        
-        
-        //TODO: Move this logic to Spawner.cs, this is only to test 
-        if (player == _networkRunner.LocalPlayer && _testItemPrefab != null)
-        {
-            Vector3 itemPos = new Vector3(3,0,0) + new Vector3(2, 1, 0);                  // 2 metros al costado
-            var itemObj = _networkRunner.Spawn(_testItemPrefab, itemPos, Quaternion.identity);
-            
-            
-            if (itemObj.TryGetComponent<NetworkWorldItem>(out var worldItem))
-            {
-                worldItem.Init(1, 1); 
-            }
-        }
     }
     
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -118,6 +112,25 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
        {
            _networkRunner.Despawn(playerSpawned);
        }
+    }
+
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        Debug.Log("[Runner] Shutdown detected, saving Host inventory if needed.");
+
+        if (NetworkInventoryManager.Local != null)
+        {
+            var inv = NetworkInventoryManager.Local;
+        
+            if (inv.HasStateAuthority)
+            {
+                string playerId = NetworkInventoryManager.LocalPlayerId;
+                var data = inv.inventorySystem.ToSavedData();
+                InventorySaveSystem.Save(playerId, data);
+
+                Debug.Log($"[Inventory] Host inventory saved successfully for ID: {playerId}");
+            }
+        }
     }
     
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -132,9 +145,28 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         _lookInput = Vector2.zero;
     }
     
+    private void SpawnWorldItems()
+    {
+        if (_testItemPrefab == null) return;
+
+        Vector3 itemPos1 = new Vector3(5, 1, 0);
+        Vector3 itemPos2 = new Vector3(5, 1, 3);
+
+        var itemObj1 = _networkRunner.Spawn(_testItemPrefab, itemPos1, Quaternion.identity);
+        var itemObj2 = _networkRunner.Spawn(_testItemPrefab, itemPos2, Quaternion.identity);
+
+        if (itemObj1.TryGetComponent(out NetworkWorldItem w1))
+            w1.Init(1, 1);
+
+        if (itemObj2.TryGetComponent(out NetworkWorldItem w2))
+            w2.Init(2, 2);
+
+        Debug.Log("World items spawned by SERVER.");
+    }
+    
+    
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }

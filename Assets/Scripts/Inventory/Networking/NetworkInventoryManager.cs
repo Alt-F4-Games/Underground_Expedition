@@ -9,7 +9,7 @@ public class NetworkInventoryManager : NetworkBehaviour
     [SerializeField] private Transform handTransform; 
 
     [Header("References")]
-    [SerializeField] private NetworkInventorySystem inventorySystem;
+    [HideInInspector] public NetworkInventorySystem inventorySystem;
     [SerializeField] private NetworkObject worldItemPrefab; 
     
     [Networked] public int SelectedHotbarIndex { get; set; }
@@ -23,10 +23,26 @@ public class NetworkInventoryManager : NetworkBehaviour
     public static event System.Action OnLocalPlayerSpawned;
     public static event Action OnHotbarIndexChanged;
 
-  
+    public static string LocalPlayerId =>
+        SystemInfo.deviceUniqueIdentifier;
     
     public override void Spawned()
     {
+        if (HasStateAuthority)
+        {
+            string playerId = LocalPlayerId;
+            var saved = InventorySaveSystem.Load(playerId);
+
+            if (saved != null)
+            {
+                inventorySystem.LoadFromSavedData(saved);
+                Debug.Log($"[Inventory] Loaded saved data for player {playerId}");
+            }
+            else
+            {
+                Debug.Log("[Inventory] No saved data found, starting empty.");
+            }
+        }
         if (HasInputAuthority)
         {
             Local = this;
@@ -36,12 +52,20 @@ public class NetworkInventoryManager : NetworkBehaviour
 
             UpdateHandVisuals();
         }
+        Debug.Log($"{Object.Id}: Spawned at {transform.position}");
         _managerChanges = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
     
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         if (HasInputAuthority && Local == this) Local = null;
+        if (hasState)
+        {
+            string playerId = LocalPlayerId;
+            var data = inventorySystem.ToSavedData();
+            InventorySaveSystem.Save(playerId, data);
+            Debug.Log($"[Inventory] Saved inventory for player {playerId}");
+        }
     }
 
     public override void Render()

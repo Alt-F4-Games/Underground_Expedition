@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 8959835218955526046}
   - component: {fileID: 7644179268574776430}
   - component: {fileID: 554443575852828146}
+  - component: {fileID: -8132401366017802328}
   - component: {fileID: 3900414708533966312}
   m_Layer: 0
   m_Name: WorldItemPickup
@@ -159,8 +160,26 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: -8132401366017802328}
   - {fileID: 3900414708533966312}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &-8132401366017802328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7960787754250036776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!114 &3900414708533966312
 MonoBehaviour:
   m_ObjectHideFlags: 0

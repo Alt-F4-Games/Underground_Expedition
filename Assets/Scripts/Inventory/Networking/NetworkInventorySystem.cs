@@ -197,5 +197,69 @@ public class NetworkInventorySystem : NetworkBehaviour
         return new NetworkInventorySlot(0,0);
     }
     
+    /// <summary>
+    /// ////////////////////////////////////////////////////////////////////
+    ///
+    ///  SAVE / LOAD LOGIC
+    ///
+    /// ////////////////////////////////////////////////////////////////////
+    /// </summary>
+   
+    public SavedInventoryData ToSavedData()
+    {
+        var data = new SavedInventoryData();
+
+        // Base slots
+        for (int i = 0; i < BaseSlots.Length; i++)
+        {
+            var slot = BaseSlots[i];
+            data.baseSlots.Add(new SavedSlot(slot.ItemId, slot.Quantity));
+        }
+
+        // Equip slots
+        for (int i = 0; i < EquipSlots.Length; i++)
+        {
+            var slot = EquipSlots[i];
+            data.equipSlots.Add(new SavedSlot(slot.ItemId, slot.Quantity));
+        }
+
+        // Hotbar slots
+        for (int i = 0; i < HotbarSlots.Length; i++)
+        {
+            var slot = HotbarSlots[i];
+            data.hotbarSlots.Add(new SavedSlot(slot.ItemId, slot.Quantity));
+        }
+
+        return data;
+    }
+
+    public void LoadFromSavedData(SavedInventoryData data)
+    {
+        if (!HasStateAuthority) return;
+
+        // BASE
+        for (int i = 0; i < BaseSlots.Length && i < data.baseSlots.Count; i++)
+        {
+            BaseSlots.Set(i, new NetworkInventorySlot(
+                data.baseSlots[i].itemId,
+                data.baseSlots[i].quantity));
+        }
+
+        // EQUIP
+        for (int i = 0; i < EquipSlots.Length && i < data.equipSlots.Count; i++)
+        {
+            EquipSlots.Set(i, new NetworkInventorySlot(
+                data.equipSlots[i].itemId,
+                data.equipSlots[i].quantity));
+        }
+
+        // HOTBAR
+        for (int i = 0; i < HotbarSlots.Length && i < data.hotbarSlots.Count; i++)
+        {
+            HotbarSlots.Set(i, new NetworkInventorySlot(
+                data.hotbarSlots[i].itemId,
+                data.hotbarSlots[i].quantity));
+        }
+    }
     public int GetCapacity(SlotType type) => GetArrayByType(type).Length;
 }
