@@ -174,7 +174,7 @@ public class NetworkInventoryManager : NetworkBehaviour
 
         if (removed)
         {
-            if (worldItemPrefab != null)
+            if (worldItemPrefab)
             {
                 Vector3 spawnPos = transform.position + transform.forward * 1.5f + Vector3.up;
                 NetworkObject obj = Runner.Spawn(worldItemPrefab, spawnPos, Quaternion.identity);
@@ -240,17 +240,56 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
     }
     
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_SendSavedInventoryJson(string json)
+    {
+        if (!HasStateAuthority) return; // seguridad, el RPC debe correr en el server
+
+        if (string.IsNullOrEmpty(json))
+        {
+            Debug.LogWarning("[Inventory] Received empty JSON from client");
+            return;
+        }
+
+        // Parseamos el JSON en el server y aplicamos
+        try
+        {
+            var saved = JsonUtility.FromJson<SavedInventoryData>(json);
+            if (saved != null)
+            {
+                inventorySystem.LoadFromSavedData(saved);
+                Debug.Log("[Inventory] Server applied saved inventory from client.");
+            }
+            else
+            {
+                Debug.LogWarning("[Inventory] JsonUtility.FromJson returned null");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Inventory] Failed to parse saved JSON: {ex.Message}");
+        }
+    }
+    
     private void LoadLocalInventory()
     {
+        if (!HasInputAuthority) return;
+
         string id = LocalPlayerId;
         var saved = InventorySaveSystem.Load(id);
 
-        if (saved != null)
+        if (saved == null)
         {
-            var sys = GetComponent<NetworkInventorySystem>();
-            sys.LoadFromSavedData(saved);
-            Debug.Log($"[Inventory] Loaded local data for {id}");
+            Debug.Log($"[Inventory] No local save for {id}");
+            return;
         }
+
+        // Serializamos a JSON (string) y lo enviamos al servidor por RPC
+        string json = JsonUtility.ToJson(saved);
+        Debug.Log($"[Inventory] Sending saved JSON to server for {id} (len {json.Length})");
+
+        RPC_SendSavedInventoryJson(json);
+        
     }
 
     public void SaveLocalInventory()

@@ -234,7 +234,7 @@ public class NetworkInventorySystem : NetworkBehaviour
     public void LoadFromSavedData(SavedInventoryData data)
     {
         if (!HasStateAuthority) return;
-
+        
         // BASE
         for (int i = 0; i < BaseSlots.Length && i < data.baseSlots.Count; i++)
         {
