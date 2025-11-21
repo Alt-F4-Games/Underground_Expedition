@@ -29,25 +29,24 @@ public class NetworkInventoryManager : NetworkBehaviour
     public override void Spawned()
     {
         UpdateHandVisuals();
-        if (HasStateAuthority)
+        if (HasInputAuthority)
         {
+            Local = this;
+            OnLocalPlayerSpawned?.Invoke();
             string playerId = LocalPlayerId;
             var saved = InventorySaveSystem.Load(playerId);
 
             if (saved != null)
             {
-                inventorySystem.LoadFromSavedData(saved);
-                Debug.Log($"[Inventory] Loaded saved data for player {playerId}");
+                Debug.Log("[Client] Sending saved inventory to server...");
+                var json = JsonUtility.ToJson(typeof(SavedInventoryData));
+                RPC_RequestApplySavedInventory(json);
             }
             else
             {
-                Debug.Log("[Inventory] No saved data found, starting empty.");
+                Debug.Log("[Client] No saved data found locally.");
             }
-        }
-        if (HasInputAuthority)
-        {
-            Local = this;
-            OnLocalPlayerSpawned?.Invoke();
+
             var sys = GetComponent<NetworkInventorySystem>();
             sys.OnInventoryChanged += UpdateHandVisuals;
 
@@ -250,5 +249,13 @@ public class NetworkInventoryManager : NetworkBehaviour
                 // worldItem puede llegar a existir localmente hasta que la despawn propague; no hace falta Reset.
             }
         }
+    }
+    
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestApplySavedInventory(string json)
+    {
+        if (!HasStateAuthority) return;
+        var data = JsonUtility.FromJson<SavedInventoryData>(json);
+        inventorySystem.LoadFromSavedData(data);
     }
 }
