@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-// Quitamos la dependencia de RequireComponent(Button) si no es estricta, pero la dejamos si tu prefab lo usa.
 public class InventorySlotUI : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -13,88 +12,116 @@ public class InventorySlotUI : MonoBehaviour,
     [SerializeField] private GameObject highlightFrame;
 
     [Header("Settings")]
-    [SerializeField] private KeyCode dropKey = KeyCode.Q;   
+    [SerializeField] private KeyCode dropKey = KeyCode.Q;
 
-    // Propiedades públicas
+    //---------------- External references --------------------
     public int SlotIndex { get; set; }
     public SlotType SlotType { get; set; }
-    public NetworkInventoryManager Manager { get; set; } // Referencia al script de red
+    public NetworkInventoryManager Manager { get; set; }
 
+    //------------------- Internal state -----------------
     private int _currentItemId;
     private int _currentQty;
     private bool _isHovered;
 
+    // =====================================================================
+    // Unity
+    // =====================================================================
+
     private void Update()
     {
-        // Detectar input para tirar objeto (Q)
         if (_isHovered && HasItem && Input.GetKeyDown(dropKey))
-        {
             DropOneItem();
-        }
     }
 
-    private void DropOneItem()
+    // =====================================================================
+    // Item Drop
+    // =====================================================================
+
+
+    private void DropOneItem()  // Requests the network manager to drop a single item from this slot.
     {
-        if (Manager != null)
-        {
-            // Llamamos al método que envía el RPC
-            Manager.Input_DropItem(SlotType, SlotIndex);
-            Debug.Log($"[SlotUI] Requesting drop from {SlotType}[{SlotIndex}]");
-        }
+        if (!Manager) return;
+
+        Manager.Input_DropItem(SlotType, SlotIndex);
+
+#if UNITY_EDITOR
+        Debug.Log($"[InventorySlotUI] Requested drop from {SlotType}[{SlotIndex}]");
+#endif
     }
 
-    // Método principal de actualización visual
-    public void Refresh(NetworkInventorySlot slotData)
+    // =====================================================================
+    // Visual Refresh
+    // =====================================================================
+    
+    public void Refresh(NetworkInventorySlot slotData)  // Updates UI visuals based on the given network slot data.
     {
         _currentItemId = slotData.ItemId;
         _currentQty = slotData.Quantity;
 
-        ItemSO itemSO = ItemDatabase.Instance.GetItemById(_currentItemId);
-
-        if (itemSO != null && _currentQty > 0)
-        {
-            if (iconImage != null)
-            {
-                iconImage.sprite = itemSO.icon;
-                iconImage.enabled = true; 
-                iconImage.color = Color.white;
-            }
-
-            if (qtyText != null)
-                qtyText.text = _currentQty > 1 ? _currentQty.ToString() : string.Empty;
-        }
+        if (HasItem)
+            ApplyItemVisuals(_currentItemId, _currentQty);
         else
-        {
-            Clear(); 
-        }
+            Clear();
     }
+    
+    private void ApplyItemVisuals(int itemId, int quantity) // Applies item icon and quantity text to the slot.
+    {
+        var itemSo = ItemDatabase.Instance.GetItemById(itemId);
+        if (!itemSo) { Clear(); return; }
 
-    public void Clear()
+        // Icon
+        if (iconImage)
+        {
+            iconImage.sprite = itemSo.icon;
+            iconImage.enabled = true;
+            iconImage.color = Color.white;
+        }
+
+        // Quantity label
+        if (qtyText)
+            qtyText.text = quantity > 1 ? quantity.ToString() : string.Empty;
+    }
+    
+    public void Clear() // Clears all visual content from this UI slot.
     {
         _currentItemId = -1;
         _currentQty = 0;
 
-        if (iconImage != null)
+        if (iconImage)
         {
             iconImage.sprite = null;
-            iconImage.enabled = false; 
+            iconImage.enabled = false;
         }
 
-        if (qtyText != null)
+        if (qtyText)
             qtyText.text = string.Empty;
     }
+
+    // =====================================================================
+    // Highlighting
+    // =====================================================================
     
-    public void SetHighlight(bool active)
+    public void SetHighlight(bool active)   // Enables or disables the “selected” highlight frame.
     {
-        if (highlightFrame != null) highlightFrame.SetActive(active);
+        if (highlightFrame != null)
+            highlightFrame.SetActive(active);
     }
 
-    // Getters helpers
+    // =====================================================================
+    // Helpers
+    // =====================================================================
+
     public bool HasItem => _currentItemId > 0 && _currentQty > 0;
     public int CurrentItemId => _currentItemId;
 
-    // Interfaces de puntero (Mouse)
-    public void OnPointerClick(PointerEventData eventData) { }
+    // =====================================================================
+    // Pointer Events (hover + clicks)
+    // =====================================================================
+
     public void OnPointerEnter(PointerEventData eventData) => _isHovered = true;
     public void OnPointerExit(PointerEventData eventData) => _isHovered = false;
+
+    // No action needed for click, but implemented for interface completeness
+    public void OnPointerClick(PointerEventData eventData) { }
 }

@@ -8,13 +8,30 @@ using System;
 using Network;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// CONTROLADOR GENERAL DE RED
+/// ---------------------------
+/// Este script es el “cerebro” inicial del networking:
+/// - Crea o se une a salas.
+/// - Spawnea jugadores cuando entran.
+/// - Gestiona inputs locales.
+/// - Spawnea ítems iniciales (solo para testeo).
+///
+/// Para NO PROGRAMADORES:
+/// Piensen en este script como el recepcionista del multijugador.
+/// Cada vez que alguien entra, se crea su personaje.
+/// Cada vez que se mueve o salta, este script envía esa información a la partida.
+/// </summary>
+
 public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 {
+    // ---------------------------- UI ----------------------------
     [Header("UI References")]
     [SerializeField] private GameObject _lobbyPanel;
     [SerializeField] private Button _createRoomButton;
     [SerializeField] private Button _joinRoomButton;
 
+    // ----------------------- Network Config ---------------------
     [Header("Network References")]
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
@@ -22,32 +39,48 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     
+    // ----------------------- Test Items -------------------------
+    [Header("Test Items (Only for development)")]
     [SerializeField] private NetworkObject _testItemPrefab;
-    
+    private bool worldItemsSpawned = false;
+     
+    // ------------------------ Player Input ---------------------- 
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private Vector2 _lookInput;
-    private bool worldItemsSpawned = false;
+   
+    // ============================================================
+    //                      UNITY EVENTS
+    // ============================================================
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
         _joinRoomButton.onClick.AddListener(JoinRoom);
     }
     
-    public void OnMove(InputAction.CallbackContext context)
+    // ============================================================
+    //                       INPUT SYSTEM
+    // ============================================================
+    
+    public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
+    public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
+    public void OnLook(InputAction.CallbackContext context) { _lookInput = context.ReadValue<Vector2>(); }
+    
+    public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        _moveInput = context.ReadValue<Vector2>();
+        var InputPlayer = new NetworkInputPlayer();
+        
+        InputPlayer.MoveDirection = new Vector3(_moveInput.x,0 ,_moveInput.y );
+        InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
+        InputPlayer.MouseRotation = _lookInput;
+        
+        input.Set(InputPlayer);
+        _lookInput = Vector2.zero;
     }
     
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        _jumpPressed = context.ReadValue<float>() > 0;
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        _lookInput = context.ReadValue<Vector2>();
-    }
+    // ============================================================
+    //                     ROOM CREATION / JOIN
+    // ============================================================
     
     private async void CreateRoom()
     {
@@ -67,7 +100,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             Debug.LogError($"Error: {result.ErrorMessage}");
         }
     }
-
     private async void JoinRoom()
     {
         var gameArg = new StartGameArgs()
@@ -85,6 +117,10 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             Debug.LogError($"Error: {result.ErrorMessage}");
         }
     }
+    
+    // ============================================================
+    //                   PLAYER JOIN / LEAVE
+    // ============================================================
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) 
     {
@@ -114,55 +150,48 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
        }
     }
 
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
-    {
-        Debug.Log("[Runner] Shutdown detected, saving Host inventory if needed.");
+    // ============================================================
+    //                    WORLD ITEM SPAWNING (TEMP)
+    // ============================================================
 
-        if (NetworkInventoryManager.Local != null)
-        {
-            var inv = NetworkInventoryManager.Local;
-            
-            if (inv.HasInputAuthority)
-                inv.SaveLocalInventory();
-        }
-    }
-    
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
-        var InputPlayer = new NetworkInputPlayer();
-        
-        InputPlayer.MoveDirection = new Vector3(_moveInput.x,0 ,_moveInput.y );
-        InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
-        InputPlayer.MouseRotation = _lookInput;
-        
-        input.Set(InputPlayer);
-        _lookInput = Vector2.zero;
-    }
-    
     private void SpawnWorldItems()
     {
-        if (_testItemPrefab == null) return;
+        if (!_testItemPrefab) return;
 
-        Vector3 itemPos1 = new Vector3(5, 1, 0);
-        Vector3 itemPos2 = new Vector3(5, 1, 3);
-        Vector3 itemPos3 = new Vector3(5, 1, 6);
+        Vector3[] positions =
+        {
+            new(5, 1, 0),
+            new(5, 1, 3),
+            new(5, 1, 6)
+        };
 
-        var itemObj1 = _networkRunner.Spawn(_testItemPrefab, itemPos1, Quaternion.identity);
-        var itemObj2 = _networkRunner.Spawn(_testItemPrefab, itemPos2, Quaternion.identity);
-        var itemObj3 = _networkRunner.Spawn(_testItemPrefab, itemPos3, Quaternion.identity);
+        for (int i = 0; i < positions.Length; i++)
+        {
+            var obj = _networkRunner.Spawn(_testItemPrefab, positions[i], Quaternion.identity);
+            if (obj.TryGetComponent(out NetworkWorldItem item))
+                item.Init(i + 1, i == 1 ? 2 : 1); 
+        }
 
-        if (itemObj1.TryGetComponent(out NetworkWorldItem w1))
-            w1.Init(1, 1);
-
-        if (itemObj2.TryGetComponent(out NetworkWorldItem w2))
-            w2.Init(2, 2);
-        
-        if (itemObj3.TryGetComponent(out NetworkWorldItem w3))
-            w3.Init(3, 1);
-
-        Debug.Log("World items spawned by SERVER.");
+        Debug.Log("Server spawned test items");
     }
     
+    // ============================================================
+    //                  SHUTDOWN (GUARDADO LOCAL)
+    // ============================================================
+    
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        Debug.Log("[Runner] Shutdown detected - Saving player inventory");
+
+        var inv = NetworkInventoryManager.Local;
+
+        if (inv && inv.HasInputAuthority)
+            inv.SaveLocalInventory();
+    }
+    
+    // ============================================================
+    //                     EMPTY CALLBACKS 
+    // ============================================================
     
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
