@@ -121,15 +121,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         if (NetworkInventoryManager.Local != null)
         {
             var inv = NetworkInventoryManager.Local;
-        
+            
             if (inv.HasInputAuthority)
-            {
-                string playerId = NetworkInventoryManager.LocalPlayerId;
-                var data = inv.inventorySystem.ToSavedData();
-                InventorySaveSystem.Save(playerId, data);
-
-                Debug.Log($"[Inventory] Host inventory saved successfully for ID: {playerId}");
-            }
+                inv.SaveLocalInventory();
         }
     }
     

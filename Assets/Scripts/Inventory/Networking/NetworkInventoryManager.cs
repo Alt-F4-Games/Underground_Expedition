@@ -54,6 +54,12 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     public override void Render()
     {
+        if (HasInputAuthority && Local != this)
+        {
+            Local = this;
+            OnLocalPlayerSpawned?.Invoke();
+        }
+        
         if (inventorySystem == null)
             inventorySystem = GetComponent<NetworkInventorySystem>();
 
@@ -246,12 +252,18 @@ public class NetworkInventoryManager : NetworkBehaviour
             Debug.Log($"[Inventory] Loaded local data for {id}");
         }
     }
-    
-    private void SaveLocalInventory()
+
+    public void SaveLocalInventory()
     {
         string playerId = LocalPlayerId;
         var data = inventorySystem.ToSavedData();
         InventorySaveSystem.Save(playerId, data);
         Debug.Log($"[Inventory] Saved inventory for player {playerId}");
+    }
+    
+    private void OnApplicationQuit()
+    {
+        if (HasInputAuthority)
+            SaveLocalInventory();
     }
 }
