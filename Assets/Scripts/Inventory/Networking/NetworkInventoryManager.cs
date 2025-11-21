@@ -34,38 +34,24 @@ public class NetworkInventoryManager : NetworkBehaviour
             Local = this;
             OnLocalPlayerSpawned?.Invoke();
             string playerId = LocalPlayerId;
-            var saved = InventorySaveSystem.Load(playerId);
-
-            if (saved != null)
-            {
-                Debug.Log("[Client] Sending saved inventory to server...");
-                var json = JsonUtility.ToJson(typeof(SavedInventoryData));
-                RPC_RequestApplySavedInventory(json);
-            }
-            else
-            {
-                Debug.Log("[Client] No saved data found locally.");
-            }
-
+            
+            LoadLocalInventory();
+            
             var sys = GetComponent<NetworkInventorySystem>();
             sys.OnInventoryChanged += UpdateHandVisuals;
-
-            UpdateHandVisuals();
+            OnHotbarIndexChanged?.Invoke();
         }
         UpdateHandVisuals();
         Debug.Log($"{Object.Id}: Spawned at {transform.position}");
         _managerChanges = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
-    
+
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         if (HasInputAuthority && Local == this) Local = null;
-        if (hasState)
+        if (HasInputAuthority)
         {
-            string playerId = LocalPlayerId;
-            var data = inventorySystem.ToSavedData();
-            InventorySaveSystem.Save(playerId, data);
-            Debug.Log($"[Inventory] Saved inventory for player {playerId}");
+            SaveLocalInventory();
         }
     }
 
@@ -251,11 +237,24 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
     }
     
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_RequestApplySavedInventory(string json)
+    private void LoadLocalInventory()
     {
-        if (!HasStateAuthority) return;
-        var data = JsonUtility.FromJson<SavedInventoryData>(json);
-        inventorySystem.LoadFromSavedData(data);
+        string id = LocalPlayerId;
+        var saved = InventorySaveSystem.Load(id);
+
+        if (saved != null)
+        {
+            var sys = GetComponent<NetworkInventorySystem>();
+            sys.LoadFromSavedData(saved);
+            Debug.Log($"[Inventory] Loaded local data for {id}");
+        }
+    }
+    
+    private void SaveLocalInventory()
+    {
+        string playerId = LocalPlayerId;
+        var data = inventorySystem.ToSavedData();
+        InventorySaveSystem.Save(playerId, data);
+        Debug.Log($"[Inventory] Saved inventory for player {playerId}");
     }
 }
