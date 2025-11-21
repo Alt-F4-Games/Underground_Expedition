@@ -122,7 +122,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         {
             var inv = NetworkInventoryManager.Local;
         
-            if (inv.HasStateAuthority)
+            if (inv.HasInputAuthority)
             {
                 string playerId = NetworkInventoryManager.LocalPlayerId;
                 var data = inv.inventorySystem.ToSavedData();
