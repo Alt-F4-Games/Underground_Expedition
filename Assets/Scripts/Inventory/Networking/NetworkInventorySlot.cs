@@ -3,10 +3,11 @@ using Fusion;
 /// <summary>
 /// NetworkInventorySlot
 /// --------------------
-/// Estructura que representa un solo slot de inventario sincronizable.
-/// Diseñada para ser lo más liviana posible porque Fusion envía este struct
-/// a través de NetworkArray.
+/// Structure that represents a single synchronizable inventory slot.
+/// Designed to be as lightweight as possible because Fusion sends this struct
+/// through a NetworkArray.
 /// </summary>
+
 
 [System.Serializable]
 public struct NetworkInventorySlot : INetworkStruct

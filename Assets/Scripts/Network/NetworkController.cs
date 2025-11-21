@@ -9,19 +9,20 @@ using Network;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// CONTROLADOR GENERAL DE RED
-/// ---------------------------
-/// Este script es el “cerebro” inicial del networking:
-/// - Crea o se une a salas.
-/// - Spawnea jugadores cuando entran.
-/// - Gestiona inputs locales.
-/// - Spawnea ítems iniciales (solo para testeo).
+/// GENERAL NETWORK CONTROLLER
+/// --------------------------
+/// This script acts as the initial “brain” of the networking system:
+/// - Creates or joins multiplayer sessions.
+/// - Spawns players when they connect.
+/// - Handles local input.
+/// - Spawns initial test items (for debugging only).
 ///
-/// Para NO PROGRAMADORES:
-/// Piensen en este script como el recepcionista del multijugador.
-/// Cada vez que alguien entra, se crea su personaje.
-/// Cada vez que se mueve o salta, este script envía esa información a la partida.
+/// For NON-PROGRAMMERS:
+/// Think of this script as the multiplayer receptionist.
+/// Every time someone joins, it creates their character.
+/// Every time they move or jump, this script sends that information to the match.
 /// </summary>
+
 
 public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 {

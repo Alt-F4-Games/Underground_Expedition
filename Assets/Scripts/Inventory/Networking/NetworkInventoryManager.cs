@@ -5,16 +5,17 @@ using UnityEngine;
 /// <summary>
 /// NetworkInventoryManager 
 ///
-/// Responsabilidades principales:
-///  - Exponer métodos de input para UI (Input_SetSelectedHotbar, Input_MoveItem, Input_DropItem).
-///  - Enviar RPCs al servidor para que éste modifique el estado (server-authoritative).
-///  - Gestionar el modelo visual en la mano del jugador (Equip visuals).
-///  - Persistencia local (guardar/cargar JSON del jugador local).
+/// Main responsibilities:
+///  - Expose input methods for the UI (Input_SetSelectedHotbar, Input_MoveItem, Input_DropItem).
+///  - Send RPCs to the server so it can modify the inventory state (server-authoritative).
+///  - Handle the visual item model shown in the player's hand (equip visuals).
+///  - Local persistence (saving/loading the player's inventory as JSON).
 ///
-/// Notas para no-programadores:
-///  - Este script es el "puente" entre la UI/local player y el inventario en red.
-///  - Los cambios de inventario reales se hacen en el servidor; este script pide esos cambios.
+/// Notes for non-programmers:
+///  - This script is the “bridge” between the UI/local player and the networked inventory.
+///  - The actual inventory changes happen on the server; this script requests those changes.
 /// </summary>
+
 [RequireComponent(typeof(NetworkInventorySystem))]
 public class NetworkInventoryManager : NetworkBehaviour
 {

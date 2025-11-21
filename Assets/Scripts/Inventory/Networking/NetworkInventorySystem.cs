@@ -3,26 +3,25 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// SISTEMA DE INVENTARIO EN RED (Fusion)
+/// NETWORKED INVENTORY SYSTEM (Fusion)
 /// --------------------------------------
-/// Este script guarda y sincroniza las 3 categorías de inventario:
-/// - BaseSlots   → ítems del inventario general
-/// - EquipSlots  → ítems equipados (armaduras, herramientas)
-/// - HotbarSlots → barra rápida (slots visibles)
+/// This script stores and synchronizes the 3 categories of inventory:
+/// - BaseSlots   → general inventory items
+/// - EquipSlots  → equipped items (armor, tools, weapons)
+/// - HotbarSlots → quick access bar (visible slots)
 ///
-/// NOTA PARA NO PROGRAMADORES:
-/// Este script se encarga de que todos vean el inventario igual
-/// cuando se juega online. Aquí NO hay gráficos ni UI,
-/// solo datos sincronizados.
+/// NOTE FOR NON-PROGRAMMERS:
+/// This script ensures everyone sees the same inventory while playing online.
+/// This script handles NO UI and NO graphics — only synchronized data.
 ///
-/// NOTA PARA PROGRAMADORES:
-/// La lógica del servidor es la única que modifica los arrays
-/// (Server_* methods). Los clientes solo los leen gracias a Fusion.
+/// NOTE FOR PROGRAMMERS:
+/// Only the server/state authority is allowed to modify the arrays
+/// (Server_* methods). Clients only read them through Fusion replication.
 /// </summary>
 
 public class NetworkInventorySystem : NetworkBehaviour
 {
-    // Fusion requiere tamaños fijos para NetworkArray
+    // Fusion requires fixed sizes for NetworkArray
     private const int MAX_BASE = 3;
     private const int MAX_EQUIP = 3;
     private const int MAX_HOTBAR = 3;
@@ -43,23 +42,20 @@ public class NetworkInventorySystem : NetworkBehaviour
     // ----------------------------
     //         LOCAL EVENTS
     // ----------------------------
-    /// <summary>
-    /// La UI se suscribe a este evento para refrescarse
-    /// cuando cambian los datos del inventario.
-    /// </summary>
-    public event Action OnInventoryChanged;
+
+    public event Action OnInventoryChanged; // UI systems subscribe to refresh when the inventory changes.
 
     private ChangeDetector _changes;
 
     public override void Spawned()
     {
-        // Llamamos a un refresh inicial para que la UI cargue los datos.
+        // Trigger initial refresh so UI can display current data.
         OnInventoryChanged?.Invoke();
     }
 
     // ------------------------------------------------------------
-    //  Fusion llama Render() cada frame en el cliente.
-    //  Aquí detectamos cambios reales en los arrays Networked.
+    // Fusion calls Render() every frame on each client.
+    // Here we detect actual changes in the Networked arrays.
     // ------------------------------------------------------------
     public override void Render()
     {
@@ -73,27 +69,23 @@ public class NetworkInventorySystem : NetworkBehaviour
                 change == nameof(HotbarSlots))
             {
                 OnInventoryChanged?.Invoke();
-                return; // evitamos avisar múltiples veces
+                return; // avoid notifying multiple times in the same frame
             }
         }
     }
 
     // =====================================================================
-    //                         LÓGICA DE SERVIDOR
+    //                        SERVER-SIDE LOGIC
     // =====================================================================
 
-    /// <summary>
-    /// Agrega un ítem a un inventario respetando stacks.
-    /// Solo se puede llamar desde el dueño del estado (Host/Server).
-    /// </summary>
-    public bool Server_TryAddItem(int itemId, int quantity, SlotType type)
+    public bool Server_TryAddItem(int itemId, int quantity, SlotType type)  // Adds an item respecting stack limits. Can only be executed by State Authority (server/host).
     {
         if (!HasStateAuthority || quantity <= 0)
             return false;
 
         var slots = GetArrayByType(type);
 
-        // 1) Intentar apilar en slots compatibles
+        // 1) Try stacking into existing compatible slots
         for (int i = 0; i < slots.Length; i++)
         {
             var s = slots[i];
@@ -105,7 +97,7 @@ public class NetworkInventorySystem : NetworkBehaviour
             }
         }
 
-        // 2) Buscar slot vacío
+        // 2) Find empty slot
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].IsEmpty)
@@ -118,10 +110,7 @@ public class NetworkInventorySystem : NetworkBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Remueve ítems de los slots. Si no se encuentra la cantidad suficiente → false.
-    /// </summary>
-    public bool Server_TryRemoveItem(int itemId, int quantity, SlotType type)
+    public bool Server_TryRemoveItem(int itemId, int quantity, SlotType type)   // Removes items from slots. Returns false if not enough quantity is found.
     {
         if (!HasStateAuthority)
             return false;
@@ -146,7 +135,7 @@ public class NetworkInventorySystem : NetworkBehaviour
                 return true;
             }
 
-            // Vaciar slot y restar lo excedente
+            // Empty slot and continue removing from others
             remaining -= slot.Quantity;
             array.Set(i, new NetworkInventorySlot(0, 0));
         }
@@ -154,10 +143,7 @@ public class NetworkInventorySystem : NetworkBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Mueve o combina ítems entre slots cualquiera.
-    /// </summary>
-    public void Server_MoveItem(SlotType fromType, int fromIdx, SlotType toType, int toIdx)
+    public void Server_MoveItem(SlotType fromType, int fromIdx, SlotType toType, int toIdx)     // Moves or combines items between any slots.
     {
         if (!HasStateAuthority)
             return;
@@ -174,7 +160,7 @@ public class NetworkInventorySystem : NetworkBehaviour
         if (from.IsEmpty)
             return;
 
-        // Si ambos son el mismo item → combinar
+        // If same item type → try stacking
         if (to.ItemId == from.ItemId)
         {
             var itemData = ItemDatabase.Instance.GetItemById(from.ItemId);
@@ -197,13 +183,13 @@ public class NetworkInventorySystem : NetworkBehaviour
             }
         }
 
-        // Swap simple
+        // Simple swap
         fromArray.Set(fromIdx, to);
         toArray.Set(toIdx, from);
     }
 
     // =====================================================================
-    //                           HELPERS
+    //                             HELPERS
     // =====================================================================
 
     private bool IndexValid(NetworkArray<NetworkInventorySlot> arr, int index)
@@ -229,22 +215,22 @@ public class NetworkInventorySystem : NetworkBehaviour
     public int GetCapacity(SlotType type) => GetArrayByType(type).Length;
 
     // =====================================================================
-    //                           SAVE / LOAD
+    //                             SAVE / LOAD
     // =====================================================================
 
     public SavedInventoryData ToSavedData()
     {
         var data = new SavedInventoryData();
 
-        // Copiar BaseSlots
+        // Copy BaseSlots
         for (int i = 0; i < BaseSlots.Length; i++)
             data.baseSlots.Add(new SavedSlot(BaseSlots[i].ItemId, BaseSlots[i].Quantity));
 
-        // Copiar EquipSlots
+        // Copy EquipSlots
         for (int i = 0; i < EquipSlots.Length; i++)
             data.equipSlots.Add(new SavedSlot(EquipSlots[i].ItemId, EquipSlots[i].Quantity));
 
-        // Copiar HotbarSlots
+        // Copy HotbarSlots
         for (int i = 0; i < HotbarSlots.Length; i++)
             data.hotbarSlots.Add(new SavedSlot(HotbarSlots[i].ItemId, HotbarSlots[i].Quantity));
 

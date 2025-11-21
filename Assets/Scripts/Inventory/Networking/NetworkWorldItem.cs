@@ -3,11 +3,12 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// Representa un item físico en el mundo.
-/// Se sincronizan ItemId y Quantity.
-/// El objeto visual se instancia desde ItemDatabase.
-/// Incluye protección contra múltiples pickups y timeout.
+/// Represents a physical item in the world.
+/// ItemId and Quantity are synchronized.
+/// The visual object is instantiated using the ItemDatabase.
+/// Includes protection against multiple pickup attempts and a timeout.
 /// </summary>
+
 public class NetworkWorldItem : NetworkBehaviour
 {
     // -----------------------------
