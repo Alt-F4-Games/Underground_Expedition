@@ -145,15 +145,20 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         Vector3 itemPos1 = new Vector3(5, 1, 0);
         Vector3 itemPos2 = new Vector3(5, 1, 3);
+        Vector3 itemPos3 = new Vector3(5, 1, 6);
 
         var itemObj1 = _networkRunner.Spawn(_testItemPrefab, itemPos1, Quaternion.identity);
         var itemObj2 = _networkRunner.Spawn(_testItemPrefab, itemPos2, Quaternion.identity);
+        var itemObj3 = _networkRunner.Spawn(_testItemPrefab, itemPos3, Quaternion.identity);
 
         if (itemObj1.TryGetComponent(out NetworkWorldItem w1))
             w1.Init(1, 1);
 
         if (itemObj2.TryGetComponent(out NetworkWorldItem w2))
             w2.Init(2, 2);
+        
+        if (itemObj3.TryGetComponent(out NetworkWorldItem w3))
+            w3.Init(3, 1);
 
         Debug.Log("World items spawned by SERVER.");
     }
