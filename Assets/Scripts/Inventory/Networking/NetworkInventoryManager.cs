@@ -28,7 +28,8 @@ public class NetworkInventoryManager : NetworkBehaviour
     
     public override void Spawned()
     {
-        if (HasInputAuthority)
+        UpdateHandVisuals();
+        if (HasStateAuthority)
         {
             string playerId = LocalPlayerId;
             var saved = InventorySaveSystem.Load(playerId);
@@ -42,6 +43,9 @@ public class NetworkInventoryManager : NetworkBehaviour
             {
                 Debug.Log("[Inventory] No saved data found, starting empty.");
             }
+        }
+        if (HasInputAuthority)
+        {
             Local = this;
             OnLocalPlayerSpawned?.Invoke();
             var sys = GetComponent<NetworkInventorySystem>();
@@ -49,6 +53,7 @@ public class NetworkInventoryManager : NetworkBehaviour
 
             UpdateHandVisuals();
         }
+        
         Debug.Log($"{Object.Id}: Spawned at {transform.position}");
         _managerChanges = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
