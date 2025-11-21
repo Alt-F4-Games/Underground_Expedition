@@ -51,7 +51,7 @@ public class NetworkInventoryManager : NetworkBehaviour
         // Minimal work here: set local if we are input-authority and kick off loading.
         // Heavy lifting is delegated to helpers and Render where necessary.
         SafeAssignInventorySystem();
-
+        UpdateHandVisuals();
         if (HasInputAuthority)
         {
             Local = this;
