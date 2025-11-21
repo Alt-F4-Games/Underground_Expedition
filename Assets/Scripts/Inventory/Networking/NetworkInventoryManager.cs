@@ -53,7 +53,7 @@ public class NetworkInventoryManager : NetworkBehaviour
 
             UpdateHandVisuals();
         }
-        
+        UpdateHandVisuals();
         Debug.Log($"{Object.Id}: Spawned at {transform.position}");
         _managerChanges = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
