@@ -28,7 +28,7 @@ public class NetworkInventoryManager : NetworkBehaviour
     
     public override void Spawned()
     {
-        if (HasStateAuthority)
+        if (HasInputAuthority)
         {
             string playerId = LocalPlayerId;
             var saved = InventorySaveSystem.Load(playerId);
@@ -42,9 +42,6 @@ public class NetworkInventoryManager : NetworkBehaviour
             {
                 Debug.Log("[Inventory] No saved data found, starting empty.");
             }
-        }
-        if (HasInputAuthority)
-        {
             Local = this;
             OnLocalPlayerSpawned?.Invoke();
             var sys = GetComponent<NetworkInventorySystem>();

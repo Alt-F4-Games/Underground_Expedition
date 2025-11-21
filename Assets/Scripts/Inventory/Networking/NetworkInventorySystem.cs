@@ -141,10 +141,9 @@ public class NetworkInventorySystem : NetworkBehaviour
 
         if (fromSlot.IsEmpty) return;
 
-        // TODO: Validar tipos de item (Ej: No poner un arma en slot de casco) usando ItemDatabase
+        // TODO: Validar tipos de item usando ItemDatabase
         
         // Lógica simple de intercambio (Swap)
-        // Nota: Aquí podrias agregar lógica de stackear si son el mismo item
         
         if (fromType == toType && fromIdx == toIdx) return; // Mismo slot
 
