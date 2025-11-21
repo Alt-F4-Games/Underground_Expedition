@@ -48,11 +48,8 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
+        if (HasInputAuthority) { SaveLocalInventory(); }
         if (HasInputAuthority && Local == this) Local = null;
-        if (HasInputAuthority)
-        {
-            SaveLocalInventory();
-        }
     }
 
     public override void Render()
