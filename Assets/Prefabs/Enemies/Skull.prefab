@@ -442,8 +442,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 1.99
-  attackDamage: 7
-  attackCooldown: 1.1
+  attackDamage: 10
+  attackCooldown: 2
   waypointTolerance: 1
   floatHeight: 1.5
   floatAmplitude: 0.25
@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf59040bc71840a5ad39004a667b8090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 50
 --- !u!114 &5111699742672984028
 MonoBehaviour:
   m_ObjectHideFlags: 0
