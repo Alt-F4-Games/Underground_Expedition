@@ -251,9 +251,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackRange: 1.5
-  attackDamage: 10
-  attackCooldown: 2
-  waypointTolerance: 3
+  attackDamage: 5
+  attackCooldown: 1
+  waypointTolerance: 1
   jumpExtraDistance: 0
   jumpHeight: 0.8
   jumpSpeed: 5
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf59040bc71840a5ad39004a667b8090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 20
 --- !u!114 &5137983429752138895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.69
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
