@@ -1,3 +1,15 @@
+/*
+ * LeverSwitch
+ * -----------
+ * Interactable lever that toggles between ON/OFF states.
+ * Plays a rotation animation on the armature transform and triggers events when toggled.
+ *
+ * Dependencies:
+ * - IInteractable interface
+ * - (Optional) Lever bone Transform for visual rotation
+ * - UnityEvent<bool> for callbacks on toggle
+ */
+
 using UnityEngine;
 using UnityEngine.Events;
 using Player;
@@ -32,14 +44,17 @@ public class LeverSwitch : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        // Warn if no leverBone is assigned
         if (leverBone == null)
             Debug.LogWarning($"{name}: leverBone is not assigned.");
 
+        // Apply the correct initial rotation visually
         ApplyImmediateVisual(IsOn);
     }
 
     private void Update()
     {
+        // Handle smooth animation between states
         if (!isAnimating || leverBone == null) return;
 
         t += Time.deltaTime / Mathf.Max(rotateDuration, 0.0001f);
@@ -47,12 +62,14 @@ public class LeverSwitch : MonoBehaviour, IInteractable
 
         leverBone.localRotation = Quaternion.Slerp(fromRot, toRot, eval);
 
+        // Stop animation when finished
         if (t >= 1f)
             isAnimating = false;
     }
 
     public void Interact(PlayerInteraction player)
     {
+        // Triggered by the player — simply toggle the lever state
         Debug.Log($"Interacted with lever: {name}");
         Toggle();
     }
@@ -61,17 +78,21 @@ public class LeverSwitch : MonoBehaviour, IInteractable
 
     public void Toggle()
     {
+        // Invert the current state and apply it
         SetState(!IsOn, true);
     }
 
     public void SetState(bool newState, bool animate = true)
     {
+        // Update the logical state
         IsOn = newState;
 
+        // Determine target rotation
         Vector3 targetRotEuler = IsOn ? onRotation : offRotation;
 
         if (leverBone != null)
         {
+            // Prepare animation parameters
             fromRot = leverBone.localRotation;
             toRot = Quaternion.Euler(targetRotEuler);
 
@@ -82,16 +103,19 @@ public class LeverSwitch : MonoBehaviour, IInteractable
             }
             else
             {
+                // Instantly set the rotation with no animation
                 leverBone.localRotation = toRot;
                 isAnimating = false;
             }
         }
 
+        // Notify listeners that the lever changed state
         OnToggle?.Invoke(IsOn);
     }
 
     private void ApplyImmediateVisual(bool state)
     {
+        // Apply correct rotation from the start (used on initialization)
         if (leverBone == null) return;
 
         Vector3 targetRotEuler = state ? onRotation : offRotation;
@@ -102,6 +126,7 @@ public class LeverSwitch : MonoBehaviour, IInteractable
 #if UNITY_EDITOR
     private void OnValidate()
     {
+        // Update rotation in editor when changing variables
         if (!Application.isPlaying && leverBone != null)
         {
             Vector3 targetRotEuler = IsOn ? onRotation : offRotation;

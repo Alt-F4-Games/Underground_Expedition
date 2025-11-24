@@ -1,3 +1,15 @@
+/*
+ * PuzzleSwitchController
+ * ----------------------
+ * Handles an individual lever puzzle where each lever must match a target ON/OFF pattern.
+ * Updates torches, triggers puzzle completion, and communicates with group/master controllers.
+ *
+ * Dependencies:
+ * - LeverSwitch (with OnToggle callbacks)
+ * - TorchController (for each lever + final torch)
+ * - UnityEvents for puzzle progression
+ */
+
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
@@ -29,10 +41,16 @@ public class PuzzleSwitchController : MonoBehaviour
 
     private void Start()
     {
+        // Validate correct array sizes
         ValidateSetup();
+
+        // Randomize initial lever states
         ApplyRandomStart();
+
+        // Update torches after lever initialization
         StartCoroutine(VerifyTorchesAfterSetup());
 
+        // Subscribe to lever state changes
         for (int i = 0; i < levers.Length; i++)
         {
             int index = i;
@@ -42,6 +60,7 @@ public class PuzzleSwitchController : MonoBehaviour
 
     private void ApplyRandomStart()
     {
+        // Random ON/OFF starting state for each lever
         for (int i = 0; i < levers.Length; i++)
         {
             bool randomState = Random.value > 0.5f;
@@ -51,8 +70,10 @@ public class PuzzleSwitchController : MonoBehaviour
 
     private IEnumerator VerifyTorchesAfterSetup()
     {
+        // Wait one frame for levers to finish initialization
         yield return null;
 
+        // Update indicator torches based on pattern match
         for (int i = 0; i < levers.Length; i++)
         {
             bool match = levers[i].IsOn == targetPattern[i];
@@ -62,16 +83,20 @@ public class PuzzleSwitchController : MonoBehaviour
         if (finalTorch != null)
             finalTorch.SetTorchState(false);
 
+        // Notify group controller
         OnPuzzleStateChanged?.Invoke(this);
     }
 
     private void OnLeverChanged(int leverIndex, bool state)
     {
+        // Ignore interaction if puzzle is already solved
         if (puzzleCompleted) return;
 
+        // Update indicator torch for this lever
         bool correct = (state == targetPattern[leverIndex]);
         torches[leverIndex].SetTorchState(correct);
 
+        // Check if entire puzzle is now solved
         CheckAllLevers();
     }
 
@@ -79,6 +104,7 @@ public class PuzzleSwitchController : MonoBehaviour
     {
         bool allCorrect = true;
 
+        // Validate every lever against the pattern
         for (int i = 0; i < levers.Length; i++)
         {
             bool match = levers[i].IsOn == targetPattern[i];
@@ -88,14 +114,17 @@ public class PuzzleSwitchController : MonoBehaviour
                 allCorrect = false;
         }
 
+        // If something is wrong, reset final torch
         if (!allCorrect)
         {
             if (finalTorch != null)
                 finalTorch.SetTorchState(false);
+
             OnPuzzleStateChanged?.Invoke(this);
             return;
         }
 
+        // All levers correct → puzzle solved!
         CompletePuzzle();
     }
 
@@ -105,9 +134,11 @@ public class PuzzleSwitchController : MonoBehaviour
 
         puzzleCompleted = true;
 
+        // Light final completion torch
         if (finalTorch != null)
             finalTorch.SetTorchState(true);
 
+        // Enable & disable assigned objects
         foreach (var obj in objectsToEnable)
             if (obj != null)
                 obj.SetActive(true);
@@ -116,12 +147,14 @@ public class PuzzleSwitchController : MonoBehaviour
             if (obj != null)
                 obj.SetActive(false);
 
+        // Notify listeners and group master
         OnPuzzleCompleted?.Invoke();
         OnPuzzleStateChanged?.Invoke(this);
     }
 
     private void ValidateSetup()
     {
+        // Basic consistency checks
         if (levers.Length != targetPattern.Length)
             Debug.LogError($"{name}: targetPattern length mismatch.");
 

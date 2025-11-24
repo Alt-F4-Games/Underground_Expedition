@@ -1,4 +1,16 @@
-﻿using UnityEngine;
+﻿/*
+ * PressurePlate
+ * This script represents a damage-dealing pressure plate that activates when a player
+ * or any object implementing IDamageable steps on it. It can optionally require the
+ * object to have the "Player" tag and includes visual color feedback when pressed.
+ *
+ * Dependencies:
+ * - Requires a Collider set as Trigger.
+ * - Optional: Renderer for color feedback.
+ * - Optional: Any object stepping on the plate must implement IDamageable to receive damage.
+ */
+
+using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
@@ -26,24 +38,26 @@ public class PressurePlate : MonoBehaviour
     [Tooltip("Enable verbose console logs for debugging.")]
     [SerializeField] private bool verboseLogs = true;
 
-    // Tracks whether the player or damageable object is currently on the plate.
+    // Tracks whether a damageable object is currently touching the plate.
     private bool _playerOnPlate = false;
 
     private void Reset()
     {
-        // Auto-assign renderer if available on the same GameObject.
+        // Automatically assign the Renderer if the component exists on the same GameObject.
         plateRenderer = GetComponent<Renderer>();
     }
 
     private void Start()
     {
-        // Apply initial idle color if feedback is enabled.
+        // Set the initial color to idle when the game starts.
         if (useColorFeedback && plateRenderer != null)
         {
             plateRenderer.material.color = idleColor;
         }
     }
 
+    // Helper method for debug logging.
+    
     private void Log(string msg)
     {
         if (verboseLogs) Debug.Log($"[PressurePlate:{name}] {msg}");
@@ -53,29 +67,30 @@ public class PressurePlate : MonoBehaviour
     {
         Log($"OnTriggerEnter with '{other.name}' (tag={other.tag}). _playerOnPlate={_playerOnPlate}");
 
-        // If tag is required and doesn't match, ignore.
+        // If tag-checking is enabled, ignore anything not tagged as Player.
         if (requirePlayerTag && !other.CompareTag("Player"))
         {
             Log("Ignored because tag != Player");
             return;
         }
 
-        // Avoid applying damage multiple times while standing on the plate.
+        // Prevent damage being applied multiple times while staying on the plate.
         if (_playerOnPlate)
         {
             Log("Already activated — no additional damage.");
             return;
         }
 
-        // Try to locate an IDamageable on the object or its parents.
+        // Try to locate an IDamageable component in the object or its parents.
         if (TryGetDamageableFromCollider(other, out var damageable))
         {
             Log($"Found IDamageable '{damageable}' — dealing {damageAmount} damage.");
             damageable.TakeDamage(damageAmount);
 
+            // Mark as pressed so it doesn't retrigger.
             _playerOnPlate = true;
 
-            // Apply pressed color for visual feedback.
+            // Apply pressed visual color if enabled.
             if (useColorFeedback && plateRenderer != null)
                 plateRenderer.material.color = pressedColor;
         }
@@ -89,32 +104,33 @@ public class PressurePlate : MonoBehaviour
     {
         Log($"OnTriggerExit with '{other.name}' (tag={other.tag}).");
 
-        // If using tag restriction, ignore exits from non-player objects.
+        // Ignore exit events from objects that don't match the tag requirement.
         if (requirePlayerTag && !other.CompareTag("Player"))
         {
             Log("Ignored exit because tag != Player");
             return;
         }
 
-        // Reset the state so stepping on again deals damage again.
+        // Reset the state so stepping again deals damage again.
         _playerOnPlate = false;
         Log("Reset _playerOnPlate -> false");
 
-        // Restore idle color.
+        // Restore idle visual color.
         if (useColorFeedback && plateRenderer != null)
             plateRenderer.material.color = idleColor;
     }
     
-    /// Searches for an IDamageable component on the collider or any of its parents.
+    // Searches the collider and its entire parent hierarchy to find an IDamageable component.
+    
     private bool TryGetDamageableFromCollider(Collider c, out IDamageable damageable)
     {
         damageable = null;
 
-        // Direct component check.
+        // Direct attempt on the collider GameObject.
         if (c.TryGetComponent<IDamageable>(out damageable))
             return true;
 
-        // Recursively search parent transform hierarchy.
+        // Traverse parents searching for IDamageable.
         var parent = c.transform;
         while (parent != null)
         {
