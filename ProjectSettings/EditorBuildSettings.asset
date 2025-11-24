@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlaygoundScene.unity
     guid: d98f1ea22eb31c5408b9033e6e205e6c
+  - enabled: 1
+    path: Assets/Scenes/LevelScenes/Temple1Scene.unity
+    guid: c1d51abffb9587b48992ac991715e8b4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
