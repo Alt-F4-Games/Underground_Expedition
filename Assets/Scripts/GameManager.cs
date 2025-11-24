@@ -1,4 +1,20 @@
-﻿using System.Collections;
+﻿/*
+ * GameManager
+ * Central controller for:
+ *  - Player spawning and respawning
+ *  - Enemy spawning, death tracking, and timed respawning
+ *  - Global game state (pause, restart, scene loading)
+ *  - Simple persistence (score, progress)
+ *
+ * Behaviour summary:
+ *  - Initializes systems and spawns player on start
+ *  - Respawns player when health reaches zero
+ *  - Spawns enemies based on ID and spawn point definitions
+ *  - Automatically respawns enemies after a given delay
+ *  - Maintains a singleton instance across scenes
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,6 +63,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton initialization
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -59,13 +76,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // Delayed boot to ensure all systems (UI, XP, etc.) are loaded
         StartCoroutine(InitGameRoutine());
     }
 
     private IEnumerator InitGameRoutine()
     {
+        // Small delay before initialization
         yield return new WaitForSeconds(0.3f);
 
+        // Connect UI to experience systems if available
         if (UIManager.instance != null)
         {
             UIManager.instance.SetExperienceSystems(
@@ -74,34 +94,41 @@ public class GameManager : MonoBehaviour
             );
         }
 
+        // Spawn player and start match logic
         SpawnPlayer();
         StartGame();
     }
-
-    // ---------------------- PLAYER ----------------------
+    
+    // PLAYER MANAGEMENT
 
     public void SpawnPlayer()
     {
         if (playerPrefab == null) return;
 
+        // Destroy previous player if respawning
         if (currentPlayer != null)
             Destroy(currentPlayer);
 
+        // Get last activated respawn point
         Transform respawnTransform = RespawnSystem.Instance.GetCurrentRespawnTransform();
 
+        // Default spawn position (fallback)
         Vector3 spawnPos = playerSpawnPoint != null ? playerSpawnPoint.position : Vector3.zero;
         Quaternion spawnRot = playerSpawnPoint != null ? playerSpawnPoint.rotation : Quaternion.identity;
 
+        // Override with checkpoint position if available
         if (respawnTransform != null)
         {
             spawnPos = respawnTransform.position;
             spawnRot = respawnTransform.rotation;
         }
 
+        // Instantiate player
         currentPlayer = Instantiate(playerPrefab, spawnPos, spawnRot);
 
         var health = currentPlayer.GetComponent<HealthSystem>();
 
+        // Register player in UI
         if (UIManager.instance != null)
         {
             UIManager.instance.SetPlayer(currentPlayer);
@@ -111,12 +138,14 @@ public class GameManager : MonoBehaviour
             );
         }
 
+        // Wait for player death
         if (health != null)
             StartCoroutine(WatchPlayerHealth(health));
     }
 
     private IEnumerator WatchPlayerHealth(HealthSystem health)
     {
+        // Wait until health reaches zero
         while (health != null && health.IsAlive)
             yield return null;
 
@@ -125,6 +154,7 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
+        // Respawn with delay
         StartCoroutine(RespawnPlayerRoutine());
     }
 
@@ -137,14 +167,16 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayerStats()
     {
-        // Future implementation
+        // Placeholder for clearing buffs, states, etc.
     }
 
-    // ---------------------- ENEMIES ----------------------
+    // ENEMY MANAGEMENT
 
     private void PrepareEnemySpawnData()
     {
         enemySpawnData.Clear();
+
+        // Align lists to avoid out-of-range issues
         int count = Mathf.Min(enemyIDsToSpawn.Count, spawnPointsToUse.Count, respawnTimes.Count);
 
         for (int i = 0; i < count; i++)
@@ -161,9 +193,11 @@ public class GameManager : MonoBehaviour
     {
         if (spawner == null) return;
 
+        // Clear previous enemies on restart
         ClearEnemies();
         PrepareEnemySpawnData();
 
+        // Spawn all defined enemies
         foreach (var data in enemySpawnData)
             SpawnSingleEnemy(data);
     }
@@ -177,6 +211,8 @@ public class GameManager : MonoBehaviour
             activeEnemies.Add(enemy);
 
             var health = enemy.GetComponent<HealthSystem>();
+
+            // Watch for enemy death
             if (health != null)
                 StartCoroutine(WatchEnemyHealth(enemy, health, data));
         }
@@ -184,12 +220,14 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WatchEnemyHealth(GameObject enemy, HealthSystem health, EnemySpawnData data)
     {
+        // Wait until enemy dies
         while (health != null && health.IsAlive)
             yield return null;
 
         if (enemy != null)
             activeEnemies.Remove(enemy);
 
+        // Wait before respawn
         yield return new WaitForSeconds(data.respawnTime);
 
         SpawnSingleEnemy(data);
@@ -197,15 +235,17 @@ public class GameManager : MonoBehaviour
 
     public void ClearEnemies()
     {
+        // Destroy all current enemies
         foreach (var e in activeEnemies)
         {
             if (e != null)
                 Destroy(e);
         }
+
         activeEnemies.Clear();
     }
 
-    // ---------------------- GAME STATE ----------------------
+    // GAME STATE
 
     public void StartGame()
     {
@@ -233,6 +273,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator RestartRoutine()
     {
         yield return new WaitForSeconds(1f);
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -245,11 +286,13 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadSceneRoutine(string sceneName)
     {
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
+
+        // Wait until scene has fully loaded
         while (!async.isDone)
             yield return null;
     }
 
-    // ---------------------- SAVE ----------------------
+    // SAVE SYSTEM
 
     public void SaveData()
     {
@@ -269,10 +312,11 @@ public class GameManager : MonoBehaviour
         SaveData();
     }
 
-    // ---------------------- RESPAWN POINT FINDER ----------------------
+    // RESPAWN POINT LOCATOR
 
     public RespawnPoint FindSpawnPointByID(string id)
     {
+        // Search all RespawnPoints in the active scene
         RespawnPoint[] points = FindObjectsOfType<RespawnPoint>();
 
         foreach (var p in points)
