@@ -1,3 +1,4 @@
+// Deprecated
 using UnityEngine;
 using UnityEngine.InputSystem;
 
