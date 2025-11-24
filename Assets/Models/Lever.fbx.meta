@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 46b5dd3142e571c468dea1e34cbef0da
+guid: ee78bb84f2796294498815cb9bb7d7c9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat_Atlas
+    second: {fileID: 2100000, guid: b310508bbeb449d419f4fedd1bc655cb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -35,7 +40,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
