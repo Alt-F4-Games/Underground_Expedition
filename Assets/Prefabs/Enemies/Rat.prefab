@@ -274,7 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSpaceCanvas: {fileID: 7116446549559791395}
   healthSlider: {fileID: 8017778099926010854}
-  offset: {x: 0, y: 2, z: 0}
+  offset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1929756994457594902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.432}
+  m_AnchoredPosition: {x: 0, y: 0.345}
   m_SizeDelta: {x: 220.3925, y: 39.4227}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7116446549559791395
@@ -728,9 +728,41 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c86a88239f5eadd4c861323367a56af9, type: 2}
+    - target: {fileID: 626525935203794919, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 626525935203794919, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 626525935203794919, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 626525935203794919, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
       propertyPath: m_Name
       value: Rat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 4f1cdacbc91bfcb4aa7371dee64e1209, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
