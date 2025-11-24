@@ -1,3 +1,17 @@
+/*
+    SpawnableObject.cs
+    Base ScriptableObject that defines any object that can be spawned.
+
+    Behavior:
+    - Holds prefab reference.
+    - Defines optional lifetime.
+    - Allows max instance restrictions.
+
+    Used by:
+    - SpawnDatabase
+    - Spawner
+*/
+
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spawn System/Spawnable Object", fileName = "NewSpawnableObject")]

@@ -1,4 +1,16 @@
-﻿using UnityEngine;
+﻿/*
+    SpawnableObjectEnemy.cs
+    Enemy-specific spawnable object definition.
+
+    Behavior:
+    - Overrides enemy detection, attack and patrol values.
+    - Can optionally override the dynamic patrol path from SpawnPoint.
+
+    Used by:
+    - Spawner (auto-applies overrides)
+*/
+
+using UnityEngine;
 using Enemy;
 
 [CreateAssetMenu(menuName = "Spawn System/Spawnable Enemy", fileName = "NewSpawnableEnemy")]
@@ -9,7 +21,8 @@ public class SpawnableObjectEnemy : SpawnableObject
     [Header("Detection")]
     [Tooltip("0 = use prefab value")]
     public float viewDistance = 0f;
-    [Range(0f, 360f)] public float viewAngle = 0f;
+    [Range(0f, 360f)]
+    public float viewAngle = 0f;
 
     [Header("Attack Settings")]
     [Tooltip("0 = use prefab value")]
@@ -27,3 +40,4 @@ public class SpawnableObjectEnemy : SpawnableObject
     [Tooltip("If assigned, will override the SpawnPoint's patrol path")]
     public PatrolPath defaultPatrolPath = null;
 }
+
