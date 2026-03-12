@@ -336,11 +336,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b0e1da054b4cb98275140eccf49015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerCameraPivot: {fileID: 7978791791616280588}
+  _playerCameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
   _moveSpeed: 5
-  _mouseSensitivity: 2
+  _mouseSensitivity: 0.4
   _maxLookAngle: 80
+  _cameraSmooth: 15
 --- !u!114 &6926954798261749035
 MonoBehaviour:
   m_ObjectHideFlags: 0
