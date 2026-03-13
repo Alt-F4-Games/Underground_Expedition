@@ -62,7 +62,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
       if (_currentHealth < _maxHealth)
       {
-         _currentHealth = Mathf.Min(_currentHealth + heal, _maxHealth); // Limita inmediatamente
+         _currentHealth = Mathf.Min(_currentHealth + heal, _maxHealth); 
          Debug.Log($"{gameObject.name} has heal {heal}. Actual health: {_currentHealth}");
       }
       else
