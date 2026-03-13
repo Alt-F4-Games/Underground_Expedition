@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
@@ -93,12 +94,16 @@ public class InventoryUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        InputManager.SetMode(InputMode.Game);
     }
 
     private static void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
+        InputManager.SetMode(InputMode.UI);
     }
 
     // =====================================================================

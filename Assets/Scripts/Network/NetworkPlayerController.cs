@@ -1,5 +1,6 @@
 ﻿using Fusion;
 using Network;
+using UI;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
@@ -59,6 +60,9 @@ public class NetworkPlayerController : NetworkBehaviour
         if (!GetInput(out NetworkInputPlayer inputPlayer))
             return;
 
+        if (!InputManager.IsGameMode())
+            return;
+        
         HandleRotation(inputPlayer);
         HandleMovement(inputPlayer);
         HandleJump(inputPlayer);
