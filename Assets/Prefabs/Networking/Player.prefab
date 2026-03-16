@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 6436779314724841193}
   - component: {fileID: 6926954798261749035}
   - component: {fileID: 3985953796020749275}
+  - component: {fileID: 1507739324270128397}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -279,6 +280,7 @@ MonoBehaviour:
   - {fileID: 6436779314724841193}
   - {fileID: 6926954798261749035}
   - {fileID: 3985953796020749275}
+  - {fileID: 1507739324270128397}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -373,6 +375,25 @@ MonoBehaviour:
   inventorySystem: {fileID: 6926954798261749035}
   worldItemPrefab: {fileID: 554443575852828146, guid: d13fd83161a3bed49882289eda880586, type: 3}
   _SelectedHotbarIndex: 0
+--- !u!114 &1507739324270128397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae603723ec0423eb60c39948ba1822d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 10
+  _attackDistance: 3
+  _attackCooldown: 0.5
+  _hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  _cameraTransform: {fileID: 6845520230055635799}
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
