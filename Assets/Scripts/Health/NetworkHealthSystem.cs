@@ -8,7 +8,7 @@ namespace Health
         [SerializeField] private int _maxHealth = 100;
 
         [Networked] private int CurrentHealth { get; set; }
-        [Networked] private bool IsAlive { get; set; }
+        [Networked] protected bool IsAlive { get; set; }
 
         public int MaxHealth => _maxHealth;
 
@@ -112,7 +112,7 @@ namespace Health
         // DEATH (Server)
         // ============================================================
 
-        private void Death()
+        protected virtual void Death()
         {
             if (!IsAlive) return;
 
