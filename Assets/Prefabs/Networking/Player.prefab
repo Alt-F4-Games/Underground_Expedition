@@ -158,6 +158,8 @@ GameObject:
   - component: {fileID: 6926954798261749035}
   - component: {fileID: 3985953796020749275}
   - component: {fileID: 1507739324270128397}
+  - component: {fileID: 7544978420758776554}
+  - component: {fileID: 8839800009978832108}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -281,6 +283,8 @@ MonoBehaviour:
   - {fileID: 6926954798261749035}
   - {fileID: 3985953796020749275}
   - {fileID: 1507739324270128397}
+  - {fileID: 7544978420758776554}
+  - {fileID: 8839800009978832108}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -338,12 +342,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b0e1da054b4cb98275140eccf49015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerCameraPivot: {fileID: 6845520230055635799}
+  _cameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
   _moveSpeed: 5
   _mouseSensitivity: 0.4
   _maxLookAngle: 80
-  _cameraSmooth: 15
 --- !u!114 &6926954798261749035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,8 +395,34 @@ MonoBehaviour:
   _attackCooldown: 0.5
   _hitLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 136
   _cameraTransform: {fileID: 6845520230055635799}
+--- !u!114 &7544978420758776554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e819403b8f442ff88c684fadf62a8c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+--- !u!114 &8839800009978832108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a3f5270209420ba19677c4e9ed65ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
