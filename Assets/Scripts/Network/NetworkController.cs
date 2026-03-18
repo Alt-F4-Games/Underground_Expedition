@@ -71,7 +71,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnLook(InputAction.CallbackContext context)
     {
         _lookInput = context.ReadValue<Vector2>();
-        _yawInput += _lookInput.x * 0.15f;
     }
     
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -89,9 +88,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         {
             InputPlayer.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
             InputPlayer.MouseRotation = _lookInput;
-            InputPlayer.CameraYaw = _yawInput;
         }
-        
         
         
         input.Set(InputPlayer);

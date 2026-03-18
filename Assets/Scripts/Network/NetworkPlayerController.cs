@@ -73,17 +73,21 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private void HandleRotation(NetworkInputPlayer input)
     {
+        float mouseX = input.MouseRotation.x * _mouseSensitivity;
+        float mouseY = input.MouseRotation.y * _mouseSensitivity;
+
+        // YAW
+        _yaw += mouseX;
+
         if (HasStateAuthority)
         {
-            _yaw = input.CameraYaw;
             transform.rotation = Quaternion.Euler(0, _yaw, 0);
         }
 
         if (!HasInputAuthority)
             return;
 
-        float mouseY = input.MouseRotation.y * _mouseSensitivity;
-
+        // PITCH
         _currentPitch -= mouseY;
         _currentPitch = Mathf.Clamp(_currentPitch, -_maxLookAngle, _maxLookAngle);
 
