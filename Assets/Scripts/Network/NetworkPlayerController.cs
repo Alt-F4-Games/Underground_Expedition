@@ -1,13 +1,12 @@
 ﻿using Fusion;
 using Network;
-using UI;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
 public class NetworkPlayerController : NetworkBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform _playerCameraPivot;
+    [SerializeField] private Transform _cameraPivot;
     [SerializeField] private Renderer _renderer;
 
     [Header("Movement")]
@@ -16,119 +15,104 @@ public class NetworkPlayerController : NetworkBehaviour
     [Header("Mouse")]
     [SerializeField] private float _mouseSensitivity = 0.15f;
     [SerializeField] private float _maxLookAngle = 80f;
-    [SerializeField] private float _cameraSmooth = 15f;
 
-    private NetworkCharacterController _characterController;
+    private NetworkCharacterController _controller;
+
     private Camera _playerCamera;
-    
-    private float _pitch;
-    private float _targetPitch;
-    private float _targetYaw;
 
-    
+    // rotaciones
+    private float _yaw;
+    private float _currentPitch;
+
+    // ============================================================
+    // SPAWN
+    // ============================================================
+
     public override void Spawned()
     {
-        if (HasInputAuthority)
+        _controller = GetComponent<NetworkCharacterController>();
+
+        if (!HasInputAuthority)
         {
-            _renderer.material.color = Color.yellow;
-
-            _playerCamera = Camera.main;
-
-            if (_playerCamera != null)
-            {
-                _playerCamera.transform.SetParent(_playerCameraPivot);
-                _playerCamera.transform.localPosition = Vector3.zero;
-                _playerCamera.transform.localRotation = Quaternion.identity;
-            }
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            _cameraPivot.gameObject.SetActive(false);
+            return;
         }
-    }
 
-    private void Awake()
-    {
-        _characterController = GetComponent<NetworkCharacterController>();
+        _renderer.material.color = Color.yellow;
+
+        _playerCamera = Camera.main;
+
+        if (_playerCamera != null)
+        {
+            _playerCamera.transform.SetParent(_cameraPivot);
+            _playerCamera.transform.localPosition = Vector3.zero;
+            _playerCamera.transform.localRotation = Quaternion.identity;
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // ============================================================
-    // Network Simulation
+    // NETWORK SIMULATION
     // ============================================================
 
     public override void FixedUpdateNetwork()
     {
-        if (!GetInput(out NetworkInputPlayer inputPlayer))
+        if (!GetInput(out NetworkInputPlayer input))
             return;
 
-        if (!InputManager.IsGameMode())
-            return;
-        
-        HandleRotation(inputPlayer);
-        HandleMovement(inputPlayer);
-        HandleJump(inputPlayer);
+        HandleRotation(input);
+        HandleMovement(input);
+        HandleJump(input);
     }
 
     // ============================================================
-    // Rotation Logic
+    // ROTATION
     // ============================================================
 
-    private void HandleRotation(NetworkInputPlayer inputPlayer)
+    private void HandleRotation(NetworkInputPlayer input)
     {
-        float mouseX = inputPlayer.MouseRotation.x * _mouseSensitivity;
-        float mouseY = inputPlayer.MouseRotation.y * _mouseSensitivity;
-
-        // Accumulate target yaw (horizontal rotation)
-        _targetYaw += mouseX;
-
-        // Create target rotation
-        Quaternion targetRotation = Quaternion.Euler(0, _targetYaw, 0);
-
-        // Smoothly interpolate toward target rotation
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            targetRotation,
-            _cameraSmooth * Runner.DeltaTime
-        );
-
-        // Vertical camera rotation (local camera only)
-        if (HasInputAuthority && _playerCameraPivot != null)
+        if (HasStateAuthority)
         {
-            _targetPitch -= mouseY;
-            _targetPitch = Mathf.Clamp(_targetPitch, -85f, 85f);
-
-            _pitch = Mathf.Lerp(_pitch, _targetPitch, _cameraSmooth * Runner.DeltaTime);
-
-            _playerCameraPivot.localRotation = Quaternion.Euler(_pitch, 0, 0);
+            _yaw = input.CameraYaw;
+            transform.rotation = Quaternion.Euler(0, _yaw, 0);
         }
+
+        if (!HasInputAuthority)
+            return;
+
+        float mouseY = input.MouseRotation.y * _mouseSensitivity;
+
+        _currentPitch -= mouseY;
+        _currentPitch = Mathf.Clamp(_currentPitch, -_maxLookAngle, _maxLookAngle);
+
+        _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
     }
 
     // ============================================================
-    // Movement Logic
+    // MOVEMENT
     // ============================================================
 
-    
-    private void HandleMovement(NetworkInputPlayer inputPlayer)
+    private void HandleMovement(NetworkInputPlayer input)
     {
-        Vector3 input = inputPlayer.MoveDirection;
+        Quaternion yawRotation = Quaternion.Euler(0, _yaw, 0);
 
-        Vector3 moveDirection =
-            transform.forward * input.z +
-            transform.right * input.x;
+        Vector3 moveDir =
+            yawRotation * new Vector3(input.MoveDirection.x, 0, input.MoveDirection.z);
 
-        moveDirection.y = 0f;
-
-        _characterController.Move(moveDirection.normalized * _moveSpeed * Runner.DeltaTime);
+        _controller.Move(moveDir * _moveSpeed * Runner.DeltaTime);
     }
 
     // ============================================================
-    // Jump Logic
+    // JUMP
     // ============================================================
 
-    private void HandleJump(NetworkInputPlayer inputPlayer)
+    private void HandleJump(NetworkInputPlayer input)
     {
-        if (inputPlayer.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
+        if (input.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
         {
-            _characterController.Jump();
+            _controller.Jump();
         }
     }
 }

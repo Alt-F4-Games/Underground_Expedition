@@ -9,5 +9,6 @@ namespace Network
         public NetworkButtons Buttons;
         public Vector3 MoveDirection;
         public Vector2 MouseRotation;
+        public float CameraYaw;
     }
 }

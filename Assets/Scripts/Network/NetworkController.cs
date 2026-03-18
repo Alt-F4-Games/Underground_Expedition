@@ -6,6 +6,7 @@ using Fusion.Sockets;
 using UnityEngine.UI;
 using System;
 using Network;
+using UI;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -49,6 +50,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private Vector2 _lookInput;
+    private float _yawInput;
    
     // ============================================================
     //                      UNITY EVENTS
@@ -65,15 +67,32 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
     public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
-    public void OnLook(InputAction.CallbackContext context) { _lookInput = context.ReadValue<Vector2>(); }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _lookInput = context.ReadValue<Vector2>();
+        _yawInput += _lookInput.x * 0.15f;
+    }
     
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var InputPlayer = new NetworkInputPlayer();
         
-        InputPlayer.MoveDirection = new Vector3(_moveInput.x,0 ,_moveInput.y );
         InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
-        InputPlayer.MouseRotation = _lookInput;
+        
+        if (InputManager.Mode != InputMode.Game)
+        {
+            InputPlayer.MoveDirection = Vector3.zero;
+            InputPlayer.MouseRotation = Vector2.zero;
+        }
+        else
+        {
+            InputPlayer.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
+            InputPlayer.MouseRotation = _lookInput;
+            InputPlayer.CameraYaw = _yawInput;
+        }
+        
+        
         
         input.Set(InputPlayer);
         _lookInput = Vector2.zero;
