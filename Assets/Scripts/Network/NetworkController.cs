@@ -67,11 +67,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
     public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        _lookInput = context.ReadValue<Vector2>();
-    }
+    public void OnLook(InputAction.CallbackContext context) { _lookInput = context.ReadValue<Vector2>(); }
     
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
