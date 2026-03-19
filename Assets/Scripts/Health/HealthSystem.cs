@@ -8,7 +8,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
    protected int _currentHealth;
    protected bool _isAlive;
    
-   public event Action<int, int> OnHealthChanged;
    public int CurrentHealth => _currentHealth;
    public int MaxHealth => _maxHealth;
    public bool IsAlive => _isAlive;
@@ -17,7 +16,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
    {
       _isAlive = true;
       _currentHealth = _maxHealth;
-      OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
       Debug.Log("Health:" +  _currentHealth);
    }
 
@@ -32,7 +30,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
       if(!_isAlive) return;
       
       _currentHealth = Mathf.Max(_currentHealth - damage, 0);     //returns 0 if current is negative
-      OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
       Debug.Log($"{gameObject.name} has taken: {damage} of damage");
       Debug.Log("Health:" + _currentHealth);
 
@@ -46,7 +43,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
    {
       if (!_isAlive) return;
       Debug.Log($"{gameObject.name} has died.");
-      Destroy(gameObject);
       _isAlive = false;
    }
 
@@ -67,7 +63,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
       if (_currentHealth < _maxHealth)
       {
          _currentHealth = Mathf.Min(_currentHealth + heal, _maxHealth); 
-         OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
          Debug.Log($"{gameObject.name} has heal {heal}. Actual health: {_currentHealth}");
       }
       else
@@ -82,7 +77,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
       {
          _isAlive = true;
          _currentHealth = _maxHealth;
-         OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
          Debug.Log($"{gameObject.name} has revived.");
       }
    }
@@ -96,6 +90,5 @@ public class HealthSystem : MonoBehaviour, IDamageable
       }
       _maxHealth = maxHealth;
       _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
-      OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
    }
 }
