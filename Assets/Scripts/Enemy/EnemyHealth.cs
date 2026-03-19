@@ -1,29 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyHealth : HealthSystem
+namespace Enemy
 {
-    private NavMeshAgent _agent;
-    private EnemyAI _enemyAI;
-
-    private void Start()
+    public class EnemyHealth : HealthSystem
     {
-        _agent = GetComponent<NavMeshAgent>();
-        _enemyAI = GetComponent<EnemyAI>();
-    }
+        private NavMeshAgent _agent;
+        private EnemyAI _enemyAI;
 
-    public override void Death()
-    {
-        base.Death();
-
-        if (_agent != null) _agent.isStopped = true;
-        if (_enemyAI != null)
+        private void Start()
         {
-            _enemyAI.enabled = false;
+            _agent = GetComponent<NavMeshAgent>();
+            _enemyAI = GetComponent<EnemyAI>();
         }
 
-        // Podés reemplazar esto por animación de muerte o efecto
-        Debug.Log($"{gameObject.name} ha muerto. Desactivando IA...");
-        Destroy(gameObject, 2f); // opcional
+        public override void Death()
+        {
+            base.Death();
+
+            if (_agent != null) _agent.isStopped = true;
+            if (_enemyAI != null)
+            {
+                _enemyAI.enabled = false;
+            }
+            
+            Debug.Log($"{gameObject.name} ha muerto. Desactivando IA...");
+            Destroy(gameObject, 2f); // opcional
+        }
     }
 }

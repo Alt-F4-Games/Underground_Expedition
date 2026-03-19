@@ -1,33 +1,22 @@
 ﻿using UnityEngine;
 
-public class EnemyChaseState : EnemyState
+namespace Enemy.States.Base
 {
-    public EnemyChaseState(EnemyAI enemy) : base(enemy) { }
-
-    public override void Enter()
+    public class EnemyChaseState : EnemyState
     {
-        enemy.agent.isStopped = false;
-    }
+        public EnemyChaseState(EnemyAI enemy) : base(enemy) { }
 
-    public override void UpdateLogic()
-    {
-        if (enemy.player == null)
+        public override void Enter()
         {
-            stateMachine.ChangeState(new EnemyPatrolState(enemy));
-            return;
+            enemy.agent.isStopped = false;
         }
 
-        enemy.agent.SetDestination(enemy.player.position);
-
-        float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
-
-        if (dist <= enemy.attackRange)
+        public override void UpdateLogic()
         {
-            stateMachine.ChangeState(new EnemyAttackState(enemy));
-        }
-        else if (!enemy.CanSeePlayer())
-        {
-            stateMachine.ChangeState(new EnemyPatrolState(enemy));
+            if (enemy.player == null)
+                return;
+
+            enemy.agent.SetDestination(enemy.player.position);
         }
     }
 }

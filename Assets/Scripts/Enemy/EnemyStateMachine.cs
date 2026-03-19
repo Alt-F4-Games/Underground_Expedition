@@ -1,17 +1,24 @@
-public class EnemyStateMachine
+namespace Enemy
 {
-    public EnemyState CurrentState { get; private set; }
-
-    public void Initialize(EnemyState startState)
+    public class EnemyStateMachine
     {
-        CurrentState = startState;
-        startState.Enter();
-    }
+        public EnemyState CurrentState { get; private set; }
+        public string CurrentStateName => CurrentState?.GetType().Name ?? "None";
 
-    public void ChangeState(EnemyState newState)
-    {
-        CurrentState?.Exit();
-        CurrentState = newState;
-        newState.Enter();
+        public void Initialize(EnemyState startState)
+        {
+            CurrentState = startState;
+            startState.Enter();
+        }
+
+        public void ChangeState(EnemyState newState)
+        {
+            if (newState == null || newState == CurrentState)
+                return;
+
+            CurrentState?.Exit();
+            CurrentState = newState;
+            newState.Enter();
+        }
     }
 }
