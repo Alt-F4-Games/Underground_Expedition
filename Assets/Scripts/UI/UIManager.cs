@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// deprecated
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
@@ -62,14 +63,14 @@ public class UIManager : MonoBehaviour
     {
         if (_playerHealth != null)
         {
-            _playerHealth.OnHealthChanged -= HandleHealthChanged;
+            // _playerHealth.OnHealthChanged -= HandleHealthChanged;
         }
 
         _playerHealth = player.GetComponent<HealthSystem>();
 
         if (_playerHealth != null)
         {
-            _playerHealth.OnHealthChanged += HandleHealthChanged;
+            // _playerHealth.OnHealthChanged += HandleHealthChanged;
             HandleHealthChanged(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
         }
     }
