@@ -6,77 +6,92 @@ namespace Health
     public class NetworkPlayerAttack : NetworkBehaviour
     {
         [Header("Attack Settings")]
-    [SerializeField] private int _damage = 10;
-    [SerializeField] private float _attackDistance = 3f;
-    [SerializeField] private float _attackCooldown = 0.5f;
-    [SerializeField] private LayerMask _hitLayers;
+        [SerializeField] private int _damage = 10;
+        [SerializeField] private float _attackDistance = 3f;
+        [SerializeField] private float _attackCooldown = 0.5f;
+        [SerializeField] private LayerMask _hitLayers;
 
-    [Header("References")]
-    [SerializeField] private Transform _cameraTransform;
+        [Header("References")]
+        [SerializeField] private Transform _cameraTransform;
 
-    private float _lastAttackTime;
+        private float _lastAttackTime;
 
-    // ============================================================
-    // Update (local input)
-    // ============================================================
+        // ============================================================
+        // Update (local input)
+        // ============================================================
 
-    private void Update()
-    {
-        if (!HasInputAuthority) return;
-
-        if (Input.GetMouseButtonDown(0))
+        private void Update()
         {
-            TryAttack();
-        }
-    }
+            if (!HasInputAuthority) return;
 
-    // ============================================================
-    // Attack Request
-    // ============================================================
-
-    private void TryAttack()
-    {
-        if (Time.time - _lastAttackTime < _attackCooldown)
-            return;
-
-        _lastAttackTime = Time.time;
-
-        if (Physics.Raycast(
-                _cameraTransform.position,
-                _cameraTransform.forward,
-                out RaycastHit hit,
-                _attackDistance,
-                _hitLayers))
-        {
-            var damageable = hit.collider.GetComponentInParent<IDamageable>();
-
-            if (damageable != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                NetworkObject target = hit.collider.GetComponentInParent<NetworkObject>();
-
-                if (target != null)
-                {
-                    RPC_RequestDamage(target, _damage);
-                }
+                TryAttack();
             }
         }
-    }
 
-    // ============================================================
-    // RPC → Server
-    // ============================================================
+        // ============================================================
+        // Attack Request
+        // ============================================================
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_RequestDamage(NetworkObject target, int damage)
-    {
-        if (target == null) return;
-
-        var health = target.GetComponent<NetworkHealthSystem>();
-
-        if (health != null)
+        private void TryAttack()
         {
-            health.TakeDamage(damage);
+            if (Time.time - _lastAttackTime < _attackCooldown)
+                return;
+
+            _lastAttackTime = Time.time;
+
+            Vector3 origin = _cameraTransform.position;
+            Vector3 direction = _cameraTransform.forward;
+
+            // 🎯 DEBUG RAYCAST (Scene view)
+            Debug.DrawRay(origin, direction * _attackDistance, Color.red, 1f);
+
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, _attackDistance, _hitLayers))
+            {
+                Debug.Log($"[CLIENT] Hit detected: {hit.collider.name}");
+
+                var damageable = hit.collider.GetComponentInParent<IDamageable>();
+
+                if (damageable != null)
+                {
+                    Debug.Log($"[CLIENT] Damageable found: {hit.collider.name}");
+
+                    NetworkObject target = hit.collider.GetComponentInParent<NetworkObject>();
+
+                    if (target != null)
+                    {
+                        Debug.Log($"[CLIENT] Sending damage RPC to: {target.name}");
+
+                        RPC_RequestDamage(target, _damage);
+                    }
+                }
+                else
+                {
+                    Debug.Log("[CLIENT] Hit object is NOT damageable");
+                }
+            }
+            else
+            {
+                Debug.Log("[CLIENT] Raycast missed");
+            }
         }
-    }
+
+        // ============================================================
+        // RPC → Server
+        // ============================================================
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        private void RPC_RequestDamage(NetworkObject target, int damage)
+        {
+            if (target == null) return;
+
+            var health = target.GetComponent<NetworkHealthSystem>();
+
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+            }
+        }
     }
 }
