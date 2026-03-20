@@ -33,15 +33,6 @@ namespace Health
 
         public void TakeDamage(int damage)
         {
-            if (!Object.HasInputAuthority && !Object.HasStateAuthority)
-                return;
-
-            RPC_RequestDamage(damage);
-        }
-
-        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        private void RPC_RequestDamage(int damage)
-        {
             if (!HasStateAuthority) return;
 
             ApplyDamage(damage);
@@ -59,11 +50,17 @@ namespace Health
                 return;
             }
 
-            if (!IsAlive) return;
+            if (!IsAlive)
+            {
+                Debug.Log($"[SERVER] {gameObject.name} is already dead");
+                return;
+            }
+
+            int previousHealth = CurrentHealth;
 
             CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
 
-            Debug.Log($"{gameObject.name} took {damage} damage. HP: {CurrentHealth}");
+            Debug.Log($"[SERVER] {gameObject.name} took {damage} damage. HP: {previousHealth} -> {CurrentHealth}");
 
             if (CurrentHealth <= 0)
             {
@@ -92,21 +89,10 @@ namespace Health
 
         public void Heal(int heal)
         {
-            if (!Object.HasInputAuthority && !Object.HasStateAuthority)
-                return;
-
-            RPC_RequestHeal(heal);
-        }
-
-        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        private void RPC_RequestHeal(int heal)
-        {
             if (!HasStateAuthority) return;
 
-            ApplyHeal(heal);
+           ApplyHeal(heal);
         }
-
-        
 
         // ============================================================
         // DEATH (Server)
