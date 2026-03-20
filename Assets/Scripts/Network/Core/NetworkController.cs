@@ -45,6 +45,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Test Items (Only for development)")]
     [SerializeField] private NetworkObject _testItemPrefab;
     private bool worldItemsSpawned = false;
+    [SerializeField] private NetworkObject _testEnemyPrefab;
+
      
     // ------------------------ Player Input ---------------------- 
     private Vector2 _moveInput; 
@@ -145,6 +147,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         //TODO: Move this logic to Spawner.cs, this is only to test 
         if (!worldItemsSpawned)
         {
+            SpawnEnemy();
             SpawnWorldItems();
             worldItemsSpawned = true;
         }
@@ -186,6 +189,12 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         Debug.Log("Server spawned test items");
+    }
+
+    private void SpawnEnemy()
+    {
+        Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-3,3),1,7);
+        var obj  = _networkRunner.Spawn(_testEnemyPrefab, spawnPosition, Quaternion.identity);
     }
     
     // ============================================================
