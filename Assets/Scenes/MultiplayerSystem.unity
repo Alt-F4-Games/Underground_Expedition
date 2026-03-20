@@ -409,6 +409,7 @@ MonoBehaviour:
   _networkSceneManagerDefault: {fileID: 1601049946}
   _playerprefab: {fileID: 3742584115890206898, guid: b773280a5163bd24cacebb2e41de5866, type: 3}
   _testItemPrefab: {fileID: 554443575852828146, guid: d13fd83161a3bed49882289eda880586, type: 3}
+  _testEnemyPrefab: {fileID: 5512293683878897899, guid: 5fe34bf043c0bf14d8486e5eb0f19901, type: 3}
 --- !u!114 &263528614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +491,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3c99ab89-f796-4f25-a2b1-40f5ea486181
     m_ActionName: 'Keyboard/Attack[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ab458dbd-81d2-4db3-9174-39d5a13269a4
+    m_ActionName: 'Keyboard/Sprint[/Keyboard/shift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Keyboard
