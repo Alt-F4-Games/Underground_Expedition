@@ -1,7 +1,16 @@
 using UnityEngine;
 
+public enum SpawnType
+{
+    Enemy,
+    Pickup,
+    Destructible
+}
+
 public class SpawnPoints : MonoBehaviour
 {
+    public SpawnType spawnType;
+    
     public bool drawGizmos = true;
 
     private void OnDrawGizmos()
