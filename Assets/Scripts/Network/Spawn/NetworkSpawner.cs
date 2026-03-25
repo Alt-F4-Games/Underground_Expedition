@@ -9,15 +9,18 @@ public class NetworkSpawner : NetworkBehaviour
     {
         public string name;
         public NetworkObject prefab;
-        public List<SpawnPoints> spawnPoints;
-        public int amount = 1;
+        public SpawnType spawnType;
+        public int amount;
     }
 
     [Header("Spawn Config")]
     [SerializeField] private List<SpawnEntry> _spawnEntries;
 
+    
+    
     public override void Spawned()
     {
+    
         Debug.Log($"[Spawner] Spawned() called on {gameObject.name}");
 
         if (!HasStateAuthority)
@@ -46,48 +49,35 @@ public class NetworkSpawner : NetworkBehaviour
     
     private void SpawnEntryObjects(SpawnEntry entry)
     {
-        if (entry.prefab == null)
-        {
-            Debug.LogError($"[Spawner] Entry '{entry.name}' has NULL prefab!");
-            return;
-        }
+        var allPoints = FindObjectsOfType<SpawnPoints>();
 
-        if (entry.spawnPoints == null || entry.spawnPoints.Count == 0)
-        {
-            Debug.LogError($"[Spawner] Entry '{entry.name}' has NO spawn points!");
-            return;
-        }
+        var validPoints = new List<SpawnPoints>();
 
-        Debug.Log($"[Spawner] Spawning '{entry.name}' → {entry.amount} per spawn point");
-
-        foreach (var spawnPoint in entry.spawnPoints)
+        foreach (var point in allPoints)
         {
-            if (spawnPoint == null)
+            if (point.spawnType == entry.spawnType)
             {
-                Debug.LogError($"[Spawner] NULL spawn point in entry '{entry.name}'");
-                continue;
+                validPoints.Add(point);
             }
+        }
 
-            Debug.Log($"[Spawner] Using spawn point: {spawnPoint.name}");
+        if (validPoints.Count == 0)
+        {
+            Debug.LogWarning($"[Spawner] No spawn points for type {entry.spawnType}");
+            return;
+        }
 
+        foreach (var spawnPoint in validPoints)
+        {
             for (int i = 0; i < entry.amount; i++)
             {
-                Vector3 spawnPos = spawnPoint.transform.position;
-
-                var obj = Runner.Spawn(
+                Runner.Spawn(
                     entry.prefab,
-                    spawnPos,
+                    spawnPoint.transform.position,
                     spawnPoint.transform.rotation
                 );
 
-                if (obj == null)
-                {
-                    Debug.LogError($"[Spawner] ❌ Spawn FAILED for {entry.name}");
-                }
-                else
-                {
-                    Debug.Log($"[Spawner] ✅ Spawned {entry.name} at {spawnPos}");
-                }
+                Debug.Log($"[Spawner] Spawned {entry.name} at {spawnPoint.transform.position}");
             }
         }
     }
