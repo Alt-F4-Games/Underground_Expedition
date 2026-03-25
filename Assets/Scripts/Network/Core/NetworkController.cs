@@ -46,6 +46,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject _testItemPrefab;
     private bool worldItemsSpawned = false;
     [SerializeField] private NetworkObject _testEnemyPrefab;
+    [SerializeField] private NetworkObject _spawnerPrefab;
 
      
     // ------------------------ Player Input ---------------------- 
@@ -195,6 +196,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     {
         Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-3,3),1,7);
         var obj  = _networkRunner.Spawn(_testEnemyPrefab, spawnPosition, Quaternion.identity);
+        var spw = _networkRunner.Spawn(_spawnerPrefab, Vector3.zero, Quaternion.identity);
     }
     
     // ============================================================
