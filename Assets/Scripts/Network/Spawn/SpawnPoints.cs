@@ -19,40 +19,38 @@ public class SpawnPoints : NetworkBehaviour
     public int pickupId;
     public int amount;
 
-    public void Spawn()
+    public override void Spawned()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        Spawn();
+    }
+
+    private void Spawn()
     {
         switch (spawnType)
         {
             case SpawnType.Enemy:
             case SpawnType.Destructible:
-                SpawnNetworkObject();
+                if (!prefab.IsValid)
+                {
+                    Debug.LogWarning($"No prefab in {name}");
+                    return;
+                }
+
+                Runner.Spawn(prefab, transform.position, transform.rotation);
                 break;
 
             case SpawnType.Pickup:
-                SpawnPickup();
+                var obj = Runner.Spawn(prefab, transform.position, transform.rotation);
+
+                if (obj.TryGetComponent(out NetworkWorldItem item))
+                {
+                    item.Init(pickupId, amount);
+                }
                 break;
         }
-    }
-
-    private void SpawnNetworkObject()
-    {
-        if (prefab.IsValid == false)
-        {
-            Debug.LogWarning($"No prefab assigned in {name}");
-            return;
-        }
-
-        if (!HasStateAuthority) ;
-
-        Runner.Spawn(prefab, transform.position, transform.rotation);
-    }
-
-    private void SpawnPickup()
-    {
-        if (!HasStateAuthority) ;
-        var obj = Runner.Spawn(prefab, transform.position, transform.rotation);
-        if (obj.TryGetComponent(out NetworkWorldItem item))
-            item.Init(pickupId, amount); 
     }
     
     public bool drawGizmos = true;
