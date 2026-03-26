@@ -8,6 +8,7 @@ using System;
 using Network;
 using UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// GENERAL NETWORK CONTROLLER
@@ -38,9 +39,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
     [SerializeField] private NetworkObject _playerprefab;
-    
-    [Header("Scene Config")]
-    [SerializeField] private int _gameSceneIndex = 1;
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     
@@ -102,12 +100,15 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     private async void CreateRoom()
     {
+        
+        var activeScene = SceneManager.GetActiveScene();
+        
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Host,
             SessionName = "TestRoom",
             SceneManager = _networkSceneManagerDefault,
-            Scene = SceneRef.FromIndex(_gameSceneIndex)
+            Scene = SceneRef.FromIndex(activeScene.buildIndex)
         };
 
         var result = await _networkRunner.StartGame(gameArg);
