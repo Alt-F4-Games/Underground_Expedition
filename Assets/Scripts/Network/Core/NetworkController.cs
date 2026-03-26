@@ -38,6 +38,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
     [SerializeField] private NetworkObject _playerprefab;
+    
+    [Header("Scene Config")]
+    [SerializeField] private int _gameSceneIndex = 1;
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     
@@ -46,8 +49,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject _testItemPrefab;
     private bool worldItemsSpawned = false;
     [SerializeField] private NetworkObject _testEnemyPrefab;
-    [SerializeField] private NetworkObject _spawnerPrefab;
-
+    
      
     // ------------------------ Player Input ---------------------- 
     private Vector2 _moveInput; 
@@ -105,6 +107,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = GameMode.Host,
             SessionName = "TestRoom",
             SceneManager = _networkSceneManagerDefault,
+            Scene = SceneRef.FromIndex(_gameSceneIndex)
         };
 
         var result = await _networkRunner.StartGame(gameArg);
@@ -144,14 +147,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         _lobbyPanel.SetActive(false);
 
         if (!_networkRunner.IsServer) return;
-
-        //TODO: Move this logic to Spawner.cs, this is only to test 
-        if (!worldItemsSpawned)
-        {
-            SpawnEnemy();
-            SpawnWorldItems();
-            worldItemsSpawned = true;
-        }
+        
         
         var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
         _players.Add(player,playerSpawned);
@@ -165,38 +161,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
        {
            _networkRunner.Despawn(playerSpawned);
        }
-    }
-
-    // ============================================================
-    //                    WORLD ITEM SPAWNING (TEMP)
-    // ============================================================
-
-    private void SpawnWorldItems()
-    {
-        if (!_testItemPrefab) return;
-
-        Vector3[] positions =
-        {
-            new(5, 1, 0),
-            new(5, 1, 3),
-            new(5, 1, 6)
-        };
-
-        for (int i = 0; i < positions.Length; i++)
-        {
-            var obj = _networkRunner.Spawn(_testItemPrefab, positions[i], Quaternion.identity);
-            if (obj.TryGetComponent(out NetworkWorldItem item))
-                item.Init(i + 1, i == 1 ? 2 : 1); 
-        }
-
-        Debug.Log("Server spawned test items");
-    }
-
-    private void SpawnEnemy()
-    {
-        Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-3,3),1,7);
-        var obj  = _networkRunner.Spawn(_testEnemyPrefab, spawnPosition, Quaternion.identity);
-        var spw = _networkRunner.Spawn(_spawnerPrefab, Vector3.zero, Quaternion.identity);
     }
     
     // ============================================================
