@@ -1,4 +1,5 @@
 using Fusion;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum SpawnType
@@ -10,14 +11,19 @@ public enum SpawnType
 
 public class SpawnPoints : NetworkBehaviour
 {
-    public SpawnType spawnType;
+    [SerializeField] private SpawnType spawnType;
 
     [Header("Enemy / Destructible")]
-    public NetworkPrefabRef prefab;
-
+    [SerializeField] private NetworkPrefabRef prefab;
+    [SerializeField] private int _enemyAmount;
+   
+    
+    
     [Header("Pickup")]
-    public int pickupId;
-    public int amount;
+    [SerializeField] private int _pickupsAmount;
+    [SerializeField] private int pickupId;
+    [SerializeField] private int _amount;
+    
 
     public override void Spawned()
     {
@@ -39,16 +45,27 @@ public class SpawnPoints : NetworkBehaviour
                     return;
                 }
 
-                Runner.Spawn(prefab, transform.position, transform.rotation);
+                for (int i = 0; i < _enemyAmount; i++)
+                {
+                    Vector3 offset = new Vector3(Random.Range(-2.5f, 2.5f), 0, Random.Range(-2.5f, 2.5f));
+                    Runner.Spawn(prefab, transform.position + offset, transform.rotation);
+                }
+                
                 break;
 
             case SpawnType.Pickup:
-                var obj = Runner.Spawn(prefab, transform.position, transform.rotation);
 
-                if (obj.TryGetComponent(out NetworkWorldItem item))
+                for (int i = 0; i < _pickupsAmount; i++)
                 {
-                    item.Init(pickupId, amount);
+                    Vector3 offset = new Vector3(Random.Range(-2.5f, 2.5f), 0, Random.Range(-2.5f, 2.5f));
+                    var obj = Runner.Spawn(prefab, transform.position + offset, transform.rotation);
+                                                                                                  
+                      if (obj.TryGetComponent(out NetworkWorldItem item))
+                      {
+                          item.Init(pickupId, _amount);
+                      }
                 }
+                
                 break;
         }
     }
