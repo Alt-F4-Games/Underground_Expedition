@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using System.Collections;
+using Fusion;
 using UnityEngine;
 
 namespace Health
@@ -22,6 +23,55 @@ namespace Health
             _controller = GetComponent<NetworkCharacterController>();
         }
 
+        protected override void Death()
+        {
+            base.Death();
+
+            if (!HasStateAuthority) return;
+
+            Debug.Log($"{gameObject.name} died");
+
+            // Desactivar visual
+            if (_renderer != null)
+                _renderer.enabled = false;
+
+            // Desactivar movimiento
+            if (_controller != null)
+                _controller.enabled = false;
+
+            // Respawn con delay
+            Runner.StartCoroutine(RespawnCoroutine());
+        }
+
+        private IEnumerator RespawnCoroutine()
+        {
+            yield return new WaitForSeconds(_respawnDelay);
+
+            Respawn();
+        }
+
+        private void Respawn()
+        {
+            if (!HasStateAuthority) return;
+
+            Vector3 spawnPosition = Vector3.zero;
+
+            if (_controller != null)
+                _controller.enabled = false;
+
+            transform.position = spawnPosition;
+
+            if (_controller != null)
+                _controller.enabled = true;
+
+            if (_renderer != null)
+                _renderer.enabled = true;
+
+            Revive();
+
+            Debug.Log($"{gameObject.name} respawned");
+        }
+    
         
     }
 }
