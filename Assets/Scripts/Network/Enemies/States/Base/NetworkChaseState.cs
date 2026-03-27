@@ -19,7 +19,7 @@ namespace Network.Enemies
             // TRANSITION: Target lost or out of sight -> return to patrol
             if (_enemy.TargetPlayer == null)
             {
-                _enemy.StateMachine.ChangeState(new NetworkPatrolState());
+                _enemy.StateMachine.ChangeState(_enemy.GetPatrolState());
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace Network.Enemies
             // TRANSITION: Target reached -> start attacking
             if (distanceToTarget <= _enemy.AttackRange)
             {
-                _enemy.StateMachine.ChangeState(new NetworkAttackState());
+                _enemy.StateMachine.ChangeState(_enemy.GetAttackState());
                 return;
             }
 

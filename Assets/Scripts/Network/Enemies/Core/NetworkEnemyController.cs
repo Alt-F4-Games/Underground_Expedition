@@ -35,7 +35,7 @@ namespace Network.Enemies
             if (HasStateAuthority)
             {
                 StateMachine = new NetworkEnemyStateMachine(this);
-                StateMachine.ChangeState(new NetworkPatrolState());
+                StateMachine.ChangeState(GetPatrolState());
             }
         }
 
@@ -87,5 +87,12 @@ namespace Network.Enemies
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, AttackRange);
         }
+        
+        // Factory Methods for States
+        public virtual INetworkState GetIdleState() => new NetworkIdleState();
+        public virtual INetworkState GetPatrolState() => new NetworkPatrolState();
+        public virtual INetworkState GetChaseState() => new NetworkChaseState();
+        public virtual INetworkState GetAttackState() => new NetworkAttackState();
+
     }
 }
