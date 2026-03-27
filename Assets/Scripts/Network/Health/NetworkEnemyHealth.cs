@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Health
 {
-    public class NetworEnemyHealth : NetworkDespawnOnDeath
+    public class NetworkEnemyHealth : NetworkDespawnOnDeath
     {
 
         protected override void Death()
