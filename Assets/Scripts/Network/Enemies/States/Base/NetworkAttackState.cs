@@ -25,7 +25,7 @@ namespace Network.Enemies
             // TRANSITION: Player disappears or dies -> return to patrol
             if (_enemy.TargetPlayer == null)
             {
-                _enemy.StateMachine.ChangeState(new NetworkPatrolState());
+                _enemy.StateMachine.ChangeState(_enemy.GetPatrolState());
                 return;
             }
 
@@ -34,7 +34,7 @@ namespace Network.Enemies
             // TRANSITION: Player moves away from attack range -> resume chasing
             if (distanceToTarget > _enemy.AttackRange)
             {
-                _enemy.StateMachine.ChangeState(new NetworkChaseState());
+                _enemy.StateMachine.ChangeState(_enemy.GetChaseState());
                 return;
             }
 
