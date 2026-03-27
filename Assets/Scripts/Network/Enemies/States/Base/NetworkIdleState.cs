@@ -2,6 +2,7 @@
 
 namespace Network.Enemies
 {
+    // Default state where the enemy does nothing (useful for testing)
     public class NetworkIdleState : INetworkState
     {
         private NetworkEnemyController _enemy;
@@ -14,7 +15,7 @@ namespace Network.Enemies
 
         public void Update() 
         { 
-            
+            // Waiting logic goes here
         }
 
         public void Exit() 

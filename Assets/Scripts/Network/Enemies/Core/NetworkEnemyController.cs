@@ -14,17 +14,16 @@ namespace Network.Enemies
         [Header("Detection Settings")]
         public float VisionRange = 8f;
         public float AttackRange = 1.5f;
-        public LayerMask PlayerLayer;
+        public LayerMask PlayerLayer; // Layer used to find targets
         
         [Header("Attack Settings")]
         public int AttackDamage = 10;
         public float AttackCooldown = 1.2f;
 
         public NetworkEnemyStateMachine StateMachine { get; private set; }
-        
-        public NetworkObject TargetPlayer { get; private set; } 
+        public NetworkObject TargetPlayer { get; private set; } // Current target being chased
 
-        // Networked property. When the Host changes this, clients execute OnStateChanged
+        // Networked enum. Triggers OnStateChanged on all clients when updated by the Host
         [Networked, OnChangedRender(nameof(OnStateChanged))]
         public NetworkEnemyState CurrentState { get; set; }
 
@@ -32,7 +31,7 @@ namespace Network.Enemies
         {
             Agent = GetComponent<NavMeshAgent>();
 
-            // Only the Host creates and runs the AI
+            // Initialize FSM only on the Host (Server)
             if (HasStateAuthority)
             {
                 StateMachine = new NetworkEnemyStateMachine(this);
@@ -42,6 +41,7 @@ namespace Network.Enemies
 
         public override void FixedUpdateNetwork()
         {
+            // Only the Host calculates AI logic
             if (HasStateAuthority)
             {
                 FindTargetPlayer();
@@ -49,6 +49,7 @@ namespace Network.Enemies
             }
         }
 
+        // Scans for the closest player within VisionRange
         private void FindTargetPlayer()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, VisionRange, PlayerLayer);
@@ -72,12 +73,13 @@ namespace Network.Enemies
             TargetPlayer = closestPlayer;
         }
 
+        // Triggered on all clients to update visuals/animations
         void OnStateChanged()
         {
-            // Visual debug for animations
+            // TODO: Update Animator parameters based on CurrentState
         }
 
-        // Draws spheres in the Editor to visualize detection ranges
+        // Draws debug spheres in the Unity Editor
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;

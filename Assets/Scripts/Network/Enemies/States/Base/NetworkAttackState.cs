@@ -3,6 +3,7 @@ using Health;
 
 namespace Network.Enemies
 {
+    // State for dealing damage when close to the target
     public class NetworkAttackState : INetworkState
     {
         private NetworkEnemyController _enemy;
@@ -21,7 +22,7 @@ namespace Network.Enemies
 
         public void Update()
         {
-            // If the player disappears or is lost
+            // TRANSITION: Player disappears or dies -> return to patrol
             if (_enemy.TargetPlayer == null)
             {
                 _enemy.StateMachine.ChangeState(new NetworkPatrolState());
@@ -30,14 +31,14 @@ namespace Network.Enemies
 
             float distanceToTarget = Vector3.Distance(_enemy.transform.position, _enemy.TargetPlayer.transform.position);
 
-            // If the player moves away and out of attack range
+            // TRANSITION: Player moves away from attack range -> resume chasing
             if (distanceToTarget > _enemy.AttackRange)
             {
                 _enemy.StateMachine.ChangeState(new NetworkChaseState());
                 return;
             }
 
-            // ATTACK LOGIC (Cooldown management)
+            // ATTACK LOGIC: Apply damage considering the cooldown timer
             if (Time.time >= _lastAttackTime + _enemy.AttackCooldown)
             {
                 PerformAttack();
@@ -47,7 +48,7 @@ namespace Network.Enemies
 
         private void PerformAttack()
         {
-            // Look for the health system on the player NetworkObject
+            // Look for the health system on the target and apply damage
             var playerHealth = _enemy.TargetPlayer.GetComponent<NetworkHealthSystem>();
             if (playerHealth != null)
             {
@@ -58,7 +59,7 @@ namespace Network.Enemies
 
         public void Exit()
         {
-            
+            // Logic when exiting attack state (empty for now)
         }
 
         public NetworkEnemyState GetStateType() => NetworkEnemyState.Attacking;
