@@ -13,11 +13,12 @@ public class SpawnPoints : NetworkBehaviour
 {
     [SerializeField] private SpawnType spawnType;
 
-    [Header("Enemy / Destructible")]
     [SerializeField] private NetworkPrefabRef prefab;
-    [SerializeField] private int _enemyAmount;
-   
+
+    [SerializeField] private float _offsetSpawn;
     
+    [Header("Enemy / Destructible")]
+    [SerializeField] private int _enemyAmount;
     
     [Header("Pickup")]
     [SerializeField] private int _pickupsAmount;
@@ -47,7 +48,7 @@ public class SpawnPoints : NetworkBehaviour
 
                 for (int i = 0; i < _enemyAmount; i++)
                 {
-                    Vector3 offset = new Vector3(Random.Range(-2.5f, 2.5f), 0, Random.Range(-2.5f, 2.5f));
+                    Vector3 offset = new Vector3(Random.Range(-_offsetSpawn, _offsetSpawn), 0, Random.Range(-_offsetSpawn, _offsetSpawn));
                     Runner.Spawn(prefab, transform.position + offset, transform.rotation);
                 }
                 
@@ -57,7 +58,7 @@ public class SpawnPoints : NetworkBehaviour
 
                 for (int i = 0; i < _pickupsAmount; i++)
                 {
-                    Vector3 offset = new Vector3(Random.Range(-2.5f, 2.5f), 0, Random.Range(-2.5f, 2.5f));
+                    Vector3 offset = new Vector3(Random.Range(-_offsetSpawn, _offsetSpawn), 0, Random.Range(-_offsetSpawn, _offsetSpawn));
                     var obj = Runner.Spawn(prefab, transform.position + offset, transform.rotation);
                                                                                                   
                       if (obj.TryGetComponent(out NetworkWorldItem item))
