@@ -34,7 +34,7 @@ namespace Network.Spawn
             if (!drawGizmos) return;
 
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, 0.3f);
+            Gizmos.DrawSphere(_spawnPoint.position, 0.3f);
         }
     }
 }
