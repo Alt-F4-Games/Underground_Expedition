@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 3985953796020749275}
   - component: {fileID: 1507739324270128397}
   - component: {fileID: 7544978420758776554}
-  - component: {fileID: 8839800009978832108}
+  - component: {fileID: -2857272182491207197}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -284,7 +284,7 @@ MonoBehaviour:
   - {fileID: 3985953796020749275}
   - {fileID: 1507739324270128397}
   - {fileID: 7544978420758776554}
-  - {fileID: 8839800009978832108}
+  - {fileID: -2857272182491207197}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
---- !u!114 &8839800009978832108
+--- !u!114 &-2857272182491207197
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 954193011416401844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80a3f5270209420ba19677c4e9ed65ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 121e77b2b60f47999ca507501f8f5f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
