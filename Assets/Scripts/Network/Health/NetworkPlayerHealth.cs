@@ -12,17 +12,22 @@ namespace Health
         [Header("Death Settings")]
         [SerializeField] private float _respawnDelay = 3f;
 
-        [Header("References")]
-        [SerializeField] private Renderer _renderer;
-
         private NetworkCharacterController _controller;
+
+        private Renderer[] _renderers;
 
         public override void Spawned()
         {
             base.Spawned();
 
             _controller = GetComponent<NetworkCharacterController>();
+
+            _renderers = GetComponentsInChildren<Renderer>(true);
         }
+
+        // ============================================================
+        // DEATH
+        // ============================================================
 
         protected override void Death()
         {
@@ -32,22 +37,42 @@ namespace Health
 
             Debug.Log($"{gameObject.name} died");
 
-            // Desactivar visual
-            if (_renderer != null)
-                _renderer.enabled = false;
+            // 🔻 Ocultar visuales
+            foreach (var r in _renderers)
+            {
+                r.enabled = false;
+            }
 
-            // Desactivar movimiento
+            // Obtener posición de respawn
+            Vector3 spawnPosition = Vector3.zero;
+
+            if (RespawnManager.Instance != null)
+            {
+                spawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
+            }
+
+            // 🔥 Mover INMEDIATAMENTE al altar
+            if (_controller != null)
+            {
+                _controller.enabled = true;
+                _controller.Teleport(spawnPosition);
+            }
+
+            // 🚫 Desactivar movimiento después de mover
             if (_controller != null)
                 _controller.enabled = false;
 
-            // Respawn con delay
+            // ⏳ Esperar en el altar
             Runner.StartCoroutine(RespawnCoroutine());
         }
+
+        // ============================================================
+        // RESPAWN
+        // ============================================================
 
         private IEnumerator RespawnCoroutine()
         {
             yield return new WaitForSeconds(_respawnDelay);
-
             Respawn();
         }
 
@@ -55,27 +80,20 @@ namespace Health
         {
             if (!HasStateAuthority) return;
 
-            Vector3 spawnPosition = Vector3.zero;
-            
-            if (RespawnManager.Instance != null)
-            {
-                spawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
-            }
-
-            if (_controller != null)
-                _controller.enabled = false;
-
-            transform.position = spawnPosition;
-
+            // Reactivar controller
             if (_controller != null)
                 _controller.enabled = true;
 
-            if (_renderer != null)
-                _renderer.enabled = true;
+            // 🔺 Mostrar visuales
+            foreach (var r in _renderers)
+            {
+                r.enabled = true;
+            }
 
+            // Revivir
             Revive();
 
-            Debug.Log($"{gameObject.name} respawned at {spawnPosition}");
+            Debug.Log($"{gameObject.name} respawned");
         }
     
         
