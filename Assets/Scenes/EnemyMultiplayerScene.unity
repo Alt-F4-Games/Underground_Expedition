@@ -1937,6 +1937,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent: {fileID: 0}
   PatrolPath: {fileID: 0}
+  VisionRange: 8
+  AttackRange: 1.5
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   _CurrentState: 0
 --- !u!1 &1435531021
 GameObject:
@@ -2874,6 +2879,14 @@ PrefabInstance:
       propertyPath: PatrolPath
       value: 
       objectReference: {fileID: 638568568}
+    - target: {fileID: 6994201422167814338, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
+      propertyPath: AttackRange
+      value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6994201422167814338, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
+      propertyPath: PlayerLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

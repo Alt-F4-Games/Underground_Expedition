@@ -11,9 +11,16 @@ namespace Network.Enemies
         public NavMeshAgent Agent;
         public NetworkPatrolPath PatrolPath;
 
-        public NetworkEnemyStateMachine StateMachine { get; private set; }
+        [Header("Detection Settings")]
+        public float VisionRange = 8f;
+        public float AttackRange = 1.5f;
+        public LayerMask PlayerLayer;
 
-        // Synchronized property. When the Host changes this, clients execute OnStateChanged
+        public NetworkEnemyStateMachine StateMachine { get; private set; }
+        
+        public NetworkObject TargetPlayer { get; private set; } 
+
+        // Networked property. When the Host changes this, clients execute OnStateChanged
         [Networked, OnChangedRender(nameof(OnStateChanged))]
         public NetworkEnemyState CurrentState { get; set; }
 
@@ -33,13 +40,46 @@ namespace Network.Enemies
         {
             if (HasStateAuthority)
             {
+                FindTargetPlayer();
                 StateMachine.Update();
             }
         }
 
+        private void FindTargetPlayer()
+        {
+            Collider[] hits = Physics.OverlapSphere(transform.position, VisionRange, PlayerLayer);
+            float closestDistance = float.MaxValue;
+            NetworkObject closestPlayer = null;
+
+            foreach (var hit in hits)
+            {
+                var netObj = hit.GetComponentInParent<NetworkObject>();
+                if (netObj != null)
+                {
+                    float distance = Vector3.Distance(transform.position, netObj.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestPlayer = netObj;
+                    }
+                }
+            }
+
+            TargetPlayer = closestPlayer;
+        }
+
         void OnStateChanged()
         {
-            Debug.Log($"[NETWORK] Sync: {gameObject.name}'s state is now {CurrentState}");
+            // Visual debug for animations
+        }
+
+        // Draws spheres in the Editor to visualize detection ranges
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, VisionRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, AttackRange);
         }
     }
 }
