@@ -4,17 +4,24 @@ using UnityEngine;
 namespace Health
 {
     [RequireComponent(typeof(NetworkObject))]
+    [RequireComponent(typeof(NetworkCharacterController))]
     public class NetworkPlayerHealth : NetworkHealthSystem
     {
-        protected override void Death()
+        [Header("Death Settings")]
+        [SerializeField] private float _respawnDelay = 3f;
+
+        [Header("References")]
+        [SerializeField] private Renderer _renderer;
+
+        private NetworkCharacterController _controller;
+
+        public override void Spawned()
         {
-            base.Death();
+            base.Spawned();
 
-            if (!HasStateAuthority) return;
-
-            Debug.Log($"{gameObject.name} died");
-            
+            _controller = GetComponent<NetworkCharacterController>();
         }
+
         
     }
 }
