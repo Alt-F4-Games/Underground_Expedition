@@ -27,7 +27,7 @@ namespace Network.Enemies
             // If we reach attack range
             if (distanceToTarget <= _enemy.AttackRange)
             {
-                _enemy.Agent.isStopped = true;
+                _enemy.StateMachine.ChangeState(new NetworkAttackState());
                 return;
             }
 

@@ -15,6 +15,10 @@ namespace Network.Enemies
         public float VisionRange = 8f;
         public float AttackRange = 1.5f;
         public LayerMask PlayerLayer;
+        
+        [Header("Attack Settings")]
+        public int AttackDamage = 10;
+        public float AttackCooldown = 1.2f;
 
         public NetworkEnemyStateMachine StateMachine { get; private set; }
         
