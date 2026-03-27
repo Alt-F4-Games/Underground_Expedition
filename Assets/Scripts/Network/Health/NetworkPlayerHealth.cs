@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Fusion;
+using Network.Spawn;
 using UnityEngine;
 
 namespace Health
@@ -55,6 +56,11 @@ namespace Health
             if (!HasStateAuthority) return;
 
             Vector3 spawnPosition = Vector3.zero;
+            
+            if (RespawnManager.Instance != null)
+            {
+                spawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
+            }
 
             if (_controller != null)
                 _controller.enabled = false;
@@ -69,7 +75,7 @@ namespace Health
 
             Revive();
 
-            Debug.Log($"{gameObject.name} respawned");
+            Debug.Log($"{gameObject.name} respawned at {spawnPosition}");
         }
     
         
