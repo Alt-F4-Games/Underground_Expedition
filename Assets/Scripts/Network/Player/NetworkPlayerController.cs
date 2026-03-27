@@ -1,8 +1,10 @@
 ﻿using Fusion;
+using Health;
 using Network;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
+[RequireComponent(typeof(NetworkPlayerHealth))]
 public class NetworkPlayerController : NetworkBehaviour
 {
     [Header("References")]
@@ -17,6 +19,7 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField] private float _maxLookAngle = 80f;
 
     private NetworkCharacterController _controller;
+    private NetworkPlayerHealth _health;
 
     private Camera _playerCamera;
 
@@ -31,6 +34,7 @@ public class NetworkPlayerController : NetworkBehaviour
     public override void Spawned()
     {
         _controller = GetComponent<NetworkCharacterController>();
+        _health = GetComponent<NetworkPlayerHealth>();
 
         if (!HasInputAuthority)
         {
@@ -59,6 +63,9 @@ public class NetworkPlayerController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (_health != null && !_health.IsAlive)
+            return;
+        
         if (!GetInput(out NetworkInputPlayer input))
             return;
 
