@@ -21,7 +21,7 @@ namespace Network.Enemies
         public float AttackCooldown = 1.2f;
 
         public NetworkEnemyStateMachine StateMachine { get; private set; }
-        public NetworkObject TargetPlayer { get; private set; } // Current target being chased
+        public NetworkObject TargetPlayer { get; protected set; } // Current target being chased
 
         // Networked enum. Triggers OnStateChanged on all clients when updated by the Host
         [Networked, OnChangedRender(nameof(OnStateChanged))]
@@ -50,7 +50,7 @@ namespace Network.Enemies
         }
 
         // Scans for the closest player within VisionRange
-        private void FindTargetPlayer()
+        protected virtual void FindTargetPlayer()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, VisionRange, PlayerLayer);
             float closestDistance = float.MaxValue;
