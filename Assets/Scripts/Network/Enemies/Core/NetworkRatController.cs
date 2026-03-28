@@ -1,27 +1,40 @@
 ﻿using Fusion;
 using UnityEngine;
 
-namespace Network.Enemies.Variants
+namespace Network.Enemies
 {
+    /// <summary>
+    /// Specialized controller for the Rat enemy. 
+    /// Features a "snitch" mechanic to alert nearby rats and a dynamic aggro range (leash) system.
+    /// </summary>
     public class NetworkRatController : NetworkEnemyController
     {
-        [Header("Rat Snitch Settings")]
-        public float SnitchRange = 10f;
-        public LayerMask RatLayer; // Layer to detect other rats
+        [Header("Rat Snitch & Chase Settings")]
+        public float SnitchRange = 10f; // Distance to alert other rats
+        public float SnitchListenRange = 25f; // Max aggro range when idle/searching
+        public float ChaseRange = 15f; // Min aggro range during active chase
+        
+        [Header("Aggro Dynamics")]
+        public float AggroShrinkSpeed = 3f; // Speed at which the detection radius shrinks during chase
+        public float AggroGrowSpeed = 5f; // Speed at which the detection radius expands when losing target
+        
+        public LayerMask RatLayer; // Layer used to identify other rats for snitching
 
         [Header("Rat Jump Settings")]
         public float JumpChargeTime = 1.2f;
         public float JumpSpeed = 8f;
         public float JumpExtraDistance = 2f;
 
-        // Overrides the base detection to add the Snitch mechanic
+        private float _currentAggroRange;
+
+        // Scans for targets and manages the dynamic aggro leash
         protected override void FindTargetPlayer()
         {
+            // Base detection logic inherited from NetworkEnemyController
             Collider[] hits = Physics.OverlapSphere(transform.position, VisionRange, PlayerLayer);
             float closestDistance = float.MaxValue;
-            NetworkObject closestPlayer = null;
-
-            // Find the closest player in vision
+            NetworkObject closestPlayerInVision = null;
+            
             foreach (var hit in hits)
             {
                 var netObj = hit.GetComponentInParent<NetworkObject>();
@@ -31,31 +44,53 @@ namespace Network.Enemies.Variants
                     if (distance < closestDistance)
                     {
                         closestDistance = distance;
-                        closestPlayer = netObj;
+                        closestPlayerInVision = netObj;
                     }
                 }
             }
-
-            // Evaluate if we should change target and snitch
-            if (closestPlayer != null)
+            
+            // VISUAL DETECTION: If seen directly, alert others and tighten the leash
+            if (closestPlayerInVision != null)
             {
-                float oldDistance = TargetPlayer != null ? Vector3.Distance(transform.position, TargetPlayer.transform.position) : float.MaxValue;
-
-                // If the new player is closer than our current target (or we had no target)
-                if (closestDistance < oldDistance)
+                if (TargetPlayer != closestPlayerInVision)
                 {
-                    TargetPlayer = closestPlayer;
-                    SnitchToOtherRats(closestPlayer);
+                    TargetPlayer = closestPlayerInVision;
+                    SnitchToOtherRats(closestPlayerInVision);
+                }
+                
+                // Tighten the leash towards combat minimum (ChaseRange)
+                _currentAggroRange = Mathf.MoveTowards(_currentAggroRange, ChaseRange, AggroShrinkSpeed * 2f * Runner.DeltaTime);
+            }
+            
+            // LEASH DYNAMICS (Shrinking): Adjust range based on current target distance
+            if (TargetPlayer != null)
+            {
+                float distToTarget = Vector3.Distance(transform.position, TargetPlayer.transform.position);
+                float targetRange = Mathf.Max(distToTarget, ChaseRange);
+
+                if (_currentAggroRange > targetRange)
+                {
+                    _currentAggroRange = Mathf.MoveTowards(_currentAggroRange, targetRange, AggroShrinkSpeed * Runner.DeltaTime);
+                }
+
+                // TRANSITION: If player moves outside the dynamic aggro circle -> lose target
+                if (distToTarget > _currentAggroRange)
+                {
+                    TargetPlayer = null; 
                 }
             }
-            else
+            
+            // LEASH DYNAMICS (Growing): Expand range back to max if no target is active
+            if (TargetPlayer == null) 
             {
-                // If NO players are in vision, we lose the target (allows returning to patrol)
-                TargetPlayer = null;
+                if (_currentAggroRange < SnitchListenRange)
+                {
+                    _currentAggroRange = Mathf.MoveTowards(_currentAggroRange, SnitchListenRange, AggroGrowSpeed * Runner.DeltaTime);
+                }
             }
         }
 
-        // Alerts other rats in the SnitchRange
+        // Broadcaster: Informs nearby rats about the detected target
         private void SnitchToOtherRats(NetworkObject newTarget)
         {
             Collider[] rats = Physics.OverlapSphere(transform.position, SnitchRange, RatLayer);
@@ -64,40 +99,56 @@ namespace Network.Enemies.Variants
             {
                 var friendlyRat = hit.GetComponentInParent<NetworkRatController>();
                 
-                // If we found a rat, and it's not ourselves
                 if (friendlyRat != null && friendlyRat != this)
                 {
                     friendlyRat.ReceiveSnitch(newTarget);
                 }
             }
         }
-
-        // Called by another rat when they spot a player
+        
+        // Listener: Called when another rat provides a target
         public void ReceiveSnitch(NetworkObject snitchedTarget)
         {
             if (snitchedTarget == null) return;
 
             float newDistance = Vector3.Distance(transform.position, snitchedTarget.transform.position);
-            float currentDistance = TargetPlayer != null ? Vector3.Distance(transform.position, TargetPlayer.transform.position) : float.MaxValue;
+            
+            // Only accept the snitch if the target is within our current hearing range
+            if (newDistance > _currentAggroRange) return;
 
-            // Only accept the snitch if the new target is closer than our current one
+            float currentDistance = TargetPlayer != null ? Vector3.Distance(transform.position, TargetPlayer.transform.position) : float.MaxValue;
+            
+            // Prioritize the closest player
             if (newDistance < currentDistance)
             {
                 TargetPlayer = snitchedTarget;
-                
-                // Force the FSM to start chasing immediately if we were just idling/patrolling
-                if (CurrentState == NetworkEnemyState.Patrolling || CurrentState == NetworkEnemyState.Idle)
-                {
-                    StateMachine.ChangeState(new NetworkChaseState());
-                }
             }
         }
 
-        // Visual debug for the Snitch Range
+        // Draws debug spheres in the Unity Editor for AI ranges
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = new Color(1f, 0.5f, 0f); // Snitch range
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, VisionRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, AttackRange);
+            
+            Gizmos.color = new Color(1f, 0.5f, 0f); // Orange: Snitch alert range
             Gizmos.DrawWireSphere(transform.position, SnitchRange);
+
+            if (Application.isPlaying)
+            {
+                // Active dynamic aggro circle
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position, _currentAggroRange);
+            }
+            else
+            {
+                Gizmos.color = Color.cyan; // Max listening range
+                Gizmos.DrawWireSphere(transform.position, SnitchListenRange);
+                Gizmos.color = Color.gray; // Min chase range
+                Gizmos.DrawWireSphere(transform.position, ChaseRange);
+            }
         }
     }
 }

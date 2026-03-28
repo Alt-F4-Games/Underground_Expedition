@@ -746,6 +746,10 @@ MonoBehaviour:
   AttackCooldown: 1.2
   _CurrentState: 0
   SnitchRange: 10
+  SnitchListenRange: 25
+  ChaseRange: 15
+  AggroShrinkSpeed: 3
+  AggroGrowSpeed: 5
   RatLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -872,6 +876,10 @@ MonoBehaviour:
   AttackCooldown: 1.2
   _CurrentState: 0
   SnitchRange: 10
+  SnitchListenRange: 25
+  ChaseRange: 15
+  AggroShrinkSpeed: 3
+  AggroGrowSpeed: 5
   RatLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -2126,6 +2134,10 @@ MonoBehaviour:
   AttackCooldown: 1.2
   _CurrentState: 0
   SnitchRange: 10
+  SnitchListenRange: 25
+  ChaseRange: 15
+  AggroShrinkSpeed: 3
+  AggroGrowSpeed: 5
   RatLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -3218,7 +3230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6945698812009932812, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -9.3
       objectReference: {fileID: 0}
     - target: {fileID: 6945698812009932812, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3292,6 +3304,10 @@ MonoBehaviour:
   AttackCooldown: 1.2
   _CurrentState: 0
   SnitchRange: 10
+  SnitchListenRange: 25
+  ChaseRange: 15
+  AggroShrinkSpeed: 3
+  AggroGrowSpeed: 5
   RatLayer:
     serializedVersion: 2
     m_Bits: 128
