@@ -6,7 +6,8 @@ namespace Network.Enemies
         Idle, 
         Patrolling, 
         Chasing, 
-        Attacking, 
+        Attacking,
+        Exploding,
         Dead 
     }
 
