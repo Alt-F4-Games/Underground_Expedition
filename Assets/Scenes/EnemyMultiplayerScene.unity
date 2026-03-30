@@ -638,6 +638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Network_Enemy_Rat (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3141254406263237971, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5017604418960245661, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: SortKey
       value: 1325225771
@@ -750,9 +754,9 @@ MonoBehaviour:
   ChaseRange: 15
   AggroShrinkSpeed: 3
   AggroGrowSpeed: 5
-  RatLayer:
+  SwarmLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1024
   JumpChargeTime: 1.2
   JumpSpeed: 8
   JumpExtraDistance: 2
@@ -767,6 +771,10 @@ PrefabInstance:
     - target: {fileID: 3141254406263237971, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: m_Name
       value: Network_Enemy_Rat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141254406263237971, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5017604418960245661, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: SortKey
@@ -880,9 +888,9 @@ MonoBehaviour:
   ChaseRange: 15
   AggroShrinkSpeed: 3
   AggroGrowSpeed: 5
-  RatLayer:
+  SwarmLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1024
   JumpChargeTime: 1.2
   JumpSpeed: 8
   JumpExtraDistance: 2
@@ -2026,6 +2034,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Network_Enemy_Rat (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3141254406263237971, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5017604418960245661, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: SortKey
       value: 2824229917
@@ -2138,9 +2150,9 @@ MonoBehaviour:
   ChaseRange: 15
   AggroShrinkSpeed: 3
   AggroGrowSpeed: 5
-  RatLayer:
+  SwarmLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1024
   JumpChargeTime: 1.2
   JumpSpeed: 8
   JumpExtraDistance: 2
@@ -3196,6 +3208,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Network_Enemy_Rat
       objectReference: {fileID: 0}
+    - target: {fileID: 3141254406263237971, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5017604418960245661, guid: 0223ce4b474a58a459ea55caa80eea3a, type: 3}
       propertyPath: SortKey
       value: 3185520214
@@ -3308,9 +3324,9 @@ MonoBehaviour:
   ChaseRange: 15
   AggroShrinkSpeed: 3
   AggroGrowSpeed: 5
-  RatLayer:
+  SwarmLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1024
   JumpChargeTime: 1.2
   JumpSpeed: 8
   JumpExtraDistance: 2
