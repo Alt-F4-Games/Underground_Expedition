@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28f58ea1-9e29-4f8a-9f2f-491d643d6d52" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/NetworkSwarmController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/NetworkSwarmController.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/States/NetworkChargeState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/States/NetworkChargeState.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Underground_Expedition/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Underground_Expedition/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/INetworkState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/INetworkState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/NetworkRatController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/NetworkRatController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +36,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Core/NetworkController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/NetworkRatController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/NetworkSwarmController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Enemies/States/NetworkChargeState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Health/NetworkDespawnOnDeath.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Health/NetworkHealthSystem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Network/Health/NetworkPlayerAttack.cs" root0="FORCE_HIGHLIGHTING" />
@@ -121,7 +124,7 @@
       <updated>1774691325499</updated>
       <workItem from="1774691341146" duration="5354000" />
       <workItem from="1774828933815" duration="1795000" />
-      <workItem from="1774913539950" duration="312000" />
+      <workItem from="1774913539950" duration="3230000" />
     </task>
     <servers />
   </component>

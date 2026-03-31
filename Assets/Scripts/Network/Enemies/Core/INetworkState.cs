@@ -7,7 +7,9 @@ namespace Network.Enemies
         Patrolling, 
         Chasing, 
         Attacking, 
-        Dead 
+        Dead,
+        Charging,
+        Jumping
     }
 
     // Base interface that all enemy states must implement

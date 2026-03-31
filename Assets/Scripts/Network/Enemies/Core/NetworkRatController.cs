@@ -1,4 +1,5 @@
 ﻿using Fusion;
+using Network.Enemies.States;
 using UnityEngine;
 
 namespace Network.Enemies.Variants
@@ -18,5 +19,15 @@ namespace Network.Enemies.Variants
         
         // Extra distance added to the player's position to make the rat jump past them if they dodge
         public float JumpExtraDistance = 2f; 
+        
+        // STATE FACTORY METHODS (Overrides)
+        
+        public override INetworkState GetAttackState()
+        {
+            // Instanciamos el estado genérico pasándole el tiempo de la rata.
+            // Temporalmente, le decimos que vuelva a GetChaseState() al terminar, 
+            // hasta que creemos el NetworkJumpState.
+            return new NetworkChargeState(JumpChargeTime, () => GetChaseState()); 
+        }
     }
 }
