@@ -24,10 +24,10 @@ namespace Network.Enemies.Variants
         
         public override INetworkState GetAttackState()
         {
-            // Instanciamos el estado genérico pasándole el tiempo de la rata.
-            // Temporalmente, le decimos que vuelva a GetChaseState() al terminar, 
-            // hasta que creemos el NetworkJumpState.
-            return new NetworkChargeState(JumpChargeTime, () => GetChaseState()); 
+            
+            return new NetworkChargeState(JumpChargeTime, () => 
+                new NetworkJumpAttackState(JumpSpeed, JumpExtraDistance, AttackDamage, AttackRange)); 
         }
+        
     }
 }
