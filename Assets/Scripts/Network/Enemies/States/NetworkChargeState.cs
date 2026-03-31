@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fusion; // Added for Runner.DeltaTime
+using UnityEngine;
 using System;
 
 namespace Network.Enemies.States
@@ -35,10 +36,21 @@ namespace Network.Enemies.States
         public void Update()
         {
             // TRANSITION: Target lost or killed -> return to patrol
-            if (_enemy.TargetPlayer == null)
+            // Added !IsValid safety check for Fusion network objects
+            if (_enemy.TargetPlayer == null || !_enemy.TargetPlayer.IsValid)
             {
                 _enemy.StateMachine.ChangeState(_enemy.GetPatrolState());
                 return;
+            }
+            
+            Vector3 directionToPlayer = _enemy.TargetPlayer.transform.position - _enemy.transform.position;
+            directionToPlayer.y = 0; // Ignore the Y axis so the enemy doesn't tilt up/down
+            
+            if (directionToPlayer.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+                // Slerp for smooth rotation using Fusion's DeltaTime
+                _enemy.transform.rotation = Quaternion.Slerp(_enemy.transform.rotation, targetRotation, _enemy.Runner.DeltaTime * 10f);
             }
 
             float distance = Vector3.Distance(_enemy.transform.position, _enemy.TargetPlayer.transform.position);
@@ -51,7 +63,7 @@ namespace Network.Enemies.States
             }
 
             // TIMING LOGIC: Advance the charge timer
-            _timer += Time.deltaTime;
+            _timer += _enemy.Runner.DeltaTime;
             
             if (_timer >= _chargeTime)
             {
