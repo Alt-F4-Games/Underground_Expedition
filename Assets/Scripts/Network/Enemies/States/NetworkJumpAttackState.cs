@@ -1,5 +1,6 @@
 ﻿using Fusion;
 using UnityEngine;
+using Health;
 
 namespace Network.Enemies.States
 {
@@ -106,7 +107,7 @@ namespace Network.Enemies.States
             }
             
             // CONTACT LOGIC: Attempt to deal damage if the enemy hasn't hit a target yet
-            if (!_hasDealtDamage)
+            if (!_hasDealtDamage && _progress > 0.15f)
             {
                 CheckForDamageOnContact();
             }
@@ -121,11 +122,16 @@ namespace Network.Enemies.States
             {
                 foreach (var hit in hits)
                 {
-                    // Note: Here you would typically call playerHealth.TakeDamage(_attackDamage)
-                    Debug.Log($"[SERVER] Mid-air impact! {_attackDamage} damage processed to {hit.gameObject.name}");
+                    var health = hit.GetComponentInParent<NetworkHealthSystem>();
                     
-                    _hasDealtDamage = true; 
-                    break;
+                    if (health != null)
+                    {
+                        health.TakeDamage(_attackDamage);
+                        Debug.Log($"[SERVER] Mid-air impact! {_attackDamage} damage processed to {hit.gameObject.name}");
+                        
+                        _hasDealtDamage = true; 
+                        break;
+                    }
                 }
             }
         }
@@ -138,10 +144,24 @@ namespace Network.Enemies.States
 
         public void Exit()
         {
+            // Ensure landing on a valid NavMesh point before reactivating physics
+            UnityEngine.AI.NavMeshHit hit;
+            if (UnityEngine.AI.NavMesh.SamplePosition(_enemy.transform.position, out hit, 4f, UnityEngine.AI.NavMesh.AllAreas))
+            {
+                _enemy.transform.position = hit.position;
+            }
+
             // Restore physics and agent state
             if (_enemyCollider != null)
             {
                 _enemyCollider.isTrigger = false;
+            }
+
+            // Clear residual physics forces
+            if (_enemy.TryGetComponent<Rigidbody>(out Rigidbody rb))
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
             }
             
             _enemy.Agent.enabled = true;

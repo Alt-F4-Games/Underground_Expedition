@@ -80,7 +80,7 @@ namespace Network.Enemies
         }
 
         // Draws debug spheres in the Unity Editor
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, VisionRange);

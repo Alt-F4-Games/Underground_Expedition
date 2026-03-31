@@ -120,14 +120,11 @@ namespace Network.Enemies
                 TargetPlayer = snitchedTarget;
             }
         }
-
+        
         // Draws debug spheres in the Unity Editor for AI ranges
-        private void OnDrawGizmosSelected()
+        protected override void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, VisionRange);
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, AttackRange);
+            base.OnDrawGizmosSelected();
             
             Gizmos.color = new Color(1f, 0.5f, 0f); // Orange: Snitch alert range
             Gizmos.DrawWireSphere(transform.position, SnitchRange);
