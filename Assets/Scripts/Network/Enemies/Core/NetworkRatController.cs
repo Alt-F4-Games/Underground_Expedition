@@ -20,6 +20,9 @@ namespace Network.Enemies.Variants
         // Extra distance added to the player's position to make the rat jump past them if they dodge
         public float JumpExtraDistance = 2f; 
         
+        // Peak height of the leap arc
+        public float JumpHeight = 2f;
+        
         [Tooltip("Physical size of the impact during the jump. Should be SMALLER than AttackRange.")]
         public float JumpHitboxRadius = 0.5f;
         
@@ -28,7 +31,7 @@ namespace Network.Enemies.Variants
         public override INetworkState GetAttackState()
         {
             return new NetworkChargeState(JumpChargeTime, () => 
-                new NetworkJumpAttackState(JumpSpeed, JumpExtraDistance, AttackDamage, JumpHitboxRadius));
+                new NetworkJumpAttackState(JumpSpeed, JumpExtraDistance, AttackDamage, JumpHitboxRadius, JumpHeight));
         }
 
         // Draws debug spheres in the Unity Editor for AI ranges

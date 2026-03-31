@@ -16,7 +16,7 @@ namespace Network.Enemies.States
         
         private float _progress;
         private float _jumpDuration;
-        private float _jumpHeight = 2f; // Peak height of the leap arc
+        private float _jumpHeight;
         
         private float _jumpSpeed;
         private float _extraDistance;
@@ -26,12 +26,13 @@ namespace Network.Enemies.States
         private Collider _enemyCollider;
         private bool _hasDealtDamage;
 
-        public NetworkJumpAttackState(float jumpSpeed, float extraDistance, int attackDamage, float attackRadius)
+        public NetworkJumpAttackState(float jumpSpeed, float extraDistance, int attackDamage, float attackRadius, float jumpHeight)
         {
             _jumpSpeed = jumpSpeed;
             _extraDistance = extraDistance;
             _attackDamage = attackDamage;
             _attackRadius = attackRadius;
+            _jumpHeight = jumpHeight;
         }
 
         public void Enter(NetworkEnemyController enemy)

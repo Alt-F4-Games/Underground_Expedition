@@ -1127,11 +1127,15 @@ PrefabInstance:
       objectReference: {fileID: 1420583369}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpSpeed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: ChaseRange
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: PatrolPath
@@ -1146,8 +1150,16 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: AttackCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHitboxRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpExtraDistance
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: SwarmLayer.m_Bits
@@ -2051,11 +2063,15 @@ PrefabInstance:
       objectReference: {fileID: 1000315942}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpSpeed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: ChaseRange
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: PatrolPath
@@ -2070,8 +2086,16 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: AttackCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHitboxRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpExtraDistance
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: SwarmLayer.m_Bits
@@ -2192,11 +2216,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpSpeed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: ChaseRange
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: PatrolPath
@@ -2211,8 +2239,16 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: AttackCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHitboxRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpExtraDistance
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: SwarmLayer.m_Bits
@@ -3118,11 +3154,15 @@ PrefabInstance:
       objectReference: {fileID: 1736844952}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpSpeed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: ChaseRange
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: PatrolPath
@@ -3137,8 +3177,16 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: AttackCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
+      propertyPath: JumpHitboxRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: JumpExtraDistance
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8690812473874636204, guid: 0161e12c401577f4192fd695282c8742, type: 3}
       propertyPath: SwarmLayer.m_Bits
