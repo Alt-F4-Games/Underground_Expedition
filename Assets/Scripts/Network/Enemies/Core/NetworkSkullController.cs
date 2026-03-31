@@ -8,7 +8,6 @@ public class NetworkSkullController : NetworkEnemyController
 {
     [Header("Explosion Settings")]
     [SerializeField] private float stunDuration = 3;
-    [SerializeField] private Color flashFeedbackColor = Color.red;
     [SerializeField] private float flashDuration = 0.2f;
     
     [Header("Floating Settings")]
@@ -24,17 +23,11 @@ public class NetworkSkullController : NetworkEnemyController
     
     // Components
     private NetworkEnemyHealth _enemyHealth;
-    private Renderer _renderer;
-    private Color _originalColor;
-    private Coroutine _flashCoroutine;
-    private MaterialPropertyBlock _mpb;
 
     private void Awake()
     {
         _enemyHealth = GetComponent<NetworkEnemyHealth>();
-        _renderer = GetComponent<Renderer>();
         Agent  = GetComponent<NavMeshAgent>();
-        _mpb = new MaterialPropertyBlock();
     }
 
     private void Start()
@@ -59,33 +52,7 @@ public class NetworkSkullController : NetworkEnemyController
     }
     public void PlayExplodeChargeFeedback()
     {
-        if (_flashCoroutine != null)
-            StopCoroutine(_flashCoroutine);
-
-        _originalColor = _renderer.material.color;
-        _flashCoroutine = StartCoroutine(FlashRoutine());
-    }
-    
-    private IEnumerator FlashRoutine()
-    {
-        bool isRed = false;
-
-        while (true)
-        {
-            isRed = !isRed;
-
-            _renderer.material.color = isRed ? flashFeedbackColor : _originalColor;
-
-            yield return new WaitForSeconds(flashDuration);
-        }
-    }
-    
-    public void StopExplodeChargeFeedback()
-    {
-        if (_flashCoroutine != null)
-            StopCoroutine(_flashCoroutine);
-
-        _renderer.material.color = _originalColor;
+        // Explosion Anim
     }
 
     public void Despawn()
