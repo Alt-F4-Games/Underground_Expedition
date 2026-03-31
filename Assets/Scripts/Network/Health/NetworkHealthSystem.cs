@@ -7,7 +7,7 @@ namespace Health
         [Header("Stats")]
         [SerializeField] private int _maxHealth = 100;
 
-        [Networked] private int CurrentHealth { get; set; }
+        [Networked] public int CurrentHealth { get; protected set; }
         [Networked] protected bool IsAlive { get; set; }
 
         public int MaxHealth => _maxHealth;
