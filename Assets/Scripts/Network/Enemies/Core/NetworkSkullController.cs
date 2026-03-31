@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class NetworkSkullController : NetworkEnemyController
 {
     [Header("Explosion Settings")]
-    [SerializeField] private float explosionForce = 3;
+    [SerializeField] private float stunDuration = 3;
     [SerializeField] private Color flashFeedbackColor = Color.red;
     [SerializeField] private float flashDuration = 0.2f;
     
@@ -20,7 +20,7 @@ public class NetworkSkullController : NetworkEnemyController
     private float _baseOffset;
     
     // Getters
-    public float ExplosionForce => explosionForce;
+    public float StunDuration => stunDuration;
     
     // Components
     private NetworkEnemyHealth _enemyHealth;

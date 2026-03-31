@@ -40,25 +40,20 @@ namespace Network.Enemies
 
             float radius = _enemy.AttackRange;
             int damage = _enemy.AttackDamage;
-            float force = _enemy.ExplosionForce;
+            float duration = _enemy.StunDuration;
 
             Collider[] hits = Physics.OverlapSphere(_enemy.transform.position, radius, _enemy.PlayerLayer);
 
             foreach (var hit in hits)
             {
-                // TEST ============================================
-                var characterController = hit.GetComponent<CharacterController>();
-                if (characterController != null)
-                {
-                    Vector3 dir = (hit.transform.position - _enemy.transform.position).normalized;
-                    
-                    characterController.attachedRigidbody.AddForce(dir * force, ForceMode.Impulse);
-                }
-                // =================================================
-                
                 if (hit.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage(damage);
+                }
+
+                if (hit.TryGetComponent(out IStunnable stunnable))
+                {
+                    stunnable.ApplyStun(duration);
                 }
             }
         
