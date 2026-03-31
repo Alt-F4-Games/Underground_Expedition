@@ -10,6 +10,9 @@ namespace Network.Enemies
         Dead,
         Charging,
         Jumping
+        Attacking,
+        Exploding,
+        Dead 
     }
 
     // Base interface that all enemy states must implement
