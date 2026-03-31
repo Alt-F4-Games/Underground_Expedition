@@ -3,6 +3,10 @@ using System;
 
 namespace Network.Enemies.States
 {
+    /// <summary>
+    /// State for telegraphing or charging an ability before execution.
+    /// Locks the enemy in place and transitions to a follow-up state upon completion.
+    /// </summary>
     public class NetworkChargeState : INetworkState
     {
         private NetworkEnemyController _enemy;
@@ -19,15 +23,18 @@ namespace Network.Enemies.States
         public void Enter(NetworkEnemyController enemy)
         {
             _enemy = enemy;
-            _enemy.Agent.isStopped = true; // Lock the enemy in place
+            
+            // Lock the enemy in place to telegraph the upcoming attack
+            _enemy.Agent.isStopped = true; 
             _timer = 0f;
             
-            // TODO: Add generic Animator Trigger here (e.g., enemy.Animator.SetTrigger("Charge"))
+            // TODO: Trigger "Charge" animation in the Animator
             Debug.Log($"[SERVER] {_enemy.gameObject.name} entered Charge/Telegraph state...");
         }
 
         public void Update()
         {
+            // TRANSITION: Target lost or killed -> return to patrol
             if (_enemy.TargetPlayer == null)
             {
                 _enemy.StateMachine.ChangeState(_enemy.GetPatrolState());
@@ -36,22 +43,21 @@ namespace Network.Enemies.States
 
             float distance = Vector3.Distance(_enemy.transform.position, _enemy.TargetPlayer.transform.position);
 
-            // If the player moves out of attack range, cancel the charge
+            // TRANSITION: Player moves out of range -> cancel charge and resume chase
             if (distance > _enemy.AttackRange)
             {
-                // TODO: Add Trigger to cancel the animation if necessary
                 _enemy.StateMachine.ChangeState(_enemy.GetChaseState());
                 return;
             }
 
-            // Charge timer logic
+            // TIMING LOGIC: Advance the charge timer
             _timer += Time.deltaTime;
             
             if (_timer >= _chargeTime)
             {
-                Debug.Log($"[SERVER] {_enemy.gameObject.name} finished charging. Transitioning to next state...");
+                Debug.Log($"[SERVER] {_enemy.gameObject.name} finished charging. Transitioning to next state.");
                 
-                // Execute the function passed via constructor to transition (e.g., to a jump or attack)
+                // Execute the callback to transition to the actual attack (e.g., JumpAttack or BasicAttack)
                 if (_getNextState != null)
                 {
                     _enemy.StateMachine.ChangeState(_getNextState.Invoke());
@@ -61,7 +67,7 @@ namespace Network.Enemies.States
 
         public void Exit() 
         {
-            
+            // Logic when exiting the charge state (empty for now)
         }
 
         public NetworkEnemyState GetStateType() => NetworkEnemyState.Charging;
