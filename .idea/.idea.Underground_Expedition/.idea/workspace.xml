@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="711bd7a5-7809-4470-a209-66b708330957" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/INetworkState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Enemies/Core/INetworkState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Underground_Expedition/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Underground_Expedition/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Networking/Network_Enemy_Rat.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Networking/Network_Enemy_Rat.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Network/Spawn/SpawnPoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Network/Spawn/SpawnPoints.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,29 +29,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "develop",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Standalone Player.Start Unity">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.58f2\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\Usuario\Documents\projects\facultad\Underground_Expedition -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\Usuario\Documents\projects\facultad\Underground_Expedition" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
@@ -57,13 +58,12 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\Usuario\Documents\projects\facultad\Underground_Expedition -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\Usuario\Documents\projects\facultad\Underground_Expedition" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
@@ -74,10 +74,9 @@
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
@@ -88,7 +87,6 @@
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
   </component>
