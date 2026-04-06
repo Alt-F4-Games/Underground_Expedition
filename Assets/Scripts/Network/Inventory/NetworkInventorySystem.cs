@@ -22,7 +22,7 @@ using System;
 public class NetworkInventorySystem : NetworkBehaviour
 {
     // Fusion requires fixed sizes for NetworkArray
-    private const int MAX_BASE = 3;
+    private const int MAX_BASE = 9;
     private const int MAX_EQUIP = 3;
     private const int MAX_HOTBAR = 3;
 
