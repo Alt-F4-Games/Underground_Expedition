@@ -5,7 +5,6 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     [Header("Containers")]
-    [SerializeField] private Transform equipContainer;
     [SerializeField] private Transform backpackContainer;
 
     [Header("Prefabs")]
@@ -15,7 +14,6 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventoryPanelRoot;
     [SerializeField] private KeyCode toggleKey = KeyCode.I;
 
-    private List<InventorySlotUI> _equipSlotsUI = new();
     private List<InventorySlotUI> _baseSlotsUI = new();
 
     private NetworkInventoryManager _currentManager;
@@ -116,7 +114,6 @@ public class InventoryUI : MonoBehaviour
 
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
 
-        CreateSlots(equipContainer, _equipSlotsUI, sys.GetCapacity(SlotType.Equip), SlotType.Equip);
         CreateSlots(backpackContainer, _baseSlotsUI, sys.GetCapacity(SlotType.Base), SlotType.Base);
     }
     
@@ -151,7 +148,6 @@ public class InventoryUI : MonoBehaviour
 
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
 
-        RefreshList(_equipSlotsUI, sys.EquipSlots, sys.GetCapacity(SlotType.Equip));
         RefreshList(_baseSlotsUI, sys.BaseSlots, sys.GetCapacity(SlotType.Base));
     }
     
