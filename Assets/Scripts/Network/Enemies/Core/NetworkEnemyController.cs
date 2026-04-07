@@ -21,7 +21,7 @@ namespace Network.Enemies
         public float AttackCooldown = 1.2f;
 
         public NetworkEnemyStateMachine StateMachine { get; private set; }
-        public NetworkObject TargetPlayer { get; private set; } // Current target being chased
+        public NetworkObject TargetPlayer { get; protected set; } // Current target being chased
 
         // Networked enum. Triggers OnStateChanged on all clients when updated by the Host
         [Networked, OnChangedRender(nameof(OnStateChanged))]
@@ -35,7 +35,7 @@ namespace Network.Enemies
             if (HasStateAuthority)
             {
                 StateMachine = new NetworkEnemyStateMachine(this);
-                StateMachine.ChangeState(new NetworkPatrolState());
+                StateMachine.ChangeState(GetPatrolState());
             }
         }
 
@@ -50,7 +50,7 @@ namespace Network.Enemies
         }
 
         // Scans for the closest player within VisionRange
-        private void FindTargetPlayer()
+        protected virtual void FindTargetPlayer()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, VisionRange, PlayerLayer);
             float closestDistance = float.MaxValue;
@@ -80,12 +80,19 @@ namespace Network.Enemies
         }
 
         // Draws debug spheres in the Unity Editor
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, VisionRange);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, AttackRange);
         }
+        
+        // Factory Methods for States
+        public virtual INetworkState GetIdleState() => new NetworkIdleState();
+        public virtual INetworkState GetPatrolState() => new NetworkPatrolState();
+        public virtual INetworkState GetChaseState() => new NetworkChaseState();
+        public virtual INetworkState GetAttackState() => new NetworkAttackState();
+
     }
 }

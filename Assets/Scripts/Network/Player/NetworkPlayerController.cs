@@ -1,11 +1,12 @@
 ﻿using Fusion;
 using Health;
+﻿using System.Collections;
+using Fusion;
 using Network;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
-[RequireComponent(typeof(NetworkPlayerHealth))]
-public class NetworkPlayerController : NetworkBehaviour
+public class NetworkPlayerController : NetworkBehaviour, IStunnable
 {
     [Header("References")]
     [SerializeField] private Transform _cameraPivot;
@@ -18,11 +19,15 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField] private float _mouseSensitivity = 0.15f;
     [SerializeField] private float _maxLookAngle = 80f;
 
+    // Components
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
 
     private Camera _playerCamera;
 
+    // Variables
+    private bool _isStunned = false;
+    
     // rotaciones
     private float _yaw;
     private float _currentPitch;
@@ -111,8 +116,16 @@ public class NetworkPlayerController : NetworkBehaviour
 
         Vector3 moveDir =
             yawRotation * new Vector3(input.MoveDirection.x, 0, input.MoveDirection.z);
-
-        _controller.Move(moveDir * _moveSpeed * Runner.DeltaTime);
+        
+        if (_isStunned)
+        {
+            _controller.Velocity = Vector3.zero;
+            input.MoveDirection = Vector3.zero;
+        }
+        else
+        {
+            _controller.Move(moveDir * _moveSpeed * Runner.DeltaTime);
+        }
     }
 
     // ============================================================
@@ -125,5 +138,26 @@ public class NetworkPlayerController : NetworkBehaviour
         {
             _controller.Jump();
         }
+    }
+    
+    // ============================================================
+    // STATUS EFFECT
+    // ============================================================
+
+    public void ApplyStun(float duration)
+    {
+        if (!_isStunned)
+        {
+            StartCoroutine(StunCoroutine(duration));
+        }
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        _isStunned = true;
+        
+        yield return new WaitForSeconds(duration);
+        
+        _isStunned = false;
     }
 }

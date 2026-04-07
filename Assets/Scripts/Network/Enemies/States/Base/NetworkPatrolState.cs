@@ -28,16 +28,15 @@ namespace Network.Enemies
 
         public void Update()
         {
-            // TRANSITION: Spot a player -> start chasing
+            // Transición a Persecución (Sin hardcodear)
             if (_enemy.TargetPlayer != null)
             {
-                _enemy.StateMachine.ChangeState(new NetworkChaseState());
+                _enemy.StateMachine.ChangeState(_enemy.GetChaseState());
                 return;
             }
     
             if (_enemy.PatrolPath == null || _enemy.PatrolPath.Waypoints.Count == 0) return;
 
-            // Move to the next waypoint if we are close enough to the current one
             if (!_enemy.Agent.pathPending && _enemy.Agent.remainingDistance <= _enemy.PatrolPath.WaypointTolerance)
             {
                 _currentIndex = (_currentIndex + 1) % _enemy.PatrolPath.Waypoints.Count;

@@ -1,6 +1,7 @@
 using Fusion;
 using Unity.VisualScripting;
 using UnityEngine;
+using Network.Enemies;
 
 public enum SpawnType
 {
@@ -19,6 +20,9 @@ public class SpawnPoints : NetworkBehaviour
     
     [Header("Enemy / Destructible")]
     [SerializeField] private int _enemyAmount;
+    [Header("Enemy Specific")]
+    [Tooltip("The path that instantiated enemies will follow.")]
+    [SerializeField] private NetworkPatrolPath _patrolPath;
     
     [Header("Pickup")]
     [SerializeField] private int _pickupsAmount;
@@ -49,7 +53,14 @@ public class SpawnPoints : NetworkBehaviour
                 for (int i = 0; i < _enemyAmount; i++)
                 {
                     Vector3 offset = new Vector3(Random.Range(-_offsetSpawn, _offsetSpawn), 0, Random.Range(-_offsetSpawn, _offsetSpawn));
-                    Runner.Spawn(prefab, transform.position + offset, transform.rotation);
+                    
+                    Runner.Spawn(prefab, transform.position + offset, transform.rotation, null, (runner, obj) => 
+                    {
+                        if (_patrolPath != null && obj.TryGetComponent(out NetworkEnemyController enemy))
+                        {
+                            enemy.PatrolPath = _patrolPath;
+                        }
+                    });
                 }
                 
                 break;
