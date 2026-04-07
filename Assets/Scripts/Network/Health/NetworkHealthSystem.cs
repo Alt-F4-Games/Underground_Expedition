@@ -39,6 +39,17 @@ namespace Health
         }
 
         // ============================================================
+        // HEAL REQUEST (CLIENT → SERVER)
+        // ============================================================
+
+        public void Heal(int heal)
+        {
+            if (!HasStateAuthority) return;
+
+            ApplyHeal(heal);
+        }
+        
+        // ============================================================
         // SERVER LOGIC
         // ============================================================
 
@@ -83,17 +94,7 @@ namespace Health
             Debug.Log($"{gameObject.name} healed {heal}. HP: {CurrentHealth}");
         }
         
-        // ============================================================
-        // HEAL REQUEST (CLIENT → SERVER)
-        // ============================================================
-
-        public void Heal(int heal)
-        {
-            if (!HasStateAuthority) return;
-
-           ApplyHeal(heal);
-        }
-
+        
         // ============================================================
         // DEATH (Server)
         // ============================================================
