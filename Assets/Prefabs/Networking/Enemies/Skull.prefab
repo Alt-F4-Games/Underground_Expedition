@@ -236,7 +236,6 @@ GameObject:
   - component: {fileID: 5710255863340852292}
   - component: {fileID: 5322746020068641014}
   - component: {fileID: 7164542833275338322}
-  - component: {fileID: 7178306972462386133}
   m_Layer: 7
   m_Name: Skull
   m_TagString: Untagged
@@ -360,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 30
+  _CurrentHealth: 0
 --- !u!195 &7164542833275338322
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -367,7 +367,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5234027923286439628}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: -334000983
   m_Radius: 0.3
   m_Speed: 3.5
@@ -382,20 +382,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7178306972462386133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5234027923286439628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: d141a9f979d98d248adfd3e0a6428034
 --- !u!1 &6637847236202522612
 GameObject:
   m_ObjectHideFlags: 0
