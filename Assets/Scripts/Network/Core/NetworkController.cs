@@ -41,6 +41,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject _playerprefab;
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
+    [SerializeField] private int sceneIndex ;
     
     // ----------------------- Test Items -------------------------
     [Header("Test Items (Only for development)")]
@@ -108,7 +109,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = GameMode.Host,
             SessionName = "TestRoom",
             SceneManager = _networkSceneManagerDefault,
-            Scene = SceneRef.FromIndex(activeScene.buildIndex)
+            Scene = SceneRef.FromIndex(sceneIndex)
         };
 
         var result = await _networkRunner.StartGame(gameArg);
