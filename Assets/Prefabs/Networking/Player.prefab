@@ -402,7 +402,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
-  _CurrentHealth: 0
+  _IsAlive: 1
+  _respawnDelay: 3
+  _renderer: {fileID: 4537851723476280760}
 --- !u!114 &-2857272182491207197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
-  _CurrentHealth: 0
+  _IsAlive: 0
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
