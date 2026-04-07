@@ -23,6 +23,7 @@ public class InventorySlotUI : MonoBehaviour,
     private int _currentItemId;
     private int _currentQty;
     private bool _isHovered;
+    private static InventorySlotUI _selectedSlot;
 
     // =====================================================================
     // Unity
@@ -32,14 +33,76 @@ public class InventorySlotUI : MonoBehaviour,
     {
         if (_isHovered && HasItem && Input.GetKeyDown(dropKey))
             DropOneItem();
+
+        if (_selectedSlot == this)
+        {
+            InventorySlotDragHandler.UpdateDragPosition(Input.mousePosition);
+        }
+    }
+
+    // =====================================================================
+    // CLICK SYSTEM
+    // =====================================================================
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
+
+        HandleClickSelection();
+    }
+
+    private void HandleClickSelection()
+    {
+        if (!HasItem && _selectedSlot == null)
+            return;
+
+        if (_selectedSlot == null)
+        {
+            if (!HasItem) return;
+
+            _selectedSlot = this;
+            SetHighlight(true);
+
+            InventorySlotDragHandler.BeginDragFromSlot(this);
+
+            return;
+        }
+
+        if (_selectedSlot == this)
+        {
+            ClearSelection();
+            return;
+        }
+
+        TryMoveItem(_selectedSlot, this);
+
+        ClearSelection();
+    }
+
+    private void ClearSelection()
+    {
+        if (_selectedSlot != null)
+            _selectedSlot.SetHighlight(false);
+
+        InventorySlotDragHandler.EndDragVisual();
+
+        _selectedSlot = null;
+    }
+
+    private void TryMoveItem(InventorySlotUI from, InventorySlotUI to)
+    {
+        if (from.Manager != to.Manager || from.Manager == null)
+            return;
+
+        from.Manager.Input_MoveItem(from.SlotType, from.SlotIndex, to.SlotType, to.SlotIndex);
     }
 
     // =====================================================================
     // Item Drop
     // =====================================================================
 
-
-    private void DropOneItem()  // Requests the network manager to drop a single item from this slot.
+    private void DropOneItem()
     {
         if (!Manager) return;
 
@@ -53,8 +116,8 @@ public class InventorySlotUI : MonoBehaviour,
     // =====================================================================
     // Visual Refresh
     // =====================================================================
-    
-    public void Refresh(NetworkInventorySlot slotData)  // Updates UI visuals based on the given network slot data.
+
+    public void Refresh(NetworkInventorySlot slotData)
     {
         _currentItemId = slotData.ItemId;
         _currentQty = slotData.Quantity;
@@ -64,13 +127,12 @@ public class InventorySlotUI : MonoBehaviour,
         else
             Clear();
     }
-    
-    private void ApplyItemVisuals(int itemId, int quantity) // Applies item icon and quantity text to the slot.
+
+    private void ApplyItemVisuals(int itemId, int quantity)
     {
         var itemSo = ItemDatabase.Instance.GetItemById(itemId);
         if (!itemSo) { Clear(); return; }
 
-        // Icon
         if (iconImage)
         {
             iconImage.sprite = itemSo.icon;
@@ -78,12 +140,11 @@ public class InventorySlotUI : MonoBehaviour,
             iconImage.color = Color.white;
         }
 
-        // Quantity label
         if (qtyText)
             qtyText.text = quantity > 1 ? quantity.ToString() : string.Empty;
     }
-    
-    public void Clear() // Clears all visual content from this UI slot.
+
+    public void Clear()
     {
         _currentItemId = -1;
         _currentQty = 0;
@@ -101,8 +162,8 @@ public class InventorySlotUI : MonoBehaviour,
     // =====================================================================
     // Highlighting
     // =====================================================================
-    
-    public void SetHighlight(bool active)   // Enables or disables the “selected” highlight frame.
+
+    public void SetHighlight(bool active)
     {
         if (highlightFrame != null)
             highlightFrame.SetActive(active);
@@ -116,12 +177,9 @@ public class InventorySlotUI : MonoBehaviour,
     public int CurrentItemId => _currentItemId;
 
     // =====================================================================
-    // Pointer Events (hover + clicks)
+    // Pointer Events
     // =====================================================================
 
     public void OnPointerEnter(PointerEventData eventData) => _isHovered = true;
     public void OnPointerExit(PointerEventData eventData) => _isHovered = false;
-
-    // No action needed for click, but implemented for interface completeness
-    public void OnPointerClick(PointerEventData eventData) { }
 }
