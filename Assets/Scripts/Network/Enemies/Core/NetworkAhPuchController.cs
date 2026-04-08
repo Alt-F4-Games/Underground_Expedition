@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine;
 using Network.Enemies.Components;
+using Network.Enemies;
 
 namespace Network.Enemies.Variants
 {
@@ -86,22 +87,54 @@ namespace Network.Enemies.Variants
         private void EnterPhase(int phase)
         {
             CurrentPhaseIndex = phase;
-
-            if (phase == 2)
-            {
-                Agent.speed = BaseSpeed + _phase2SpeedAdd;
-            }
-            else if (phase == 3)
-            {
-                Agent.speed = BaseSpeed + _phase2SpeedAdd + _phase3SpeedAdd;
-                
-                if (AuraComponent != null)
-                {
-                    CurrentAuraRadius = AuraComponent.BaseRadius + _phase3AuraAdd;
-                }
-            }
-            
+            RecalculatePhaseStats();
             Debug.Log($"[SERVER] Ah Puch entered Phase {CurrentPhaseIndex}. Speed: {Agent.speed}, Aura Radius: {CurrentAuraRadius}");
+        }
+
+        public void ApplyStatNode(AhPuchStatNode node)
+        {
+            // Agent Stats
+            if (node.NewSpeed != 0f) BaseSpeed = node.NewSpeed; // Update base so phases scale correctly
+            if (node.NewAngularSpeed != 0f) Agent.angularSpeed = node.NewAngularSpeed;
+            if (node.NewAcceleration != 0f) Agent.acceleration = node.NewAcceleration;
+
+            // Detection
+            if (node.NewVisionRange != 0f) VisionRange = node.NewVisionRange;
+            if (node.NewAttackRange != 0f) AttackRange = node.NewAttackRange;
+
+            // Combat
+            if (node.NewAttackCooldown != 0f) AttackCooldown = node.NewAttackCooldown;
+            if (node.NewAuraRadius != 0f && AuraComponent != null) AuraComponent.BaseRadius = node.NewAuraRadius;
+
+            // Dash
+            if (node.NewDashSpeedBoost != 0f) DashSpeedBoost = node.NewDashSpeedBoost;
+            if (node.NewDashDurationSuccess != 0f) DashDurationSuccess = node.NewDashDurationSuccess;
+            if (node.NewDashDurationFail != 0f) DashDurationFail = node.NewDashDurationFail;
+
+            // Recalculate phase bonuses in case BaseSpeed or BaseRadius changed
+            RecalculatePhaseStats();
+            
+        }
+
+        // Keeps math clean by adding phase bonuses to the current base
+        private void RecalculatePhaseStats()
+        {
+            float speedBonus = 0f;
+            float auraBonus = 0f;
+
+            if (CurrentPhaseIndex >= 2) speedBonus += _phase2SpeedAdd;
+            if (CurrentPhaseIndex >= 3) 
+            {
+                speedBonus += _phase3SpeedAdd;
+                auraBonus += _phase3AuraAdd;
+            }
+
+            Agent.speed = BaseSpeed + speedBonus;
+            
+            if (AuraComponent != null) 
+            {
+                CurrentAuraRadius = AuraComponent.BaseRadius + auraBonus;
+            }
         }
     }
 }

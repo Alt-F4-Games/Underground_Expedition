@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Network.Enemies;
 
 namespace Network.Enemies.Variants
 {
@@ -32,7 +33,18 @@ namespace Network.Enemies.Variants
             // Check if the Agent reached its current destination
             if (!_enemy.Agent.pathPending && _enemy.Agent.remainingDistance <= _enemy.PatrolPath.WaypointTolerance)
             {
-                // TODO: Logic to check if current node is for Stats or Evaluation
+                // Check if the current waypoint is a stat modifier
+                Transform currentWaypoint = _enemy.PatrolPath.GetWaypoint(_enemy.CurrentPathIndex);
+                if (currentWaypoint != null)
+                {
+                    var statNode = currentWaypoint.GetComponent<AhPuchStatNode>();
+                    if (statNode != null)
+                    {
+                        _enemy.ApplyStatNode(statNode);
+                    }
+                    
+                    // TODO: Logic to check if current node is for Evaluation
+                }
                 
                 if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)
                 {

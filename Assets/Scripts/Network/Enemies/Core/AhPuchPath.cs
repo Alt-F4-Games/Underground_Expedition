@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Network.Enemies;
 
 namespace Network.Enemies.Variants
 {
@@ -15,14 +16,23 @@ namespace Network.Enemies.Variants
         // Overriding Gizmos so the line doesn't connect the end back to the start
         protected override void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.magenta;
             for (int i = 0; i < Waypoints.Count; i++)
             {
                 if (Waypoints[i] == null) continue;
                 
-                Gizmos.DrawSphere(Waypoints[i].position, 0.4f);
+                if (Waypoints[i].GetComponent<AhPuchStatNode>() != null)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawCube(Waypoints[i].position, Vector3.one * 0.6f);
+                }
+                else
+                {
+                    Gizmos.color = Color.magenta;
+                    Gizmos.DrawSphere(Waypoints[i].position, 0.4f);
+                }
                 
                 // Only draw line to the next waypoint if it's not the last one
+                Gizmos.color = Color.magenta;
                 if (i < Waypoints.Count - 1 && Waypoints[i + 1] != null)
                 {
                     Gizmos.DrawLine(Waypoints[i].position, Waypoints[i + 1].position);
