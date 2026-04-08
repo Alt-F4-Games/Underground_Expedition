@@ -21,6 +21,13 @@ namespace Network.Enemies
         public float DashDurationSuccess = 3f;
         public float DashDurationFail = 5f;
 
+        [Header("Pathing & Node Detection")]
+        [Tooltip("Radius to detect and read Stat Nodes while chasing the player.")]
+        public float ChaseNodeDetectionRadius = 3f;
+        
+        [Tooltip("Maximum straight-line distance allowed to start calculating a route to a nearby waypoint.")]
+        public float MaxWaypointSearchDistance = 30f;
+
         [Header("References")]
         public DamageAura AuraComponent;
 
@@ -174,6 +181,57 @@ namespace Network.Enemies
                 Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
                 StateMachine.ChangeState(GetDashState(DashDurationFail));
             }
+        }
+
+        // PATHING & NAVIGATION
+
+        public void SetNearestPathIndex()
+        {
+            if (PatrolPath == null || PatrolPath.Waypoints.Count == 0) return;
+
+            float minDistance = float.MaxValue;
+            int nearestIndex = CurrentPathIndex;
+            UnityEngine.AI.NavMeshPath path = new UnityEngine.AI.NavMeshPath();
+
+            for (int i = 0; i < PatrolPath.Waypoints.Count; i++)
+            {
+                Transform wp = PatrolPath.GetWaypoint(i);
+                if (wp == null) continue;
+                
+                // Fast discard by straight-line distance (Optimization)
+                if (Vector3.Distance(transform.position, wp.position) > MaxWaypointSearchDistance) continue;
+
+                // Calculate the actual route via NavMesh (Avoids walls)
+                if (UnityEngine.AI.NavMesh.CalculatePath(transform.position, wp.position, UnityEngine.AI.NavMesh.AllAreas, path))
+                {
+                    // Ensure the path is valid and reachable
+                    if (path.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
+                    {
+                        float dist = GetPathLength(path);
+                        if (dist < minDistance)
+                        {
+                            minDistance = dist;
+                            nearestIndex = i;
+                        }
+                    }
+                }
+            }
+
+            CurrentPathIndex = nearestIndex;
+            Debug.Log($"[SERVER] Ah Puch lost target. Recalculated nearest waypoint (NavMesh): Index {CurrentPathIndex}");
+        }
+        
+        private float GetPathLength(UnityEngine.AI.NavMeshPath path)
+        {
+            float length = 0.0f;
+            if (path.corners.Length > 1)
+            {
+                for (int i = 1; i < path.corners.Length; i++)
+                {
+                    length += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                }
+            }
+            return length;
         }
       
         // STATE FACTORY METHODS (Overrides & Customs)

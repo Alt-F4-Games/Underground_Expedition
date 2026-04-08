@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 27085603}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 64.2, y: 50, z: -86.2}
+  m_LocalPosition: {x: 64.2, y: 48.6, z: -86.2}
   m_LocalScale: {x: 1, y: 10.748604, z: 110}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -643,7 +643,7 @@ Transform:
   m_GameObject: {fileID: 218085731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -78.5, y: 50, z: -86.2}
+  m_LocalPosition: {x: -78.5, y: 48.6, z: -86.2}
   m_LocalScale: {x: 1, y: 10.748604, z: 110}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -751,7 +751,7 @@ Transform:
   m_GameObject: {fileID: 249709759}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 50, z: -135.5}
+  m_LocalPosition: {x: -6, y: 48.6, z: -135.5}
   m_LocalScale: {x: 146.94873, y: 10.748604, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1124,7 +1124,7 @@ Transform:
   m_GameObject: {fileID: 286770431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.6, y: 50, z: -106.6}
+  m_LocalPosition: {x: 20.6, y: 48.6, z: -106.6}
   m_LocalScale: {x: 1, y: 10.748604, z: 90.556076}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1232,7 +1232,7 @@ Transform:
   m_GameObject: {fileID: 292234453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.5, y: 50, z: -62.3}
+  m_LocalPosition: {x: 11.5, y: 48.6, z: -62.3}
   m_LocalScale: {x: 19.272327, y: 10.748604, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1350,7 +1350,7 @@ MonoBehaviour:
   - {fileID: 402911405}
   - {fileID: 1618311118}
   - {fileID: 937322743}
-  WaypointTolerance: 0.5
+  WaypointTolerance: 2
 --- !u!4 &352606137
 Transform:
   m_ObjectHideFlags: 0
@@ -1548,7 +1548,7 @@ MonoBehaviour:
   NewAngularSpeed: 0
   NewAcceleration: 0
   NewVisionRange: 15
-  NewAttackRange: 10
+  NewAttackRange: 3
   NewAttackCooldown: 0
   NewDashSpeedBoost: 0
   NewDashDurationSuccess: 0
@@ -2016,11 +2016,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b995eb14d7645b1b06c7b858a8c124c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NewSpeed: 1
+  NewSpeed: 2
   NewAngularSpeed: 0
   NewAcceleration: 0
-  NewVisionRange: 0
-  NewAttackRange: 7
+  NewVisionRange: 6
+  NewAttackRange: 1
   NewAttackCooldown: 0
   NewDashSpeedBoost: 0
   NewDashDurationSuccess: 0
@@ -2562,7 +2562,7 @@ Transform:
   m_GameObject: {fileID: 1056194504}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.2, y: 50, z: -76.5}
+  m_LocalPosition: {x: 33.2, y: 48.6, z: -76.5}
   m_LocalScale: {x: 1, y: 10.748604, z: 90.556076}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2670,7 +2670,7 @@ Transform:
   m_GameObject: {fileID: 1096288448}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.3, y: 50, z: -70.7}
+  m_LocalPosition: {x: -6.3, y: 48.6, z: -70.7}
   m_LocalScale: {x: 1, y: 10.748604, z: 77.125435}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2855,7 +2855,7 @@ Transform:
   m_GameObject: {fileID: 1268053270}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47, y: 50, z: -117.9}
+  m_LocalPosition: {x: 47, y: 48.6, z: -117.9}
   m_LocalScale: {x: 1, y: 10.748604, z: 90.556076}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3878,8 +3878,8 @@ MonoBehaviour:
   NewSpeed: 2.5
   NewAngularSpeed: 0
   NewAcceleration: 0
-  NewVisionRange: 0
-  NewAttackRange: 5
+  NewVisionRange: 10
+  NewAttackRange: 0.5
   NewAttackCooldown: 0
   NewDashSpeedBoost: 0
   NewDashDurationSuccess: 0
@@ -4210,7 +4210,7 @@ Transform:
   m_GameObject: {fileID: 2101043115}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55.4, y: 50, z: -73.8}
+  m_LocalPosition: {x: 55.4, y: 48.6, z: -73.8}
   m_LocalScale: {x: 19.272327, y: 10.748604, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
