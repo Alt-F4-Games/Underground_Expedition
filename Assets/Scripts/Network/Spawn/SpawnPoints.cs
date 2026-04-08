@@ -14,18 +14,18 @@ namespace Network.Spawn
 
     public class SpawnPoints : NetworkBehaviour
     {
-        [SerializeField] private SpawnType spawnType;
+        [SerializeField] protected SpawnType spawnType; // Changed to protected for child access
 
-        [SerializeField] private NetworkPrefabRef prefab;
+        [SerializeField] protected NetworkPrefabRef prefab; // Changed to protected for child access
 
-        [SerializeField] private float _offsetSpawn;
+        [SerializeField] protected float _offsetSpawn; // Changed to protected for child access
     
         [Header("Enemy / Destructible")]
-        [SerializeField] private int _enemyAmount;
+        [SerializeField] protected int _enemyAmount; // Changed to protected for child access
     
         [Header("Enemy Specific")]
         [Tooltip("The path that instantiated enemies will follow.")]
-        [SerializeField] private NetworkPatrolPath _patrolPath;
+        [SerializeField] protected NetworkPatrolPath _patrolPath; // Changed to protected for child access
     
         [Header("Pickup")]
         [SerializeField] private int _pickupsAmount;
@@ -41,7 +41,8 @@ namespace Network.Spawn
             Spawn();
         }
 
-        private void Spawn()
+        // Changed to protected virtual to allow SummonPoint to trigger it manually
+        protected virtual void Spawn()
         {
             if (!prefab.IsValid)
             {
