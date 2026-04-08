@@ -26,6 +26,8 @@ namespace Network.Enemies.Variants
         [Networked] public float CurrentAuraRadius { get; set; }
         
         public float BaseSpeed { get; private set; }
+        
+        [HideInInspector] public int CurrentPathIndex = 0;
 
         public override void Spawned()
         {
@@ -36,12 +38,16 @@ namespace Network.Enemies.Variants
                 BaseSpeed = Agent.speed;
                 CurrentPhaseIndex = 1;
                 
+                // Initialize the path index at 0
+                CurrentPathIndex = 0; 
+                
                 CurrentAuraRadius = AuraComponent != null ? AuraComponent.BaseRadius : 3f;
                 
                 // Initialize timer for the first phase transition
                 PhaseTimer = TickTimer.CreateFromSeconds(Runner, _timeToPhase2);
                 
-                StateMachine.ChangeState(GetIdleState());
+                // Change initial state so it starts advancing through nodes
+                StateMachine.ChangeState(new AhPuchAdvanceState());
             }
         }
 
