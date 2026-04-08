@@ -89,7 +89,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5852868540705830600}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 1479372276
   m_Radius: 0.53
   m_Speed: 3.5
@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 100
   _CurrentHealth: 0
+  _IsAlive: 0
 --- !u!114 &6301212423894627789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,8 +141,8 @@ MonoBehaviour:
   AttackDamage: 10
   AttackCooldown: 1.2
   _CurrentState: 0
-  _timeToPhase2: 30
-  _timeToPhase3: 30
+  _timeToPhase2: 10
+  _timeToPhase3: 10
   _phase2SpeedAdd: 0.2
   _phase3SpeedAdd: 0.4
   _phase3AuraAdd: 2
@@ -151,6 +152,7 @@ MonoBehaviour:
   AuraComponent: {fileID: 1768314575569515645}
   _CurrentPhaseIndex: 0
   _CurrentAuraRadius: 0
+  IsDashing: 0
   CurrentPathIndex: 0
 --- !u!114 &1768314575569515645
 MonoBehaviour:

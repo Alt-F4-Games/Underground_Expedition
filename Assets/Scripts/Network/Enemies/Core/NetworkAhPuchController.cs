@@ -1,5 +1,6 @@
 using Fusion;
 using UnityEngine;
+using System.Collections.Generic;
 using Network.Enemies.Components;
 using Network.Enemies;
 using Network.Enemies.States;
@@ -33,6 +34,9 @@ namespace Network.Enemies
         
         [HideInInspector] public int CurrentPathIndex = 0;
 
+        // List to store all summon zones in the level
+        private List<Network.Spawn.SummonPoint> _allSummonPoints = new List<Network.Spawn.SummonPoint>();
+
         public override void Spawned()
         {
             base.Spawned();
@@ -50,6 +54,9 @@ namespace Network.Enemies
                 // Initialize timer for the first phase transition
                 PhaseTimer = TickTimer.CreateFromSeconds(Runner, _timeToPhase2);
                 
+                // FIND ALL SUMMON POINTS IN THE SCENE AT START
+                _allSummonPoints.AddRange(FindObjectsByType<Network.Spawn.SummonPoint>(FindObjectsSortMode.None));
+
                 // Change initial state so it starts advancing through nodes
                 StateMachine.ChangeState(new AhPuchAdvanceState());
             }
@@ -116,7 +123,6 @@ namespace Network.Enemies
 
             // Recalculate phase bonuses in case BaseSpeed or BaseRadius changed
             RecalculatePhaseStats();
-            
         }
 
         // Keeps math clean by adding phase bonuses to the current base
@@ -146,17 +152,16 @@ namespace Network.Enemies
         {
             Debug.Log("[SERVER] Ah Puch is evaluating invoke zones...");
             
-            // TODO: Buscar AhPuchSpawnPoints activos.
-            
-            bool canInvoke = false; 
+            List<Network.Spawn.SummonPoint> activePoints = _allSummonPoints.FindAll(p => p.IsActive);
 
-            if (canInvoke)
+            if (activePoints.Count > 0)
             {
-                // StateMachine.ChangeState(new AhPuchInvokeState());
+                Debug.Log($"[SERVER] Found {activePoints.Count} active zones. Invoking!");
+                StateMachine.ChangeState(new AhPuchInvokeState(activePoints));
             }
             else
             {
-                Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
+                Debug.Log("[SERVER] No players near summon zones. Triggering FAIL DASH.");
                 StateMachine.ChangeState(new AhPuchDashState(DashDurationFail));
             }
         }
