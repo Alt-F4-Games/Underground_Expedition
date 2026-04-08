@@ -8,7 +8,7 @@ namespace Health
         [SerializeField] private int _maxHealth = 100;
 
         [Networked] public int CurrentHealth { get; protected set; }
-        [Networked] protected bool IsAlive { get; set; }
+        [Networked] public bool IsAlive { get; set; }
 
         public int MaxHealth => _maxHealth;
 
@@ -38,6 +38,17 @@ namespace Health
             ApplyDamage(damage);
         }
 
+        // ============================================================
+        // HEAL REQUEST (CLIENT → SERVER)
+        // ============================================================
+
+        public void Heal(int heal)
+        {
+            if (!HasStateAuthority) return;
+
+            ApplyHeal(heal);
+        }
+        
         // ============================================================
         // SERVER LOGIC
         // ============================================================
@@ -83,17 +94,7 @@ namespace Health
             Debug.Log($"{gameObject.name} healed {heal}. HP: {CurrentHealth}");
         }
         
-        // ============================================================
-        // HEAL REQUEST (CLIENT → SERVER)
-        // ============================================================
-
-        public void Heal(int heal)
-        {
-            if (!HasStateAuthority) return;
-
-           ApplyHeal(heal);
-        }
-
+        
         // ============================================================
         // DEATH (Server)
         // ============================================================

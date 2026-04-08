@@ -1,3 +1,5 @@
+﻿using Fusion;
+using Health;
 ﻿using System.Collections;
 using Fusion;
 using Network;
@@ -19,6 +21,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     // Components
     private NetworkCharacterController _controller;
+    private NetworkPlayerHealth _health;
+
     private Camera _playerCamera;
 
     // Variables
@@ -35,6 +39,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     public override void Spawned()
     {
         _controller = GetComponent<NetworkCharacterController>();
+        _health = GetComponent<NetworkPlayerHealth>();
 
         if (!HasInputAuthority)
         {
@@ -63,6 +68,9 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public override void FixedUpdateNetwork()
     {
+        if (_health != null && !_health.IsAlive)
+            return;
+        
         if (!GetInput(out NetworkInputPlayer input))
             return;
 
