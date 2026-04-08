@@ -149,7 +149,7 @@ MonoBehaviour:
   DashSpeedBoost: 2
   DashDurationSuccess: 3
   DashDurationFail: 5
-  AuraComponent: {fileID: 0}
+  AuraComponent: {fileID: 7653364521913829826}
   _CurrentPhaseIndex: 0
   _CurrentAuraRadius: 0
   IsDashing: 0
@@ -186,7 +186,8 @@ GameObject:
   - component: {fileID: 2679389258661814681}
   - component: {fileID: 5889704506590279438}
   - component: {fileID: 7653364521913829826}
-  m_Layer: 7
+  - component: {fileID: 4893643446727149379}
+  m_Layer: 0
   m_Name: Deah_Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +224,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -243,7 +244,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parentNetworkObject: {fileID: 2106596735567979675}
   Damage: 9999
-  BaseRadius: 5
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!54 &4893643446727149379
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6981952338080989291}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &8965302286862023855
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,11 +11,12 @@ namespace Network.Enemies
 
         [Header("Detection Overrides (0 = No change)")]
         public float NewVisionRange = 0f;
+        
+        [Tooltip("Modifies the AttackRange and automatically scales the aura radius.")]
         public float NewAttackRange = 0f;
 
         [Header("Combat Overrides (0 = No change)")]
         public float NewAttackCooldown = 0f;
-        public float NewAuraRadius = 0f;
 
         [Header("Dash Overrides (0 = No change)")]
         public float NewDashSpeedBoost = 0f;

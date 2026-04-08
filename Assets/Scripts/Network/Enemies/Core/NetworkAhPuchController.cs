@@ -48,7 +48,7 @@ namespace Network.Enemies
                 
                 CurrentPathIndex = 0; 
                 
-                CurrentAuraRadius = AuraComponent != null ? AuraComponent.BaseRadius : 3f;
+                CurrentAuraRadius = AttackRange; 
                 
                 PhaseTimer = TickTimer.CreateFromSeconds(Runner, _timeToPhase2);
                 
@@ -74,7 +74,6 @@ namespace Network.Enemies
             }
         }
         
-        // Método para detectar jugadores en el rango de visión (Usa VisionRange y PlayerLayer de la base)
         public bool LookForTarget()
         {
             if (!HasStateAuthority) return false;
@@ -85,7 +84,7 @@ namespace Network.Enemies
             {
                 if (hits[0].TryGetComponent(out NetworkObject netObj))
                 {
-                    TargetPlayer = netObj; // Seteamos el objetivo de la clase base
+                    TargetPlayer = netObj;
                     return true;
                 }
             }
@@ -125,10 +124,10 @@ namespace Network.Enemies
             if (node.NewAcceleration != 0f) Agent.acceleration = node.NewAcceleration;
 
             if (node.NewVisionRange != 0f) VisionRange = node.NewVisionRange;
+            
             if (node.NewAttackRange != 0f) AttackRange = node.NewAttackRange;
 
             if (node.NewAttackCooldown != 0f) AttackCooldown = node.NewAttackCooldown;
-            if (node.NewAuraRadius != 0f && AuraComponent != null) AuraComponent.BaseRadius = node.NewAuraRadius;
 
             if (node.NewDashSpeedBoost != 0f) DashSpeedBoost = node.NewDashSpeedBoost;
             if (node.NewDashDurationSuccess != 0f) DashDurationSuccess = node.NewDashDurationSuccess;
@@ -155,7 +154,7 @@ namespace Network.Enemies
             
             if (AuraComponent != null) 
             {
-                CurrentAuraRadius = AuraComponent.BaseRadius + auraBonus;
+                CurrentAuraRadius = AttackRange + auraBonus;
             }
         }
         
@@ -168,16 +167,15 @@ namespace Network.Enemies
             if (activePoints.Count > 0)
             {
                 Debug.Log($"[SERVER] Found {activePoints.Count} active zones. Invoking!");
-                // Transition via factory method instead of hardcoding
                 StateMachine.ChangeState(GetInvokeState(activePoints));
             }
             else
             {
                 Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
-                // Transition via factory method instead of hardcoding
                 StateMachine.ChangeState(GetDashState(DashDurationFail));
             }
         }
+      
         // STATE FACTORY METHODS (Overrides & Customs)
         
         public override INetworkState GetPatrolState()
