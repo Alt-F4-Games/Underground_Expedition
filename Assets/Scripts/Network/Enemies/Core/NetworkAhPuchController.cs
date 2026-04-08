@@ -2,8 +2,9 @@ using Fusion;
 using UnityEngine;
 using Network.Enemies.Components;
 using Network.Enemies;
+using Network.Enemies.States;
 
-namespace Network.Enemies.Variants
+namespace Network.Enemies
 {
     public class NetworkAhPuchController : NetworkEnemyController
     {
@@ -27,6 +28,8 @@ namespace Network.Enemies.Variants
         [Networked] public float CurrentAuraRadius { get; set; }
         
         public float BaseSpeed { get; private set; }
+        
+        [HideInInspector] public bool IsDashing = false;
         
         [HideInInspector] public int CurrentPathIndex = 0;
 
@@ -117,7 +120,7 @@ namespace Network.Enemies.Variants
         }
 
         // Keeps math clean by adding phase bonuses to the current base
-        private void RecalculatePhaseStats()
+        public void RecalculatePhaseStats()
         {
             float speedBonus = 0f;
             float auraBonus = 0f;
@@ -129,7 +132,9 @@ namespace Network.Enemies.Variants
                 auraBonus += _phase3AuraAdd;
             }
 
-            Agent.speed = BaseSpeed + speedBonus;
+            float dashBonus = IsDashing ? DashSpeedBoost : 0f;
+
+            Agent.speed = BaseSpeed + speedBonus + dashBonus;
             
             if (AuraComponent != null) 
             {
