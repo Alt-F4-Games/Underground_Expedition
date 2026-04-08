@@ -1,5 +1,6 @@
 ﻿using Network.Enemies.Variants;
 using UnityEngine;
+using Network.Enemies;
 
 namespace Network.Enemies.States
 {
@@ -33,7 +34,7 @@ namespace Network.Enemies.States
             // Check if the Agent reached its current destination
             if (!_enemy.Agent.pathPending && _enemy.Agent.remainingDistance <= _enemy.PatrolPath.WaypointTolerance)
             {
-                // Check if the current waypoint is a stat modifier
+                // Node reading
                 Transform currentWaypoint = _enemy.PatrolPath.GetWaypoint(_enemy.CurrentPathIndex);
                 if (currentWaypoint != null)
                 {
@@ -43,7 +44,23 @@ namespace Network.Enemies.States
                         _enemy.ApplyStatNode(statNode);
                     }
                     
-                    // TODO: Logic to check if current node is for Evaluation
+                    // Logic to check if current node is for Evaluation
+                    var evalNode = currentWaypoint.GetComponent<AhPuchEvalNode>();
+                    if (evalNode != null)
+                    {
+                        // Advance index so it knows where to go after dashing/invoking
+                        if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)
+                        {
+                            _enemy.CurrentPathIndex++;
+                        }
+                        
+                        // Stop moving and let the controller decide what to do
+                        _enemy.Agent.isStopped = true;
+                        _enemy.EvaluateAndDecide();
+                        
+                        // Exit Update early because the state has been changed
+                        return; 
+                    }
                 }
                 
                 if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)

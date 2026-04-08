@@ -141,5 +141,24 @@ namespace Network.Enemies
                 CurrentAuraRadius = AuraComponent.BaseRadius + auraBonus;
             }
         }
+        
+        public void EvaluateAndDecide()
+        {
+            Debug.Log("[SERVER] Ah Puch is evaluating invoke zones...");
+            
+            // TODO: Buscar AhPuchSpawnPoints activos.
+            
+            bool canInvoke = false; 
+
+            if (canInvoke)
+            {
+                // StateMachine.ChangeState(new AhPuchInvokeState());
+            }
+            else
+            {
+                Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
+                StateMachine.ChangeState(new AhPuchDashState(DashDurationFail));
+            }
+        }
     }
 }

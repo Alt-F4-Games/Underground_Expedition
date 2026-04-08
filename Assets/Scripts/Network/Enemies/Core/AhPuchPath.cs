@@ -20,13 +20,21 @@ namespace Network.Enemies.Variants
             {
                 if (Waypoints[i] == null) continue;
                 
-                if (Waypoints[i].GetComponent<AhPuchStatNode>() != null)
+                if (Waypoints[i].GetComponent<AhPuchEvalNode>() != null)
                 {
+                    // Eval nodes are Cyan spheres
+                    Gizmos.color = Color.cyan;
+                    Gizmos.DrawSphere(Waypoints[i].position, 0.6f);
+                }
+                else if (Waypoints[i].GetComponent<AhPuchStatNode>() != null)
+                {
+                    // Stat nodes are Yellow cubes
                     Gizmos.color = Color.yellow;
                     Gizmos.DrawCube(Waypoints[i].position, Vector3.one * 0.6f);
                 }
                 else
                 {
+                    // Normal nodes are Magenta spheres
                     Gizmos.color = Color.magenta;
                     Gizmos.DrawSphere(Waypoints[i].position, 0.4f);
                 }
