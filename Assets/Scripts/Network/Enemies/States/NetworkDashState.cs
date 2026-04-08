@@ -1,41 +1,52 @@
-﻿using Network.Enemies.Variants;
+﻿using Fusion;
 using UnityEngine;
 using Network.Enemies;
+using Network.Enemies.Variants;
 
 namespace Network.Enemies.States
 {
-    public class AhPuchAdvanceState : INetworkState
+    public class NetworkDashState : INetworkState
     {
         private NetworkAhPuchController _enemy;
+        private float _dashDuration;
+        private float _timer;
+
+        // Constructor receiving how long the dash will last
+        public NetworkDashState(float duration)
+        {
+            _dashDuration = duration;
+        }
 
         public void Enter(NetworkEnemyController enemy)
         {
             _enemy = (NetworkAhPuchController)enemy;
+            _timer = 0f;
             
-            if (_enemy.PatrolPath == null || _enemy.PatrolPath.Waypoints.Count == 0)
-            {
-                Debug.LogWarning($"[SERVER] {_enemy.gameObject.name} does not have an AhPuchPath assigned.");
-                return;
-            }
-
+            // Activate the dash flag and recalculate speed to apply the boost
+            _enemy.IsDashing = true;
+            _enemy.RecalculatePhaseStats();
+            
             _enemy.Agent.isStopped = false;
             MoveToNextWaypoint();
-            
-            Debug.Log($"[SERVER] Ah Puch started advancing through its path.");
+
+            Debug.Log($"[SERVER] Boss started DASHING for {_dashDuration}s. Speed: {_enemy.Agent.speed}");
         }
 
         public void Update()
         {
             if (_enemy.PatrolPath == null || _enemy.PatrolPath.Waypoints.Count == 0) return;
             if (!_enemy.Agent.isOnNavMesh) return;
-            
-            if (_enemy.LookForTarget())
+
+            // 1. Dash Timer
+            _timer += _enemy.Runner.DeltaTime;
+            if (_timer >= _dashDuration)
             {
-                _enemy.StateMachine.ChangeState(new NetworkChaseState());
+                // Transition back to the patrol state via factory method
+                _enemy.StateMachine.ChangeState(_enemy.GetPatrolState());
                 return;
             }
 
-            // Check if the Agent reached its current destination
+            // Movement logic and node reading (Same as AdvanceState)
             if (!_enemy.Agent.pathPending && _enemy.Agent.remainingDistance <= _enemy.PatrolPath.WaypointTolerance)
             {
                 Transform currentWaypoint = _enemy.PatrolPath.GetWaypoint(_enemy.CurrentPathIndex);
@@ -46,20 +57,6 @@ namespace Network.Enemies.States
                     {
                         _enemy.ApplyStatNode(statNode);
                     }
-                    
-                    var evalNode = currentWaypoint.GetComponent<AhPuchEvalNode>();
-                    if (evalNode != null)
-                    {
-                        if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)
-                        {
-                            _enemy.CurrentPathIndex++;
-                        }
-                        
-                        _enemy.Agent.isStopped = true;
-                        _enemy.EvaluateAndDecide();
-                        
-                        return; 
-                    }
                 }
                 
                 if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)
@@ -69,16 +66,19 @@ namespace Network.Enemies.States
                 }
                 else
                 {
-                    Debug.Log("[SERVER] Ah Puch reached the end of the temple.");
                     _enemy.Agent.isStopped = true;
                 }
+            }
+            else
+            {
+                // Ensure it keeps heading to the current target
+                MoveToNextWaypoint();
             }
         }
 
         private void MoveToNextWaypoint()
         {
             Transform target = _enemy.PatrolPath.GetWaypoint(_enemy.CurrentPathIndex);
-            
             if (target != null && _enemy.Agent.isOnNavMesh)
             {
                 _enemy.Agent.SetDestination(target.position);
@@ -87,12 +87,14 @@ namespace Network.Enemies.States
 
         public void Exit()
         {
-            if (_enemy.Agent != null && _enemy.Agent.isOnNavMesh)
-            {
-                _enemy.Agent.isStopped = true;
-            }
+            // Turn off the flag and restore normal speed
+            _enemy.IsDashing = false;
+            _enemy.RecalculatePhaseStats();
+            
+            Debug.Log($"[SERVER] Boss finished DASHING. Speed back to: {_enemy.Agent.speed}");
         }
-        
-        public NetworkEnemyState GetStateType() => NetworkEnemyState.Patrolling; 
+
+        // Return 'Chasing' so the aggressive run animation plays on clients
+        public NetworkEnemyState GetStateType() => NetworkEnemyState.Chasing; 
     }
 }

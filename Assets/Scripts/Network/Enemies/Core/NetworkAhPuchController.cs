@@ -54,7 +54,8 @@ namespace Network.Enemies
                 
                 _allSummonPoints.AddRange(FindObjectsByType<Network.Spawn.SummonPoint>(FindObjectsSortMode.None));
 
-                StateMachine.ChangeState(new AhPuchAdvanceState());
+                // Start the initial state via the factory method to avoid hardcoding
+                StateMachine.ChangeState(GetPatrolState());
             }
         }
 
@@ -73,12 +74,6 @@ namespace Network.Enemies
             }
         }
         
-        // Sobreescribimos para que el ChaseState sepa volver a la ruta del jefe al perder al jugador
-        public override INetworkState GetPatrolState()
-        {
-            return new AhPuchAdvanceState();
-        }
-
         // Método para detectar jugadores en el rango de visión (Usa VisionRange y PlayerLayer de la base)
         public bool LookForTarget()
         {
@@ -173,13 +168,36 @@ namespace Network.Enemies
             if (activePoints.Count > 0)
             {
                 Debug.Log($"[SERVER] Found {activePoints.Count} active zones. Invoking!");
-                StateMachine.ChangeState(new AhPuchInvokeState(activePoints));
+                // Transition via factory method instead of hardcoding
+                StateMachine.ChangeState(GetInvokeState(activePoints));
             }
             else
             {
                 Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
-                StateMachine.ChangeState(new AhPuchDashState(DashDurationFail));
+                // Transition via factory method instead of hardcoding
+                StateMachine.ChangeState(GetDashState(DashDurationFail));
             }
+        }
+        // STATE FACTORY METHODS (Overrides & Customs)
+        
+        public override INetworkState GetPatrolState()
+        {
+            return new NetworkAdvanceState();
+        }
+        
+        public override INetworkState GetChaseState()
+        {
+            return new NetworkAuraChaseState(); 
+        }
+
+        public virtual INetworkState GetDashState(float duration)
+        {
+            return new NetworkDashState(duration);
+        }
+
+        public virtual INetworkState GetInvokeState(List<Network.Spawn.SummonPoint> zones)
+        {
+            return new NetworkInvokeState(zones);
         }
     }
 }

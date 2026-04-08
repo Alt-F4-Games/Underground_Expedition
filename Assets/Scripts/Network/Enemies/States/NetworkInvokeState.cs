@@ -4,7 +4,7 @@ using Network.Spawn;
 
 namespace Network.Enemies.States
 {
-    public class AhPuchInvokeState : INetworkState
+    public class NetworkInvokeState : INetworkState
     {
         private NetworkAhPuchController _enemy;
         private List<SummonPoint> _zonesToTrigger;
@@ -12,7 +12,7 @@ namespace Network.Enemies.States
         private float _timer;
         private bool _hasSummoned;
 
-        public AhPuchInvokeState(List<SummonPoint> zones)
+        public NetworkInvokeState(List<SummonPoint> zones)
         {
             _zonesToTrigger = zones;
         }
@@ -26,7 +26,7 @@ namespace Network.Enemies.States
             _enemy.Agent.isStopped = true;
             _enemy.Agent.velocity = Vector3.zero;
 
-            Debug.Log("[SERVER] Ah Puch invocation started.");
+            Debug.Log("[SERVER] Boss invocation started.");
         }
 
         public void Update()
@@ -41,7 +41,8 @@ namespace Network.Enemies.States
             
             if (_timer >= _invokeDelay + 0.5f)
             {
-                _enemy.StateMachine.ChangeState(new AhPuchDashState(_enemy.DashDurationSuccess));
+                // Transition to dash state via factory method
+                _enemy.StateMachine.ChangeState(_enemy.GetDashState(_enemy.DashDurationSuccess));
             }
         }
 
