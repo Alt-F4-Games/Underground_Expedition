@@ -46,18 +46,14 @@ namespace Network.Enemies
                 BaseSpeed = Agent.speed;
                 CurrentPhaseIndex = 1;
                 
-                // Initialize the path index at 0
                 CurrentPathIndex = 0; 
                 
                 CurrentAuraRadius = AuraComponent != null ? AuraComponent.BaseRadius : 3f;
                 
-                // Initialize timer for the first phase transition
                 PhaseTimer = TickTimer.CreateFromSeconds(Runner, _timeToPhase2);
                 
-                // FIND ALL SUMMON POINTS IN THE SCENE AT START
                 _allSummonPoints.AddRange(FindObjectsByType<Network.Spawn.SummonPoint>(FindObjectsSortMode.None));
 
-                // Change initial state so it starts advancing through nodes
                 StateMachine.ChangeState(new AhPuchAdvanceState());
             }
         }
@@ -75,6 +71,32 @@ namespace Network.Enemies
             {
                 AuraComponent.UpdateRadius(CurrentAuraRadius);
             }
+        }
+        
+        // Sobreescribimos para que el ChaseState sepa volver a la ruta del jefe al perder al jugador
+        public override INetworkState GetPatrolState()
+        {
+            return new AhPuchAdvanceState();
+        }
+
+        // Método para detectar jugadores en el rango de visión (Usa VisionRange y PlayerLayer de la base)
+        public bool LookForTarget()
+        {
+            if (!HasStateAuthority) return false;
+            
+            Collider[] hits = Physics.OverlapSphere(transform.position, VisionRange, PlayerLayer);
+            
+            if (hits.Length > 0)
+            {
+                if (hits[0].TryGetComponent(out NetworkObject netObj))
+                {
+                    TargetPlayer = netObj; // Seteamos el objetivo de la clase base
+                    return true;
+                }
+            }
+
+            TargetPlayer = null;
+            return false;
         }
 
         private void UpdatePhases()
@@ -103,29 +125,23 @@ namespace Network.Enemies
 
         public void ApplyStatNode(AhPuchStatNode node)
         {
-            // Agent Stats
-            if (node.NewSpeed != 0f) BaseSpeed = node.NewSpeed; // Update base so phases scale correctly
+            if (node.NewSpeed != 0f) BaseSpeed = node.NewSpeed; 
             if (node.NewAngularSpeed != 0f) Agent.angularSpeed = node.NewAngularSpeed;
             if (node.NewAcceleration != 0f) Agent.acceleration = node.NewAcceleration;
 
-            // Detection
             if (node.NewVisionRange != 0f) VisionRange = node.NewVisionRange;
             if (node.NewAttackRange != 0f) AttackRange = node.NewAttackRange;
 
-            // Combat
             if (node.NewAttackCooldown != 0f) AttackCooldown = node.NewAttackCooldown;
             if (node.NewAuraRadius != 0f && AuraComponent != null) AuraComponent.BaseRadius = node.NewAuraRadius;
 
-            // Dash
             if (node.NewDashSpeedBoost != 0f) DashSpeedBoost = node.NewDashSpeedBoost;
             if (node.NewDashDurationSuccess != 0f) DashDurationSuccess = node.NewDashDurationSuccess;
             if (node.NewDashDurationFail != 0f) DashDurationFail = node.NewDashDurationFail;
 
-            // Recalculate phase bonuses in case BaseSpeed or BaseRadius changed
             RecalculatePhaseStats();
         }
 
-        // Keeps math clean by adding phase bonuses to the current base
         public void RecalculatePhaseStats()
         {
             float speedBonus = 0f;
@@ -161,7 +177,7 @@ namespace Network.Enemies
             }
             else
             {
-                Debug.Log("[SERVER] No players near summon zones. Triggering FAIL DASH.");
+                Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
                 StateMachine.ChangeState(new AhPuchDashState(DashDurationFail));
             }
         }

@@ -27,14 +27,17 @@ namespace Network.Enemies.States
         public void Update()
         {
             if (_enemy.PatrolPath == null || _enemy.PatrolPath.Waypoints.Count == 0) return;
-
-            // If the agent is not yet snapped to the NavMesh, do nothing this frame.
             if (!_enemy.Agent.isOnNavMesh) return;
+            
+            if (_enemy.LookForTarget())
+            {
+                _enemy.StateMachine.ChangeState(new NetworkChaseState());
+                return;
+            }
 
             // Check if the Agent reached its current destination
             if (!_enemy.Agent.pathPending && _enemy.Agent.remainingDistance <= _enemy.PatrolPath.WaypointTolerance)
             {
-                // Node reading
                 Transform currentWaypoint = _enemy.PatrolPath.GetWaypoint(_enemy.CurrentPathIndex);
                 if (currentWaypoint != null)
                 {
@@ -44,21 +47,17 @@ namespace Network.Enemies.States
                         _enemy.ApplyStatNode(statNode);
                     }
                     
-                    // Logic to check if current node is for Evaluation
                     var evalNode = currentWaypoint.GetComponent<AhPuchEvalNode>();
                     if (evalNode != null)
                     {
-                        // Advance index so it knows where to go after dashing/invoking
                         if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)
                         {
                             _enemy.CurrentPathIndex++;
                         }
                         
-                        // Stop moving and let the controller decide what to do
                         _enemy.Agent.isStopped = true;
                         _enemy.EvaluateAndDecide();
                         
-                        // Exit Update early because the state has been changed
                         return; 
                     }
                 }
@@ -80,7 +79,6 @@ namespace Network.Enemies.States
         {
             Transform target = _enemy.PatrolPath.GetWaypoint(_enemy.CurrentPathIndex);
             
-            // Check isOnNavMesh before setting destination
             if (target != null && _enemy.Agent.isOnNavMesh)
             {
                 _enemy.Agent.SetDestination(target.position);
