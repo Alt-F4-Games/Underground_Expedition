@@ -9,17 +9,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9069682962703002721}
+  - component: {fileID: 3721081292182939499}
+  - component: {fileID: 2106596735567979675}
   - component: {fileID: 7813873301674798382}
   - component: {fileID: 5771126270721996419}
   - component: {fileID: 6301212423894627789}
-  - component: {fileID: 2106596735567979675}
   - component: {fileID: 1768314575569515645}
-  - component: {fileID: 3721081292182939499}
   - component: {fileID: 1310498541387319774}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -32,13 +32,56 @@ Transform:
   m_GameObject: {fileID: 5852868540705830600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5.84, z: 29.03}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8926591392261937988}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3721081292182939499
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852868540705830600}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2676958
+  m_Height: 1.557447
+  m_Direction: 1
+  m_Center: {x: 0.0032562315, y: 0.18179727, z: 0.05677414}
+--- !u!114 &2106596735567979675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852868540705830600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 105676393
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5771126270721996419}
+  - {fileID: 6301212423894627789}
+  ForceRemoteRenderTimeframe: 0
 --- !u!195 &7813873301674798382
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -108,26 +151,6 @@ MonoBehaviour:
   AuraComponent: {fileID: 1768314575569515645}
   _CurrentPhaseIndex: 0
   _CurrentAuraRadius: 0
---- !u!114 &2106596735567979675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5852868540705830600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 105676393
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 5771126270721996419}
-  - {fileID: 6301212423894627789}
-  ForceRemoteRenderTimeframe: 0
 --- !u!114 &1768314575569515645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,30 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parentNetworkObject: {fileID: 2106596735567979675}
   Damage: 9999
-  BaseRadius: 3
---- !u!136 &3721081292182939499
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5852868540705830600}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2676958
-  m_Height: 1.557447
-  m_Direction: 1
-  m_Center: {x: 0.0032562315, y: 0.18179727, z: 0.05677414}
+  BaseRadius: 5
 --- !u!135 &1310498541387319774
 SphereCollider:
   m_ObjectHideFlags: 0
