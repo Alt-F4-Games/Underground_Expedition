@@ -18,6 +18,9 @@ public class HotbarUI : MonoBehaviour
     [SerializeField] private Vector2 normalSize = new Vector2(60, 60);
     [SerializeField] private Vector2 centerSize = new Vector2(90, 90);
 
+    [Header("Center Slot Icon")]
+    [SerializeField] private Vector2 centerIconSize = new Vector2(50, 50);
+    
     // Internal runtime data
     private List<InventorySlotUI> _slots = new();
     private NetworkInventoryManager _currentManager;
@@ -81,7 +84,10 @@ public class HotbarUI : MonoBehaviour
             ui.SlotIndex = i;
             ui.SlotType = SlotType.Hotbar;
             ui.Manager = _currentManager;
-            
+
+            // =============================
+            // SLOT SIZE 
+            // =============================
             var layout = go.GetComponent<LayoutElement>();
             if (layout == null)
                 layout = go.AddComponent<LayoutElement>();
@@ -91,6 +97,19 @@ public class HotbarUI : MonoBehaviour
 
             layout.preferredWidth = size.x;
             layout.preferredHeight = size.y;
+
+            // =============================
+            // ICON SIZE 
+            // =============================
+            if (isCenter)
+            {
+                var iconRect = ui.ItemIconRect;
+
+                if (iconRect != null)
+                {
+                    iconRect.sizeDelta = centerIconSize;
+                }
+            }
 
             _slots.Add(ui);
         }
