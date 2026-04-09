@@ -7,6 +7,9 @@ namespace Network.Enemies
         Patrolling, 
         Chasing, 
         Attacking, 
+        Charging,
+        Jumping,
+        Exploding,
         Dead 
     }
 
