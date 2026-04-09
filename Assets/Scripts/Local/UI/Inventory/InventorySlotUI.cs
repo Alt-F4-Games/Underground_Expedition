@@ -176,6 +176,15 @@ public class InventorySlotUI : MonoBehaviour,
     public bool HasItem => _currentItemId > 0 && _currentQty > 0;
     public int CurrentItemId => _currentItemId;
 
+    public RectTransform ItemIconRect
+    {
+        get
+        {
+            if (iconImage == null) return null;
+            return iconImage.rectTransform;
+        }
+    }
+    
     // =====================================================================
     // Pointer Events
     // =====================================================================
