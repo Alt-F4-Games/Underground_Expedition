@@ -182,6 +182,29 @@ public class NetworkInventorySystem : NetworkBehaviour
         fromArray.Set(fromIdx, to);
         toArray.Set(toIdx, from);
     }
+    
+    public void Server_RotateHotbar(bool rotateRight)
+    {
+        if (!HasStateAuthority)
+            return;
+
+        int length = HotbarSlots.Length;
+        if (length <= 1) return;
+
+        var temp = new NetworkInventorySlot[length];
+
+        for (int i = 0; i < length; i++)
+            temp[i] = HotbarSlots[i];
+
+        for (int i = 0; i < length; i++)
+        {
+            int newIndex = rotateRight
+                ? (i + 1) % length
+                : (i - 1 + length) % length;
+
+            HotbarSlots.Set(newIndex, temp[i]);
+        }
+    }
 
     // =====================================================================
     //                             HELPERS
