@@ -166,7 +166,7 @@ public class InventorySlotUI : MonoBehaviour,
     public void SetHighlight(bool active)
     {
         if (highlightFrame != null)
-            highlightFrame.SetActive(active);
+            highlightFrame.SetActive(false);
     }
 
     // =====================================================================
