@@ -2,12 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// UI controller for the player's Hotbar.
-/// Displays each hotbar slot and reacts to item changes,
-/// selection changes, and mouse-scroll input.
-/// </summary>
-
 public class HotbarUI : MonoBehaviour
 {
     [Header("UI References")]
@@ -20,14 +14,9 @@ public class HotbarUI : MonoBehaviour
 
     [Header("Center Slot Icon")]
     [SerializeField] private Vector2 centerIconSize = new Vector2(50, 50);
-    
-    // Internal runtime data
+
     private List<InventorySlotUI> _slots = new();
     private NetworkInventoryManager _currentManager;
-
-    // =====================================================================
-    // Lifecycle
-    // =====================================================================
 
     private void Start()
     {
@@ -35,13 +24,11 @@ public class HotbarUI : MonoBehaviour
             ConnectToLocalPlayer();
 
         NetworkInventoryManager.OnLocalPlayerSpawned += ConnectToLocalPlayer;
-        NetworkInventoryManager.OnHotbarIndexChanged += Refresh;
     }
 
     private void OnDestroy()
     {
         NetworkInventoryManager.OnLocalPlayerSpawned -= ConnectToLocalPlayer;
-        NetworkInventoryManager.OnHotbarIndexChanged -= Refresh;
 
         if (_currentManager != null)
         {
@@ -50,10 +37,6 @@ public class HotbarUI : MonoBehaviour
                 sys.OnInventoryChanged -= Refresh;
         }
     }
-
-    // =====================================================================
-    // Connection / Initialization
-    // =====================================================================
 
     private void ConnectToLocalPlayer()
     {
@@ -85,12 +68,7 @@ public class HotbarUI : MonoBehaviour
             ui.SlotType = SlotType.Hotbar;
             ui.Manager = _currentManager;
 
-            // =============================
-            // SLOT SIZE 
-            // =============================
-            var layout = go.GetComponent<LayoutElement>();
-            if (layout == null)
-                layout = go.AddComponent<LayoutElement>();
+            var layout = go.GetComponent<LayoutElement>() ?? go.AddComponent<LayoutElement>();
 
             bool isCenter = (i == count / 2);
             Vector2 size = isCenter ? centerSize : normalSize;
@@ -98,26 +76,16 @@ public class HotbarUI : MonoBehaviour
             layout.preferredWidth = size.x;
             layout.preferredHeight = size.y;
 
-            // =============================
-            // ICON SIZE 
-            // =============================
             if (isCenter)
             {
                 var iconRect = ui.ItemIconRect;
-
                 if (iconRect != null)
-                {
                     iconRect.sizeDelta = centerIconSize;
-                }
             }
 
             _slots.Add(ui);
         }
     }
-
-    // =====================================================================
-    // UI Refresh
-    // =====================================================================
 
     public void Refresh()
     {
@@ -129,14 +97,9 @@ public class HotbarUI : MonoBehaviour
         {
             _slots[i].Refresh(sys.HotbarSlots[i]);
 
-            bool isSelected = (_currentManager.SelectedHotbarIndex == i);
-            _slots[i].SetHighlight(isSelected);
+            _slots[i].SetHighlight(false);
         }
     }
-
-    // =====================================================================
-    // Input (scroll wheel)
-    // =====================================================================
 
     private void Update()
     {
@@ -151,14 +114,7 @@ public class HotbarUI : MonoBehaviour
 
     private void HandleScrollInput(float scroll)
     {
-        int current = _currentManager.SelectedHotbarIndex;
-        int max = _slots.Count;
-
-        current += (scroll > 0 ? -1 : 1);
-
-        if (current < 0) current = max - 1;
-        if (current >= max) current = 0;
-
-        _currentManager.Input_SetSelectedHotbar(current);
+        bool rotateRight = scroll < 0f; 
+        _currentManager.Input_RotateHotbar(rotateRight);
     }
 }
