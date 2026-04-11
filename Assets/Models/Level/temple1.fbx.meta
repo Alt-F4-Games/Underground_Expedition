@@ -7,18 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Mat_BrokenFloor
-    second: {fileID: 2100000, guid: 8b91e887364914945ac0e95aef388117, type: 2}
+      name: mat_ceiling
+    second: {fileID: 2100000, guid: 396340d226c74e9488d58280752e6dfe, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Mat_Floor
-    second: {fileID: 2100000, guid: c251d3baa3483e84b8109c011a77e052, type: 2}
+      name: mat_floor
+    second: {fileID: 2100000, guid: bfabbb2a6059bdf4c85f4119eb0ddd4e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Mat_Wall
-    second: {fileID: 2100000, guid: 6ff5943b265a13b4d9163bb6b3fa0222, type: 2}
+      name: mat_wall
+    second: {fileID: 2100000, guid: 5a574441247479441afdc813091f63e9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -50,7 +50,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
