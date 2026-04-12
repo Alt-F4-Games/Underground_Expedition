@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using System;
+using Fusion;
 using UnityEngine;
 namespace Health
 {
@@ -9,6 +10,8 @@ namespace Health
 
         [Networked] public int CurrentHealth { get; protected set; }
         [Networked] public bool IsAlive { get; set; }
+        
+        public Action OnDamageTaken;
 
         public int MaxHealth => _maxHealth;
 
@@ -36,6 +39,8 @@ namespace Health
             if (!HasStateAuthority) return;
 
             ApplyDamage(damage);
+            
+            OnDamageTaken?.Invoke();
         }
 
         // ============================================================
