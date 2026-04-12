@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5771126270721996419}
   - component: {fileID: 6301212423894627789}
   - component: {fileID: 1310498541387319774}
+  - component: {fileID: 4497132966808449876}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
@@ -81,6 +82,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 5771126270721996419}
   - {fileID: 6301212423894627789}
+  - {fileID: 4497132966808449876}
   ForceRemoteRenderTimeframe: 0
 --- !u!195 &7813873301674798382
 NavMeshAgent:
@@ -177,6 +179,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4497132966808449876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852868540705830600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &6981952338080989291
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parentNetworkObject: {fileID: 2106596735567979675}
-  Damage: 9999
+  Damage: 1
   TargetLayer:
     serializedVersion: 2
     m_Bits: 8
