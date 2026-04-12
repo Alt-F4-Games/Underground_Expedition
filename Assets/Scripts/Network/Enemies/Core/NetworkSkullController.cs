@@ -28,20 +28,24 @@ namespace Network.Enemies
         
         // Components
         private NetworkEnemyHealth _enemyHealth;
+        private Animator _animator;
 
         private void Awake()
         {
             _enemyHealth = GetComponent<NetworkEnemyHealth>();
+            _animator  = GetComponent<Animator>();
         }
 
         private void OnEnable()
         {
             _enemyHealth.OnDamageTaken += NotifyHit;
+            _enemyHealth.OnDamageTaken += PlayHitAnimation;
         }
 
         private void OnDisable()
         {
             _enemyHealth.OnDamageTaken -= NotifyHit;
+            _enemyHealth.OnDamageTaken -= PlayHitAnimation;
         }
 
         public override void Spawned()
@@ -89,6 +93,42 @@ namespace Network.Enemies
         public void ResetHitFlag()
         {
             _wasHitDuringCharge = false;
+        }
+        
+        protected override void HandleStateChanged()
+        {
+            if (_animator == null) return;
+
+            switch (CurrentState)
+            {
+                case NetworkEnemyState.Patrolling:
+                case NetworkEnemyState.Chasing:
+                    _animator.SetBool("IsMoving", true);
+                    _animator.SetBool("IsCharging", false);
+                    break;
+
+                case NetworkEnemyState.Charging:
+                    _animator.SetBool("IsMoving", false);
+                    _animator.SetBool("IsCharging", true);
+                    break;
+
+                case NetworkEnemyState.Exploding:
+                    _animator.SetBool("IsMoving", false);
+                    _animator.SetBool("IsCharging", false);
+                    _animator.SetTrigger("Explode");
+                    break;
+
+                case NetworkEnemyState.Idle:
+                    _animator.SetBool("IsMoving", false);
+                    _animator.SetBool("IsCharging", false);
+                    break;
+            }
+        }
+        
+        private void PlayHitAnimation()
+        {
+            if (_animator == null) return;
+            _animator.SetTrigger("Hit");
         }
 
         protected override void OnDrawGizmosSelected()
