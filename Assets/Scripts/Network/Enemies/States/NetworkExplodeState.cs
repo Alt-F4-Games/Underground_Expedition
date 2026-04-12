@@ -2,6 +2,7 @@ using Fusion;
 using UnityEngine;
 using System.Collections.Generic;
 using Health;
+using Network.Enemies.Core;
 
 namespace Network.Enemies.States
 {
@@ -35,8 +36,12 @@ namespace Network.Enemies.States
                 _enemy.Agent.isStopped = true;
             }
 
-            // TODO: Trigger explode animation
-            // TODO: VFx
+            var listeners = _enemy.GetComponents<IOnExplodeListener>();
+
+            foreach (var listener in listeners)
+            {
+                listener.OnExplode();
+            }
         }
 
         public void Update()

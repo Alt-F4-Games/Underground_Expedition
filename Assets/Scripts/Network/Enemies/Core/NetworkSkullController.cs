@@ -1,10 +1,11 @@
 using Health;
+using Network.Enemies.Core;
 using Network.Enemies.States;
 using UnityEngine;
 
 namespace Network.Enemies
 {
-    public class NetworkSkullController : NetworkEnemyController
+    public class NetworkSkullController : NetworkEnemyController, IOnExplodeListener
     {
         [Header("Explosion Settings")]
         [SerializeField] private float explosionRadius = 3f;
@@ -18,6 +19,9 @@ namespace Network.Enemies
         [SerializeField] private float floatHeight = 2.5f;
         [SerializeField] private float floatAmplitude = 0.25f;
         [SerializeField] private float floatSpeed = 2f;
+        
+        [Header("Feedback")]
+        [SerializeField] private GameObject explosionVfx;
 
         // Variables
         private float _baseOffset;
@@ -129,6 +133,18 @@ namespace Network.Enemies
         {
             if (_animator == null) return;
             _animator.SetTrigger("Hit");
+        }
+
+        public void OnExplode()
+        {
+            SpawnExplosionVFX();
+        }
+
+        private void SpawnExplosionVFX()
+        {
+            if (explosionVfx == null) return;
+
+            Instantiate(explosionVfx, transform.position, Quaternion.identity);
         }
 
         protected override void OnDrawGizmosSelected()
