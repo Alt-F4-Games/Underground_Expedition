@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using System;
+using Fusion;
 using Health;
 ﻿using System.Collections;
 using Fusion;
@@ -33,6 +34,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     public float SprintDuration => _sprintDuration;
     public float SprintCooldown => _sprintCooldown;
+    
+    [Header("Stun Settings")]
+    [SerializeField] private Material stunMaterial;
+    [SerializeField] private float stunFadeSpeed = 5f;
+    private float _stunLerp;
 
     // Components
     private NetworkCharacterController _controller;
@@ -41,7 +47,13 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private Camera _playerCamera;
 
     // Variables
-    private bool _isStunned = false;
+    [Networked] private TickTimer StunTimer { get; set; }
+    private bool _isStunnedVisual;
+    private float _stunEndTime;
+    private static readonly int AlphaID = Shader.PropertyToID("_noiseAlpha");
+    
+    // Getters
+    private bool IsStunnedGameplay => !StunTimer.ExpiredOrNotRunning(Runner);
     
     // rotaciones
     private float _yaw;
@@ -142,7 +154,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         float targetSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
         _controller.maxSpeed = targetSpeed;
         
-        if (_isStunned)
+        if (IsStunnedGameplay)
         {
             _controller.Velocity = Vector3.zero;
         }
@@ -213,18 +225,27 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public void ApplyStun(float duration)
     {
-        if (!_isStunned)
+        if (HasStateAuthority)
         {
-            StartCoroutine(StunCoroutine(duration));
+            StunTimer = TickTimer.CreateFromSeconds(Runner, duration);
         }
     }
 
-    private IEnumerator StunCoroutine(float duration)
+    public override void Render()
     {
-        _isStunned = true;
+        if (!Object.HasInputAuthority) return;
+
+        _isStunnedVisual = IsStunnedGameplay;
+
+        UpdateStunEffect();
+    }
+    
+    private void UpdateStunEffect()
+    {
+        float target = _isStunnedVisual ? 1f : 0f;
+
+        _stunLerp = Mathf.MoveTowards(_stunLerp, target, Time.deltaTime * stunFadeSpeed);
         
-        yield return new WaitForSeconds(duration);
-        
-        _isStunned = false;
+        stunMaterial.SetFloat(AlphaID, _stunLerp);
     }
 }

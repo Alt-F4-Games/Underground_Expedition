@@ -347,6 +347,8 @@ MonoBehaviour:
   _SprintTimer: 0
   _SprintCooldownTimer: 0
   _CanSprint: 0
+  stunMaterial: {fileID: 2100000, guid: c6918d8a886c4ae418026e3066ff74e3, type: 2}
+  stunFadeSpeed: 3
 --- !u!114 &6926954798261749035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +362,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _BaseSlots: []
-  _EquipSlots: []
   _HotbarSlots: []
 --- !u!114 &3985953796020749275
 MonoBehaviour:
@@ -441,7 +442,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 6436779314724841193}
-  _debug: 1
   _StaminaNormalized: 0
 --- !u!1 &7251703131618129929
 GameObject:
