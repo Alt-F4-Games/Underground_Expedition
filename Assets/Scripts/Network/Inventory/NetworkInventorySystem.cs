@@ -22,8 +22,7 @@ using System;
 public class NetworkInventorySystem : NetworkBehaviour
 {
     // Fusion requires fixed sizes for NetworkArray
-    private const int MAX_BASE = 3;
-    private const int MAX_EQUIP = 3;
+    private const int MAX_BASE = 9;
     private const int MAX_HOTBAR = 3;
 
     // ----------------------------
@@ -32,10 +31,7 @@ public class NetworkInventorySystem : NetworkBehaviour
 
     [Networked, Capacity(MAX_BASE)]
     public NetworkArray<NetworkInventorySlot> BaseSlots { get; }
-
-    [Networked, Capacity(MAX_EQUIP)]
-    public NetworkArray<NetworkInventorySlot> EquipSlots { get; }
-
+    
     [Networked, Capacity(MAX_HOTBAR)]
     public NetworkArray<NetworkInventorySlot> HotbarSlots { get; }
 
@@ -65,7 +61,6 @@ public class NetworkInventorySystem : NetworkBehaviour
         foreach (var change in _changes.DetectChanges(this))
         {
             if (change == nameof(BaseSlots) ||
-                change == nameof(EquipSlots) ||
                 change == nameof(HotbarSlots))
             {
                 OnInventoryChanged?.Invoke();
@@ -187,6 +182,29 @@ public class NetworkInventorySystem : NetworkBehaviour
         fromArray.Set(fromIdx, to);
         toArray.Set(toIdx, from);
     }
+    
+    public void Server_RotateHotbar(bool rotateRight)
+    {
+        if (!HasStateAuthority)
+            return;
+
+        int length = HotbarSlots.Length;
+        if (length <= 1) return;
+
+        var temp = new NetworkInventorySlot[length];
+
+        for (int i = 0; i < length; i++)
+            temp[i] = HotbarSlots[i];
+
+        for (int i = 0; i < length; i++)
+        {
+            int newIndex = rotateRight
+                ? (i + 1) % length
+                : (i - 1 + length) % length;
+
+            HotbarSlots.Set(newIndex, temp[i]);
+        }
+    }
 
     // =====================================================================
     //                             HELPERS
@@ -200,7 +218,6 @@ public class NetworkInventorySystem : NetworkBehaviour
         return type switch
         {
             SlotType.Base => BaseSlots,
-            SlotType.Equip => EquipSlots,
             SlotType.Hotbar => HotbarSlots,
             _ => BaseSlots
         };
@@ -226,10 +243,6 @@ public class NetworkInventorySystem : NetworkBehaviour
         for (int i = 0; i < BaseSlots.Length; i++)
             data.baseSlots.Add(new SavedSlot(BaseSlots[i].ItemId, BaseSlots[i].Quantity));
 
-        // Copy EquipSlots
-        for (int i = 0; i < EquipSlots.Length; i++)
-            data.equipSlots.Add(new SavedSlot(EquipSlots[i].ItemId, EquipSlots[i].Quantity));
-
         // Copy HotbarSlots
         for (int i = 0; i < HotbarSlots.Length; i++)
             data.hotbarSlots.Add(new SavedSlot(HotbarSlots[i].ItemId, HotbarSlots[i].Quantity));
@@ -245,10 +258,6 @@ public class NetworkInventorySystem : NetworkBehaviour
         // Base
         for (int i = 0; i < BaseSlots.Length && i < data.baseSlots.Count; i++)
             BaseSlots.Set(i, new NetworkInventorySlot(data.baseSlots[i].itemId, data.baseSlots[i].quantity));
-
-        // Equip
-        for (int i = 0; i < EquipSlots.Length && i < data.equipSlots.Count; i++)
-            EquipSlots.Set(i, new NetworkInventorySlot(data.equipSlots[i].itemId, data.equipSlots[i].quantity));
 
         // Hotbar
         for (int i = 0; i < HotbarSlots.Length && i < data.hotbarSlots.Count; i++)

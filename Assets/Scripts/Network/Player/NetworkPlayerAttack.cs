@@ -1,4 +1,5 @@
 ﻿using Fusion;
+using UI;
 using UnityEngine;
 
 namespace Health
@@ -24,10 +25,14 @@ namespace Health
         {
             if (!HasInputAuthority) return;
 
-            if (Input.GetMouseButtonDown(0))
+            if (InputManager.Mode == InputMode.Game)
             {
-                TryAttack();
+                if (Input.GetMouseButtonDown(0)) 
+                {
+                    TryAttack();
+                }
             }
+            
         }
 
         // ============================================================
