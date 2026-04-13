@@ -27,9 +27,9 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private bool _lastSprintState; //TEST//
 
     [Networked] private bool IsSprinting { get; set; }
-    [Networked] public float SprintTimer { get; private set; }
-    [Networked] public float SprintCooldownTimer { get; private set; }
-    [Networked] public bool CanSprint { get; private set; }
+    [Networked] [HideInInspector] public float SprintTimer { get; private set; }
+    [Networked] [HideInInspector] public float SprintCooldownTimer { get; private set; }
+    [Networked] [HideInInspector] public bool CanSprint { get; private set; }
     
     public float SprintDuration => _sprintDuration;
     public float SprintCooldown => _sprintCooldown;
