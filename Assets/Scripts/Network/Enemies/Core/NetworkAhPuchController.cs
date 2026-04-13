@@ -20,6 +20,13 @@ namespace Network.Enemies
         [Tooltip("Time the boss remains still preparing before performing a fail Dash.")]
         public float DashWaitTime = 1.5f;
 
+        [Header("Targeting & Vision")]
+        [Tooltip("Layer of obstacles (walls) that block the boss's line of sight.")]
+        public LayerMask ObstacleLayer;
+        
+        [Tooltip("Height offset for the boss's 'eyes' when casting the vision ray.")]
+        public float EyeHeightOffset = 1.5f;
+
         [Header("Pathing & Node Detection")]
         [Tooltip("Radius to detect and read Stat Nodes while chasing the player.")]
         public float ChaseNodeDetectionRadius = 3f;
@@ -71,6 +78,8 @@ namespace Network.Enemies
             }
         }
         
+        // TARGETING & LINE OF SIGHT
+
         public bool LookForTarget()
         {
             if (!HasStateAuthority) return false;
@@ -79,13 +88,25 @@ namespace Network.Enemies
             
             if (hits.Length > 0)
             {
-                if (hits[0].TryGetComponent(out NetworkObject netObj))
+                Vector3 rayOrigin = transform.position + (Vector3.up * EyeHeightOffset);
+
+                foreach (var hit in hits)
                 {
-                    TargetPlayer = netObj;
-                    return true;
+                    if (hit.TryGetComponent(out NetworkObject netObj))
+                    {
+                        Vector3 playerTargetPos = hit.transform.position + (Vector3.up * 1f);
+                        Vector3 directionToPlayer = playerTargetPos - rayOrigin;
+                        float distanceToPlayer = directionToPlayer.magnitude;
+                        
+                        if (!Physics.Raycast(rayOrigin, directionToPlayer.normalized, distanceToPlayer, ObstacleLayer))
+                        {
+                            TargetPlayer = netObj;
+                            return true;
+                        }
+                    }
                 }
             }
-
+            
             TargetPlayer = null;
             return false;
         }
@@ -97,9 +118,7 @@ namespace Network.Enemies
             if (node.NewAcceleration != 0f) Agent.acceleration = node.NewAcceleration;
 
             if (node.NewVisionRange != 0f) VisionRange = node.NewVisionRange;
-            
             if (node.NewAttackRange != 0f) AttackRange = node.NewAttackRange;
-
             if (node.NewAttackCooldown != 0f) AttackCooldown = node.NewAttackCooldown;
 
             if (node.NewDashSpeedBoost != 0f) DashSpeedBoost = node.NewDashSpeedBoost;
@@ -112,7 +131,6 @@ namespace Network.Enemies
         public void RecalculateStats()
         {
             float dashBonus = IsDashing ? DashSpeedBoost : 0f;
-
             Agent.speed = BaseSpeed + dashBonus;
             
             if (AuraComponent != null) 
@@ -138,7 +156,7 @@ namespace Network.Enemies
                 StateMachine.ChangeState(GetDashState(DashDurationFail, DashWaitTime));
             }
         }
-
+        
         // PATHING & NAVIGATION
 
         public void SetNearestPathIndex()

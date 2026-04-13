@@ -143,18 +143,19 @@ MonoBehaviour:
   AttackDamage: 10
   AttackCooldown: 1.2
   _CurrentState: 0
-  _timeToPhase2: 10
-  _timeToPhase3: 10
-  _phase2SpeedAdd: 0.2
-  _phase3SpeedAdd: 0.4
-  _phase3AuraAdd: 2
   DashSpeedBoost: 2
   DashDurationSuccess: 3
   DashDurationFail: 5
+  InvokeWaitTime: 1.5
+  DashWaitTime: 1.5
+  ObstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  EyeHeightOffset: 1.5
   ChaseNodeDetectionRadius: 10
   MaxWaypointSearchDistance: 30
+  BackwardsNodePenalty: 50
   AuraComponent: {fileID: 7653364521913829826}
-  _CurrentPhaseIndex: 0
   _CurrentAuraRadius: 0
   IsDashing: 0
   CurrentPathIndex: 0
