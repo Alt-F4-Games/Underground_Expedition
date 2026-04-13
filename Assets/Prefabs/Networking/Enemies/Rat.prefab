@@ -126,6 +126,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7702d35d369213d4db3a7d3d8961c0cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9033750038188498783}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7702d35d369213d4db3a7d3d8961c0cc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6347241161532845461}
   m_SourcePrefab: {fileID: 100100000, guid: 7702d35d369213d4db3a7d3d8961c0cc, type: 3}
 --- !u!1 &5830580593018956972 stripped
 GameObject:
@@ -243,7 +246,7 @@ MonoBehaviour:
   SwarmLayer:
     serializedVersion: 2
     m_Bits: 1024
-  JumpChargeTime: 0.5
+  JumpChargeTime: 1
   JumpSpeed: 12
   JumpExtraDistance: 2
   JumpHeight: 1
@@ -263,3 +266,25 @@ MonoBehaviour:
   _maxHealth: 20
   _CurrentHealth: 0
   _IsAlive: 0
+--- !u!95 &6347241161532845461
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830580593018956972}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c979db5cc44941d47abc527135adbe43, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
