@@ -8,13 +8,14 @@ namespace Network.Enemies.States
     {
         private NetworkAhPuchController _enemy;
         private List<SummonPoint> _zonesToTrigger;
-        private float _invokeDelay = 1.5f;
+        private float _invokeDelay;
         private float _timer;
         private bool _hasSummoned;
 
-        public NetworkInvokeState(List<SummonPoint> zones)
+        public NetworkInvokeState(List<SummonPoint> zones, float waitTime)
         {
             _zonesToTrigger = zones;
+            _invokeDelay = waitTime;
         }
 
         public void Enter(NetworkEnemyController enemy)
@@ -26,7 +27,7 @@ namespace Network.Enemies.States
             _enemy.Agent.isStopped = true;
             _enemy.Agent.velocity = Vector3.zero;
 
-            Debug.Log("[SERVER] Boss invocation started.");
+            Debug.Log($"[SERVER] Boss invocation started. Casting for {_invokeDelay}s.");
         }
 
         public void Update()
@@ -42,7 +43,7 @@ namespace Network.Enemies.States
             if (_timer >= _invokeDelay + 0.5f)
             {
                 // Transition to dash state via factory method
-                _enemy.StateMachine.ChangeState(_enemy.GetDashState(_enemy.DashDurationSuccess));
+                _enemy.StateMachine.ChangeState(_enemy.GetDashState(_enemy.DashDurationSuccess, 0f));
             }
         }
 

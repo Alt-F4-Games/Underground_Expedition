@@ -9,17 +9,38 @@ namespace Network.Enemies.States
     {
         private NetworkAhPuchController _enemy;
         private float _dashDuration;
+        private float _waitTime;
         private float _timer;
-
-        // Constructor receiving how long the dash will last
-        public NetworkDashState(float duration)
+        private bool _isWaiting;
+        
+        public NetworkDashState(float duration, float waitTime)
         {
             _dashDuration = duration;
+            _waitTime = waitTime;
         }
 
         public void Enter(NetworkEnemyController enemy)
         {
             _enemy = (NetworkAhPuchController)enemy;
+            _timer = 0f;
+            
+            if (_waitTime > 0f)
+            {
+                _isWaiting = true;
+                _enemy.Agent.isStopped = true;
+                _enemy.Agent.velocity = Vector3.zero;
+                Debug.Log($"[SERVER] Boss is preparing to DASH. Waiting for {_waitTime}s.");
+            }
+            else
+            {
+                // Si el waitTime es 0, iniciamos el dash inmediatamente
+                StartDash();
+            }
+        }
+
+        private void StartDash()
+        {
+            _isWaiting = false;
             _timer = 0f;
             
             // Activate the dash flag and recalculate speed to apply the boost
@@ -35,9 +56,19 @@ namespace Network.Enemies.States
         public void Update()
         {
             if (_enemy.PatrolPath == null || _enemy.PatrolPath.Waypoints.Count == 0) return;
-            if (!_enemy.Agent.isOnNavMesh) return;
+            
+            if (_isWaiting)
+            {
+                _timer += _enemy.Runner.DeltaTime;
+                if (_timer >= _waitTime)
+                {
+                    StartDash();
+                }
+                return;
+            }
 
-            // 1. Dash Timer
+            if (!_enemy.Agent.isOnNavMesh) return;
+            
             _timer += _enemy.Runner.DeltaTime;
             if (_timer >= _dashDuration)
             {
@@ -87,13 +118,15 @@ namespace Network.Enemies.States
 
         public void Exit()
         {
-            // Turn off the flag and restore normal speed
-            _enemy.IsDashing = false;
-            _enemy.RecalculatePhaseStats();
-            
-            Debug.Log($"[SERVER] Boss finished DASHING. Speed back to: {_enemy.Agent.speed}");
+            if (!_isWaiting)
+            {
+                // Turn off the flag and restore normal speed
+                _enemy.IsDashing = false;
+                _enemy.RecalculatePhaseStats();
+                Debug.Log($"[SERVER] Boss finished DASHING. Speed back to: {_enemy.Agent.speed}");
+            }
         }
-
+        
         // Return 'Chasing' so the aggressive run animation plays on clients
         public NetworkEnemyState GetStateType() => NetworkEnemyState.Chasing; 
     }

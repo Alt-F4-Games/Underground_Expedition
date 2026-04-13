@@ -20,6 +20,12 @@ namespace Network.Enemies
         public float DashSpeedBoost = 2f;
         public float DashDurationSuccess = 3f;
         public float DashDurationFail = 5f;
+        
+        [Tooltip("Time the boss remains still casting before summoning.")]
+        public float InvokeWaitTime = 1.5f;
+
+        [Tooltip("Time the boss remains still preparing before performing a fail Dash.")]
+        public float DashWaitTime = 1.5f;
 
         [Header("Pathing & Node Detection")]
         [Tooltip("Radius to detect and read Stat Nodes while chasing the player.")]
@@ -174,12 +180,12 @@ namespace Network.Enemies
             if (activePoints.Count > 0)
             {
                 Debug.Log($"[SERVER] Found {activePoints.Count} active zones. Invoking!");
-                StateMachine.ChangeState(GetInvokeState(activePoints));
+                StateMachine.ChangeState(GetInvokeState(activePoints, InvokeWaitTime));
             }
             else
             {
                 Debug.Log("[SERVER] No valid invoke zones found. Triggering FAIL DASH.");
-                StateMachine.ChangeState(GetDashState(DashDurationFail));
+                StateMachine.ChangeState(GetDashState(DashDurationFail, DashWaitTime));
             }
         }
 
@@ -245,15 +251,15 @@ namespace Network.Enemies
         {
             return new NetworkAuraChaseState(); 
         }
-
-        public virtual INetworkState GetDashState(float duration)
+        
+        public virtual INetworkState GetDashState(float duration, float waitTime = 0f)
         {
-            return new NetworkDashState(duration);
+            return new NetworkDashState(duration, waitTime);
         }
-
-        public virtual INetworkState GetInvokeState(List<Network.Spawn.SummonPoint> zones)
+        
+        public virtual INetworkState GetInvokeState(List<Network.Spawn.SummonPoint> zones, float waitTime)
         {
-            return new NetworkInvokeState(zones);
+            return new NetworkInvokeState(zones, waitTime);
         }
     }
 }
