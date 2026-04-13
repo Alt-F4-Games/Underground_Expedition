@@ -37,13 +37,11 @@ namespace Health
 
             Debug.Log($"{gameObject.name} died");
 
-            // 🔻 Ocultar visuales
             foreach (var r in _renderers)
             {
                 r.enabled = false;
             }
 
-            // Obtener posición de respawn
             Vector3 spawnPosition = Vector3.zero;
 
             if (RespawnManager.Instance != null)
@@ -51,18 +49,15 @@ namespace Health
                 spawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
             }
 
-            // 🔥 Mover INMEDIATAMENTE al altar
             if (_controller != null)
             {
                 _controller.enabled = true;
                 _controller.Teleport(spawnPosition);
             }
 
-            // 🚫 Desactivar movimiento después de mover
             if (_controller != null)
                 _controller.enabled = false;
 
-            // ⏳ Esperar en el altar
             Runner.StartCoroutine(RespawnCoroutine());
         }
 

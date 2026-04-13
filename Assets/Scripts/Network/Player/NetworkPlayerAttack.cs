@@ -49,7 +49,6 @@ namespace Health
             Vector3 origin = _cameraTransform.position;
             Vector3 direction = _cameraTransform.forward;
 
-            // 🎯 DEBUG RAYCAST (Scene view)
             Debug.DrawRay(origin, direction * _attackDistance, Color.red, 1f);
 
             if (Physics.Raycast(origin, direction, out RaycastHit hit, _attackDistance, _hitLayers))
