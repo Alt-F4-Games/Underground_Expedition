@@ -67,18 +67,16 @@ namespace Network.Enemies.States
                     break; 
                 }
 
-                if (distanceToNode <= boss.ChaseNodeDetectionRadius)
+                // Usamos directamente el DetectionRadius del StatNode porque borramos ChaseNodeDetectionRadius
+                var statNode = wp.GetComponent<AhPuchStatNode>();
+                if (statNode != null && distanceToNode <= statNode.DetectionRadius)
                 {
                     // If the node has stats, apply them immediately (e.g., room change)
-                    var statNode = wp.GetComponent<AhPuchStatNode>();
-                    if (statNode != null)
-                    {
-                        boss.ApplyStatNode(statNode);
-                        
-                        // Synchronize index so it knows its current position on the map
-                        boss.CurrentPathIndex = i;
-                        break; // Prevent processing multiple nodes in the same frame
-                    }
+                    boss.ApplyStatNode(statNode);
+                    
+                    // Synchronize index so it knows its current position on the map
+                    boss.CurrentPathIndex = i;
+                    break; // Prevent processing multiple nodes in the same frame
                 }
             }
         }

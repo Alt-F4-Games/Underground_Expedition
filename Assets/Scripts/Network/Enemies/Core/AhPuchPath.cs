@@ -20,17 +20,24 @@ namespace Network.Enemies.Variants
             {
                 if (Waypoints[i] == null) continue;
                 
-                if (Waypoints[i].GetComponent<AhPuchEvalNode>() != null)
+                var evalNode = Waypoints[i].GetComponent<AhPuchEvalNode>();
+                var statNode = Waypoints[i].GetComponent<AhPuchStatNode>();
+
+                if (evalNode != null)
                 {
                     // Eval nodes are Cyan spheres
                     Gizmos.color = Color.cyan;
                     Gizmos.DrawSphere(Waypoints[i].position, 0.6f);
+                    // Draw the specific evaluation radius
+                    Gizmos.DrawWireSphere(Waypoints[i].position, evalNode.EvaluationRadius);
                 }
-                else if (Waypoints[i].GetComponent<AhPuchStatNode>() != null)
+                else if (statNode != null)
                 {
                     // Stat nodes are Yellow cubes
                     Gizmos.color = Color.yellow;
                     Gizmos.DrawCube(Waypoints[i].position, Vector3.one * 0.6f);
+                    // Draw the specific detection radius
+                    Gizmos.DrawWireSphere(Waypoints[i].position, statNode.DetectionRadius);
                 }
                 else
                 {

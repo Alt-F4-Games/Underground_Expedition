@@ -28,9 +28,6 @@ namespace Network.Enemies
         public float EyeHeightOffset = 1.5f;
 
         [Header("Pathing & Node Detection")]
-        [Tooltip("Radius to detect and read Stat Nodes while chasing the player.")]
-        public float ChaseNodeDetectionRadius = 3f;
-        
         [Tooltip("Maximum straight-line distance allowed to start calculating a route to a nearby waypoint.")]
         public float MaxWaypointSearchDistance = 30f;
 
