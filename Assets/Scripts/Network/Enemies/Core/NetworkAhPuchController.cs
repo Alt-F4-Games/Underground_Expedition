@@ -27,6 +27,9 @@ namespace Network.Enemies
         [Tooltip("Maximum straight-line distance allowed to start calculating a route to a nearby waypoint.")]
         public float MaxWaypointSearchDistance = 30f;
 
+        [Tooltip("Penalty (in virtual meters) added to waypoints that are behind the boss to prevent backtracking.")]
+        public float BackwardsNodePenalty = 50f;
+
         [Header("References")]
         public DamageAura AuraComponent;
 
@@ -106,7 +109,6 @@ namespace Network.Enemies
             RecalculateStats();
         }
 
-        // Renamed from RecalculatePhaseStats and cleaned of phase logic
         public void RecalculateStats()
         {
             float dashBonus = IsDashing ? DashSpeedBoost : 0f;
@@ -143,8 +145,8 @@ namespace Network.Enemies
         {
             if (PatrolPath == null || PatrolPath.Waypoints.Count == 0) return;
 
-            float minDistance = float.MaxValue;
-            int nearestIndex = CurrentPathIndex;
+            float bestScore = float.MaxValue;
+            int bestIndex = CurrentPathIndex;
             UnityEngine.AI.NavMeshPath path = new UnityEngine.AI.NavMeshPath();
 
             for (int i = 0; i < PatrolPath.Waypoints.Count; i++)
@@ -152,8 +154,10 @@ namespace Network.Enemies
                 Transform wp = PatrolPath.GetWaypoint(i);
                 if (wp == null) continue;
                 
+                float rawDistance = Vector3.Distance(transform.position, wp.position);
+                
                 // Fast discard by straight-line distance (Optimization)
-                if (Vector3.Distance(transform.position, wp.position) > MaxWaypointSearchDistance) continue;
+                if (rawDistance > MaxWaypointSearchDistance) continue;
 
                 // Calculate the actual route via NavMesh (Avoids walls)
                 if (UnityEngine.AI.NavMesh.CalculatePath(transform.position, wp.position, UnityEngine.AI.NavMesh.AllAreas, path))
@@ -161,20 +165,34 @@ namespace Network.Enemies
                     // Ensure the path is valid and reachable
                     if (path.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
                     {
-                        float dist = GetPathLength(path);
-                        if (dist < minDistance)
+                        float realWalkingDistance = GetPathLength(path);
+                        float nodeScore = realWalkingDistance;
+
+                        // Calculate if the node is in front of or behind the boss using Dot Product
+                        Vector3 directionToNode = (wp.position - transform.position).normalized;
+                        float dotProduct = Vector3.Dot(transform.forward, directionToNode);
+
+                        // If the node is behind the boss (DotProduct < 0), apply penalty to avoid backtracking
+                        if (dotProduct < 0)
                         {
-                            minDistance = dist;
-                            nearestIndex = i;
+                            nodeScore += BackwardsNodePenalty; 
+                        }
+
+                        // Choose the node with the best score (closest walking distance, preferably in front)
+                        if (nodeScore < bestScore)
+                        {
+                            bestScore = nodeScore;
+                            bestIndex = i;
                         }
                     }
                 }
             }
 
-            CurrentPathIndex = nearestIndex;
-            Debug.Log($"[SERVER] Ah Puch lost target. Recalculated nearest waypoint (NavMesh): Index {CurrentPathIndex}");
+            CurrentPathIndex = bestIndex;
+            Debug.Log($"[SERVER] Ah Puch lost target. Chosen best NavMesh waypoint: Index {CurrentPathIndex} (Score: {bestScore})");
         }
         
+        // Helper method to calculate the exact length of a NavMeshPath
         private float GetPathLength(UnityEngine.AI.NavMeshPath path)
         {
             float length = 0.0f;
