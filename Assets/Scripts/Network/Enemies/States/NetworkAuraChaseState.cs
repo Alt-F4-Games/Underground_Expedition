@@ -39,8 +39,11 @@ namespace Network.Enemies.States
             }
 
             // Keep updating the destination to the player's current position
-            _enemy.Agent.isStopped = false;
-            _enemy.Agent.SetDestination(_enemy.TargetPlayer.transform.position);
+            if (_enemy.Agent != null && _enemy.Agent.isOnNavMesh)
+            {
+                _enemy.Agent.isStopped = false;
+                _enemy.Agent.SetDestination(_enemy.TargetPlayer.transform.position);
+            }
         }
 
         private void CheckForNearbyNodes(NetworkAhPuchController boss)
@@ -53,18 +56,29 @@ namespace Network.Enemies.States
                 Transform wp = boss.PatrolPath.GetWaypoint(i);
                 if (wp == null) continue;
                 
-                if (Vector3.Distance(boss.transform.position, wp.position) <= boss.ChaseNodeDetectionRadius)
+                float distanceToNode = Vector3.Distance(boss.transform.position, wp.position);
+
+                var evalNode = wp.GetComponent<AhPuchEvalNode>();
+                if (evalNode != null && distanceToNode <= evalNode.EvaluationRadius)
+                {
+                    Debug.Log($"[SERVER] Ah Puch detected Eval Node {wp.name} while chasing. Evaluating...");
+                    boss.CurrentPathIndex = i;
+                    boss.EvaluateAndDecide();
+                    break; 
+                }
+
+                if (distanceToNode <= boss.ChaseNodeDetectionRadius)
                 {
                     // If the node has stats, apply them immediately (e.g., room change)
                     var statNode = wp.GetComponent<AhPuchStatNode>();
                     if (statNode != null)
                     {
                         boss.ApplyStatNode(statNode);
+                        
+                        // Synchronize index so it knows its current position on the map
+                        boss.CurrentPathIndex = i;
+                        break; // Prevent processing multiple nodes in the same frame
                     }
-                    
-                    // Synchronize index so it knows its current position on the map
-                    boss.CurrentPathIndex = i;
-                    break; // Prevent processing multiple nodes in the same frame
                 }
             }
         }
