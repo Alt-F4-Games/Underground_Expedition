@@ -12,6 +12,7 @@ namespace Health
         [Networked] public bool IsAlive { get; set; }
         
         public Action OnDamageTaken;
+        public Action<int> OnDamageFeedback;
 
         public int MaxHealth => _maxHealth;
 
@@ -41,6 +42,8 @@ namespace Health
             ApplyDamage(damage);
             
             OnDamageTaken?.Invoke();
+            
+            RPC_OnDamageFeedback(damage);
         }
 
         // ============================================================
@@ -83,7 +86,15 @@ namespace Health
                 Death();
             }
         }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_OnDamageFeedback(int damage)
+        {
+            if (!Object.HasInputAuthority) return;
 
+            OnDamageFeedback?.Invoke(damage);
+        }
+        
         private void ApplyHeal(int heal)
         {
             if (heal <= 0)
