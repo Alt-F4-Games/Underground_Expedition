@@ -9,7 +9,6 @@ using System;
 
 namespace Network
 {
-    // Agregamos la interfaz INetworkRunnerCallbacks
     public class LobbyUIManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         [Header("Panels")]
@@ -29,7 +28,9 @@ namespace Network
         [SerializeField] private Button _backToMainFromJoin;
 
         [Header("Join Room Config")]
-        [SerializeField] private NetworkRunner _networkRunnerPrefab; // NUEVO: Prefab del motor de red temporal
+        [SerializeField] private NetworkRunner _networkRunnerPrefab; 
+        [SerializeField] private Transform _sessionListContainer;
+        [SerializeField] private GameObject _sessionEntryPrefab;
 
         [Header("Scene Config")]
         [SerializeField] private string _gameSceneName = "GameScene";
@@ -68,25 +69,25 @@ namespace Network
             _createRoomPanel.SetActive(false);
             _joinRoomPanel.SetActive(true);
 
-            // NUEVO: Instanciar el Runner temporal y conectarlo al Lobby
+            // Instantiate a temporary Runner to browse the Session Lobby
             if (_runnerInstance == null)
             {
                 if (_networkRunnerPrefab != null)
                 {
-                    // Es vital instanciar un prefab que ya tenga el componente NetworkRunner
+                    // It's vital to instantiate a prefab that contains the NetworkRunner component
                     _runnerInstance = Instantiate(_networkRunnerPrefab);
                     _runnerInstance.AddCallbacks(this); 
                 }
                 else
                 {
-                    Debug.LogError("[NETWORK] Falta asignar el NetworkRunnerPrefab en el inspector.");
+                    Debug.LogError("[NETWORK] NetworkRunnerPrefab is missing in the inspector.");
                     return;
                 }
             }
 
-            Debug.Log("[NETWORK] Conectando al Session Lobby...");
+            Debug.Log("[NETWORK] Connecting to Session Lobby...");
             
-            // Esto le dice a Fusion: "No entres a jugar, solo mostrame qué salas existen"
+            // Join the lobby to receive session updates without entering a game session yet
             await _runnerInstance.JoinSessionLobby(SessionLobby.ClientServer);
         }
 
@@ -110,6 +111,7 @@ namespace Network
             RoomConfig.MaxPlayers = capacity; 
             RoomConfig.IsHost = true;
 
+            // Shutdown the lobby runner before loading the game scene
             if (_runnerInstance != null)
             {
                 await _runnerInstance.Shutdown();
@@ -124,12 +126,52 @@ namespace Network
 
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
         {
-            // NUEVO: Por ahora solo verificamos por consola que la conexión funciona. 
-            Debug.Log($"[NETWORK] Actualización del Lobby: {sessionList.Count} salas encontradas.");
+            Debug.Log($"[NETWORK] Lobby Update: {sessionList.Count} rooms found.");
+
+            // Clear the current list by destroying old entry objects
+            foreach (Transform child in _sessionListContainer)
+            {
+                Destroy(child.gameObject);
+            }
+
+            // Iterate through the sessions provided by Fusion and create entries
+            foreach (var session in sessionList)
+            {
+                // Only display sessions marked as visible
+                if (session.IsVisible)
+                {
+                    GameObject entryGO = Instantiate(_sessionEntryPrefab, _sessionListContainer);
+                    
+                    if (entryGO.TryGetComponent(out SessionEntryUI entryUI))
+                    {
+                        // Configure the entry and assign the join action using the session name
+                        entryUI.Setup(session, () => {
+                            JoinSession(session.Name);
+                        });
+                    }
+                }
+            }
+        }
+
+        // Triggered when a player clicks a room entry in the list
+        private async void JoinSession(string sessionName)
+        {
+            // Store configuration for the game scene
+            RoomConfig.RoomName = sessionName;
+            RoomConfig.IsHost = false; // Player is joining an existing room as a Client
+            
+            // Shutdown the Lobby Runner to avoid conflicts with the Game Runner
+            if (_runnerInstance != null)
+            {
+                await _runnerInstance.Shutdown();
+            }
+            
+            // Transition to the game scene
+            SceneManager.LoadScene(_gameSceneName);
         }
 
         // ============================================================
-        // EMPTY CALLBACKS (Requeridos por la interfaz)
+        // EMPTY CALLBACKS (Required by INetworkRunnerCallbacks)
         // ============================================================
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
         public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
