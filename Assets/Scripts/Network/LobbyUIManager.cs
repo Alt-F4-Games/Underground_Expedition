@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Fusion; // CORRECCIÓN 1: Agregamos Fusion para que reconozca el Runner
 
 namespace Network
 {
@@ -14,8 +15,9 @@ namespace Network
 
         [Header("Create Room Inputs")]
         [SerializeField] private TMP_InputField _roomNameInputField;
+        [SerializeField] private TMP_InputField _maxPlayersInputField;
         [SerializeField] private Button _confirmCreateButton;
-
+        
         [Header("Navigation Buttons")]
         [SerializeField] private Button _toCreatePanelButton;
         [SerializeField] private Button _toJoinPanelButton;
@@ -25,22 +27,20 @@ namespace Network
         [Header("Scene Config")]
         [SerializeField] private string _gameSceneName = "GameScene";
 
+        // CORRECCIÓN 2: Declaramos la variable del runner
+        private NetworkRunner _runnerInstance; 
+
         private void Start()
         {
-            // Initialize view
             ShowMainPanel();
 
-            // Configure navigation buttons
             _toCreatePanelButton.onClick.AddListener(ShowCreatePanel);
             _toJoinPanelButton.onClick.AddListener(ShowJoinPanel);
             _backToMainFromCreate.onClick.AddListener(ShowMainPanel);
             _backToMainFromJoin.onClick.AddListener(ShowMainPanel);
 
-            // Create room action
             _confirmCreateButton.onClick.AddListener(OnConfirmCreateRoom);
         }
-
-        // Navigation Logic
 
         public void ShowMainPanel()
         {
@@ -61,13 +61,9 @@ namespace Network
             _mainPanel.SetActive(false);
             _createRoomPanel.SetActive(false);
             _joinRoomPanel.SetActive(true);
-            
-            // In the future, we will call the room list system here
         }
 
-        // Creation Logic
-
-        private void OnConfirmCreateRoom()
+        private async void OnConfirmCreateRoom()
         {
             string roomName = _roomNameInputField.text;
 
@@ -77,10 +73,21 @@ namespace Network
                 return;
             }
 
-            // Save the name in the data bridge
-            RoomConfig.RoomName = roomName;
+            int capacity = 4;
+            if (_maxPlayersInputField != null && int.TryParse(_maxPlayersInputField.text, out int parsedCapacity))
+            {
+                capacity = Mathf.Clamp(parsedCapacity, 2, 10);
+            }
 
-            // Load the game scene (where the NetworkRunner will be located)
+            RoomConfig.RoomName = roomName;
+            RoomConfig.MaxPlayers = capacity; 
+            RoomConfig.IsHost = true;
+
+            if (_runnerInstance != null)
+            {
+                await _runnerInstance.Shutdown();
+            }
+
             SceneManager.LoadScene(_gameSceneName);
         }
     }

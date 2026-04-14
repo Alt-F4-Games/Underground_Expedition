@@ -10,31 +10,13 @@ using UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// GENERAL NETWORK CONTROLLER
-/// --------------------------
-/// This script acts as the initial “brain” of the networking system:
-/// - Creates or joins multiplayer sessions.
-/// - Spawns players when they connect.
-/// - Handles local input.
-/// - Spawns initial test items (for debugging only).
-///
-/// For NON-PROGRAMMERS:
-/// Think of this script as the multiplayer receptionist.
-/// Every time someone joins, it creates their character.
-/// Every time they move or jump, this script sends that information to the match.
-/// </summary>
-
-
 public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 {
-    // ---------------------------- UI ----------------------------
     [Header("UI References")]
     [SerializeField] private GameObject _lobbyPanel;
     [SerializeField] private Button _createRoomButton;
     [SerializeField] private Button _joinRoomButton;
 
-    // ----------------------- Network Config ---------------------
     [Header("Network References")]
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
@@ -43,36 +25,35 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     [SerializeField] private int sceneIndex ;
     
-    // ----------------------- Test Items -------------------------
     [Header("Test Items (Only for development)")]
     [SerializeField] private NetworkObject _testItemPrefab;
     private bool worldItemsSpawned = false;
     [SerializeField] private NetworkObject _testEnemyPrefab;
     
-     
-    // ------------------------ Player Input ---------------------- 
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private Vector2 _lookInput;
     private float _yawInput;
    
-    // ============================================================
-    //                      UNITY EVENTS
-    // ============================================================
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
-        _joinRoomButton.onClick.AddListener(JoinRoom);
+        // CORRECCIÓN 1: Usamos la función correcta con una función lambda
+        _joinRoomButton.onClick.AddListener(() => JoinSpecificRoom(RoomConfig.RoomName));
         
         if (!string.IsNullOrEmpty(RoomConfig.RoomName) && _networkRunner.Config == null)
         {
-            CreateRoom();
+            // CORRECCIÓN 2: Evaluamos el rol configurado en el menú
+            if (RoomConfig.IsHost)
+            {
+                CreateRoom();
+            }
+            else
+            {
+                JoinSpecificRoom(RoomConfig.RoomName);
+            }
         }
     }
-    
-    // ============================================================
-    //                       INPUT SYSTEM
-    // ============================================================
     
     public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
     public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
@@ -95,37 +76,41 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             InputPlayer.MouseRotation = _lookInput;
         }
         
-        
         input.Set(InputPlayer);
         _lookInput = Vector2.zero;
     }
     
-    // ============================================================
-    //                     ROOM CREATION / JOIN
-    // ============================================================
-    
     private async void CreateRoom()
     {
-        // Usamos el nombre que viene del Menú a través del puente
+        if (_networkRunner.IsRunning) return; 
+
+        _createRoomButton.interactable = false;
+        _joinRoomButton.interactable = false;
+
         string sessionName = RoomConfig.RoomName; 
 
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Host,
             SessionName = sessionName, 
-            SceneManager = _networkSceneManagerDefault,
-            Scene = SceneRef.FromIndex(sceneIndex)
+            PlayerCount = RoomConfig.MaxPlayers,
+            SceneManager = _networkSceneManagerDefault
         };
 
         var result = await _networkRunner.StartGame(gameArg);
 
         if (!result.Ok)
         {
-            Debug.LogError($"[NETWORK] Error al crear sala: {result.ShutdownReason}");
+            Debug.LogError($"[NETWORK] Error creating room: {result.ShutdownReason}");
+            _createRoomButton.interactable = true;
+            _joinRoomButton.interactable = true;
         }
     }
+    
     public async void JoinSpecificRoom(string sessionName)
     {
+        if (_networkRunner.IsRunning) return; 
+
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Client,
@@ -137,13 +122,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         if (!result.Ok)
         {
-            Debug.LogError($"[NETWORK] Error al unirse: {result.ShutdownReason}");
+            Debug.LogError($"[NETWORK] Error joining room: {result.ShutdownReason}");
         }
     }
-    
-    // ============================================================
-    //                   PLAYER JOIN / LEAVE
-    // ============================================================
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) 
     {
@@ -151,7 +132,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         _lobbyPanel.SetActive(false);
 
         if (!_networkRunner.IsServer) return;
-        
         
         var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
         _players.Add(player,playerSpawned);
@@ -167,10 +147,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
        }
     }
     
-    // ============================================================
-    //                  SHUTDOWN (GUARDADO LOCAL)
-    // ============================================================
-    
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log("[Runner] Shutdown detected - Saving player inventory");
@@ -181,10 +157,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             inv.SaveLocalInventory();
     }
     
-    // ============================================================
-    //                     EMPTY CALLBACKS 
-    // ============================================================
-    
+    // EMPTY CALLBACKS 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
