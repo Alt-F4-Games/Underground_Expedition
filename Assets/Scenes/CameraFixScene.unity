@@ -508,6 +508,8 @@ MonoBehaviour:
   sceneIndex: 0
   _testItemPrefab: {fileID: 554443575852828146, guid: d13fd83161a3bed49882289eda880586, type: 3}
   _testEnemyPrefab: {fileID: 5512293683878897899, guid: 5fe34bf043c0bf14d8486e5eb0f19901, type: 3}
+  _mouseSensitivity: 0.15
+  _maxLookAngle: 80
 --- !u!114 &263528614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,7 +867,7 @@ Transform:
   m_GameObject: {fileID: 431219327}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.645564, y: -55, z: 85.16971}
+  m_LocalPosition: {x: 6.645564, y: -55.6, z: 85.16971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
