@@ -111,10 +111,11 @@ Transform:
   m_GameObject: {fileID: 525502175860166656}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.38, z: 0.59}
+  m_LocalPosition: {x: 0, y: 0.38, z: 0.638}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3254031037413691712}
   m_Father: {fileID: 2642627520548307612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &954193011416401844
@@ -393,12 +394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _attackDistance: 3
   _attackCooldown: 0.5
-  _hitLayers:
-    serializedVersion: 2
-    m_Bits: 1160
-  _cameraTransform: {fileID: 6845520230055635799}
+  _detector: {fileID: 3317339436758771823}
 --- !u!114 &7544978420758776554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,3 +485,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2642627520548307612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7306005235793017793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3254031037413691712}
+  - component: {fileID: 3317339436758771823}
+  m_Layer: 0
+  m_Name: AttackOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3254031037413691712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306005235793017793}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6845520230055635799}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3317339436758771823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306005235793017793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc97c26b398493d9250712486beb2ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _halfExtents: {x: 0.35, y: 0.35, z: 1.5}
+  _center: {fileID: 3254031037413691712}
+  _hitLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  _obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 832
+  _rayOrigin: {fileID: 6845520230055635799}
+  _forwardOffsetMultiplier: 1
+  _drawGizmos: 1
