@@ -63,6 +63,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
         _joinRoomButton.onClick.AddListener(JoinRoom);
+        
+        if (!string.IsNullOrEmpty(RoomConfig.RoomName) && _networkRunner.Config == null)
+        {
+            CreateRoom();
+        }
     }
     
     // ============================================================
@@ -101,41 +106,38 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     private async void CreateRoom()
     {
-        
-        var activeScene = SceneManager.GetActiveScene();
-        
+        // Usamos el nombre que viene del Menú a través del puente
+        string sessionName = RoomConfig.RoomName; 
+
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Host,
-            SessionName = "TestRoom",
+            SessionName = sessionName, 
             SceneManager = _networkSceneManagerDefault,
             Scene = SceneRef.FromIndex(sceneIndex)
         };
 
         var result = await _networkRunner.StartGame(gameArg);
-     
 
         if (!result.Ok)
         {
-            Debug.LogError($"Failed to start game: {result.ShutdownReason}");
-            Debug.LogError($"Error: {result.ErrorMessage}");
+            Debug.LogError($"[NETWORK] Error al crear sala: {result.ShutdownReason}");
         }
     }
-    private async void JoinRoom()
+    public async void JoinSpecificRoom(string sessionName)
     {
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Client,
-            SessionName = "TestRoom",
+            SessionName = sessionName,
             SceneManager = _networkSceneManagerDefault,
         };
+
         var result = await _networkRunner.StartGame(gameArg);
-        
 
         if (!result.Ok)
         {
-            Debug.LogError($"Failed to start game: {result.ShutdownReason}");
-            Debug.LogError($"Error: {result.ErrorMessage}");
+            Debug.LogError($"[NETWORK] Error al unirse: {result.ShutdownReason}");
         }
     }
     
