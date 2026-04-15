@@ -204,7 +204,7 @@ NavMeshAgent:
   m_Enabled: 0
   m_AgentTypeID: -1372625422
   m_Radius: 0.3
-  m_Speed: 13
+  m_Speed: 10
   m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 300
@@ -231,12 +231,12 @@ MonoBehaviour:
   Agent: {fileID: 888223497754564403}
   PatrolPath: {fileID: 0}
   VisionRange: 8
-  AttackRange: 4
+  AttackRange: 5
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 8
   AttackDamage: 5
-  AttackCooldown: 0
+  AttackCooldown: 1.5
   _CurrentState: 0
   SnitchRange: 10
   SnitchListenRange: 25
@@ -246,7 +246,7 @@ MonoBehaviour:
   SwarmLayer:
     serializedVersion: 2
     m_Bits: 1024
-  JumpChargeTime: 1
+  JumpChargeTime: 2
   JumpSpeed: 12
   JumpExtraDistance: 2
   JumpHeight: 1

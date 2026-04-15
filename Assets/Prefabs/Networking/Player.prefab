@@ -341,8 +341,6 @@ MonoBehaviour:
   _cameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
   _walkSpeed: 5
-  _mouseSensitivity: 0.4
-  _maxLookAngle: 80
   _sprintSpeed: 10
   _sprintDuration: 3
   _sprintCooldown: 2
@@ -453,7 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ac1e966ac3edd48bba1b9b41b99648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _overlay: {fileID: 0}
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbc97c26b398493d9250712486beb2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _halfExtents: {x: 0.35, y: 0.35, z: 1.5}
+  _halfExtents: {x: 0.35, y: 0.35, z: 1}
   _center: {fileID: 3254031037413691712}
   _hitLayers:
     serializedVersion: 2
