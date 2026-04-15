@@ -41,6 +41,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject _playerprefab;
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
+    [SerializeField] private int sceneIndex ;
     
     // ----------------------- Test Items -------------------------
     [Header("Test Items (Only for development)")]
@@ -52,6 +53,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     // ------------------------ Player Input ---------------------- 
     private Vector2 _moveInput; 
     private bool _jumpPressed;
+    private bool _sprintPressed;
     private Vector2 _lookInput;
     private float _yawInput;
    
@@ -71,12 +73,14 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
     public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
     public void OnLook(InputAction.CallbackContext context) { _lookInput = context.ReadValue<Vector2>(); }
+    public void OnSprint(InputAction.CallbackContext context) { _sprintPressed = context.ReadValue<float>() > 0; }
     
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var InputPlayer = new NetworkInputPlayer();
         
         InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
+        InputPlayer.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
         
         if (InputManager.Mode != InputMode.Game)
         {
@@ -108,7 +112,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = GameMode.Host,
             SessionName = "TestRoom",
             SceneManager = _networkSceneManagerDefault,
-            Scene = SceneRef.FromIndex(activeScene.buildIndex)
+            Scene = SceneRef.FromIndex(sceneIndex)
         };
 
         var result = await _networkRunner.StartGame(gameArg);

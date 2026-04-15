@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using System;
+using Fusion;
 using UnityEngine;
 namespace Health
 {
@@ -8,7 +9,10 @@ namespace Health
         [SerializeField] private int _maxHealth = 100;
 
         [Networked] public int CurrentHealth { get; protected set; }
-        [Networked] protected bool IsAlive { get; set; }
+        [Networked] public bool IsAlive { get; set; }
+        
+        public Action OnDamageTaken;
+        public Action<int> OnDamageFeedback;
 
         public int MaxHealth => _maxHealth;
 
@@ -36,8 +40,23 @@ namespace Health
             if (!HasStateAuthority) return;
 
             ApplyDamage(damage);
+            
+            OnDamageTaken?.Invoke();
+            
+            RPC_OnDamageFeedback(damage);
         }
 
+        // ============================================================
+        // HEAL REQUEST (CLIENT → SERVER)
+        // ============================================================
+
+        public void Heal(int heal)
+        {
+            if (!HasStateAuthority) return;
+
+            ApplyHeal(heal);
+        }
+        
         // ============================================================
         // SERVER LOGIC
         // ============================================================
@@ -67,7 +86,15 @@ namespace Health
                 Death();
             }
         }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_OnDamageFeedback(int damage)
+        {
+            if (!Object.HasInputAuthority) return;
 
+            OnDamageFeedback?.Invoke(damage);
+        }
+        
         private void ApplyHeal(int heal)
         {
             if (heal <= 0)
@@ -83,17 +110,7 @@ namespace Health
             Debug.Log($"{gameObject.name} healed {heal}. HP: {CurrentHealth}");
         }
         
-        // ============================================================
-        // HEAL REQUEST (CLIENT → SERVER)
-        // ============================================================
-
-        public void Heal(int heal)
-        {
-            if (!HasStateAuthority) return;
-
-           ApplyHeal(heal);
-        }
-
+        
         // ============================================================
         // DEATH (Server)
         // ============================================================

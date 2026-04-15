@@ -11,14 +11,14 @@ namespace Network.Enemies
         public float WaypointTolerance = 0.5f; // Distance to consider a waypoint reached
 
         // Returns the waypoint safely looping back to 0
-        public Transform GetWaypoint(int index)
+        public virtual Transform GetWaypoint(int index)
         {
             if (Waypoints == null || Waypoints.Count == 0) return null;
             return Waypoints[index % Waypoints.Count];
         }
 
         // Visualizes the path in the Unity Editor
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.cyan;
             for (int i = 0; i < Waypoints.Count; i++)
