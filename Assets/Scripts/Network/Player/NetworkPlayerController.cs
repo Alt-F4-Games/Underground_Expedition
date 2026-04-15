@@ -77,9 +77,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         if (_playerCamera != null)
         {
-            _playerCamera.transform.SetParent(_cameraPivot);
-            _playerCamera.transform.localPosition = Vector3.zero;
-            _playerCamera.transform.localRotation = Quaternion.identity;
+            // Unparent the camera to prevent it from inheriting physics jitter (60Hz)
+            _playerCamera.transform.SetParent(null);
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -97,7 +96,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         // Calculate rotation during the network tick
         HandleRotationLogic(input);
-        
         HandleMovement(input);
         HandleJump(input);
         HandleSprint(input);
@@ -114,7 +112,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     }
 
     // ============================================================
-    // ROTATION
+    // RENDER
     // ============================================================
 
     public override void Render()
@@ -122,9 +120,16 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         // Camera smoothing for the local player
         if (HasInputAuthority)
         {
-            // Apply rotation here as well to match monitor frame rate
+            // Apply physical rotation
             transform.rotation = Quaternion.Euler(0, _yaw, 0);
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
+
+            // Move the unparented camera to follow the pivot with 100% smoothness
+            if (_playerCamera != null)
+            {
+                _playerCamera.transform.position = _cameraPivot.position;
+                _playerCamera.transform.rotation = _cameraPivot.rotation;
+            }
         }
 
         // Existing visual effects
