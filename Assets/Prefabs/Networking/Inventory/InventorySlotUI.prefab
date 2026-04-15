@@ -299,7 +299,8 @@ GameObject:
   - component: {fileID: 869668266064926527}
   - component: {fileID: 2431959344164081425}
   - component: {fileID: 8138632635585956173}
-  - component: {fileID: 2346426294464565836}
+  - component: {fileID: 7201795309593709069}
+  - component: {fileID: 1773189302618344132}
   m_Layer: 5
   m_Name: InventorySlotUI
   m_TagString: Untagged
@@ -385,13 +386,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a77ead7d9b02cb4781c58061269aa88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameImage: {fileID: 8138632635585956173}
   iconImage: {fileID: 4374990725753680785}
   qtyText: {fileID: 8082215700091308298}
   highlightFrame: {fileID: 6800112592314641340}
   dropKey: 113
-  worldItemPrefab: {fileID: 7960787754250036776, guid: d13fd83161a3bed49882289eda880586, type: 3}
-  playerTransform: {fileID: 0}
 --- !u!222 &2431959344164081425
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -430,7 +428,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2346426294464565836
+--- !u!114 &7201795309593709069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,6 +437,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 7483863090990163779}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b1c0c343fc21604da4349553090daf1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cc7d13340ef25e47a4f52e777326322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1773189302618344132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7483863090990163779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 50
+  m_PreferredHeight: 50
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1

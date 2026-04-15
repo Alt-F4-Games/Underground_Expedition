@@ -5,7 +5,6 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     [Header("Containers")]
-    [SerializeField] private Transform equipContainer;
     [SerializeField] private Transform backpackContainer;
 
     [Header("Prefabs")]
@@ -13,9 +12,7 @@ public class InventoryUI : MonoBehaviour
 
     [Header("UI Root")]
     [SerializeField] private GameObject inventoryPanelRoot;
-    [SerializeField] private KeyCode toggleKey = KeyCode.I;
 
-    private List<InventorySlotUI> _equipSlotsUI = new();
     private List<InventorySlotUI> _baseSlotsUI = new();
 
     private NetworkInventoryManager _currentManager;
@@ -47,12 +44,6 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(toggleKey))
-            ToggleVisibility();
-    }
-
     // =====================================================================
     // Player Linking
     // =====================================================================
@@ -74,36 +65,39 @@ public class InventoryUI : MonoBehaviour
     // UI Visibility
     // =====================================================================
     
-    public void ToggleVisibility()  // Shows or hides the inventory UI panel and configures cursor state.
+    public void Show()
     {
-        _isOpen = !_isOpen;
-        inventoryPanelRoot.SetActive(_isOpen);
+        if (_isOpen) return;
 
-        if (_isOpen)
-        {
-            RefreshAll();
-            UnlockCursor();
-        }
-        else
-        {
-            LockCursor();
-        }
+        _isOpen = true;
+        inventoryPanelRoot.SetActive(true);
+        InputManager.SetMode(InputMode.UI);
+
+        RefreshAll();
+        UnlockCursor();
+    }
+
+    public void Hide()
+    {
+        if (!_isOpen) return;
+
+        _isOpen = false;
+        inventoryPanelRoot.SetActive(false);
+        InputManager.SetMode(InputMode.Game);
+
+        LockCursor();
     }
 
     private static void LockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        
-        InputManager.SetMode(InputMode.Game);
     }
 
     private static void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
-        InputManager.SetMode(InputMode.UI);
     }
 
     // =====================================================================
@@ -116,7 +110,6 @@ public class InventoryUI : MonoBehaviour
 
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
 
-        CreateSlots(equipContainer, _equipSlotsUI, sys.GetCapacity(SlotType.Equip), SlotType.Equip);
         CreateSlots(backpackContainer, _baseSlotsUI, sys.GetCapacity(SlotType.Base), SlotType.Base);
     }
     
@@ -151,7 +144,6 @@ public class InventoryUI : MonoBehaviour
 
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
 
-        RefreshList(_equipSlotsUI, sys.EquipSlots, sys.GetCapacity(SlotType.Equip));
         RefreshList(_baseSlotsUI, sys.BaseSlots, sys.GetCapacity(SlotType.Base));
     }
     

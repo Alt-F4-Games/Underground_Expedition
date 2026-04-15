@@ -30,7 +30,13 @@ public class InventoryInputHandler : MonoBehaviour
     
     private void HandleToggleInput()    // Detects the toggle key and informs the UI to show/hide itself.
     {
-        if (Input.GetKeyDown(toggleKey) && inventoryUI) inventoryUI.ToggleVisibility();
+        if (Input.GetKeyDown(toggleKey) && inventoryUI)
+        {
+            if (inventoryUI.IsVisible())
+                inventoryUI.Hide();
+            else
+                inventoryUI.Show();
+        }
     }
 
     // =====================================================================
