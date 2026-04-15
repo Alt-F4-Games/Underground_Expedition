@@ -1572,6 +1572,8 @@ MonoBehaviour:
   sceneIndex: 0
   _testItemPrefab: {fileID: 0}
   _testEnemyPrefab: {fileID: 0}
+  _mouseSensitivity: 0.15
+  _maxLookAngle: 80
 --- !u!114 &263528614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8450,7 +8452,7 @@ MonoBehaviour:
   maxAlpha: 0.8
   randomRotation: 1
   randomScale: 1
-  lowDamageColor: {r: 1, g: 1, b: 1, a: 1}
+  lowDamageColor: {r: 1, g: 0.504717, b: 0.504717, a: 1}
   highDamageColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &1207844771
 PrefabInstance:
@@ -15449,10 +15451,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1616310839}
+  - {fileID: 1130588487}
   - {fileID: 714972040}
   - {fileID: 490027030}
   - {fileID: 167887377}
-  - {fileID: 1130588487}
   - {fileID: 1959317019}
   - {fileID: 579912848}
   - {fileID: 2010981766}
