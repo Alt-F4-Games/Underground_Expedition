@@ -9077,7 +9077,7 @@ GameObject:
   - component: {fileID: 1364075805}
   - component: {fileID: 1364075806}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: StamineBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9099,9 +9099,9 @@ RectTransform:
   - {fileID: 535525667}
   m_Father: {fileID: 1633685725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -107.74, y: 145.48962}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 115, y: -75}
   m_SizeDelta: {x: 190, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1364075806
