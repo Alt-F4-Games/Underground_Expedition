@@ -25,7 +25,7 @@ public class InventorySlotDragHandler : MonoBehaviour,
         canvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
     }
 
-    private CanvasGroup GetOrCreateCanvasGroup()    // Ensures this GameObject always has a CanvasGroup. Prevents MissingComponentException during drag end.
+    private CanvasGroup GetOrCreateCanvasGroup()
     {
         if (canvasGroup == null)
         {
@@ -35,7 +35,7 @@ public class InventorySlotDragHandler : MonoBehaviour,
         }
         return canvasGroup;
     }
-    
+
     // ============================================================
     // Drag Start
     // ============================================================
@@ -45,11 +45,8 @@ public class InventorySlotDragHandler : MonoBehaviour,
         if (!IsLeftClick(eventData)) return;
         if (!slotUI.HasItem) return;
 
-        dragSourceSlot = slotUI;
+        BeginDragFromSlot(slotUI);
 
-        AcquireDragCanvas();
-        CreateDragIcon(slotUI.CurrentItemId);
-        // Disable raycasts so the drop target receives the event
         GetOrCreateCanvasGroup().blocksRaycasts = false;
     }
 
@@ -59,8 +56,7 @@ public class InventorySlotDragHandler : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (dragIconRect != null)
-            dragIconRect.position = eventData.position;
+        UpdateDragPosition(eventData.position);
     }
 
     // ============================================================
@@ -69,12 +65,9 @@ public class InventorySlotDragHandler : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        CleanupDragVisuals();
-        
-        // Re-enable raycasts safely
+        EndDragVisual();
+
         GetOrCreateCanvasGroup().blocksRaycasts = true;
-        
-        dragSourceSlot = null;
     }
 
     // ============================================================
@@ -83,10 +76,42 @@ public class InventorySlotDragHandler : MonoBehaviour,
 
     public void OnDrop(PointerEventData eventData)
     {
-        // No source OR dropped onto itself → ignore
         if (dragSourceSlot == null || dragSourceSlot == slotUI) return;
 
         TryMoveItem(dragSourceSlot, slotUI);
+    }
+
+    // ============================================================
+    // Shared Drag API (CLAVE PARA NO DUPLICAR)
+    // ============================================================
+
+    public static void BeginDragFromSlot(InventorySlotUI slot)
+    {
+        if (slot == null || !slot.HasItem) return;
+
+        dragSourceSlot = slot;
+
+        var handler = slot.GetComponent<InventorySlotDragHandler>();
+        if (handler == null) return;
+
+        handler.AcquireDragCanvas();
+        handler.CreateDragIcon(slot.CurrentItemId);
+    }
+
+    public static void UpdateDragPosition(Vector2 position)
+    {
+        if (dragIconRect != null)
+            dragIconRect.position = position;
+    }
+
+    public static void EndDragVisual()
+    {
+        if (dragIcon != null)
+            Destroy(dragIcon);
+
+        dragIcon = null;
+        dragIconRect = null;
+        dragSourceSlot = null;
     }
 
     // ============================================================
@@ -95,7 +120,6 @@ public class InventorySlotDragHandler : MonoBehaviour,
 
     private void TryMoveItem(InventorySlotUI from, InventorySlotUI to)
     {
-        // Must belong to the same local Manager
         if (from.Manager != to.Manager || from.Manager == null) return;
 
         from.Manager.Input_MoveItem(from.SlotType, from.SlotIndex, to.SlotType, to.SlotIndex);
@@ -104,18 +128,18 @@ public class InventorySlotDragHandler : MonoBehaviour,
     // ============================================================
     // Drag Icon Helpers
     // ============================================================
-    
-    private void AcquireDragCanvas()    // Ensures we have a root canvas to draw the drag icon on top.
+
+    private void AcquireDragCanvas()
     {
         if (dragCanvas == null)
             dragCanvas = GetComponentInParent<Canvas>();
     }
-    
-    private void CreateDragIcon(int itemId) // Creates the floating icon that follows the mouse while dragging.
+
+    private void CreateDragIcon(int itemId)
     {
         dragIcon = new GameObject("DragIcon", typeof(RectTransform), typeof(Image));
         dragIcon.transform.SetParent(dragCanvas.transform, false);
-        dragIcon.transform.SetAsLastSibling(); // render on top
+        dragIcon.transform.SetAsLastSibling();
 
         dragIconRect = dragIcon.GetComponent<RectTransform>();
         dragIconRect.sizeDelta = new Vector2(50, 50);
@@ -123,28 +147,15 @@ public class InventorySlotDragHandler : MonoBehaviour,
         var img = dragIcon.GetComponent<Image>();
         img.sprite = GetItemIcon(itemId);
         img.preserveAspect = true;
-        img.raycastTarget = false; // allow raycasts to UI below
-    }
-    
-    private void CleanupDragVisuals()   // Safely removes the floating icon instance.
-    {
-        if (dragIcon != null)
-            Destroy(dragIcon);
-
-        dragIcon = null;
-        dragIconRect = null;
+        img.raycastTarget = false;
     }
 
-    // ============================================================
-    // Utility
-    // ============================================================
-    
-    private Sprite GetItemIcon(int itemId)  // Returns the icon sprite associated with an item ID.
+    private Sprite GetItemIcon(int itemId)
     {
         var itemSO = ItemDatabase.Instance.GetItemById(itemId);
         return itemSO != null ? itemSO.icon : null;
     }
-    
-    private bool IsLeftClick(PointerEventData e)    // Checks if the drag started with left-click only.
+
+    private bool IsLeftClick(PointerEventData e)
         => e.button == PointerEventData.InputButton.Left;
 }

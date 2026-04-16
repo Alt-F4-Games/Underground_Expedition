@@ -76,8 +76,10 @@ namespace Network.Enemies
         // Triggered on all clients to update visuals/animations
         void OnStateChanged()
         {
-            // TODO: Update Animator parameters based on CurrentState
+            HandleStateChanged();
         }
+        
+        protected virtual void HandleStateChanged(){}
 
         // Draws debug spheres in the Unity Editor
         protected virtual void OnDrawGizmosSelected()

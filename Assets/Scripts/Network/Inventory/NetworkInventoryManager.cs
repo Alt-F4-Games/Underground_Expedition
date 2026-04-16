@@ -32,7 +32,6 @@ public class NetworkInventoryManager : NetworkBehaviour
     public static NetworkInventoryManager Local { get; private set; }
 
     // -------------------- Internal state -----------------------------
-    private int _currentVisualItemId = -1;
     private GameObject _currentHandModel;
 
     private ChangeDetector _managerChanges;
@@ -40,8 +39,6 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     //-------------------------- Events ----------------------------
     public static event Action OnLocalPlayerSpawned;
-    public static event Action OnHotbarIndexChanged;
-
     //---------- Player identifier used for local persistence ----------
     public static string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
 
@@ -62,7 +59,6 @@ public class NetworkInventoryManager : NetworkBehaviour
 
             // Subscribe visuals update to inventory changes
             inventorySystem.OnInventoryChanged += UpdateHandVisuals;
-            OnHotbarIndexChanged?.Invoke();
             UpdateHandVisuals();
         }
 
@@ -106,7 +102,6 @@ public class NetworkInventoryManager : NetworkBehaviour
             if (change == nameof(SelectedHotbarIndex))
             {
                 UpdateHandVisuals();
-                OnHotbarIndexChanged?.Invoke();
             }
         }
 
@@ -131,26 +126,21 @@ public class NetworkInventoryManager : NetworkBehaviour
     }
 
     // ----------------------- VISUALS / HAND MODEL ---------------------------
-    private void UpdateHandVisuals()    // Update model shown in player's hand according to selected hotbar slot. Keep logic compact and avoid duplicate GetComponent calls.
+    private void UpdateHandVisuals()
     {
         SafeAssignInventorySystem();
         if (inventorySystem == null) return;
 
-        int idx = SelectedHotbarIndex;
-        if (idx < 0 || idx >= inventorySystem.GetCapacity(SlotType.Hotbar))
-            return;
+        int idx = inventorySystem.GetCapacity(SlotType.Hotbar) / 2;
 
         var slot = inventorySystem.HotbarSlots[idx];
 
         if (slot.IsEmpty)
         {
             ClearHandModel();
-            _currentVisualItemId = -1;
             return;
         }
 
-        // If same item already shown, no-op
-        if (_currentVisualItemId == slot.ItemId) return;
 
         ClearHandModel();
 
@@ -158,7 +148,6 @@ public class NetworkInventoryManager : NetworkBehaviour
         if (prefab != null)
         {
             _currentHandModel = Instantiate(prefab, handTransform);
-            _currentVisualItemId = slot.ItemId;
         }
     }
 
@@ -173,13 +162,11 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     // -------------------- PUBLIC INPUT METHODS (UI -> Manager) --------------
 
-    public void Input_SetSelectedHotbar(int index)
+    public void Input_RotateHotbar(bool rotateRight)
     {
         if (!HasInputAuthority) return;
-        SafeAssignInventorySystem();
-        if (index < 0 || index >= inventorySystem.GetCapacity(SlotType.Hotbar)) return;
 
-        RPC_SetSelectedHotbar(index);
+        RPC_RotateHotbar(rotateRight);
     }
 
     public void Input_MoveItem(SlotType fromType, int fromIdx, SlotType toType, int toIdx)
@@ -196,10 +183,11 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     // -------------------- RPCs (Client -> Server) -------------------------
 
+   
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SetSelectedHotbar(int index)
+    private void RPC_RotateHotbar(bool rotateRight)
     {
-        SelectedHotbarIndex = index;
+        inventorySystem.Server_RotateHotbar(rotateRight);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]

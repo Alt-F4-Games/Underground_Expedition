@@ -1,7 +1,7 @@
-﻿using Fusion;
-using Health;
-﻿using System.Collections;
+﻿using System;
 using Fusion;
+using Health;
+using System.Collections;
 using Network;
 using UnityEngine;
 
@@ -13,24 +13,43 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private Renderer _renderer;
 
     [Header("Movement")]
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _walkSpeed = 5f;
+    
+    [Header("Sprint")]
+    [SerializeField] private float _sprintSpeed = 8f;
+    [SerializeField] private float _sprintDuration = 3f;
+    [SerializeField] private float _sprintCooldown = 2f;
+    
+    private bool _lastSprintState; // TEST //
 
-    [Header("Mouse")]
-    [SerializeField] private float _mouseSensitivity = 0.15f;
-    [SerializeField] private float _maxLookAngle = 80f;
+    [Networked] private bool IsSprinting { get; set; }
+    [Networked] [HideInInspector] public float SprintTimer { get; private set; }
+    [Networked] [HideInInspector] public float SprintCooldownTimer { get; private set; }
+    [Networked] [HideInInspector] public bool CanSprint { get; private set; }
+    
+    public float SprintDuration => _sprintDuration;
+    public float SprintCooldown => _sprintCooldown;
+    
+    [Header("Stun Settings")]
+    [SerializeField] private Material stunMaterial;
+    [SerializeField] private float stunFadeSpeed = 5f;
+    private float _stunLerp;
 
     // Components
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
-
     private Camera _playerCamera;
 
     // Variables
-    private bool _isStunned = false;
+    [Networked] private TickTimer StunTimer { get; set; }
+    private bool _isStunnedVisual;
+    private static readonly int AlphaID = Shader.PropertyToID("_noiseAlpha");
     
-    // rotaciones
-    private float _yaw;
-    private float _currentPitch;
+    private bool IsStunnedGameplay => !StunTimer.ExpiredOrNotRunning(Runner);
+    
+    // Rotations
+    [Networked] private float _yaw { get; set; }
+    [Networked] private float _currentPitch { get; set; }
 
     // ============================================================
     // SPAWN
@@ -46,16 +65,20 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             _cameraPivot.gameObject.SetActive(false);
             return;
         }
+        
+        if (HasStateAuthority)
+        {
+            SprintTimer = _sprintDuration;
+            CanSprint = true;
+        }
 
         _renderer.material.color = Color.yellow;
-
         _playerCamera = Camera.main;
 
         if (_playerCamera != null)
         {
-            _playerCamera.transform.SetParent(_cameraPivot);
-            _playerCamera.transform.localPosition = Vector3.zero;
-            _playerCamera.transform.localRotation = Quaternion.identity;
+            // Unparent the camera to prevent it from inheriting physics jitter (60Hz)
+            _playerCamera.transform.SetParent(null);
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -68,96 +91,111 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public override void FixedUpdateNetwork()
     {
-        if (_health != null && !_health.IsAlive)
-            return;
-        
-        if (!GetInput(out NetworkInputPlayer input))
-            return;
+        if (_health != null && !_health.IsAlive) return;
+        if (!GetInput(out NetworkInputPlayer input)) return;
 
-        HandleRotation(input);
+        // Calculate rotation during the network tick
+        HandleRotationLogic(input);
         HandleMovement(input);
         HandleJump(input);
+        HandleSprint(input);
+    }
+
+    private void HandleRotationLogic(NetworkInputPlayer input)
+    {
+        // Input already comes with sensitivity and clamping applied from NetworkController
+        _yaw = input.MouseRotation.x;
+        _currentPitch = input.MouseRotation.y;
+
+        // Apply physical body rotation (important for movement)
+        transform.rotation = Quaternion.Euler(0, _yaw, 0);
     }
 
     // ============================================================
-    // ROTATION
+    // RENDER
     // ============================================================
 
-    private void HandleRotation(NetworkInputPlayer input)
+    public override void Render()
     {
-        float mouseX = input.MouseRotation.x * _mouseSensitivity;
-        float mouseY = input.MouseRotation.y * _mouseSensitivity;
-
-        // YAW
-        _yaw += mouseX;
-
-        if (HasStateAuthority)
+        // Camera smoothing for the local player
+        if (HasInputAuthority)
         {
+            // Apply physical rotation
             transform.rotation = Quaternion.Euler(0, _yaw, 0);
+            _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
+
+            // Move the unparented camera to follow the pivot with 100% smoothness
+            if (_playerCamera != null)
+            {
+                _playerCamera.transform.position = _cameraPivot.position;
+                _playerCamera.transform.rotation = _cameraPivot.rotation;
+            }
         }
 
-        if (!HasInputAuthority)
-            return;
-
-        // PITCH
-        _currentPitch -= mouseY;
-        _currentPitch = Mathf.Clamp(_currentPitch, -_maxLookAngle, _maxLookAngle);
-
-        _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
+        // Existing visual effects
+        _isStunnedVisual = IsStunnedGameplay;
+        UpdateStunEffect();
     }
 
     // ============================================================
-    // MOVEMENT
+    // MOVEMENT & OTHERS
     // ============================================================
 
     private void HandleMovement(NetworkInputPlayer input)
     {
         Quaternion yawRotation = Quaternion.Euler(0, _yaw, 0);
-
-        Vector3 moveDir =
-            yawRotation * new Vector3(input.MoveDirection.x, 0, input.MoveDirection.z);
+        Vector3 moveDir = yawRotation * new Vector3(input.MoveDirection.x, 0, input.MoveDirection.z);
         
-        if (_isStunned)
-        {
+        _controller.maxSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
+        
+        if (IsStunnedGameplay)
             _controller.Velocity = Vector3.zero;
-            input.MoveDirection = Vector3.zero;
-        }
         else
-        {
-            _controller.Move(moveDir * _moveSpeed * Runner.DeltaTime);
-        }
+            _controller.Move(moveDir);
     }
 
-    // ============================================================
-    // JUMP
-    // ============================================================
+    private void HandleSprint(NetworkInputPlayer input)
+    {
+        bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
+        IsSprinting = wantsToSprint && CanSprint;
+
+        if (IsSprinting && CanSprint)
+        {
+            SprintTimer -= Runner.DeltaTime;
+            if (SprintTimer <= 0f)
+            {
+                CanSprint = false;
+                IsSprinting = false;
+                SprintCooldownTimer = _sprintCooldown;
+            }
+        }
+        else if (!CanSprint)
+        {
+            SprintCooldownTimer -= Runner.DeltaTime;
+            if (SprintCooldownTimer <= 0f)
+            {
+                CanSprint = true;
+                SprintTimer = _sprintDuration;
+            }
+        }
+    }
 
     private void HandleJump(NetworkInputPlayer input)
     {
         if (input.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
-        {
             _controller.Jump();
-        }
     }
-    
-    // ============================================================
-    // STATUS EFFECT
-    // ============================================================
 
     public void ApplyStun(float duration)
     {
-        if (!_isStunned)
-        {
-            StartCoroutine(StunCoroutine(duration));
-        }
+        if (HasStateAuthority)
+            StunTimer = TickTimer.CreateFromSeconds(Runner, duration);
     }
-
-    private IEnumerator StunCoroutine(float duration)
+    
+    private void UpdateStunEffect()
     {
-        _isStunned = true;
-        
-        yield return new WaitForSeconds(duration);
-        
-        _isStunned = false;
+        float target = _isStunnedVisual ? 1f : 0f;
+        _stunLerp = Mathf.MoveTowards(_stunLerp, target, Time.deltaTime * stunFadeSpeed);
+        stunMaterial.SetFloat(AlphaID, _stunLerp);
     }
 }

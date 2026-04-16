@@ -2,40 +2,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// UI controller for the player's Hotbar.
-/// Displays each hotbar slot and reacts to item changes,
-/// selection changes, and mouse-scroll input.
-/// </summary>
-
 public class HotbarUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private Transform hotbarContainer;
     [SerializeField] private GameObject slotPrefab;
 
-    // Internal runtime data
+    [Header("Slot Sizes")]
+    [SerializeField] private Vector2 normalSize = new Vector2(60, 60);
+    [SerializeField] private Vector2 centerSize = new Vector2(90, 90);
+
+    [Header("Center Slot Icon")]
+    [SerializeField] private Vector2 centerIconSize = new Vector2(50, 50);
+
     private List<InventorySlotUI> _slots = new();
     private NetworkInventoryManager _currentManager;
 
-    // =====================================================================
-    // Lifecycle
-    // =====================================================================
     private void Start()
     {
-        if (NetworkInventoryManager.Local != null) ConnectToLocalPlayer();  // If a local player already exists, bind immediately
-        // Subscribe to global events so we can connect later
+        if (NetworkInventoryManager.Local != null)
+            ConnectToLocalPlayer();
+
         NetworkInventoryManager.OnLocalPlayerSpawned += ConnectToLocalPlayer;
-        NetworkInventoryManager.OnHotbarIndexChanged += Refresh;
     }
 
     private void OnDestroy()
     {
-        // Clean global subscriptions
         NetworkInventoryManager.OnLocalPlayerSpawned -= ConnectToLocalPlayer;
-        NetworkInventoryManager.OnHotbarIndexChanged -= Refresh;
 
-        // Clean local manager subscriptions
         if (_currentManager != null)
         {
             var sys = _currentManager.GetComponent<NetworkInventorySystem>();
@@ -44,59 +38,69 @@ public class HotbarUI : MonoBehaviour
         }
     }
 
-    // =====================================================================
-    // Connection / Initialization
-    // =====================================================================
-
-    private void ConnectToLocalPlayer() // Called when the local player spawns. This binds the HotbarUI to the player's NetworkInventorySystem and creates the UI slots.
+    private void ConnectToLocalPlayer()
     {
         if (NetworkInventoryManager.Local == null)
             return;
-        _currentManager = NetworkInventoryManager.Local;    // Store reference
-        var sys = _currentManager.GetComponent<NetworkInventorySystem>();   // Subscribe to inventory change events
+
+        _currentManager = NetworkInventoryManager.Local;
+
+        var sys = _currentManager.GetComponent<NetworkInventorySystem>();
         sys.OnInventoryChanged += Refresh;
-        CreateSlots(sys.GetCapacity(SlotType.Hotbar));  // Create visual hotbar slots
-        Refresh();  // Initial UI update
+
+        CreateSlots(sys.GetCapacity(SlotType.Hotbar));
+        Refresh();
     }
 
-    private void CreateSlots(int count) // Creates the visual slot objects based on inventory capacity. Clears any previous UI elements.
+    private void CreateSlots(int count)
     {
-        foreach (Transform child in hotbarContainer) Destroy(child.gameObject); // Remove old slots
+        foreach (Transform child in hotbarContainer)
+            Destroy(child.gameObject);
+
         _slots.Clear();
 
-        for (int i = 0; i < count; i++)     // Instantiate slot UI objects
+        for (int i = 0; i < count; i++)
         {
             GameObject go = Instantiate(slotPrefab, hotbarContainer);
             var ui = go.GetComponent<InventorySlotUI>();
-            
+
             ui.SlotIndex = i;
             ui.SlotType = SlotType.Hotbar;
             ui.Manager = _currentManager;
-            
+
+            var layout = go.GetComponent<LayoutElement>() ?? go.AddComponent<LayoutElement>();
+
+            bool isCenter = (i == count / 2);
+            Vector2 size = isCenter ? centerSize : normalSize;
+
+            layout.preferredWidth = size.x;
+            layout.preferredHeight = size.y;
+
+            if (isCenter)
+            {
+                var iconRect = ui.ItemIconRect;
+                if (iconRect != null)
+                    iconRect.sizeDelta = centerIconSize;
+            }
+
             _slots.Add(ui);
         }
     }
 
-    // =====================================================================
-    // UI Refresh
-    // =====================================================================
-    public void Refresh()   // Updates all hotbar slots to match the networked inventory state. Also highlights the currently selected hotbar slot.
+    public void Refresh()
     {
         if (_currentManager == null) return;
+
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
-        
-        for(int i = 0; i < _slots.Count; i++)
+
+        for (int i = 0; i < _slots.Count; i++)
         {
-            _slots[i].Refresh(sys.HotbarSlots[i]);  // Update the icon and quantity
-            
-            bool isSelected = (_currentManager.SelectedHotbarIndex == i);   // Highlight if selected
-            _slots[i].SetHighlight(isSelected);
+            _slots[i].Refresh(sys.HotbarSlots[i]);
+
+            _slots[i].SetHighlight(false);
         }
     }
-    
-    // =====================================================================
-    // Hotbar Input (mouse scroll wheel)
-    // =====================================================================
+
     private void Update()
     {
         if (_currentManager == null || !Application.isFocused) return;
@@ -107,19 +111,10 @@ public class HotbarUI : MonoBehaviour
 
         HandleScrollInput(scroll);
     }
-    
-    private void HandleScrollInput(float scroll)    // Interprets scroll direction and sends a hotbar selection request.
+
+    private void HandleScrollInput(float scroll)
     {
-        int current = _currentManager.SelectedHotbarIndex;
-        int max = _slots.Count;
-
-        // Circular index navigation
-        current += (scroll > 0 ? -1 : 1);
-
-        if (current < 0) current = max - 1;
-        if (current >= max) current = 0;
-
-        // Notify the network manager → server → update selection
-        _currentManager.Input_SetSelectedHotbar(current);
+        bool rotateRight = scroll < 0f; 
+        _currentManager.Input_RotateHotbar(rotateRight);
     }
 }

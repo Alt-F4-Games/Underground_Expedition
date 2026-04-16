@@ -10,6 +10,20 @@ using UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// GENERAL NETWORK CONTROLLER
+/// --------------------------
+/// This script acts as the initial “brain” of the networking system:
+/// - Creates or joins multiplayer sessions.
+/// - Spawns players when they connect.
+/// - Handles local input.
+/// - Spawns initial test items (for debugging only).
+///
+/// For NON-PROGRAMMERS:
+/// Think of this script as the multiplayer receptionist.
+/// Every time someone joins, it creates their character.
+/// Every time they move or jump, this script sends that information to the match.
+/// </summary>
 public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 {
     [Header("UI References")]
@@ -23,17 +37,25 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject _playerprefab;
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
-    [SerializeField] private int sceneIndex ;
+    [SerializeField] private int sceneIndex;
     
     [Header("Test Items (Only for development)")]
     [SerializeField] private NetworkObject _testItemPrefab;
     private bool worldItemsSpawned = false;
     [SerializeField] private NetworkObject _testEnemyPrefab;
     
+    // ------------------------ Player Input ---------------------- 
+    [Header("Mouse Settings")]
+    [SerializeField] private float _mouseSensitivity = 0.15f;
+    [SerializeField] private float _maxLookAngle = 80f;
+
     private Vector2 _moveInput; 
     private bool _jumpPressed;
-    private Vector2 _lookInput;
-    private float _yawInput;
+    private bool _sprintPressed;
+    
+    // Store the final calculated angles to avoid desync
+    private float _accumulatedYaw;
+    private float _accumulatedPitch;
    
     void Start()
     {
@@ -57,13 +79,29 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
     public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
-    public void OnLook(InputAction.CallbackContext context) { _lookInput = context.ReadValue<Vector2>(); }
+    public void OnSprint(InputAction.CallbackContext context) { _sprintPressed = context.ReadValue<float>() > 0; }
+    
+    public void OnLook(InputAction.CallbackContext context) 
+    { 
+        Vector2 mouseDelta = context.ReadValue<Vector2>();
+
+        // Apply sensitivity and accumulate YAW (Horizontal rotation)
+        _accumulatedYaw += mouseDelta.x * _mouseSensitivity;
+        
+        // Apply sensitivity and accumulate PITCH (Vertical rotation)
+        // Subtract because moving the mouse up (positive Y) rotates the camera up (negative Pitch in Unity)
+        _accumulatedPitch -= mouseDelta.y * _mouseSensitivity; 
+        
+        // CLAMP: Limit the raw accumulator so it NEVER exceeds 80. This fixes the over-rotation bug!
+        _accumulatedPitch = Mathf.Clamp(_accumulatedPitch, -_maxLookAngle, _maxLookAngle);
+    }
     
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var InputPlayer = new NetworkInputPlayer();
         
         InputPlayer.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
+        InputPlayer.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
         
         if (InputManager.Mode != InputMode.Game)
         {
@@ -73,11 +111,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         else
         {
             InputPlayer.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
-            InputPlayer.MouseRotation = _lookInput;
+            // Send the perfectly clamped angles across the network
+            InputPlayer.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch); 
         }
         
         input.Set(InputPlayer);
-        _lookInput = Vector2.zero;
     }
     
     private async void CreateRoom()
@@ -128,13 +166,14 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) 
     {
-        Debug.Log($"Player joined");
+        Debug.Log($"[NETWORK] Player joined");
         _lobbyPanel.SetActive(false);
 
         if (!_networkRunner.IsServer) return;
         
-        var playerSpawned = _networkRunner.Spawn(_playerprefab,new Vector3(UnityEngine.Random.Range(-3,3),0,0),Quaternion.identity,player);
-        _players.Add(player,playerSpawned);
+        // Spawn player with a small random offset on the X axis
+        var playerSpawned = _networkRunner.Spawn(_playerprefab, new Vector3(UnityEngine.Random.Range(-3,3), 0, 0), Quaternion.identity, player);
+        _players.Add(player, playerSpawned);
     }
     
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -144,12 +183,17 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
        if (_players.Remove(player, out var playerSpawned))
        {
            _networkRunner.Despawn(playerSpawned);
+           Debug.Log($"[NETWORK] Player left and despawned");
        }
     }
     
+    // ============================================================
+    //                  SHUTDOWN (LOCAL SAVE)
+    // ============================================================
+    
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        Debug.Log("[Runner] Shutdown detected - Saving player inventory");
+        Debug.Log("[Runner] Shutdown detected - Saving player inventory locally");
 
         var inv = NetworkInventoryManager.Local;
 
@@ -157,7 +201,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
             inv.SaveLocalInventory();
     }
     
-    // EMPTY CALLBACKS 
+    // ============================================================
+    //                     EMPTY CALLBACKS 
+    // ============================================================
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
