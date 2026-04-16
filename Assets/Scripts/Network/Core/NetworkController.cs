@@ -26,13 +26,11 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 {
-    // ---------------------------- UI ----------------------------
     [Header("UI References")]
     [SerializeField] private GameObject _lobbyPanel;
     [SerializeField] private Button _createRoomButton;
     [SerializeField] private Button _joinRoomButton;
 
-    // ----------------------- Network Config ---------------------
     [Header("Network References")]
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
@@ -41,7 +39,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     [SerializeField] private int sceneIndex;
     
-    // ----------------------- Test Items -------------------------
     [Header("Test Items (Only for development)")]
     [SerializeField] private NetworkObject _testItemPrefab;
     private bool worldItemsSpawned = false;
@@ -60,18 +57,25 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private float _accumulatedYaw;
     private float _accumulatedPitch;
    
-    // ============================================================
-    //                      UNITY EVENTS
-    // ============================================================
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
-        _joinRoomButton.onClick.AddListener(JoinRoom);
+        // CORRECCIÓN 1: Usamos la función correcta con una función lambda
+        _joinRoomButton.onClick.AddListener(() => JoinSpecificRoom(RoomConfig.RoomName));
+        
+        if (!string.IsNullOrEmpty(RoomConfig.RoomName) && _networkRunner.Config == null)
+        {
+            // CORRECCIÓN 2: Evaluamos el rol configurado en el menú
+            if (RoomConfig.IsHost)
+            {
+                CreateRoom();
+            }
+            else
+            {
+                JoinSpecificRoom(RoomConfig.RoomName);
+            }
+        }
     }
-    
-    // ============================================================
-    //                       INPUT SYSTEM
-    // ============================================================
     
     public void OnMove(InputAction.CallbackContext context) { _moveInput = context.ReadValue<Vector2>(); } 
     public void OnJump(InputAction.CallbackContext context) { _jumpPressed = context.ReadValue<float>() > 0; }
@@ -114,51 +118,51 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         input.Set(InputPlayer);
     }
     
-    // ============================================================
-    //                     ROOM CREATION / JOIN
-    // ============================================================
-    
     private async void CreateRoom()
     {
-        var activeScene = SceneManager.GetActiveScene();
-        
+        if (_networkRunner.IsRunning) return; 
+
+        _createRoomButton.interactable = false;
+        _joinRoomButton.interactable = false;
+
+        string sessionName = RoomConfig.RoomName; 
+
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Host,
-            SessionName = "TestRoom",
-            SceneManager = _networkSceneManagerDefault,
-            Scene = SceneRef.FromIndex(sceneIndex)
+            SessionName = sessionName, 
+            PlayerCount = RoomConfig.MaxPlayers,
+            SceneManager = _networkSceneManagerDefault
         };
 
         var result = await _networkRunner.StartGame(gameArg);
-     
+
         if (!result.Ok)
         {
-            Debug.LogError($"[NETWORK] Failed to start game: {result.ShutdownReason}");
-            Debug.LogError($"[NETWORK] Error: {result.ErrorMessage}");
+            Debug.LogError($"[NETWORK] Error creating room: {result.ShutdownReason}");
+            _createRoomButton.interactable = true;
+            _joinRoomButton.interactable = true;
         }
     }
     
-    private async void JoinRoom()
+    public async void JoinSpecificRoom(string sessionName)
     {
+        if (_networkRunner.IsRunning) return; 
+
         var gameArg = new StartGameArgs()
         {
             GameMode = GameMode.Client,
-            SessionName = "TestRoom",
+            SessionName = sessionName,
             SceneManager = _networkSceneManagerDefault,
         };
+
         var result = await _networkRunner.StartGame(gameArg);
-        
+
         if (!result.Ok)
         {
-            Debug.LogError($"[NETWORK] Failed to join game: {result.ShutdownReason}");
-            Debug.LogError($"[NETWORK] Error: {result.ErrorMessage}");
+            Debug.LogError($"[NETWORK] Error joining room: {result.ShutdownReason}");
         }
     }
-    
-    // ============================================================
-    //                   PLAYER JOIN / LEAVE
-    // ============================================================
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) 
     {
