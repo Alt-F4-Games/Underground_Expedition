@@ -2169,6 +2169,63 @@ Transform:
   - {fileID: 722018915}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4981037703253535449
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 680.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 200.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 53.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845308664522328957, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3186087328179392967, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_Name
+      value: AhPuchTemple
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2179,3 +2236,4 @@ SceneRoots:
   - {fileID: 798224832}
   - {fileID: 74153708}
   - {fileID: 1245813633}
+  - {fileID: 4981037703253535449}
