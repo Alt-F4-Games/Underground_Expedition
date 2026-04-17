@@ -18,17 +18,20 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Header("Sprint")]
     [SerializeField] private float _sprintSpeed = 8f;
     [SerializeField] private float _sprintDuration = 3f;
-    [SerializeField] private float _sprintCooldown = 2f;
+    
+    [Header("Stamina Recharge")]
+    [SerializeField] private float _staminaRechargeDelay = 1.5f;
+    [SerializeField] private float _staminaRechargeRate = 1f;
     
     private bool _lastSprintState; // TEST //
 
     [Networked] private bool IsSprinting { get; set; }
     [Networked] [HideInInspector] public float SprintTimer { get; private set; }
-    [Networked] [HideInInspector] public float SprintCooldownTimer { get; private set; }
     [Networked] [HideInInspector] public bool CanSprint { get; private set; }
+    [Networked] private float RechargeDelayTimer { get; set; }
+   
     
     public float SprintDuration => _sprintDuration;
-    public float SprintCooldown => _sprintCooldown;
     
     [Header("Stun Settings")]
     [SerializeField] private Material stunMaterial;
@@ -43,6 +46,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     // Variables
     [Networked] private TickTimer StunTimer { get; set; }
     private bool _isStunnedVisual;
+  
     private static readonly int AlphaID = Shader.PropertyToID("_noiseAlpha");
     
     private bool IsStunnedGameplay => !StunTimer.ExpiredOrNotRunning(Runner);
@@ -157,26 +161,51 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private void HandleSprint(NetworkInputPlayer input)
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
-        IsSprinting = wantsToSprint && CanSprint;
 
-        if (IsSprinting && CanSprint)
+        // =========================
+        // SPRINT (CONSUMO)
+        // =========================
+        if (wantsToSprint && SprintTimer > 0f)
         {
+            IsSprinting = true;
+
             SprintTimer -= Runner.DeltaTime;
-            if (SprintTimer <= 0f)
-            {
-                CanSprint = false;
-                IsSprinting = false;
-                SprintCooldownTimer = _sprintCooldown;
-            }
+            if (SprintTimer < 0f)
+                SprintTimer = 0f;
+
+            // Mientras sprint → reinicia delay
+            RechargeDelayTimer = _staminaRechargeDelay;
+
+            return;
         }
-        else if (!CanSprint)
+
+        // =========================
+        // NO ESTA SPRENTEANDO
+        // =========================
+        IsSprinting = false;
+
+        // 🚫 Si mantiene apretado y está en 0 → NO recarga
+        if (wantsToSprint && SprintTimer <= 0f)
+            return;
+
+        // =========================
+        // DELAY DE RECARGA
+        // =========================
+        if (RechargeDelayTimer > 0f)
         {
-            SprintCooldownTimer -= Runner.DeltaTime;
-            if (SprintCooldownTimer <= 0f)
-            {
-                CanSprint = true;
+            RechargeDelayTimer -= Runner.DeltaTime;
+            return;
+        }
+
+        // =========================
+        // RECARGA
+        // =========================
+        if (SprintTimer < _sprintDuration)
+        {
+            SprintTimer += Runner.DeltaTime * _staminaRechargeRate;
+
+            if (SprintTimer > _sprintDuration)
                 SprintTimer = _sprintDuration;
-            }
         }
     }
 
