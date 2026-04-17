@@ -124,7 +124,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         _createRoomButton.interactable = false;
         _joinRoomButton.interactable = false;
-
+        
         string sessionName = RoomConfig.RoomName; 
 
         var gameArg = new StartGameArgs()
@@ -167,7 +167,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) 
     {
         Debug.Log($"[NETWORK] Player joined");
-        _lobbyPanel.SetActive(false);
+        if (_lobbyPanel != null) _lobbyPanel.SetActive(false);
 
         if (!_networkRunner.IsServer) return;
         
