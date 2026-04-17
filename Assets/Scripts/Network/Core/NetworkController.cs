@@ -35,6 +35,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
     [SerializeField] private NetworkObject _playerprefab;
+    
+    [Header("Spawn Settings")]
+    [SerializeField] private Transform _spawnPoint;
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
     [SerializeField] private int sceneIndex;
@@ -180,9 +183,17 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         if (_lobbyPanel != null) _lobbyPanel.SetActive(false);
 
         if (!_networkRunner.IsServer) return;
-        
-        // Spawn player with a small random offset on the X axis
-        var playerSpawned = _networkRunner.Spawn(_playerprefab, new Vector3(UnityEngine.Random.Range(-3,3), 0, 0), Quaternion.identity, player);
+    
+        // Check if a _spawnPoint is assigned in the Inspector. 
+        // If assigned, we use its position and rotation. Otherwise, we use Vector3.zero as a fallback.
+        Vector3 spawnPos = _spawnPoint != null ? _spawnPoint.position : Vector3.zero;
+        Quaternion spawnRot = _spawnPoint != null ? _spawnPoint.rotation : Quaternion.identity;
+
+        // Add a small random offset to prevent collisions if multiple players spawn at once
+        Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0, UnityEngine.Random.Range(-1.5f, 1.5f));
+    
+        // Pass the new position (Spawn + Offset) and rotation to Fusion's Spawn method
+        var playerSpawned = _networkRunner.Spawn(_playerprefab, spawnPos + randomOffset, spawnRot, player);
         _players.Add(player, playerSpawned);
     }
     
