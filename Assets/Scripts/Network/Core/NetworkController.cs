@@ -60,12 +60,22 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
-        // CORRECCIÓN 1: Usamos la función correcta con una función lambda
         _joinRoomButton.onClick.AddListener(() => JoinSpecificRoom(RoomConfig.RoomName));
+
+#if UNITY_EDITOR
+        if (string.IsNullOrEmpty(RoomConfig.RoomName) && (_networkRunner != null && _networkRunner.Config == null))
+        {
+            Debug.Log("<color=cyan>[NETWORK]</color> Editor execution detected. Creating automatic test room...");
+    
+            RoomConfig.RoomName = "Test_" + System.Guid.NewGuid().ToString().Substring(0, 6);
+            RoomConfig.MaxPlayers = 4;
+            RoomConfig.IsHost = true;
+        }
+#endif
         
         if (!string.IsNullOrEmpty(RoomConfig.RoomName) && _networkRunner.Config == null)
         {
-            // CORRECCIÓN 2: Evaluamos el rol configurado en el menú
+            // Evaluate the role configured in the menu
             if (RoomConfig.IsHost)
             {
                 CreateRoom();
