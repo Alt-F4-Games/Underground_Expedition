@@ -161,10 +161,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private void HandleSprint(NetworkInputPlayer input)
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
-
-        // =========================
-        // SPRINT (CONSUMO)
-        // =========================
+        
         if (wantsToSprint && SprintTimer > 0f)
         {
             IsSprinting = true;
@@ -172,34 +169,22 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             SprintTimer -= Runner.DeltaTime;
             if (SprintTimer < 0f)
                 SprintTimer = 0f;
-
-            // Mientras sprint → reinicia delay
+            
             RechargeDelayTimer = _staminaRechargeDelay;
 
             return;
         }
-
-        // =========================
-        // NO ESTA SPRENTEANDO
-        // =========================
         IsSprinting = false;
 
-        // 🚫 Si mantiene apretado y está en 0 → NO recarga
         if (wantsToSprint && SprintTimer <= 0f)
             return;
 
-        // =========================
-        // DELAY DE RECARGA
-        // =========================
         if (RechargeDelayTimer > 0f)
         {
             RechargeDelayTimer -= Runner.DeltaTime;
             return;
         }
 
-        // =========================
-        // RECARGA
-        // =========================
         if (SprintTimer < _sprintDuration)
         {
             SprintTimer += Runner.DeltaTime * _staminaRechargeRate;
