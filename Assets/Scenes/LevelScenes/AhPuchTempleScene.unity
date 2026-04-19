@@ -1074,7 +1074,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 320
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.13333334
+  m_VoxelSize: 0.1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: f33c0428df37ab146a46a29dbb63a317, type: 2}
   m_BuildHeightMesh: 0
@@ -12754,7 +12754,7 @@ MonoBehaviour:
     RawGuidValue: 7a8b883947621294c9f7fe2164edeb97
   _offsetSpawn: 0
   _enemyAmount: 1
-  _patrolPath: {fileID: 0}
+  _patrolPath: {fileID: 1394773630}
   _pickupsAmount: 0
   pickupId: 0
   _amount: 0
@@ -12763,7 +12763,7 @@ MonoBehaviour:
   ActivationRadius: 7
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   _HasSpawned:
     _value: 0
 --- !u!114 &1605898510
