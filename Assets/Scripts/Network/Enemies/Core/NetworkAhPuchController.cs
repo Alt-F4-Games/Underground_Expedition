@@ -1,3 +1,4 @@
+using System;
 using Fusion;
 using UnityEngine;
 using System.Collections.Generic;
@@ -44,6 +45,8 @@ namespace Network.Enemies
         [HideInInspector] public bool IsDashing = false;
         
         [HideInInspector] public int CurrentPathIndex = 0;
+        
+        [SerializeField] private Animator animator;
 
         // List to store all summon zones in the level
         private List<Network.Spawn.SummonPoint> _allSummonPoints = new List<Network.Spawn.SummonPoint>();
@@ -73,6 +76,10 @@ namespace Network.Enemies
             {
                 AuraComponent.UpdateRadius(CurrentAuraRadius);
             }
+            
+            if (animator == null) return;
+
+            animator.SetBool("IsDashing", IsDashing);
         }
         
         // TARGETING & LINE OF SIGHT
@@ -221,6 +228,26 @@ namespace Network.Enemies
             return length;
         }
       
+        // ANIMATIONS
+        protected override void HandleStateChanged()
+        {
+            if (animator == null) return;
+
+            switch (CurrentState)
+            {
+                case NetworkEnemyState.Patrolling:
+                case NetworkEnemyState.Chasing:
+                    animator.SetBool("IsMoving", true);
+                    animator.SetBool("IsCasting", false);
+                    break;
+
+                case NetworkEnemyState.Attacking: // Invoke
+                    animator.SetBool("IsMoving", false);
+                    animator.SetBool("IsCasting", true);
+                    break;
+            }
+        }
+        
         // STATE FACTORY METHODS (Overrides & Customs)
         
         public override INetworkState GetPatrolState()
