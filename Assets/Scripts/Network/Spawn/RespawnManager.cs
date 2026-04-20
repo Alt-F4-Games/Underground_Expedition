@@ -16,16 +16,20 @@ namespace Network.Spawn
 
         public override void Spawned()
         {
-            if (Instance == null)
-                Instance = this;
-
-            // Ordenar por "order"
+            Instance = this;
+        
             _points = _points.OrderBy(p => p.order).ToList();
-
+        
             if (HasStateAuthority)
             {
                 ActivatePoint(0);
             }
+        }
+        
+        public override void Despawned(NetworkRunner runner, bool hasState)
+        {
+            if (Instance == this)
+                Instance = null;
         }
 
         // ============================================================
