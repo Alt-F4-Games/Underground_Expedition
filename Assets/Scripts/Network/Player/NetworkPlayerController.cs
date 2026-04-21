@@ -4,6 +4,7 @@ using Health;
 using System.Collections;
 using Network;
 using UnityEngine;
+using Unity.Cinemachine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
 public class NetworkPlayerController : NetworkBehaviour, IStunnable
@@ -42,6 +43,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
     private Camera _playerCamera;
+    private CinemachineCamera _cinemachineCamera;
 
     // Variables
     [Networked] private TickTimer StunTimer { get; set; }
@@ -83,6 +85,14 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         {
             // Unparent the camera to prevent it from inheriting physics jitter (60Hz)
             _playerCamera.transform.SetParent(null);
+        }
+        
+        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
+
+        if (_cinemachineCamera != null)
+        {
+            _cinemachineCamera.Follow = _cameraPivot;
+            _cinemachineCamera.LookAt = _cameraPivot;
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -127,13 +137,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             // Apply physical rotation
             transform.rotation = Quaternion.Euler(0, _yaw, 0);
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
-
-            // Move the unparented camera to follow the pivot with 100% smoothness
-            if (_playerCamera != null)
-            {
-                _playerCamera.transform.position = _cameraPivot.position;
-                _playerCamera.transform.rotation = _cameraPivot.rotation;
-            }
         }
 
         // Existing visual effects
