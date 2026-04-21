@@ -30,7 +30,7 @@ namespace Network.Enemies.Components
         {
             if (_collider != null)
             {
-                _collider.radius = newRadius;
+                transform.localScale = Vector3.one * newRadius * 2f;
             }
         }
 
