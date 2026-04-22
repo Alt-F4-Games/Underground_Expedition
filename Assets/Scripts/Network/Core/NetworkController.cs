@@ -162,7 +162,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (!runner.IsServer) return;
 
-        // 🔥 CRÍTICO: evitar duplicados
         if (_players.ContainsKey(player))
             return;
 
@@ -196,22 +195,25 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         if (!runner.IsServer) return;
 
         var spawn = FindObjectOfType<PlayerSpawnPoint>();
-
         if (spawn == null)
         {
             Debug.LogWarning("No PlayerSpawnPoint in scene");
             return;
         }
 
-        foreach (var player in _players.Values)
+        foreach (var kvp in _players)
         {
-            if (player.TryGetComponent(out NetworkCharacterController controller))
+            PlayerRef playerRef = kvp.Key;
+            NetworkObject playerObj = kvp.Value;
+
+            if (playerObj.TryGetComponent(out NetworkCharacterController controller))
             {
-                controller.Teleport(spawn.GetPosition());
+                Vector3 pos = spawn.GetPosition(playerRef);
+                controller.Teleport(pos);
             }
         }
 
-        Debug.Log("[NETWORK] Players teleported to new scene spawn");
+        Debug.Log("[NETWORK] Players teleported with offset");
     }
 
     // ============================================================
