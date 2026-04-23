@@ -3461,7 +3461,6 @@ GameObject:
   - component: {fileID: 454672207}
   - component: {fileID: 454672210}
   - component: {fileID: 454672209}
-  - component: {fileID: 454672208}
   m_Layer: 0
   m_Name: FeedbackCanvas
   m_TagString: Untagged
@@ -3489,23 +3488,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &454672208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454672206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &454672209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11090,7 +11072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7933bab0e0bfafe41b2983bd81d6bd65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 0}
+  inventoryUI: {fileID: 114039442}
   toggleKey: 105
 --- !u!4 &1435531024
 Transform:
@@ -13024,7 +13006,6 @@ GameObject:
   - component: {fileID: 1633685725}
   - component: {fileID: 1633685728}
   - component: {fileID: 1633685727}
-  - component: {fileID: 1633685726}
   - component: {fileID: 1633685729}
   m_Layer: 0
   m_Name: HUD
@@ -13054,23 +13035,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1633685726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633685724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &1633685727
 MonoBehaviour:
   m_ObjectHideFlags: 0
