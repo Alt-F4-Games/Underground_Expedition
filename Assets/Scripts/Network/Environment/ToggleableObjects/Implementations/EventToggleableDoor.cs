@@ -15,30 +15,8 @@ namespace Network.Environment.ToggleableObjects.Implementations
 
         protected override void ApplyState()
         {
-            if (IsActive)
-            {
-                if (IsPlayerInside())
-                    return;
-            }
-            
             _renderer.enabled = IsActive;
             _collider.enabled = IsActive;
-        }
-        
-        private bool IsPlayerInside()
-        {
-            Collider[] hits = Physics.OverlapBox(
-                transform.position,
-                transform.localScale / 2f
-            );
-
-            foreach (var hit in hits)
-            {
-                if (hit.CompareTag("Player"))
-                    return true;
-            }
-
-            return false;
         }
     }
 }
