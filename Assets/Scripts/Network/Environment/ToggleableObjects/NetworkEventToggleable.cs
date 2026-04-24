@@ -25,6 +25,8 @@ namespace Network.Environment.ToggleableObjects
 
         private void HandleEvent(bool value)
         {
+            if (!Object.HasStateAuthority) return;
+
             if (invert)
                 value = !value;
 

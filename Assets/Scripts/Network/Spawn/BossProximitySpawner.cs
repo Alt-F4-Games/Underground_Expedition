@@ -6,7 +6,7 @@ namespace Network.Spawn
     public class BossProximitySpawner : EnemyProximitySpawner
     {
         [Header("Event")]
-        [SerializeField] private VoidEventChannel bossSpawnedEvent;
+        [SerializeField] private BoolEventChannel bossSpawnedEvent;
 
         protected override void TriggerSpawn()
         {
@@ -14,7 +14,7 @@ namespace Network.Spawn
 
             if (Object.HasStateAuthority)
             {
-                bossSpawnedEvent.RaiseEvent();
+                bossSpawnedEvent.RaiseEvent(true);
             }
         }
     }
