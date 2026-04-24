@@ -152,7 +152,7 @@ Assets/
                 │    ├── MazeTickEvent.asset
                 │    └── ...
                 │
-                ├── EventTypes/
+                ├── ChannelTypes/
                 │    └── BoolEventChannel.cs
                 │
                 └── EventChannelDocumentation.md
