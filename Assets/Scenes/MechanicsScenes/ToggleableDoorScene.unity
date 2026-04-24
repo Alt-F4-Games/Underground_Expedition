@@ -166,6 +166,87 @@ MonoBehaviour:
   IsSceneTakeOverEnabled: 1
   LogSceneLoadErrors: 1
   DestroySpawnedPrefabsOnSceneUnload: 1
+--- !u!1 &95304378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 95304379}
+  - component: {fileID: 95304381}
+  - component: {fileID: 95304382}
+  - component: {fileID: 95304380}
+  m_Layer: 0
+  m_Name: MazeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &95304379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95304378}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 689819433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &95304380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95304378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdaf70c917dcf74eadc9c6a203ba2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 3
+  startOnSpawn: 1
+  eventChannel: {fileID: 11400000, guid: 5e5a23ff292a7404c9dc6f6aeabc6c1b, type: 2}
+--- !u!114 &95304381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95304378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 328549336
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 95304382}
+  - {fileID: 95304380}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &95304382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95304378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3513fb7b068ee4395772ead7d9c5b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &196050913
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +1038,7 @@ Transform:
   - {fileID: 2065166527}
   - {fileID: 87690773}
   - {fileID: 196050914}
+  - {fileID: 95304379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &732823914
@@ -3820,10 +3902,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7979190051840287836, guid: 9f70fcfb7c7f29d4c9c85e31b1f76128, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 597681689277616747}
+      addedObject: {fileID: 597681689277616748}
     - targetCorrespondingSourceObject: {fileID: 7979190051840287836, guid: 9f70fcfb7c7f29d4c9c85e31b1f76128, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 597681689277616748}
+      addedObject: {fileID: 597681689277616747}
   m_SourcePrefab: {fileID: 100100000, guid: 9f70fcfb7c7f29d4c9c85e31b1f76128, type: 3}
 --- !u!1 &597681689277616746 stripped
 GameObject:
@@ -3842,7 +3924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01519acf0699a2642985af6ecdd44c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventChannel: {fileID: 0}
+  eventChannel: {fileID: 11400000, guid: 5e5a23ff292a7404c9dc6f6aeabc6c1b, type: 2}
   invert: 0
 --- !u!114 &597681689277616748
 MonoBehaviour:
