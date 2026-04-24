@@ -144,16 +144,18 @@ Recommended folder structure for the Event Channel system:
 
 ```
 Assets/
- └── Events/
-      ├── Channels/
-      │    ├── BossSpawnedEvent.asset
-      │    ├── MazeTickEvent.asset
-      │    └── ...
-      │
-      ├── EventTypes/
-      │    └── BoolEventChannel.cs
-      │
-      └── EventChannelDocumentation.md
+ └── Scripts/
+      └── Tools/
+           └── Events/
+                ├── Channels/
+                │    ├── BossSpawnedEvent.asset
+                │    ├── MazeTickEvent.asset
+                │    └── ...
+                │
+                ├── EventTypes/
+                │    └── BoolEventChannel.cs
+                │
+                └── EventChannelDocumentation.md
 ```
 
 ---
