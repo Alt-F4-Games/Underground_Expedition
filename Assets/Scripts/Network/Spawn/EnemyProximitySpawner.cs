@@ -40,7 +40,7 @@ namespace Network.Spawn
             }
         }
 
-        private void TriggerSpawn()
+        protected virtual void TriggerSpawn()
         {
             HasSpawned = true;
 
