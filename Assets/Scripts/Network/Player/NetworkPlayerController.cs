@@ -3,6 +3,7 @@ using Fusion;
 using Health;
 using Network;
 using UnityEngine;
+using Unity.Cinemachine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
 public class NetworkPlayerController : NetworkBehaviour, IStunnable
