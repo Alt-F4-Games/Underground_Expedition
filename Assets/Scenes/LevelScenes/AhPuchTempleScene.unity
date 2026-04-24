@@ -12814,7 +12814,7 @@ PrefabInstance:
       addedObject: {fileID: 1605898510}
     - targetCorrespondingSourceObject: {fileID: 8662244582740028771, guid: b478107d3e6475b4db7d22471b0abd51, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1605898509}
+      addedObject: {fileID: 1605898511}
   m_SourcePrefab: {fileID: 100100000, guid: b478107d3e6475b4db7d22471b0abd51, type: 3}
 --- !u!4 &1605898507 stripped
 Transform:
@@ -12826,7 +12826,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8662244582740028771, guid: b478107d3e6475b4db7d22471b0abd51, type: 3}
   m_PrefabInstance: {fileID: 1605898506}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1605898509
+--- !u!114 &1605898510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12835,7 +12835,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1605898508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ad820b9e3f4fb9a1595ccf8206c0fc, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2451791225
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1605898511}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1605898511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605898508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a655eae05c77de4e930efbe60050fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnType: 0
@@ -12855,25 +12874,7 @@ MonoBehaviour:
     m_Bits: 8
   _HasSpawned:
     _value: 0
---- !u!114 &1605898510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605898508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 2451791225
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 1605898509}
-  ForceRemoteRenderTimeframe: 0
+  bossSpawnedEvent: {fileID: 11400000, guid: 4e7aa64a21f45ae439e0cccf6c22151c, type: 2}
 --- !u!1 &1616310838
 GameObject:
   m_ObjectHideFlags: 0
