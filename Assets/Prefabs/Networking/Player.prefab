@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: -2857272182491207197}
   - component: {fileID: 2468928372048694000}
   - component: {fileID: -4638314480283722534}
+  - component: {fileID: 7673130403942665384}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -271,6 +272,7 @@ MonoBehaviour:
   - {fileID: 7544978420758776554}
   - {fileID: -2857272182491207197}
   - {fileID: 2468928372048694000}
+  - {fileID: 7673130403942665384}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -342,6 +344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
+  _cameraPrefab: {fileID: 5165385044674386366, guid: 5b2205a1603dd28488179ec3a34403b7, type: 3}
   _walkSpeed: 5
   _sprintSpeed: 10
   _sprintDuration: 3
@@ -452,6 +455,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21ac1e966ac3edd48bba1b9b41b99648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7673130403942665384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc088b25172e4dfda3ca7c4d11cfb3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7251703131618129929
