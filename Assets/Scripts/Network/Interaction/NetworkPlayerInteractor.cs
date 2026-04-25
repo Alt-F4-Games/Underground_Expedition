@@ -5,8 +5,7 @@ namespace Network.Interaction
 {
     /// <summary>
     /// Handles the server-side logic for interacting with objects.
-    /// Uses NetworkInput to determine when the player is pressing the interact button
-    /// and performs Lag-Compensated raycasts to prevent cheating.
+    /// Uses standard server physics to validate distance and line of sight.
     /// </summary>
     public class NetworkPlayerInteractor : NetworkBehaviour
     {
@@ -22,7 +21,6 @@ namespace Network.Interaction
         [SerializeField] private Transform _rayOrigin;
 
         // --- NETWORKED STATE ---
-        // Synchronized to all clients so the local UI knows what is happening
         [Networked] public NetworkObject CurrentTarget { get; private set; }
         [Networked] public TickTimer InteractionTimer { get; private set; }
         [Networked] public float CurrentInteractionDuration { get; private set; }
@@ -39,7 +37,7 @@ namespace Network.Interaction
             if (GetInput(out NetworkInputPlayer input))
             {
                 bool isPressingInteract = input.Buttons.IsSet(NetworkInputPlayer.INTERACT_BUTTON);
-                
+
                 if (HasStateAuthority)
                 {
                     ProcessServerInteraction(isPressingInteract);
@@ -49,7 +47,6 @@ namespace Network.Interaction
 
         private void ProcessServerInteraction(bool isPressingInteract)
         {
-            // If the player releases the button, cancel everything
             if (!isPressingInteract)
             {
                 ResetInteraction();
@@ -57,17 +54,16 @@ namespace Network.Interaction
             }
 
             // If we are not currently interacting with anything, try to find a target
-            if (CurrentTarget == null)
+            if (CurrentTarget == null || !CurrentTarget.IsValid)
             {
                 if (_rayOrigin == null) return;
-                
+
                 Ray ray = new Ray(_rayOrigin.position, _rayOrigin.forward);
                 
-                // Using LagCompensation ensures the server checks exactly what the client was looking at
-                if (Runner.LagCompensation.Raycast(ray.origin, ray.direction, _interactionRange, Object.InputAuthority, out var hit, _interactableLayer))
+                if (Physics.Raycast(ray, out RaycastHit hit, _interactionRange, _interactableLayer))
                 {
-                    var interactableObj = hit.GameObject.GetComponentInParent<IInteractable>();
-                    var netObj = hit.GameObject.GetComponentInParent<NetworkObject>();
+                    var interactableObj = hit.collider.GetComponentInParent<IInteractable>();
+                    var netObj = hit.collider.GetComponentInParent<NetworkObject>();
 
                     if (interactableObj != null && netObj != null && interactableObj.CanInteract(Object.InputAuthority))
                     {
@@ -81,7 +77,7 @@ namespace Network.Interaction
                         }
                         else
                         {
-                            // Instant interaction (Duration = 0)
+                            // Instant interaction
                             interactableObj.OnInteract(_controller);
                             ResetInteraction();
                         }
@@ -91,18 +87,18 @@ namespace Network.Interaction
             // If we are already interacting with a target, keep updating the state
             else
             {
-                if (Vector3.Distance(transform.position, CurrentTarget.transform.position) > _interactionRange + 1f)
+                if (_rayOrigin == null) return;
+                
+                if (Vector3.Distance(_rayOrigin.position, CurrentTarget.transform.position) > _interactionRange + 1.5f)
                 {
                     ResetInteraction();
                     return;
                 }
 
-                // Has the timer finished?
                 if (InteractionTimer.Expired(Runner))
                 {
                     var interactable = CurrentTarget.GetComponent<IInteractable>();
                     
-                    // Final validation before execution
                     if (interactable != null && interactable.CanInteract(Object.InputAuthority))
                     {
                         interactable.OnInteract(_controller);
@@ -119,10 +115,10 @@ namespace Network.Interaction
             InteractionTimer = default;
             CurrentInteractionDuration = 0f;
         }
-        
+
         public float GetInteractionProgress()
         {
-            if (CurrentTarget == null || CurrentInteractionDuration <= 0f || !InteractionTimer.IsRunning) 
+            if (CurrentTarget == null || !CurrentTarget.IsValid || CurrentInteractionDuration <= 0f || !InteractionTimer.IsRunning) 
                 return 0f;
 
             float remaining = InteractionTimer.RemainingTime(Runner) ?? 0f;
