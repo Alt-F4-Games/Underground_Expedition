@@ -57,7 +57,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         if (!HasInputAuthority)
         {
-            _cameraPivot.gameObject.SetActive(false);
+            if (_cameraPivot != null) _cameraPivot.gameObject.SetActive(false);
             return;
         }
 
@@ -68,7 +68,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         _renderer.material.color = Color.yellow;
 
-        // ⚠️ Intentar spawnear cámara (pero no confiar solo en esto)
         SpawnCamera();
     }
 
@@ -91,27 +90,26 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     }
 
     // ============================================================
-    // FIX CLAVE
+    // RENDER (VISUALS - CLIENT ONLY)
     // ============================================================
 
     public override void Render()
     {
-        // 🔥 ESTE ES EL FIX REAL
         if (HasInputAuthority && _playerCameraInstance == null)
         {
             SpawnCamera();
         }
-
-        if (HasInputAuthority)
+        
+        transform.rotation = Quaternion.Euler(0, _yaw, 0);
+        if (_cameraPivot != null)
         {
-            transform.rotation = Quaternion.Euler(0, _yaw, 0);
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
+        }
 
-            if (_playerCameraInstance != null)
-            {
-                _playerCameraInstance.transform.position = _cameraPivot.position;
-                _playerCameraInstance.transform.rotation = _cameraPivot.rotation;
-            }
+        if (HasInputAuthority && _playerCameraInstance != null && _cameraPivot != null)
+        {
+            _playerCameraInstance.transform.position = _cameraPivot.position;
+            _playerCameraInstance.transform.rotation = _cameraPivot.rotation;
         }
 
         _isStunnedVisual = IsStunnedGameplay;
@@ -128,6 +126,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         _yaw = input.MouseRotation.x;
         _currentPitch = input.MouseRotation.y;
+        
+        transform.rotation = Quaternion.Euler(0, _yaw, 0);
+        if (_cameraPivot != null)
+        {
+            _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
+        }
 
         HandleMovement(input);
         HandleJump(input);
