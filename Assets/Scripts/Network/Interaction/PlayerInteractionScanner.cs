@@ -24,9 +24,17 @@ namespace Network.Interaction
         // Internal state for local feedback
         private IInteractable _currentInteractable;
         private GameObject _lastHitObject;
+        
+        // Referencia al jugador para pasársela a los métodos Hover
+        private NetworkPlayerController _controller;
 
         // Public getter for UI systems to access the current prompt
         public IInteractable CurrentInteractable => _currentInteractable;
+
+        public override void Spawned()
+        {
+            _controller = GetComponent<NetworkPlayerController>();
+        }
 
         public override void Render()
         {
@@ -58,6 +66,7 @@ namespace Network.Interaction
                         _currentInteractable = interactable;
                         _lastHitObject = hitObj;
                         
+                        _currentInteractable.OnHoverEnter(_controller);
                     }
                 }
             }
@@ -72,19 +81,24 @@ namespace Network.Interaction
         {
             if (_currentInteractable != null)
             {
-                
+                _currentInteractable.OnHoverExit(_controller);
             }
 
             _currentInteractable = null;
             _lastHitObject = null;
         }
         
-        private void OnDrawGizmos()
+        // ============================================================
+        // EDITOR DEBUG & GIZMOS
+        // ============================================================
+        
+        private void OnDrawGizmosSelected()
         {
             if (_rayOrigin == null) return;
             
             Gizmos.color = Color.cyan;
             Gizmos.DrawRay(_rayOrigin.position, _rayOrigin.forward * _detectionRange);
+            Gizmos.DrawWireSphere(_rayOrigin.position + _rayOrigin.forward * _detectionRange, 0.1f);
         }
     }
 }

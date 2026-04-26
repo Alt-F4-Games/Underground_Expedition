@@ -15,7 +15,6 @@ namespace Network.Interaction
         // IINTERACTABLE IMPLEMENTATION
 
         public virtual string GetInteractPrompt() => _promptMessage;
-        
         public virtual float GetInteractionDuration() => _interactionDuration;
         
         public virtual bool CanInteract(PlayerRef player)
@@ -23,8 +22,20 @@ namespace Network.Interaction
             return true;
         }
         
-        // EXECUTION (Must be implemented by child classes)
+        // VISUAL FEEDBACK (Local Client Only)
         
+        // Querido Ale: Estos dos métodos son callbacks que se disparan automáticamente 
+        // cuando el jugador mira (Enter) o deja de mirar (Exit) este objeto.
+        // con amor benja 
+        public virtual void OnHoverEnter(NetworkPlayerController player)
+        {
+        }
+
+        public virtual void OnHoverExit(NetworkPlayerController player)
+        {
+        }
+
+        // EXECUTION (Must be implemented by child classes)
         public abstract void OnInteract(NetworkPlayerController player);
     }
 }

@@ -19,5 +19,8 @@ namespace Network.Interaction
         // The actual logic that happens when the interaction completes
         // only be executed on the Server
         void OnInteract(NetworkPlayerController player);
+        
+        void OnHoverEnter(NetworkPlayerController player);
+        void OnHoverExit(NetworkPlayerController player);
     }
 }
