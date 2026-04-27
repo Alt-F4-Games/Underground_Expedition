@@ -34,6 +34,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private bool _sprintPressed;
+    private bool _interactPressed;
 
     private float _accumulatedYaw;
     private float _accumulatedPitch;
@@ -86,6 +87,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnMove(InputAction.CallbackContext context) => _moveInput = context.ReadValue<Vector2>(); 
     public void OnJump(InputAction.CallbackContext context) => _jumpPressed = context.ReadValue<float>() > 0;
     public void OnSprint(InputAction.CallbackContext context) => _sprintPressed = context.ReadValue<float>() > 0;
+    
+    public void OnInteract(InputAction.CallbackContext context) => _interactPressed = context.ReadValueAsButton();
 
     public void OnLook(InputAction.CallbackContext context) 
     { 
@@ -102,6 +105,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         
         data.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
         data.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
+        data.Buttons.Set(NetworkInputPlayer.INTERACT_BUTTON, _interactPressed);
         
         if (InputManager.Mode != InputMode.Game)
         {
