@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+using Fusion;
+using UnityEngine;
+
+namespace Events{
+    public class GameEvent  { }
+
+    public class EnemyDiedEvent : GameEvent
+    {
+        public PlayerRef killer;
+        public int exp;
+    }
+    
+}
+
+
