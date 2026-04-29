@@ -68,7 +68,7 @@ namespace Health
             if (health)
             {
                 Debug.Log($"[SERVER] Applying damage to: {target.name}");
-                health.TakeDamage(_damage);
+                health.TakeDamage(_damage, Object.InputAuthority);
             }
         }
     }

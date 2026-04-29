@@ -1,4 +1,6 @@
-﻿public interface IDamageable
+﻿using Fusion;
+
+public interface IDamageable
 {
-    void TakeDamage(int amount);
+    void TakeDamage(int amount, PlayerRef playerRef = default);
 }

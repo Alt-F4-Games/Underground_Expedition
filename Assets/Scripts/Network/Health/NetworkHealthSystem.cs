@@ -35,7 +35,7 @@ namespace Health
         // DAMAGE REQUEST (CLIENT → SERVER)
         // ============================================================
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage, PlayerRef playerRef =  default)
         {
             if (!HasStateAuthority) return;
 
