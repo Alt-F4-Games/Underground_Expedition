@@ -1,4 +1,5 @@
 using System;
+using Events;
 using Fusion;
 using UI;
 using UnityEngine;
@@ -25,7 +26,28 @@ namespace Local.Progression
             if (Object.HasInputAuthority)
             {
                 ProgressionUI.Instance?.RegisterPlayer(this);
+                
             }
+        }
+
+        private void OnEnable()
+        {
+            EventController.Instance.AddListener<EnemyDiedEvent>(OnEnemyDied);
+        }
+        
+        private void OnDisable()
+        {
+            EventController.Instance.RemoveListener<EnemyDiedEvent>(OnEnemyDied);
+        }
+
+
+        private void OnEnemyDied(EnemyDiedEvent evt)
+        {
+            if (Object.Runner.LocalPlayer == evt.killer)
+            {
+                RPC_RequestAddXP(evt.exp);
+            }
+            
         }
         
         // ==================================================
