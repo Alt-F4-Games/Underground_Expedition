@@ -2106,8 +2106,6 @@ MonoBehaviour:
   _networkSceneManagerDefault: {fileID: 1601049946}
   _playerprefab: {fileID: 3742584115890206898, guid: b773280a5163bd24cacebb2e41de5866, type: 3}
   _spawnPoint: {fileID: 2139879472}
-  sceneIndex: 2
-  _testItemPrefab: {fileID: 0}
   _testEnemyPrefab: {fileID: 0}
   _mouseSensitivity: 0.15
   _maxLookAngle: 80
@@ -17141,6 +17139,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5951289637414149071, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
   m_PrefabInstance: {fileID: 1782431855}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1788408475
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -41.915
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -9.267984
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -78.257
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503198594458329996, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9028238123183274294, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
+      propertyPath: m_Name
+      value: CraftingTable
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 79db5c060ae47674aa2156e862e56e54, type: 3}
 --- !u!1001 &1791640878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21513,3 +21568,4 @@ SceneRoots:
   - {fileID: 756572009}
   - {fileID: 297277994}
   - {fileID: 473850607}
+  - {fileID: 1788408475}
