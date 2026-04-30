@@ -349,11 +349,11 @@ MonoBehaviour:
   _cameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
   _cameraPrefab: {fileID: 5165385044674386366, guid: 5b2205a1603dd28488179ec3a34403b7, type: 3}
-  _walkSpeed: 5
-  _sprintSpeed: 10
-  _sprintDuration: 3
-  _staminaRechargeDelay: 1.5
-  _staminaRechargeRate: 1
+  _walkSpeed: 4
+  _sprintSpeed: 6
+  _sprintDuration: 3.5
+  _staminaRechargeDelay: 1.3
+  _staminaRechargeRate: 1.5
   _SprintTimer: 0
 --- !u!114 &6926954798261749035
 MonoBehaviour:
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _attackCooldown: 0.5
+  _attackCooldown: 1
   _detector: {fileID: 3317339436758771823}
 --- !u!114 &7544978420758776554
 MonoBehaviour:
