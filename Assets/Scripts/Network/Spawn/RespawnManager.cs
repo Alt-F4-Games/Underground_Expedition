@@ -114,5 +114,13 @@ namespace Network.Spawn
 
             return _points[CurrentIndex].GetPosition();
         }
+        
+        public PlayerRespawnPoint GetCurrentPoint()
+        {
+            if (_activationStack.Count == 0)
+                return null;
+
+            return _activationStack[^1];
+        }
     }
 }

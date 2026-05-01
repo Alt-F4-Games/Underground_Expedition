@@ -25,11 +25,18 @@ namespace Network.Spawn
         {
             if (_spawnPoint == null)
                 return;
+            
+            Color color;
+
+            if (IsActive)
+                color = Color.cyan;
+            else
+                color = Color.red;
 
             Debug.DrawLine(
                 _spawnPoint.position,
                 _spawnPoint.position + Vector3.up * 2f,
-                IsActive ? Color.cyan : Color.red
+                color
             );
         }
 
@@ -37,7 +44,7 @@ namespace Network.Spawn
         {
             if (!drawGizmos) return;
             if (_spawnPoint == null) return;
-
+            
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(_spawnPoint.position, 0.3f);
         }
