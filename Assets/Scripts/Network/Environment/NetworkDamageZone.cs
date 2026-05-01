@@ -9,6 +9,7 @@ public class NetworkDamageZone : NetworkBehaviour
     [Header("Damage Settings")]
     [SerializeField] private int _damage = 10;
     [SerializeField] private float _tickRate = 1f;
+    [SerializeField] private LayerMask _damageableLayers;
 
     private readonly List<NetworkHealthSystem> _targets = new();
 
@@ -27,6 +28,9 @@ public class NetworkDamageZone : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!Runner || !Runner.IsServer) return;
+        
+        if ((_damageableLayers.value & (1 << other.gameObject.layer)) == 0)
+            return;
 
         var health = other.GetComponentInParent<NetworkHealthSystem>();
         if (health == null) return;
@@ -65,6 +69,9 @@ public class NetworkDamageZone : NetworkBehaviour
         for (int i = _targets.Count - 1; i >= 0; i--)
         {
             var target = _targets[i];
+            
+            if ((_damageableLayers.value & (1 << target.gameObject.layer)) == 0)
+                continue;
 
             if (target == null)
             {
