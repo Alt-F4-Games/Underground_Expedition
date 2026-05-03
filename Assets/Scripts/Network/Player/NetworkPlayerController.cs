@@ -15,6 +15,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Header("Camera")]
     [SerializeField] private Camera _cameraPrefab;
     private Camera _playerCameraInstance;
+    private CinemachineCamera _cinemachineCamera;
 
     [Header("Movement")]
     [SerializeField] private float _walkSpeed = 5f;
@@ -54,6 +55,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
+        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
 
         if (!HasInputAuthority)
         {
@@ -64,6 +66,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (HasStateAuthority)
         {
             SprintTimer = _sprintDuration;
+        }
+        
+        if (_cinemachineCamera != null)
+        {
+            _cinemachineCamera.Follow = _cameraPivot;
+            _cinemachineCamera.LookAt = _cameraPivot;
         }
 
         _renderer.material.color = Color.yellow;
@@ -104,12 +112,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_cameraPivot != null)
         {
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
-        }
-
-        if (HasInputAuthority && _playerCameraInstance != null && _cameraPivot != null)
-        {
-            _playerCameraInstance.transform.position = _cameraPivot.position;
-            _playerCameraInstance.transform.rotation = _cameraPivot.rotation;
         }
 
         _isStunnedVisual = IsStunnedGameplay;
