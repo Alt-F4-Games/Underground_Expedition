@@ -10,6 +10,11 @@ namespace Events{
         public PlayerRef killer;
         public int exp;
     }
+
+    public class PlayerDiedEvent : GameEvent
+    {
+        public bool IsAlive;
+    }
     
 }
 
