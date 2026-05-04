@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Events;
 using Fusion;
 using Network.Spawn;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Health
 
         private Renderer[] _renderers;
 
+        private PlayerDiedEvent _playerDiedEvent = new ();
         public override void Spawned()
         {
             base.Spawned();
@@ -32,6 +34,9 @@ namespace Health
         protected override void Death()
         {
             base.Death();
+            
+            _playerDiedEvent.IsAlive = IsAlive;
+            EventController.Instance.TriggerEvent(_playerDiedEvent);
 
             if (!HasStateAuthority) return;
 
