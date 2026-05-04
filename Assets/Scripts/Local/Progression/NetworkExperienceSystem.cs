@@ -33,11 +33,13 @@ namespace Local.Progression
         private void OnEnable()
         {
             EventController.Instance.AddListener<EnemyDiedEvent>(OnEnemyDied);
+            EventController.Instance.AddListener<PlayerDiedEvent>(OnPlayerDead);
         }
         
         private void OnDisable()
         {
             EventController.Instance.RemoveListener<EnemyDiedEvent>(OnEnemyDied);
+            EventController.Instance.RemoveListener<PlayerDiedEvent>(OnPlayerDead);
         }
 
 
@@ -49,6 +51,13 @@ namespace Local.Progression
             }
             
         }
+
+        private void OnPlayerDead(PlayerDiedEvent evt)
+        {
+            if (!HasStateAuthority) return;
+            
+            RPC_RequestResetXP(evt.IsAlive);
+        }
         
         // ==================================================
         // CLIENT -> SERVER
@@ -57,6 +66,12 @@ namespace Local.Progression
         public void RPC_RequestAddXP(int amount)
         {
             Server_AddXP(amount);
+        }
+        
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_RequestResetXP(bool isAlive)
+        {
+            ResetActualXP(isAlive);
         }
 
         // ==================================================
@@ -97,6 +112,17 @@ namespace Local.Progression
         {
             float factor = 1f + (percentageExp / 100f);
             BaseExp = Mathf.CeilToInt((BaseExp * factor) / 10f) * 10;
+        }
+
+        private void ResetActualXP(bool isAlive)
+        {
+            if (!HasStateAuthority) return;
+
+            if (!isAlive)
+            {
+                if (CurrentExp != 0)
+                    CurrentExp = 0;
+            }
         }
 
         // ==================================================
