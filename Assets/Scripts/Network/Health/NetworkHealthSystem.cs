@@ -14,7 +14,7 @@ namespace Health
         public Action OnDamageTaken;
         public Action<int> OnDamageFeedback;
 
-        public int MaxHealth => _maxHealth;
+        public int MaxHealth { get ; protected set; }
 
         // ============================================================
         // Initialization
