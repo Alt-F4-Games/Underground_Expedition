@@ -70,7 +70,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 10
   _tickRate: 0.2
-  _debug: 0
+  _damageableLayers:
+    serializedVersion: 2
+    m_Bits: 1160
 --- !u!114 &6950824973991981283
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
-﻿using System;
-using Fusion;
+﻿using Fusion;
 using Health;
 using Network.Enemies.States;
 using UnityEngine;
@@ -91,10 +90,18 @@ namespace Network.Enemies.Variants
             }
         }
 
-        private void PlayHitAnimation()
+		private void PlayHitAnimation()
+		{
+    		if (HasStateAuthority)
+    		{
+        		RPC_PlayHitAnimation();
+    		}
+		}
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_PlayHitAnimation()
         {
             if (_animator == null) return;
-            
             _animator.SetTrigger("Hit");
         }
         
