@@ -15,6 +15,13 @@ namespace Events{
     {
         public bool IsAlive;
     }
+
+    public class PlayerStatsEvent : GameEvent
+    {
+        public int MaxHealth;
+        public float MaxStamina;
+        public int PlayerDamage;
+    }
     
 }
 
