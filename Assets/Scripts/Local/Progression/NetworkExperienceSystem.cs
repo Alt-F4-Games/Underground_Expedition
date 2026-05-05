@@ -1,6 +1,7 @@
 using System;
 using Events;
 using Fusion;
+using Network;
 using UI;
 using UnityEngine;
 
@@ -96,8 +97,8 @@ namespace Local.Progression
                 int leftoverExp = CurrentExp - BaseExp;
 
                 Level++;
+                ApplyLevelUpStats();
                 IncrementBaseExp();
-
                 CurrentExp = leftoverExp;
 
                 if (Level >= maxLevel)
@@ -125,6 +126,15 @@ namespace Local.Progression
             }
         }
 
+        private void ApplyLevelUpStats()
+        {
+            var stats = GetComponent<PlayerStatsManager>();
+            if (stats != null)
+            {
+                stats.ApplyStatsServer();
+            }
+        }
+        
         // ==================================================
         // CLIENT SIDE (SYNC EVENTS)
         // ==================================================
