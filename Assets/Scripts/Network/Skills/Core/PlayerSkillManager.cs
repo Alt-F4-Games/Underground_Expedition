@@ -17,7 +17,6 @@ namespace Skills.Core
         {
             if (GetInput(out NetworkInputPlayer input))
             {
-                /*
                 NetworkButtons pressedButtons = input.Buttons.GetPressed(_previousButtons);
                 _previousButtons = input.Buttons;
                 
@@ -36,7 +35,7 @@ namespace Skills.Core
                         _slot2.OnExecute(Runner);
                     }
                 }
-                */
+                
             }
         }
     }
