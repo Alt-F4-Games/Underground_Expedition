@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using Events;
+using Fusion;
 using UI;
 using UnityEngine;
 
@@ -14,6 +15,10 @@ namespace Health
         [SerializeField] private AttackAreaDetector _detector;
 
         private float _lastAttackTime;
+        
+        private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseAttack); }
+
+        private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseAttack); }
 
         // ============================================================
         // INPUT (CLIENT ONLY)
@@ -39,10 +44,16 @@ namespace Health
 
             _lastAttackTime = Time.time;
 
-            // 🔥 SOLO PEDIMOS AL SERVER QUE PROCESE
             RPC_RequestAttack();
         }
 
+        private void IncreaseAttack(PlayerStatsEvent evt)
+        {
+            if (!HasStateAuthority) return;
+
+            _damage += evt.PlayerDamage;
+        }
+        
         // ============================================================
         // SERVER LOGIC
         // ============================================================
@@ -68,7 +79,7 @@ namespace Health
             if (health)
             {
                 Debug.Log($"[SERVER] Applying damage to: {target.name}");
-                health.TakeDamage(_damage);
+                health.TakeDamage(_damage, Object.InputAuthority);
             }
         }
     }
