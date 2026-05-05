@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 7673130403942665384}
   - component: {fileID: 1556996685357779886}
   - component: {fileID: 669421185991042192}
+  - component: {fileID: 1561582750749242356}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -281,6 +282,7 @@ MonoBehaviour:
   - {fileID: 7673130403942665384}
   - {fileID: 1556996685357779886}
   - {fileID: 669421185991042192}
+  - {fileID: 1561582750749242356}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -354,11 +356,13 @@ MonoBehaviour:
   _renderer: {fileID: 4537851723476280760}
   _cameraPrefab: {fileID: 5165385044674386366, guid: 5b2205a1603dd28488179ec3a34403b7, type: 3}
   _walkSpeed: 5
+  _maxStaminaBase: 100
   _sprintSpeed: 10
-  _sprintDuration: 3
   _staminaRechargeDelay: 1.5
-  _staminaRechargeRate: 1
-  _SprintTimer: 0
+  _staminaRechargeRate: 25
+  _staminaDrainRate: 50
+  _CurrentStamina: 0
+  _MaxStamina: 0
 --- !u!114 &6926954798261749035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +541,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelsPerSkillPoint: 3
+--- !u!114 &1561582750749242356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e227beef9344e54860fd7ab86276d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _plusMaxHealth: 10
+  _plusMaxStamimna: 5
+  _plusPlayerDamage: 0
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0

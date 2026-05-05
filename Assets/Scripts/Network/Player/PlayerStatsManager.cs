@@ -1,8 +1,6 @@
 ﻿using Events;
 using Fusion;
-using Local.Progression;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Network
 {
