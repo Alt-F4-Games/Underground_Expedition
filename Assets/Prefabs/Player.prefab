@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 525502175860166656}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.38, z: 0.51}
+  m_LocalPosition: {x: 0, y: 0.38, z: -0.00000023841858}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
-  _cameraPrefab: {fileID: 5165385044674386366, guid: 5b2205a1603dd28488179ec3a34403b7, type: 3}
+  _cameraPrefab: {fileID: 7215237716590102320, guid: c9a39b0926a3a464e851b60e608f3c32, type: 3}
   _walkSpeed: 4
   _sprintSpeed: 6
   _sprintDuration: 3.5
@@ -638,8 +638,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 3
   m_Range: 15
-  m_SpotAngle: 60
-  m_InnerSpotAngle: 30
+  m_SpotAngle: 90
+  m_InnerSpotAngle: 45
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
