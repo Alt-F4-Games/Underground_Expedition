@@ -1,6 +1,7 @@
 ﻿using Fusion;
 using UI;
 using UnityEngine;
+using Skills.Core;
 
 namespace Health
 {
@@ -12,8 +13,17 @@ namespace Health
 
         [Header("References")]
         [SerializeField] private AttackAreaDetector _detector;
+        
+        // Generic reference to the Skill Manager for loose coupling
+        private PlayerSkillManager _skillManager;
 
         private float _lastAttackTime;
+
+        public override void Spawned()
+        {
+            // Cache the Skill Manager located on the same Player Prefab
+            _skillManager = GetComponent<PlayerSkillManager>();
+        }
 
         // ============================================================
         // INPUT (CLIENT ONLY)
@@ -38,8 +48,8 @@ namespace Health
                 return;
 
             _lastAttackTime = Time.time;
-
-            // 🔥 SOLO PEDIMOS AL SERVER QUE PROCESE
+            
+            // 🔥
             RPC_RequestAttack();
         }
 
@@ -47,28 +57,30 @@ namespace Health
         // SERVER LOGIC
         // ============================================================
 
-        // ReSharper disable Unity.PerformanceAnalysis
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         private void RPC_RequestAttack()
         {
             if (!HasStateAuthority) return;
 
             Vector3 attackerPosition = transform.position;
-
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
 
-            if (!target)
-            {
-                Debug.Log("[SERVER] No targets in area");
-                return;
-            }
+            if (!target) return;
 
             var health = target.GetComponent<NetworkHealthSystem>();
 
             if (health)
             {
-                Debug.Log($"[SERVER] Applying damage to: {target.name}");
-                health.TakeDamage(_damage);
+                int finalDamage = _damage;
+
+                // Delegate damage calculation to the Manager cleanly and polymorphically
+                if (_skillManager != null)
+                {
+                    finalDamage = _skillManager.GetModifiedDamage(finalDamage);
+                }
+
+                // Apply the final calculated damage
+                health.TakeDamage(finalDamage); 
             }
         }
     }

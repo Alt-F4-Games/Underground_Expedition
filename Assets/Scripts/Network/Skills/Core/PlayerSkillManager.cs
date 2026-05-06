@@ -35,8 +35,25 @@ namespace Skills.Core
                         _slot2.OnExecute(Runner);
                     }
                 }
-                
             }
+        }
+
+        // ============================================================
+        // EXTERNAL INTERFACE (For the combat system)
+        // ============================================================
+
+        /// <summary>
+        /// Processes the base damage through all equipped skills 
+        /// and returns the final calculated damage polymorphically.
+        /// </summary>
+        public int GetModifiedDamage(int baseDamage)
+        {
+            int currentDamage = baseDamage;
+
+            if (_slot1 != null) currentDamage = _slot1.ModifyAttackDamage(currentDamage);
+            if (_slot2 != null) currentDamage = _slot2.ModifyAttackDamage(currentDamage);
+
+            return currentDamage;
         }
     }
 }

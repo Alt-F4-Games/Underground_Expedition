@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 8869970398058202911}
   - component: {fileID: 3742584115890206898}
   - component: {fileID: 6570093051209352819}
+  - component: {fileID: 7673130403942665384}
   - component: {fileID: 2549033941871935099}
   - component: {fileID: 3550813516045307566}
   - component: {fileID: 6436779314724841193}
@@ -146,7 +147,7 @@ GameObject:
   - component: {fileID: 5654191337989516410}
   - component: {fileID: 3209245888302680570}
   - component: {fileID: 7930204448273250235}
-  - component: {fileID: 7673130403942665384}
+  - component: {fileID: 1065280251491677840}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -266,6 +267,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 7673130403942665384}
   - {fileID: 2549033941871935099}
   - {fileID: 3550813516045307566}
   - {fileID: 6436779314724841193}
@@ -278,7 +280,7 @@ MonoBehaviour:
   - {fileID: 5654191337989516410}
   - {fileID: 3209245888302680570}
   - {fileID: 7930204448273250235}
-  - {fileID: 7673130403942665384}
+  - {fileID: 1065280251491677840}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -305,6 +307,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7673130403942665384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc088b25172e4dfda3ca7c4d11cfb3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2549033941871935099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,9 +522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d18cf9f0dd64e738b6d44b3979da501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slot1: {fileID: 0}
+  _slot1: {fileID: 1065280251491677840}
   _slot2: {fileID: 0}
---- !u!114 &7673130403942665384
+--- !u!114 &1065280251491677840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -519,9 +533,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 954193011416401844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc088b25172e4dfda3ca7c4d11cfb3ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 51996b6969874f598ae8a7d722a7a4f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _skillData: {fileID: 11400000, guid: d96a6a89777045243807bbb1f92559ac, type: 2}
+  _CurrentLevel: 0
+  _RemainingStrikes: 0
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
