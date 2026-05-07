@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SlotType { Base, Equip, Hotbar }
+public enum SlotType { Base, Hotbar }
 
 [System.Serializable]
 public class InventorySlot
@@ -14,7 +14,6 @@ public class InventorySystem : MonoBehaviour
 {
     [Header("Capacities")]
     [SerializeField] private int defaultBaseCapacity = 3;
-    [SerializeField] private int equipCapacity = 3;  
     [SerializeField] private int hotbarCapacity = 3; 
     [SerializeField] private int maxBaseCapacity = 9; 
     private int baseCapacity = 3; 
@@ -30,7 +29,6 @@ public class InventorySystem : MonoBehaviour
     private void Awake()
     {
         EnsureCapacity(baseSlots, baseCapacity);
-        EnsureCapacity(equipSlots, equipCapacity);
         EnsureCapacity(hotbarSlots, hotbarCapacity);
     }
 
@@ -43,7 +41,6 @@ public class InventorySystem : MonoBehaviour
     public int GetCapacityPublic(SlotType type) => type switch
     {
         SlotType.Base => baseCapacity,
-        SlotType.Equip => equipCapacity,
         SlotType.Hotbar => hotbarCapacity,
         _ => 0
     };
@@ -51,7 +48,6 @@ public class InventorySystem : MonoBehaviour
     private List<InventorySlot> GetList(SlotType type) => type switch
     {
         SlotType.Base => baseSlots,
-        SlotType.Equip => equipSlots,
         SlotType.Hotbar => hotbarSlots,
         _ => baseSlots
     };
@@ -74,8 +70,8 @@ public class InventorySystem : MonoBehaviour
         return item.itemType switch
         {
             ItemType.Pickup => targetSlot == SlotType.Base,
-            ItemType.ToolActive => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
-            ItemType.ToolPassive => targetSlot == SlotType.Base || targetSlot == SlotType.Equip,
+            ItemType.Tool => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
+            ItemType.Consumable => targetSlot == SlotType.Base,
             ItemType.KeyItem => targetSlot == SlotType.Base,
             _ => false
         };
@@ -176,9 +172,6 @@ public class InventorySystem : MonoBehaviour
             if (src.quantity <= 0) src.item = null;
 
             OnInventoryChanged?.Invoke();
-            
-            if (fromType == SlotType.Equip || toType == SlotType.Equip)
-                RecomputeEquipEffects();
 
             return true;
         }
@@ -191,9 +184,6 @@ public class InventorySystem : MonoBehaviour
             src.quantity = 0;
 
             OnInventoryChanged?.Invoke();
-            
-            if (fromType == SlotType.Equip || toType == SlotType.Equip)
-                RecomputeEquipEffects();
 
             return true;
         }
@@ -211,44 +201,9 @@ public class InventorySystem : MonoBehaviour
 
             OnInventoryChanged?.Invoke();
             
-            if (fromType == SlotType.Equip || toType == SlotType.Equip)
-                RecomputeEquipEffects();
-
             return true;
         }
 
         return false;
-    }
-
-    private void RecomputeEquipEffects()
-    {
-        baseCapacity = defaultBaseCapacity;
-        
-        foreach (var slot in equipSlots)
-        {
-            if (slot.item != null && slot.item.name == "LeafBag")
-            {
-                baseCapacity = maxBaseCapacity;
-                break;
-            }
-        }
-        
-        if (baseSlots.Count > baseCapacity)
-            baseSlots.RemoveRange(baseCapacity, baseSlots.Count - baseCapacity);
-        else
-            EnsureCapacity(baseSlots, baseCapacity);
-
-        OnInventoryChanged?.Invoke();
-    }
-
-    
-    public void ExpandBaseCapacity(int newCapacity)
-    {
-        if (newCapacity > baseCapacity && newCapacity <= maxBaseCapacity)
-        {
-            baseCapacity = newCapacity;
-            EnsureCapacity(baseSlots, baseCapacity);
-            OnInventoryChanged?.Invoke();
-        }
     }
 }
