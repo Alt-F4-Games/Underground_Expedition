@@ -3,8 +3,8 @@ using UnityEngine;
 public enum ItemType
 {
     Pickup,
-    ToolActive,
-    ToolPassive,
+    Tool,
+    Consumable,
     KeyItem
 }
 
@@ -19,7 +19,6 @@ public class ItemSO :  ScriptableObject
 
     [Header("Tool Properties")] 
     public bool isTool;
-    public bool isActiveTool;
     public bool hasDurability;
     public int maxDurability;
 
@@ -31,14 +30,18 @@ public class ItemSO :  ScriptableObject
         switch (itemType)
         {
             case ItemType.Pickup:
-                maxStack = 16;
+                maxStack = 32;
                 hasDurability = false;
                 break;
 
-            case ItemType.ToolActive:
-            case ItemType.ToolPassive:
+            case ItemType.Tool:
                 maxStack = 1;
                 hasDurability = true;
+                break;
+            
+            case ItemType.Consumable:
+                maxStack = 8;
+                hasDurability = false;
                 break;
 
             case ItemType.KeyItem:
@@ -48,9 +51,8 @@ public class ItemSO :  ScriptableObject
         }
     }
 
-    public bool IsTool => itemType == ItemType.ToolActive || itemType == ItemType.ToolPassive;
-    public bool IsActiveTool => itemType == ItemType.ToolActive;
-    public bool IsPassiveTool => itemType == ItemType.ToolPassive;
+    public bool IsTool => itemType == ItemType.Tool;
+    public bool IsConsumable => itemType == ItemType.Consumable;
     public bool IsPickup => itemType == ItemType.Pickup;
     public bool IsKeyItem => itemType == ItemType.KeyItem;
 
