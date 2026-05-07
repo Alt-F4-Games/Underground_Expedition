@@ -107,16 +107,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         data.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
         data.Buttons.Set(NetworkInputPlayer.INTERACT_BUTTON, _interactPressed);
         
-        if (InputManager.Mode != InputMode.Game)
-        {
-            data.MoveDirection = Vector3.zero;
-            data.MouseRotation = Vector2.zero;
-        }
-        else
-        {
-            data.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
-            data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch); 
-        }
+        data.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
+        data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch); 
+        
         
         input.Set(data);
     }
