@@ -1,5 +1,6 @@
 using System;
 using Fusion;
+using Network.Crafting;
 using UnityEngine;
 
 /// <summary>
@@ -180,6 +181,14 @@ public class NetworkInventoryManager : NetworkBehaviour
         if (!HasInputAuthority) return;
         RPC_DropItem(type, index);
     }
+    
+    public void Input_Craft(int resultItemId)
+    {
+        if (!HasInputAuthority)
+            return;
+
+        RPC_RequestCraft(resultItemId);
+    }
 
     // -------------------- RPCs (Client -> Server) -------------------------
 
@@ -211,6 +220,22 @@ public class NetworkInventoryManager : NetworkBehaviour
             var obj = Runner.Spawn(worldItemPrefab, spawnPos, Quaternion.identity);
             if (obj.TryGetComponent(out NetworkWorldItem pickupScript))
                 pickupScript.Init(slot.ItemId, slot.Quantity);
+        }
+    }
+    
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestCraft(int resultItemId)
+    {
+        var recipe = CraftingDatabase.Instance.GetRecipeByResult(resultItemId);
+
+        if (recipe == null)
+            return;
+
+        bool crafted = CraftingService.Craft(inventorySystem, recipe);
+
+        if (crafted)
+        {
+            Debug.Log("Craft success");
         }
     }
 
