@@ -205,7 +205,82 @@ public class NetworkInventorySystem : NetworkBehaviour
             HotbarSlots.Set(newIndex, temp[i]);
         }
     }
+    
+    public bool Server_ConsumeItemGlobal(int itemId, int quantity)
+    {
+        if (!HasStateAuthority)
+            return false;
 
+        int total = CountItem(itemId);
+
+        if (total < quantity)
+            return false;
+
+        quantity = RemoveFromArray(BaseSlots, itemId, quantity);
+        quantity = RemoveFromArray(HotbarSlots, itemId, quantity);
+
+        return quantity <= 0;
+    }
+    
+    private int RemoveFromArray(NetworkArray<NetworkInventorySlot> array, int itemId, int quantity)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (quantity <= 0)
+                return 0;
+
+            var slot = array[i];
+
+            if (slot.IsEmpty || slot.ItemId != itemId)
+                continue;
+
+            int removed = Mathf.Min(slot.Quantity, quantity);
+
+            slot.Quantity -= removed;
+            quantity -= removed;
+
+            if (slot.Quantity <= 0)
+            {
+                slot = new NetworkInventorySlot(0, 0);
+            }
+
+            array.Set(i, slot);
+        }
+
+        return quantity;
+    }
+
+    // =====================================================================
+    //                             COUNT ITEMS
+    // =====================================================================
+    
+    public int CountItem(int itemId)
+    {
+        int total = 0;
+
+        total += CountItemInArray(BaseSlots, itemId);
+        total += CountItemInArray(HotbarSlots, itemId);
+
+        return total;
+    }
+
+    private int CountItemInArray(NetworkArray<NetworkInventorySlot> array, int itemId)
+    {
+        int total = 0;
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            var slot = array[i];
+
+            if (!slot.IsEmpty && slot.ItemId == itemId)
+            {
+                total += slot.Quantity;
+            }
+        }
+
+        return total;
+    }
+    
     // =====================================================================
     //                             HELPERS
     // =====================================================================
