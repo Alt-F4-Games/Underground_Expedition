@@ -34,6 +34,12 @@ namespace Network.Interaction
 
         public override void FixedUpdateNetwork()
         {
+            if (!UI.InputManager.IsGameMode())
+            {
+                ResetInteraction();
+                return;
+            }
+            
             if (GetInput(out NetworkInputPlayer input))
             {
                 bool isPressingInteract = input.Buttons.IsSet(NetworkInputPlayer.INTERACT_BUTTON);
