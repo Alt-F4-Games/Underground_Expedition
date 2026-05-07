@@ -95,12 +95,122 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI_Hud_Background_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 1860
+        width: 234
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d34c1e0818516434bba839467bf60a0b
+      internalID: -1721736560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Hud_Background_1
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 2037
+        width: 748
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b537171e77c8e1b41b0781b95eb6bc4f
+      internalID: 1807199424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Hud_Background_2
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 1988
+        width: 748
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c124dfedb2013f6499fd2332d8499ca1
+      internalID: 1434221847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Hud_Background_3
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 1835
+        width: 136
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 193e30756528bee47bc2b218f927e0c8
+      internalID: 948103239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Hud_Background_4
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 1835
+        width: 136
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ff920627ae46014aad5a873b32ddea0
+      internalID: 1025124683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c0c31becf83c0e24e9137caf88603688
     internalID: 0
     vertices: []
     indices: 
@@ -109,7 +219,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI_Hud_Background_0: -1721736560
+      UI_Hud_Background_1: 1807199424
+      UI_Hud_Background_2: 1434221847
+      UI_Hud_Background_3: 948103239
+      UI_Hud_Background_4: 1025124683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
