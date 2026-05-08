@@ -74,9 +74,8 @@ public class InventorySystem : MonoBehaviour
         return item.itemType switch
         {
             ItemType.Pickup => targetSlot == SlotType.Base,
-            ItemType.ToolActive => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
-            ItemType.ToolPassive => targetSlot == SlotType.Base || targetSlot == SlotType.Equip,
-            ItemType.KeyItem => targetSlot == SlotType.Base,
+            ItemType.KeyItem => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
+            ItemType.Consumable => targetSlot == SlotType.Base || targetSlot == SlotType.Hotbar,
             _ => false
         };
     }
