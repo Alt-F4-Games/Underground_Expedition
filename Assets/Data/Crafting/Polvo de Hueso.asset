@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04e4a5ed36c4e839256f8338f44ade0, type: 3}
   m_Name: Polvo de Hueso
   m_EditorClassIdentifier: 
-  recipeName: 
-  description: 
-  resultItemId: 0
+  recipeName: Polvo de Hueso
+  description: Polvo salido de los huesos de las calaveras
+  resultItemId: 12
   resultQuantity: 1
-  ingredients: []
+  ingredients:
+  - itemId: 3
+    quantity: 3

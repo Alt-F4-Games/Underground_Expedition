@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04e4a5ed36c4e839256f8338f44ade0, type: 3}
   m_Name: "Ung\xFCento Curativo"
   m_EditorClassIdentifier: 
-  recipeName: 
-  description: 
-  resultItemId: 0
+  recipeName: "Ung\xFCento Curativo"
+  description: Recipiente utilizado para sanar
+  resultItemId: 17
   resultQuantity: 1
-  ingredients: []
+  ingredients:
+  - itemId: 6
+    quantity: 2
+  - itemId: 12
+    quantity: 2
+  - itemId: 14
+    quantity: 1
