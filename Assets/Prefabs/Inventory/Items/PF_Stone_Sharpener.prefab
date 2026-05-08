@@ -62,6 +62,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c5ba9b69eaaf4df48aaaf445ceb81c24, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4498315744385771586}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c5ba9b69eaaf4df48aaaf445ceb81c24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7358690933717084391}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c5ba9b69eaaf4df48aaaf445ceb81c24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6019287966418636963}
   m_SourcePrefab: {fileID: 100100000, guid: c5ba9b69eaaf4df48aaaf445ceb81c24, type: 3}
 --- !u!1 &5768729504813946086 stripped
 GameObject:
@@ -105,5 +111,44 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: -7358690933717084391}
+  - {fileID: -6019287966418636963}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &-7358690933717084391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5768729504813946086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &-6019287966418636963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5768729504813946086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b1125c8fc2e8f4c9bb9abfff62fad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ItemId: 12
+  _Quantity: 0
+  visualContainer: {fileID: 6576790679965421148}
+--- !u!4 &6576790679965421148 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5ba9b69eaaf4df48aaaf445ceb81c24, type: 3}
+  m_PrefabInstance: {fileID: 6687789621999118775}
+  m_PrefabAsset: {fileID: 0}
