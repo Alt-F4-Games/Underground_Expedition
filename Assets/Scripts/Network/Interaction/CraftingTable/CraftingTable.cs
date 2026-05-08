@@ -10,12 +10,15 @@ namespace Network.Interaction.CraftingTable
     {
         public override void OnInteract(NetworkPlayerController player)
         {
-            RPC_OpenUI(player.Object.InputAuthority);
+            RPC_OpenUI();
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
-        private void RPC_OpenUI([RpcTarget] PlayerRef playerRef)
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_OpenUI()
         {
+            if (!NetworkPlayerController.Local)
+                return;
+
             CraftingUIController.Instance.Open(NetworkPlayerController.Local);
         }
     }
