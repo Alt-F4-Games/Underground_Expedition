@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00000095367, y: 12}
-  m_SizeDelta: {x: 71.8151, y: 66.7325}
+  m_AnchoredPosition: {x: 0, y: 11.5}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7169960499278610059
 CanvasRenderer:
@@ -109,8 +109,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -38.207}
-  m_SizeDelta: {x: 82.2353, y: 23.5855}
+  m_AnchoredPosition: {x: 0.0000026375, y: -24.9088}
+  m_SizeDelta: {x: 63.8364, y: 19.9825}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1275018405583573747
 CanvasRenderer:
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13
-  m_fontSizeBase: 13
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -222,7 +222,8 @@ GameObject:
   - component: {fileID: 4565244530008942887}
   - component: {fileID: 5171256205120414010}
   - component: {fileID: -6858344369548228293}
-  - component: {fileID: -1378745773725188644}
+  - component: {fileID: 1895240387175177355}
+  - component: {fileID: 6593074353400199928}
   m_Layer: 0
   m_Name: RecipeEntryUI
   m_TagString: Untagged
@@ -249,7 +250,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5171256205120414010
 CanvasRenderer:
@@ -273,8 +274,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 7120641970542731782}
   recipeName: {fileID: 765896042804393957}
-  button: {fileID: -1378745773725188644}
---- !u!114 &-1378745773725188644
+  button: {fileID: 6593074353400199928}
+  canvasGroup: {fileID: 1895240387175177355}
+--- !u!225 &1895240387175177355
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7687294368374897567}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6593074353400199928
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -314,7 +328,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 7120641970542731782}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
