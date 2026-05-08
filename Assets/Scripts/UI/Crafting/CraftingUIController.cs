@@ -105,14 +105,17 @@ namespace UI.Crafting
     {
         ClearRecipeList();
 
-        var recipes = CraftingUnlockSystem.GetUnlockedRecipes(
-            _localManager.inventorySystem);
+        var recipes = CraftingDatabase.Instance.GetAllRecipes();
 
         foreach (var recipe in recipes)
         {
             var entry = Instantiate(recipeEntryPrefab, recipeListContainer);
 
-            entry.Setup(recipe, this);
+            bool unlocked = CraftingUnlockSystem.IsUnlocked(
+                _localManager.inventorySystem,
+                recipe);
+
+            entry.Setup(recipe, this, unlocked);
 
             _recipeEntries.Add(entry);
         }
