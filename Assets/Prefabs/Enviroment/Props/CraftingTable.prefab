@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8.348209
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -6.8378134
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.242388
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
       propertyPath: m_LocalRotation.w
@@ -75,6 +75,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2636719576002707217}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6645017810937930343}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7508948810840396724}
   m_SourcePrefab: {fileID: 100100000, guid: 86b80ac223548d0459a661d23352d6ab, type: 3}
 --- !u!1 &9028238123183274294 stripped
 GameObject:
@@ -102,3 +108,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.15, y: 0.8, z: 0.8}
   m_Center: {x: -0, y: 0.4, z: -0}
+--- !u!114 &6645017810937930343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028238123183274294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f8df3a694e4e3cac9867b3093b9b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promptMessage: Interact
+  _interactionDuration: 1.5
+  _fresnelOnValue: 1
+  _fresnelOffValue: 0
+  _fresnelProperty: _FresnelIntensity
+--- !u!114 &7508948810840396724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028238123183274294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1392677331
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 6645017810937930343}
+  ForceRemoteRenderTimeframe: 0
