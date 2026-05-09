@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 3209245888302680570}
   - component: {fileID: 7930204448273250235}
   - component: {fileID: 1065280251491677840}
+  - component: {fileID: 6917063144831557328}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -281,6 +282,7 @@ MonoBehaviour:
   - {fileID: 3209245888302680570}
   - {fileID: 7930204448273250235}
   - {fileID: 1065280251491677840}
+  - {fileID: 6917063144831557328}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -523,7 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slot1: {fileID: 1065280251491677840}
-  _slot2: {fileID: 0}
+  _slot2: {fileID: 6917063144831557328}
 --- !u!114 &1065280251491677840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +541,20 @@ MonoBehaviour:
   _skillData: {fileID: 11400000, guid: d96a6a89777045243807bbb1f92559ac, type: 2}
   _CurrentLevel: 0
   _RemainingStrikes: 0
+--- !u!114 &6917063144831557328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a18acdd9be4035ba8860d0c1150c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillData: {fileID: 11400000, guid: 286adb39f4108d548b9793accbbd8016, type: 2}
+  _CurrentLevel: 0
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
