@@ -2,6 +2,7 @@ using Health;
 using Network.Enemies.Core;
 using Network.Enemies.States;
 using UnityEngine;
+using Fusion;
 
 namespace Network.Enemies
 {
@@ -119,7 +120,7 @@ namespace Network.Enemies
                 case NetworkEnemyState.Exploding:
                     _animator.SetBool("IsMoving", false);
                     _animator.SetBool("IsCharging", false);
-                    _animator.SetTrigger("Explode");
+                    PlayExplodeAnimation();
                     break;
 
                 case NetworkEnemyState.Idle:
@@ -131,16 +132,42 @@ namespace Network.Enemies
         
         private void PlayHitAnimation()
         {
+            if (HasStateAuthority)
+            {
+                RPC_PlayHitAnimation();
+            }
+        }
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_PlayHitAnimation()
+        {
             if (_animator == null) return;
             _animator.SetTrigger("Hit");
         }
 
-        public void OnExplode()
+        private void PlayExplodeAnimation()
         {
-            SpawnExplosionVFX();
+            if (HasStateAuthority)
+            {
+                RPC_PlayExplodeAnimation();
+            }
+        }
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_PlayExplodeAnimation()
+        {
+            if (_animator == null) return;
+            _animator.SetTrigger("Explode");
         }
 
-        private void SpawnExplosionVFX()
+        public void OnExplode()
+        {
+            if (HasStateAuthority)
+            {
+                RPC_SpawnExplosionVFX();
+            }
+        }
+
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_SpawnExplosionVFX()
         {
             if (explosionVfx == null) return;
 

@@ -13,7 +13,6 @@ namespace Player
 
         [Networked] [HideInInspector] public float StaminaNormalized { get; private set; }
 
-        // Cache local para UI suave
         public float LocalStaminaNormalized { get; private set; }
 
         private float _lastValue;
@@ -31,39 +30,24 @@ namespace Player
 
         private void UpdateStamina()
         {
-            if (_controller == null) return;
+            if (!HasStateAuthority) return;
 
-            float max = _controller.SprintDuration;
-            float current = _controller.SprintTimer;
+            if (_controller == null) return;
 
             float normalized = 0f;
 
-            if (max > 0f)
-                normalized = Mathf.Clamp01(current / max);
+            if (_controller.MaxStamina > 0f)
+                normalized = _controller.CurrentStamina / _controller.MaxStamina;
 
             StaminaNormalized = normalized;
-
-            if (_debug && Mathf.Abs(normalized - _lastValue) > 0.01f)
-            {
-                Debug.Log($"[STAMINA] {normalized:F2}");
-                _lastValue = normalized;
-            }
         }
 
         // ============================================================
         // RENDER (CLIENT)
         // ============================================================
 
-        public override void Render()
-        {
-            // UI local sin delay de red
-            LocalStaminaNormalized = StaminaNormalized;
-        }
-
-        // Helper opcional para UI
-        public float GetStaminaPercent()
-        {
-            return LocalStaminaNormalized * 100f;
-        }
+        public override void Render() { LocalStaminaNormalized = StaminaNormalized; }
+        public float GetCurrentStamina() { return _controller.CurrentStamina; }
+        public float GetMaxStamina() { return _controller.MaxStamina; }
     }
 }

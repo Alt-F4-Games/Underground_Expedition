@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Events;
 using Fusion;
 using Network.Spawn;
 using UnityEngine;
@@ -16,15 +17,26 @@ namespace Health
 
         private Renderer[] _renderers;
 
+        private PlayerDiedEvent _playerDiedEvent = new ();
         public override void Spawned()
         {
             base.Spawned();
+            
+            if (HasStateAuthority)
+            {
+                MaxHealth = 100; 
+                CurrentHealth = MaxHealth;
+            }
 
             _controller = GetComponent<NetworkCharacterController>();
 
             _renderers = GetComponentsInChildren<Renderer>(true);
         }
 
+        private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxHealth); }
+
+        private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseMaxHealth); }
+        
         // ============================================================
         // DEATH
         // ============================================================
@@ -32,6 +44,9 @@ namespace Health
         protected override void Death()
         {
             base.Death();
+            
+            _playerDiedEvent.IsAlive = IsAlive;
+            EventController.Instance.TriggerEvent(_playerDiedEvent);
 
             if (!HasStateAuthority) return;
 
@@ -75,22 +90,32 @@ namespace Health
         {
             if (!HasStateAuthority) return;
 
-            // Reactivar controller
-            if (_controller != null)
+            if (_controller)
                 _controller.enabled = true;
 
-            // 🔺 Mostrar visuales
             foreach (var r in _renderers)
             {
                 r.enabled = true;
             }
 
-            // Revivir
             Revive();
 
             Debug.Log($"{gameObject.name} respawned");
         }
-    
-        
+
+        private void IncreaseMaxHealth(PlayerStatsEvent evt)
+        {
+            if (!HasStateAuthority) return;
+
+            Debug.Log($"{gameObject.name} max health: {MaxHealth}");
+            Debug.Log($"{gameObject.name} health PLUS: {evt.MaxHealth}");
+            MaxHealth += evt.MaxHealth;
+            
+            Debug.Log($"{gameObject.name} max health: {MaxHealth}");
+
+            
+            
+            CurrentHealth = MaxHealth;
+        }
     }
 }

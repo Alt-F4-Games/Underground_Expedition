@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 525502175860166656}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.38, z: 0.51}
+  m_LocalPosition: {x: 0, y: 0.38, z: -0.00000023841858}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -133,8 +133,6 @@ GameObject:
   - component: {fileID: 8869970398058202911}
   - component: {fileID: 3742584115890206898}
   - component: {fileID: 6570093051209352819}
-  - component: {fileID: 7673130403942665384}
-  - component: {fileID: 2549033941871935099}
   - component: {fileID: 3550813516045307566}
   - component: {fileID: 6436779314724841193}
   - component: {fileID: 6926954798261749035}
@@ -146,9 +144,10 @@ GameObject:
   - component: {fileID: -4638314480283722534}
   - component: {fileID: 5654191337989516410}
   - component: {fileID: 3209245888302680570}
-  - component: {fileID: 7930204448273250235}
-  - component: {fileID: 1065280251491677840}
-  - component: {fileID: 6917063144831557328}
+  - component: {fileID: 7673130403942665384}
+  - component: {fileID: 1556996685357779886}
+  - component: {fileID: 669421185991042192}
+  - component: {fileID: 1561582750749242356}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -268,8 +267,6 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 7673130403942665384}
-  - {fileID: 2549033941871935099}
   - {fileID: 3550813516045307566}
   - {fileID: 6436779314724841193}
   - {fileID: 6926954798261749035}
@@ -280,9 +277,10 @@ MonoBehaviour:
   - {fileID: 2468928372048694000}
   - {fileID: 5654191337989516410}
   - {fileID: 3209245888302680570}
-  - {fileID: 7930204448273250235}
-  - {fileID: 1065280251491677840}
-  - {fileID: 6917063144831557328}
+  - {fileID: 7673130403942665384}
+  - {fileID: 1556996685357779886}
+  - {fileID: 669421185991042192}
+  - {fileID: 1561582750749242356}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -309,30 +307,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7673130403942665384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954193011416401844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc088b25172e4dfda3ca7c4d11cfb3ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2549033941871935099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954193011416401844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00647aa3dda34a56b8bc8d1306380041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3550813516045307566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,13 +340,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraPivot: {fileID: 6845520230055635799}
   _renderer: {fileID: 4537851723476280760}
-  _cameraPrefab: {fileID: 5165385044674386366, guid: 5b2205a1603dd28488179ec3a34403b7, type: 3}
+  _cameraPrefab: {fileID: 7215237716590102320, guid: c9a39b0926a3a464e851b60e608f3c32, type: 3}
   _walkSpeed: 4
-  _sprintSpeed: 6
-  _sprintDuration: 3.5
+  _maxStaminaBase: 100
+  _sprintSpeed: 6.3
   _staminaRechargeDelay: 1.3
-  _staminaRechargeRate: 1.5
-  _SprintTimer: 0
+  _staminaRechargeRate: 25
+  _staminaDrainRate: 50
+  _CurrentStamina: 0
+  _MaxStamina: 0
 --- !u!114 &6926954798261749035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,7 +488,7 @@ MonoBehaviour:
   _rayOrigin: {fileID: 6845520230055635799}
   _CurrentTarget: {fileID: 0}
   _CurrentInteractionDuration: 0
---- !u!114 &7930204448273250235
+--- !u!114 &7673130403942665384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -521,12 +497,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 954193011416401844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d18cf9f0dd64e738b6d44b3979da501, type: 3}
+  m_Script: {fileID: 11500000, guid: fc088b25172e4dfda3ca7c4d11cfb3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slot1: {fileID: 1065280251491677840}
-  _slot2: {fileID: 6917063144831557328}
---- !u!114 &1065280251491677840
+--- !u!114 &1556996685357779886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -535,13 +509,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 954193011416401844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51996b6969874f598ae8a7d722a7a4f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 037666bcbb777804c8c8c327a62c8bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillData: {fileID: 11400000, guid: d96a6a89777045243807bbb1f92559ac, type: 2}
-  _CurrentLevel: 0
-  _RemainingStrikes: 0
---- !u!114 &6917063144831557328
+  percentageExp: 50
+  maxLevel: 8
+--- !u!114 &669421185991042192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -550,11 +523,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 954193011416401844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99a18acdd9be4035ba8860d0c1150c93, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e90b95190aaca14e81d0cc9456b3464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillData: {fileID: 11400000, guid: 286adb39f4108d548b9793accbbd8016, type: 2}
-  _CurrentLevel: 0
+  levelsPerSkillPoint: 3
+--- !u!114 &1561582750749242356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e227beef9344e54860fd7ab86276d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _plusMaxHealth: 10
+  _plusMaxStamimna: 5
+  _plusPlayerDamage: 0
 --- !u!1 &7251703131618129929
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,8 +674,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 3
   m_Range: 15
-  m_SpotAngle: 60
-  m_InnerSpotAngle: 30
+  m_SpotAngle: 90
+  m_InnerSpotAngle: 45
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2

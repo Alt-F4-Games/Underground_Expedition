@@ -1,4 +1,5 @@
 ﻿using System;
+using Events;
 using Fusion;
 using Health;
 using Network;
@@ -15,20 +16,21 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Header("Camera")]
     [SerializeField] private Camera _cameraPrefab;
     private Camera _playerCameraInstance;
+    private CinemachineCamera _cinemachineCamera;
 
     [Header("Movement")]
     [SerializeField] private float _walkSpeed = 5f;
 
-    [Header("Sprint")]
+    [Header("Stamina")]
+    [SerializeField] private float _maxStaminaBase = 100f;
     [SerializeField] private float _sprintSpeed = 8f;
-    [SerializeField] private float _sprintDuration = 3f;
-
-    [Header("Stamina Recharge")]
     [SerializeField] private float _staminaRechargeDelay = 1.5f;
     [SerializeField] private float _staminaRechargeRate = 1f;
+    [SerializeField] private float _staminaDrainRate = 1f;
 
     [Networked] private bool IsSprinting { get; set; }
-    [Networked] public float SprintTimer { get; private set; }
+    [Networked] public float CurrentStamina { get; private set; }
+    [Networked]  public float MaxStamina { get; private set; } 
     [Networked] private float RechargeDelayTimer { get; set; }
 
     private NetworkCharacterController _controller;
@@ -41,11 +43,14 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private static readonly int AlphaID = Shader.PropertyToID("_noiseAlpha");
 
     private bool IsStunnedGameplay => !StunTimer.ExpiredOrNotRunning(Runner);
-    public float SprintDuration => _sprintDuration;
 
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
 
+    private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
+
+    private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseMaxStamina); }
+    
     // ============================================================
     // SPAWN
     // ============================================================
@@ -54,6 +59,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
+        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
 
         if (!HasInputAuthority)
         {
@@ -63,7 +69,14 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         if (HasStateAuthority)
         {
-            SprintTimer = _sprintDuration;
+            MaxStamina = _maxStaminaBase;
+            CurrentStamina = MaxStamina;
+        }
+        
+        if (_cinemachineCamera != null)
+        {
+            _cinemachineCamera.Follow = _cameraPivot;
+            _cinemachineCamera.LookAt = _cameraPivot;
         }
 
         _renderer.material.color = Color.yellow;
@@ -104,12 +117,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_cameraPivot != null)
         {
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
-        }
-
-        if (HasInputAuthority && _playerCameraInstance != null && _cameraPivot != null)
-        {
-            _playerCameraInstance.transform.position = _cameraPivot.position;
-            _playerCameraInstance.transform.rotation = _cameraPivot.rotation;
         }
 
         _isStunnedVisual = IsStunnedGameplay;
@@ -155,25 +162,42 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
 
-        if (wantsToSprint && SprintTimer > 0f)
+        if (wantsToSprint && CurrentStamina > 0f)
         {
             IsSprinting = true;
-            SprintTimer -= Runner.DeltaTime;
+
+            CurrentStamina -= _staminaDrainRate * Runner.DeltaTime;
+            if (CurrentStamina < 0f)
+                CurrentStamina = 0f;
+
             RechargeDelayTimer = _staminaRechargeDelay;
+
             return;
         }
 
         IsSprinting = false;
 
+        if (wantsToSprint && CurrentStamina <= 0f)
+            return;
+
+        // =========================
+        // DELAY
+        // =========================
         if (RechargeDelayTimer > 0f)
         {
             RechargeDelayTimer -= Runner.DeltaTime;
             return;
         }
 
-        if (SprintTimer < _sprintDuration)
+        // =========================
+        // REGEN
+        // =========================
+        if (CurrentStamina < MaxStamina)
         {
-            SprintTimer += Runner.DeltaTime * _staminaRechargeRate;
+            CurrentStamina += _staminaRechargeRate * Runner.DeltaTime;
+
+            if (CurrentStamina > MaxStamina)
+                CurrentStamina = MaxStamina;
         }
     }
 
@@ -187,5 +211,13 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         if (HasStateAuthority)
             StunTimer = TickTimer.CreateFromSeconds(Runner, duration);
+    }
+    
+    public void IncreaseMaxStamina(PlayerStatsEvent evt)
+    {
+        if (!HasStateAuthority) return;
+
+        MaxStamina += evt.MaxStamina;
+        CurrentStamina = MaxStamina;
     }
 }
