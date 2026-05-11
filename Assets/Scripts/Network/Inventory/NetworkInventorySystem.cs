@@ -249,6 +249,36 @@ public class NetworkInventorySystem : NetworkBehaviour
 
         return quantity;
     }
+    
+    public bool Server_AddItemGlobal(int itemId, int quantity)
+    {
+        if (!HasStateAuthority)
+            return false;
+
+        ItemSO item = ItemDatabase.Instance.GetItemById(itemId);
+
+        if (item == null)
+            return false;
+
+        int remaining = quantity;
+
+        remaining = AddToArray(
+            BaseSlots,
+            itemId,
+            item.maxStack,
+            remaining);
+
+        if (remaining > 0)
+        {
+            remaining = AddToArray(
+                HotbarSlots,
+                itemId,
+                item.maxStack,
+                remaining);
+        }
+
+        return remaining <= 0;
+    }
 
     // =====================================================================
     //                             COUNT ITEMS
@@ -279,6 +309,107 @@ public class NetworkInventorySystem : NetworkBehaviour
         }
 
         return total;
+    }
+    
+    public bool CanAddItemGlobal(int itemId, int quantity)
+    {
+        ItemSO item = ItemDatabase.Instance.GetItemById(itemId);
+
+        if (item == null)
+            return false;
+
+        return HasSpaceInArray(BaseSlots, itemId, item.maxStack, quantity)
+               || HasSpaceInArray(HotbarSlots, itemId, item.maxStack, quantity);
+    }
+    
+    private bool HasSpaceInArray(NetworkArray<NetworkInventorySlot> array, int itemId, int maxStack, int quantity)
+    {
+        int remaining = quantity;
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            var slot = array[i];
+
+            // Empty slot can receive a full stack
+            if (slot.IsEmpty)
+            {
+                remaining -= maxStack;
+
+                if (remaining <= 0)
+                    return true;
+
+                continue;
+            }
+
+            // Existing compatible stack
+            if (slot.ItemId == itemId)
+            {
+                int free = maxStack - slot.Quantity;
+
+                remaining -= free;
+
+                if (remaining <= 0)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+    
+    private int AddToArray(NetworkArray<NetworkInventorySlot> array, int itemId, int maxStack, int quantity)
+    {
+        // =====================================================
+        // FILL EXISTING STACKS
+        // =====================================================
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (quantity <= 0)
+                return 0;
+
+            var slot = array[i];
+
+            if (slot.IsEmpty || slot.ItemId != itemId)
+                continue;
+
+            int free = maxStack - slot.Quantity;
+
+            if (free <= 0)
+                continue;
+
+            int add = Mathf.Min(free, quantity);
+
+            slot.Quantity += add;
+
+            quantity -= add;
+
+            array.Set(i, slot);
+        }
+
+        // =====================================================
+        // USE EMPTY SLOTS
+        // =====================================================
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (quantity <= 0)
+                return 0;
+
+            var slot = array[i];
+
+            if (!slot.IsEmpty)
+                continue;
+
+            int add = Mathf.Min(maxStack, quantity);
+
+            slot = new NetworkInventorySlot(itemId, add);
+
+            quantity -= add;
+
+            array.Set(i, slot);
+        }
+
+        return quantity;
     }
     
     // =====================================================================
