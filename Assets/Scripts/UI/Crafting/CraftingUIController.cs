@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Network.Crafting;
 using TMPro;
 using UnityEngine;
@@ -28,6 +29,9 @@ namespace UI.Crafting
 
     [Header("Buttons")]
     [SerializeField] private Button craftButton;
+    
+    [Header("Feedback")]
+    [SerializeField] private TMP_Text feedbackText;
 
     private readonly List<RecipeEntryUI> _recipeEntries = new();
     private readonly List<IngredientEntryUI> _ingredientEntries = new();
@@ -40,6 +44,8 @@ namespace UI.Crafting
         Instance = this;
 
         root.SetActive(false);
+        
+        feedbackText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -229,7 +235,38 @@ namespace UI.Crafting
         if (_selectedRecipe == null)
             return;
 
+        bool canAdd = _localManager.inventorySystem.CanAddItemGlobal(
+            _selectedRecipe.resultItemId,
+            _selectedRecipe.resultQuantity);
+
+        if (!canAdd)
+        {
+            ShowMessage("Inventory FULL");
+            return;
+        }
+
         _localManager.Input_Craft(_selectedRecipe.resultItemId);
     }
+    
+    // =========================================================
+    // FEEDBACK
+    // =========================================================
+    
+    public void ShowMessage(string message)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ShowMessageRoutine(message));
+    }
+
+    private IEnumerator ShowMessageRoutine(string message)
+    {
+        feedbackText.gameObject.SetActive(true);
+        feedbackText.text = message;
+
+        yield return new WaitForSeconds(2f);
+
+        feedbackText.gameObject.SetActive(false);
+    }
+
 }
 }
