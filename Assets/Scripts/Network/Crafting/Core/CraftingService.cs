@@ -19,31 +19,40 @@ namespace Network.Crafting
 
         public static bool Craft(NetworkInventorySystem inventory, CraftingRecipeSO recipe)
         {
-            if (!inventory.HasStateAuthority)
-                return false;
-
-            if (!CanCraft(inventory, recipe))
-                return false;
-
-            // Consume ingredients
-            foreach (var ingredient in recipe.ingredients)
-            {
-                bool removed = inventory.Server_ConsumeItemGlobal(
-                    ingredient.itemId,
-                    ingredient.quantity);
-
-                if (!removed)
+            
+                if (!inventory.HasStateAuthority)
                     return false;
-            }
 
-            // TEMPORAL
-            Debug.Log($"CRAFTED: {recipe.recipeName}");
+                if (!CanCraft(inventory, recipe))
+                    return false;
 
-            // TODO:
-            // spawn item
-            // add to inventory
+                bool canStore = inventory.CanAddItemGlobal(
+                    recipe.resultItemId,
+                    recipe.resultQuantity);
 
-            return true;
+                if (!canStore)
+                {
+                    Debug.Log("INVENTORY FULL");
+                    return false;
+                }
+
+                // Consume ingredients
+                foreach (var ingredient in recipe.ingredients)
+                {
+                    bool removed = inventory.Server_ConsumeItemGlobal(
+                        ingredient.itemId,
+                        ingredient.quantity);
+
+                    if (!removed)
+                        return false;
+                }
+
+                bool added = inventory.Server_AddItemGlobal(
+                    recipe.resultItemId,
+                    recipe.resultQuantity);
+
+                return added;
+            
         }
     }
 }
