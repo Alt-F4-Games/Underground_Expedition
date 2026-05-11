@@ -23,8 +23,6 @@ namespace Skills
         private ChangeDetector _changeDetector;
         private NetworkPlayerController _playerController;
         
-        // Cache: HashSet prevents applying damage multiple times to the same enemy 
-        // if they have multiple colliders overlapping the area.
         private readonly HashSet<NetworkHealthSystem> _hitTargets = new HashSet<NetworkHealthSystem>();
 
 #if UNITY_EDITOR
@@ -46,22 +44,43 @@ namespace Skills
         {
             if (SmashData == null || Object == null) return;
 
-            // 1. Pay the cost upfront: Start Cooldown immediately to prevent spam exploits
-            StartCooldown(runner);
+            // Start the ActiveEnd timer to act as a "Cast Time"
+            ActiveEnd = TickTimer.CreateFromSeconds(runner, SmashData.SelfStunDuration);
 
-            // 2. Immobilize the player during the smash
+            // Immobilize the player during the smash
             if (_playerController != null)
             {
                 _playerController.ApplyStun(SmashData.SelfStunDuration);
             }
+        }
 
-            // 3. Trigger visual feedback hook for all clients
+        // ============================================================
+        // 2. EXECUTION PHASE
+        // ============================================================
+
+        public override void FixedUpdateNetwork()
+        {
+            // Check if the charge timer just finished on this exact tick
+            if (ActiveEnd.Expired(Runner))
+            {
+                // Clear the timer to "None" to ensure the smash happens ONLY ONCE
+                ActiveEnd = TickTimer.None;
+                
+                PerformSmash();
+            }
+        }
+
+        private void PerformSmash()
+        {
+            // Start the Cooldown ONLY NOW, as the skill finished channeling
+            StartCooldown(Runner);
+
+            // Trigger visual feedback (VFX) for all clients
             SmashCount++;
 #if UNITY_EDITOR
             _lastGizmoTime = Time.time;
 #endif
 
-            // Setup Combat Math
             int damage = SmashData.GetTotalDamage(CurrentLevel);
             _hitTargets.Clear();
 
@@ -69,52 +88,37 @@ namespace Skills
             // DETECTION
             // ============================================================
             
-            // Calculate the actual floor position using the inspector's Vertical Offset
             Vector3 floorPos = transform.position + Vector3.up * SmashData.VerticalOffset;
-            
-            // Broad-phase: Box Center is half the height up from the floor
             Vector3 boxCenter = floorPos + Vector3.up * (SmashData.Height / 2f);
-            
-            // Broad-phase: We double the height of the box to be generous. 
-            // This prevents missing enemies that are slightly hovering or on slopes.
             Vector3 boxHalfExtents = new Vector3(SmashData.Radius, SmashData.Height, SmashData.Radius);
 
-            // Fetch ALL physical colliders in the broad area
             Collider[] hits = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, SmashData.EnemyLayer);
             
             int validHits = 0;
 
             foreach (var col in hits)
             {
-                // Catching exceptions ensures that if one enemy gets destroyed 
-                // mid-loop, it doesn't crash the execution for the remaining enemies.
                 try
                 {
-                    // Ultra-strict lifecycle validation (Did the object die a millisecond ago?)
                     if (col == null || !col || !col.gameObject.activeInHierarchy) continue;
-                    if (col.transform.root == transform.root) continue; // Ignore self
+                    if (col.transform.root == transform.root) continue; 
 
-                    // Narrow-phase: Find the closest physical point of the enemy relative to our floor center
                     Vector3 targetPoint = col.ClosestPoint(floorPos);
                     
-                    // 2D Distance Check (Ignore Y axis to create a perfect circle footprint)
                     float distanceXZ = Vector2.Distance(
                         new Vector2(floorPos.x, floorPos.z), 
                         new Vector2(targetPoint.x, targetPoint.z)
                     );
 
-                    // If the enemy's closest point intersects our circular radius...
                     if (distanceXZ <= SmashData.Radius)
                     {
                         var health = col.GetComponentInParent<NetworkHealthSystem>();
                         
-                        // Single-hit validation
                         if (health != null && !_hitTargets.Contains(health))
                         {
                             validHits++;
                             _hitTargets.Add(health);
                             
-                            // Only the Server applies authoritative damage
                             if (HasStateAuthority) 
                             {
                                 health.TakeDamage(damage);
@@ -122,11 +126,7 @@ namespace Skills
                         }
                     }
                 }
-                catch (MissingReferenceException)
-                {
-                    // Silently catch. This happens when an enemy is destroyed instantly by TakeDamage(),
-                    // and its secondary colliders try to process in the next loop iteration.
-                }
+                catch (MissingReferenceException) { }
                 catch (System.Exception e)
                 {
                     Debug.LogWarning($"[GroundSmash] Minor collision error ignored: {e.Message}");
@@ -134,6 +134,24 @@ namespace Skills
             }
 
             Debug.Log($"[GroundSmash] Broad-phase detected {hits.Length} colliders. Unique enemies damaged: {validHits}");
+        }
+
+        // ============================================================
+        // UI CONNECTION (Polymorphism)
+        // ============================================================
+        
+        /// <summary>
+        /// Informs the SkillSlotUI of the channeling progress (Active Overlay) from 0 to 1.
+        /// </summary>
+        public override float GetActiveProgress(NetworkRunner runner)
+        {
+            // If we are not charging/casting, the white bar is empty (0)
+            if (ActiveEnd.ExpiredOrNotRunning(runner)) return 0f;
+            
+            float remaining = ActiveEnd.RemainingTime(runner) ?? 0f;
+            
+            // Make the value scale from 0% to 100% as the time runs out
+            return 1f - (remaining / SmashData.SelfStunDuration);
         }
 
         // ============================================================
@@ -159,7 +177,7 @@ namespace Skills
         }
 
         // ============================================================
-        // EDITOR GIZMOS (Solid Cylinder Representation)
+        // EDITOR GIZMOS
         // ============================================================
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
@@ -172,21 +190,17 @@ namespace Skills
             float r = data.Radius;
             float h = data.Height;
 
-            // Flash red for 0.2 seconds when attacking, otherwise cyan
             bool isAttacking = (Time.time - _lastGizmoTime < 0.2f);
             Color mainColor = isAttacking ? Color.red : Color.cyan;
             
-            // 1. Draw Solid Discs for base and top
             Handles.color = new Color(mainColor.r, mainColor.g, mainColor.b, 0.15f);
             Handles.DrawSolidDisc(floorPos, Vector3.up, r);
             Handles.DrawSolidDisc(floorPos + Vector3.up * h, Vector3.up, r);
 
-            // 2. Draw Wire Contours
             Handles.color = mainColor;
             Handles.DrawWireDisc(floorPos, Vector3.up, r);
             Handles.DrawWireDisc(floorPos + Vector3.up * h, Vector3.up, r);
 
-            // 3. Draw connecting lines to form the cylinder
             Gizmos.color = mainColor;
             Gizmos.DrawLine(floorPos + Vector3.forward * r, floorPos + Vector3.up * h + Vector3.forward * r);
             Gizmos.DrawLine(floorPos + Vector3.back * r, floorPos + Vector3.up * h + Vector3.back * r);

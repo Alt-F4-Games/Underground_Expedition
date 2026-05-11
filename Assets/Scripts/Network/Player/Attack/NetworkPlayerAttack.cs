@@ -15,18 +15,17 @@ namespace Health
         [Header("References")]
         [SerializeField] private AttackAreaDetector _detector;
         
-        // Generic reference to the Skill Manager for loose coupling (Your code)
+        // reference to the Skill Manager for loose coupling
         private PlayerSkillManager _skillManager;
 
         private float _lastAttackTime;
-
-        // Integration with Stats System (from develop)
+        
         private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseAttack); }
         private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseAttack); }
 
         public override void Spawned()
         {
-            // Cache the Skill Manager located on the same Player Prefab (Your code)
+            // Cache the Skill Manager located on the same Player Prefab
             _skillManager = GetComponent<PlayerSkillManager>();
         }
 
@@ -56,8 +55,7 @@ namespace Health
             
             RPC_RequestAttack();
         }
-
-        // Feature from develop: Permanently increase base damage via events
+        
         private void IncreaseAttack(PlayerStatsEvent evt)
         {
             if (!HasStateAuthority) return;
@@ -86,18 +84,14 @@ namespace Health
 
             if (health)
             {
-                // 1. We start with the base damage (which might have been increased by events)
                 int finalDamage = _damage;
-
-                // 2. We apply skill modifiers polymorphically (Your architecture)
+                
                 if (_skillManager != null)
                 {
                     finalDamage = _skillManager.GetModifiedDamage(finalDamage);
                 }
 
                 Debug.Log($"[SERVER] Applying {finalDamage} damage to: {target.name}");
-
-                // 3. Apply the final damage passing the InputAuthority for attribution (from develop)
                 health.TakeDamage(finalDamage, Object.InputAuthority); 
             }
         }
