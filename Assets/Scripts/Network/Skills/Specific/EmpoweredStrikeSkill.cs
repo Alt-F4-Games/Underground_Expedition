@@ -73,6 +73,21 @@ namespace Skills
             
             return finalDamage;
         }
+        
+        // ============================================================
+        // UI POLYMORPHISM OVERRIDES
+        // ============================================================
+        
+        public override int GetCurrentCharges()
+        {
+            return RemainingStrikes;
+        }
+
+        public override int GetMaxCharges()
+        {
+            if (StrikeData == null) return 0;
+            return StrikeData.BaseCharges;
+        }
 
         // ============================================================
         // VISUAL HOOKS (VFX / SFX)

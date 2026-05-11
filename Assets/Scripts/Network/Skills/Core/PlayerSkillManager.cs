@@ -1,6 +1,7 @@
 using Fusion;
 using Network;
 using UnityEngine;
+using UI;
 
 namespace Skills.Core
 {
@@ -10,8 +11,23 @@ namespace Skills.Core
         [SerializeField] private NetworkSkill _slot1;
         [SerializeField] private NetworkSkill _slot2;
         
+        // PUBLIC PROPERTIES FOR UI
+        public NetworkSkill Slot1 => _slot1;
+        public NetworkSkill Slot2 => _slot2;
+
         [Networked] 
         private NetworkButtons _previousButtons { get; set; }
+
+        public override void Spawned()
+        {
+            base.Spawned();
+
+            // Hook for the UI to read the skills when the local player spawns
+            if (HasInputAuthority && PlayerSkillUIManager.Instance != null)
+            {
+                PlayerSkillUIManager.Instance.InitializeSkillBar(this);
+            }
+        }
 
         public override void FixedUpdateNetwork()
         {
