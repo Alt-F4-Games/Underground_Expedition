@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67151ef9fc4fe89459ca51aefd1dda33, type: 3}
-  m_Name: "Rub\xED"
+  m_Script: {fileID: 11500000, guid: d04e4a5ed36c4e839256f8338f44ade0, type: 3}
+  m_Name: SO_Stone_Sharpener_Recipe
   m_EditorClassIdentifier: 
-  itemName: 
-  icon: {fileID: 0}
-  itemType: 0
-  maxStack: 1
-  isTool: 0
-  isActiveTool: 0
-  hasDurability: 0
-  maxDurability: 0
-  description: 
+  recipeName: Stone Sharpener
+  resultItemId: 12
+  resultQuantity: 1
+  ingredients:
+  - itemId: 7
+    quantity: 7
+  - itemId: 1
+    quantity: 20

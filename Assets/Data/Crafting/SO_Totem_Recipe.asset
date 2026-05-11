@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d04e4a5ed36c4e839256f8338f44ade0, type: 3}
-  m_Name: Figura Tallada 2
+  m_Name: SO_Totem_Recipe
   m_EditorClassIdentifier: 
-  recipeName: Figura Tallada 2
-  resultItemId: 5
+  recipeName: Totem
+  resultItemId: 0
   resultQuantity: 1
-  ingredients: []
+  ingredients:
+  - itemId: 13
+    quantity: 1
+  - itemId: 14
+    quantity: 1
