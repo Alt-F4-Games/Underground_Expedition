@@ -246,6 +246,7 @@ namespace UI.Crafting
         }
 
         _localManager.Input_Craft(_selectedRecipe.resultItemId);
+        ShowMessage("Item Added To Your Bag!");
     }
     
     // =========================================================
