@@ -1,5 +1,6 @@
 using UnityEngine;
 using Skills.Core;
+using Local.Progression;
 
 namespace UI
 {
@@ -18,8 +19,10 @@ namespace UI
         // Called by PlayerSkillManager when the local player spawns
         public void InitializeSkillBar(PlayerSkillManager manager)
         {
-            _slot1UI.AssignSkill(manager.Slot1);
-            _slot2UI.AssignSkill(manager.Slot2);
+            var levelSystem = manager.GetComponent<NetworkLevelSystem>();
+            
+            _slot1UI.AssignSkill(manager.Slot1, levelSystem);
+            _slot2UI.AssignSkill(manager.Slot2, levelSystem);
         }
     }
 }

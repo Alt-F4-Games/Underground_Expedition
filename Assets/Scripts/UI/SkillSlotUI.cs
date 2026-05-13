@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Skills;
+using TMPro;
+using Local.Progression;
 
 namespace UI
 {
@@ -11,47 +13,54 @@ namespace UI
         [SerializeField] private Image _cooldownOverlay; // Dark, Counter-Clockwise
         [SerializeField] private Image _activeOverlay;   // Light, Clockwise
         
-        [Header("Charges Layout")]
-        [SerializeField] private Transform _chargesContainer; // Horizontal Layout Group
-        [SerializeField] private GameObject _chargePrefab;
+        [Header("Text & Indicators")]
+        [SerializeField] private TextMeshProUGUI _cooldownText; // Displays remaining time (Active or CD)
+        [SerializeField] private TextMeshProUGUI _chargesText;  // Displays numeric charges
+        [SerializeField] private GameObject _upgradeIndicator;  // The green '+' icon/button
 
         private NetworkSkill _trackedSkill;
-        private Image[] _chargeInstances;
-
-        // Initialize the slot with a specific skill from the player
-        public void AssignSkill(NetworkSkill skill)
+        private NetworkLevelSystem _levelSystem;
+        
+        public void AssignSkill(NetworkSkill skill, NetworkLevelSystem levelSystem)
         {
             _trackedSkill = skill;
+            _levelSystem = levelSystem;
             
             if (_trackedSkill != null && _trackedSkill.Data != null)
             {
                 _iconImage.sprite = _trackedSkill.Data.Icon;
                 _iconImage.enabled = true;
-                SetupCharges();
             }
             else
             {
                 _iconImage.enabled = false;
                 _cooldownOverlay.fillAmount = 0;
                 _activeOverlay.fillAmount = 0;
+                
+                if (_cooldownText) _cooldownText.text = "";
+                if (_chargesText) _chargesText.text = "";
+            }
+            
+            if (_levelSystem != null)
+            {
+                _levelSystem.OnSkillPointsChanged += HandleSkillPointsChanged;
+                HandleSkillPointsChanged(_levelSystem.GetSkillPoints()); 
             }
         }
 
-        private void SetupCharges()
+        private void OnDestroy()
         {
-            // Clear previous charges
-            foreach (Transform child in _chargesContainer) Destroy(child.gameObject);
-
-            int maxCharges = _trackedSkill.GetMaxCharges();
-            
-            if (maxCharges > 0)
+            if (_levelSystem != null)
             {
-                _chargeInstances = new Image[maxCharges];
-                for (int i = 0; i < maxCharges; i++)
-                {
-                    GameObject chargeObj = Instantiate(_chargePrefab, _chargesContainer);
-                    _chargeInstances[i] = chargeObj.GetComponent<Image>();
-                }
+                _levelSystem.OnSkillPointsChanged -= HandleSkillPointsChanged;
+            }
+        }
+
+        private void HandleSkillPointsChanged(int points)
+        {
+            if (_upgradeIndicator != null)
+            {
+                _upgradeIndicator.SetActive(points > 0);
             }
         }
 
@@ -62,15 +71,15 @@ namespace UI
             UpdateCooldownUI();
             UpdateActiveUI();
             UpdateChargesUI();
+            UpdateTimeTextUI();
         }
 
         private void UpdateCooldownUI()
         {
             if (_trackedSkill.CooldownEnd.IsRunning)
             {
-                // Calculate percentage (0 to 1)
                 float totalCooldown = _trackedSkill.Data.GetCooldown(_trackedSkill.CurrentLevel);
-                float remaining = _trackedSkill.CooldownEnd.RemainingTime(_trackedSkill.Runner).Value;
+                float remaining = _trackedSkill.CooldownEnd.RemainingTime(_trackedSkill.Runner) ?? 0f;
                 _cooldownOverlay.fillAmount = remaining / totalCooldown;
             }
             else
@@ -84,20 +93,49 @@ namespace UI
             // Reads the generic progress method (can be time-based or charge-based depending on the skill override)
             _activeOverlay.fillAmount = _trackedSkill.GetActiveProgress(_trackedSkill.Runner);
         }
+        
+        private void UpdateTimeTextUI()
+        {
+            if (_cooldownText == null) return;
+
+            // Check Active/Channeling/Casting time first
+            if (_trackedSkill.ActiveEnd.IsRunning)
+            {
+                float remaining = _trackedSkill.ActiveEnd.RemainingTime(_trackedSkill.Runner) ?? 0f;
+                if (remaining > 0.05f) // Hide if practically 0
+                {
+                    _cooldownText.text = remaining.ToString("F1");
+                    return;
+                }
+            }
+
+            // If not active, check for Cooldown time
+            if (_trackedSkill.CooldownEnd.IsRunning)
+            {
+                float remaining = _trackedSkill.CooldownEnd.RemainingTime(_trackedSkill.Runner) ?? 0f;
+                if (remaining > 0.05f)
+                {
+                    _cooldownText.text = remaining.ToString("F1");
+                    return;
+                }
+            }
+
+            // Hide text if no timer is running or they reached zero
+            _cooldownText.text = "";
+        }
 
         private void UpdateChargesUI()
         {
             int currentCharges = _trackedSkill.GetCurrentCharges();
             
-            if (currentCharges < 0 || _chargeInstances == null) return; // Skill doesn't use charges
-
-            for (int i = 0; i < _chargeInstances.Length; i++)
+            if (currentCharges <= 0) 
             {
-                // Light up the square if we have the charge, darken it if consumed
-                Color c = _chargeInstances[i].color;
-                c.a = (i < currentCharges) ? 1f : 0.2f; 
-                _chargeInstances[i].color = c;
+                if (_chargesText) _chargesText.text = "";
+                return; 
             }
+
+            if (_chargesText) 
+                _chargesText.text = currentCharges.ToString();
         }
     }
 }
