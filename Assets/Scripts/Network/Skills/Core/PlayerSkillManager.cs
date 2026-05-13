@@ -34,9 +34,13 @@ namespace Skills.Core
             base.Spawned();
 
             // Hook for the UI to read the skills when the local player spawns
-            if (HasInputAuthority && PlayerSkillUIManager.Instance != null)
+            if (HasInputAuthority)
             {
-                PlayerSkillUIManager.Instance.InitializeSkillBar(this);
+                if (PlayerSkillUIManager.Instance != null)
+                    PlayerSkillUIManager.Instance.InitializeSkillBar(this);
+                
+                if (InventorySkillPanelUI.Instance != null)
+                    InventorySkillPanelUI.Instance.InitializeInventorySkills(this);
             }
         }
 
