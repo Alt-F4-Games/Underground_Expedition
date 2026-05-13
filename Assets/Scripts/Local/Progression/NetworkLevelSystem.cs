@@ -2,6 +2,7 @@ using System;
 using Fusion;
 using Player;
 using UnityEngine;
+using Events;
 
 namespace Local.Progression
 {
@@ -26,6 +27,18 @@ namespace Local.Progression
             }
         }
 
+        // Subscribe to the upgrade request event
+        private void OnEnable()
+        {
+            EventController.Instance.AddListener<SkillUpgradeRequestedEvent>(OnSkillUpgradeRequested);
+        }
+
+        // Unsubscribe from the upgrade request event
+        private void OnDisable()
+        {
+            EventController.Instance.RemoveListener<SkillUpgradeRequestedEvent>(OnSkillUpgradeRequested);
+        }
+
         private void HandleLevelUp(int newLevel)
         {
             
@@ -37,6 +50,31 @@ namespace Local.Progression
             {
                 SkillPoints++;
                 Debug.Log("Skill points: " + SkillPoints);
+            }
+        }
+        
+        private void OnSkillUpgradeRequested(SkillUpgradeRequestedEvent evt)
+        {
+            if (!Object.HasStateAuthority) return;
+
+            // Check if the event belongs to this specific player
+            if (evt.Player == Object)
+            {
+                if (SkillPoints > 0)
+                {
+                    SkillPoints--;
+                    
+                    // Trigger the confirmation event
+                    EventController.Instance.TriggerEvent(new SkillPointConsumedEvent 
+                    { 
+                        Player = Object, 
+                        SlotIndex = evt.SlotIndex 
+                    });
+                }
+                else
+                {
+                    Debug.Log("[SERVER] Upgrade denied: Not enough Skill Points.");
+                }
             }
         }
 

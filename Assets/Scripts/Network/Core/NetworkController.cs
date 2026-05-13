@@ -39,6 +39,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private bool _skill1Pressed;
     private bool _skill2Pressed;
     private bool _attackPressed;
+    
+    private bool _upgradeModifierPressed;
 
     private float _accumulatedYaw;
     private float _accumulatedPitch;
@@ -106,6 +108,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSkill1(InputAction.CallbackContext context) => _skill1Pressed = context.ReadValueAsButton();
     public void OnSkill2(InputAction.CallbackContext context) => _skill2Pressed = context.ReadValueAsButton();
     public void OnAttack(InputAction.CallbackContext context) => _attackPressed = context.ReadValueAsButton();
+    public void OnUpgradeModifier(InputAction.CallbackContext context) => _upgradeModifierPressed = context.ReadValueAsButton();
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
@@ -118,6 +121,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         data.Buttons.Set(NetworkInputPlayer.SKILL1_BUTTON, _skill1Pressed);
         data.Buttons.Set(NetworkInputPlayer.SKILL2_BUTTON, _skill2Pressed);
         data.Buttons.Set(NetworkInputPlayer.ATTACK_BUTTON, _attackPressed);
+        data.Buttons.Set(NetworkInputPlayer.UPGRADE_MODIFIER, _upgradeModifierPressed);
         
         if (InputManager.Mode != InputMode.Game)
         {

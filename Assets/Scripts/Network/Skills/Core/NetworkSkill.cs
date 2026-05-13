@@ -21,7 +21,7 @@ namespace Skills
         {
             base.Spawned();
             
-            // Temporary bypass for testing: Force level 1 since the progression system is not yet implemented.
+            // Skills start unlocked at level 1 by default.
             if (HasStateAuthority && CurrentLevel == 0)
             {
                 CurrentLevel = 1;

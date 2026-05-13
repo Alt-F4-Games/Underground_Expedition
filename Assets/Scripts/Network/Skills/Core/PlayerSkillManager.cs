@@ -2,6 +2,7 @@ using Fusion;
 using Network;
 using UnityEngine;
 using UI;
+using Events;
 
 namespace Skills.Core
 {
@@ -17,6 +18,16 @@ namespace Skills.Core
 
         [Networked] 
         private NetworkButtons _previousButtons { get; set; }
+        
+        private void OnEnable()
+        {
+            EventController.Instance.AddListener<SkillPointConsumedEvent>(OnSkillPointConsumed);
+        }
+        
+        private void OnDisable()
+        {
+            EventController.Instance.RemoveListener<SkillPointConsumedEvent>(OnSkillPointConsumed);
+        }
 
         public override void Spawned()
         {
@@ -36,9 +47,13 @@ namespace Skills.Core
                 NetworkButtons pressedButtons = input.Buttons.GetPressed(_previousButtons);
                 _previousButtons = input.Buttons;
                 
+                bool isUpgradeModifierHeld = input.Buttons.IsSet(NetworkInputPlayer.UPGRADE_MODIFIER);
+                
                 if (pressedButtons.IsSet(NetworkInputPlayer.SKILL1_BUTTON))
                 {
-                    if (_slot1 != null && _slot1.CanCast(Runner))
+                    if (isUpgradeModifierHeld)
+                        RPC_RequestUpgradeSkill(1);
+                    else if (_slot1 != null && _slot1.CanCast(Runner))
                     {
                         _slot1.OnExecute(Runner);
                     }
@@ -46,10 +61,43 @@ namespace Skills.Core
                 
                 if (pressedButtons.IsSet(NetworkInputPlayer.SKILL2_BUTTON))
                 {
-                    if (_slot2 != null && _slot2.CanCast(Runner))
+                    if (isUpgradeModifierHeld)
+                        RPC_RequestUpgradeSkill(2);
+                    else if (_slot2 != null && _slot2.CanCast(Runner))
                     {
                         _slot2.OnExecute(Runner);
                     }
+                }
+            }
+        }
+        
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_RequestUpgradeSkill(int slotIndex)
+        {
+            if (!HasStateAuthority) return;
+
+            EventController.Instance.TriggerEvent(new SkillUpgradeRequestedEvent 
+            { 
+                Player = Object, 
+                SlotIndex = slotIndex 
+            });
+        }
+        
+        private void OnSkillPointConsumed(SkillPointConsumedEvent evt)
+        {
+            if (!HasStateAuthority) return;
+
+            if (evt.Player == Object)
+            {
+                if (evt.SlotIndex == 1 && _slot1 != null)
+                {
+                    _slot1.UpgradeSkill();
+                    Debug.Log($"[SERVER] Slot 1 upgraded to Level {_slot1.CurrentLevel}");
+                }
+                else if (evt.SlotIndex == 2 && _slot2 != null)
+                {
+                    _slot2.UpgradeSkill();
+                    Debug.Log($"[SERVER] Slot 2 upgraded to Level {_slot2.CurrentLevel}");
                 }
             }
         }

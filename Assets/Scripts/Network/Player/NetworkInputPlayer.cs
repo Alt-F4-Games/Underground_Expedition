@@ -12,6 +12,7 @@ namespace Network
         public const byte SKILL1_BUTTON = 4;
         public const byte SKILL2_BUTTON = 5;
         public const byte ATTACK_BUTTON = 6;
+        public const byte UPGRADE_MODIFIER = 7; 
         
         public NetworkButtons Buttons;
         public Vector3 MoveDirection;
