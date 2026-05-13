@@ -121,7 +121,7 @@ namespace Skills
                             
                             if (HasStateAuthority) 
                             {
-                                health.TakeDamage(damage);
+                                health.TakeDamage(damage, Object.InputAuthority);
                             }
                         }
                     }
