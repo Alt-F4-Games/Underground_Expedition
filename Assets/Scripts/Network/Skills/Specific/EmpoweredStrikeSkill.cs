@@ -23,6 +23,13 @@ namespace Skills
             base.Spawned();
             _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
         }
+        
+        public override bool CanCast(NetworkRunner runner)
+        {
+            if (RemainingStrikes > 0) return false;
+            
+            return base.CanCast(runner);
+        }
 
         // ============================================================
         // EXECUTION LOGIC (PREDICTED CLIENT / SERVER)
@@ -35,8 +42,6 @@ namespace Skills
             // Grant charges defined in the ScriptableObject
             RemainingStrikes = StrikeData.BaseCharges;
             
-            // Start the base cooldown (inherited from NetworkSkill)
-            StartCooldown(runner);
         }
 
         // ============================================================
@@ -62,6 +67,11 @@ namespace Skills
             if (HasStateAuthority || HasInputAuthority)
             {
                 RemainingStrikes--;
+                
+                if (RemainingStrikes <= 0)
+                {
+                    StartCooldown(Runner);
+                }
             }
 
             // Extra damage calculation
