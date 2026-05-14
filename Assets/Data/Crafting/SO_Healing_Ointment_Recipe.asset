@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: SO_Healing_Ointment_Recipe
   m_EditorClassIdentifier: 
   recipeName: Healing Ointment
-  resultItemId: 10
+  recipeId: craft_healing_ointment
+  resultItemId: obj_healing_ointment
   resultQuantity: 1
   ingredients:
-  - itemId: 2
+  - itemId: obj_leaf
     quantity: 2
-  - itemId: 9
+  - itemId: obj_bone_dust
     quantity: 5
-  - itemId: 8
+  - itemId: obj_sap
     quantity: 1
