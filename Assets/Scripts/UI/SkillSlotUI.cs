@@ -60,10 +60,8 @@ namespace UI
 
         private void HandleSkillPointsChanged(int points)
         {
-            if (_upgradeIndicator != null)
-            {
-                _upgradeIndicator.SetActive(points > 0);
-            }
+            // We now let UpdateUpgradeIndicatorUI handle the actual visibility
+            // to ensure it checks both points and max level state dynamically.
         }
 
         private void Update()
@@ -75,11 +73,23 @@ namespace UI
             UpdateChargesUI();
             UpdateTimeTextUI();
             UpdateLevelUI();
+            UpdateUpgradeIndicatorUI(); // ADDED: Handle visibility dynamically
         }
 
         // ============================================================
         // UI UPDATES
         // ============================================================
+
+        // Handles visibility of the '+' based on points AND max level
+        private void UpdateUpgradeIndicatorUI()
+        {
+            if (_upgradeIndicator == null) return;
+            
+            bool hasPoints = _levelSystem != null && _levelSystem.GetSkillPoints() > 0;
+            bool isMaxLevel = _trackedSkill.Data != null && _trackedSkill.CurrentLevel >= _trackedSkill.Data.MaxLevel;
+
+            _upgradeIndicator.SetActive(hasPoints && !isMaxLevel);
+        }
 
         private void UpdateLevelUI()
         {
@@ -87,7 +97,9 @@ namespace UI
 
             if (_trackedSkill.CurrentLevel > 0)
             {
-                _levelText.text = $"Lv. {_trackedSkill.CurrentLevel}";
+                // Show "MAX" if it hit the cap
+                bool isMaxLevel = _trackedSkill.Data != null && _trackedSkill.CurrentLevel >= _trackedSkill.Data.MaxLevel;
+                _levelText.text = isMaxLevel ? "Lv. MAX" : $"Lv. {_trackedSkill.CurrentLevel}";
             }
             else
             {

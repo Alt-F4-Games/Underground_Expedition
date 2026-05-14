@@ -80,6 +80,17 @@ namespace Skills.Core
         {
             if (!HasStateAuthority) return;
 
+            // Validation to prevent consuming points if the skill is already maxed
+            NetworkSkill targetSkill = (slotIndex == 1) ? _slot1 : _slot2;
+            if (targetSkill != null && targetSkill.Data != null)
+            {
+                if (targetSkill.CurrentLevel >= targetSkill.Data.MaxLevel)
+                {
+                    Debug.Log($"[SERVER] Upgrade denied: Slot {slotIndex} is already at Max Level.");
+                    return;
+                }
+            }
+
             EventController.Instance.TriggerEvent(new SkillUpgradeRequestedEvent 
             { 
                 Player = Object, 

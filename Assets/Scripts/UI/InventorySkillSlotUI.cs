@@ -54,8 +54,11 @@ namespace UI
         {
             if (_upgradeButton != null)
             {
-                // Only show the upgrade button if the player has points to spend
-                _upgradeButton.gameObject.SetActive(points > 0);
+                // Check max level condition
+                bool isMaxLevel = _trackedSkill != null && _trackedSkill.Data != null && _trackedSkill.CurrentLevel >= _trackedSkill.Data.MaxLevel;
+                
+                // Only show the upgrade button if the player has points to spend AND is not max level
+                _upgradeButton.gameObject.SetActive(points > 0 && !isMaxLevel);
             }
         }
 
@@ -73,7 +76,12 @@ namespace UI
             if (_trackedSkill == null || _trackedSkill.Data == null) return;
 
             _iconImage.sprite = _trackedSkill.Data.Icon;
-            _nameAndLevelText.text = $"{_trackedSkill.Data.SkillName} - Lvl {_trackedSkill.CurrentLevel}";
+            
+            // Display "MAX" instead of the number if capped
+            bool isMaxLevel = _trackedSkill.CurrentLevel >= _trackedSkill.Data.MaxLevel;
+            string levelString = isMaxLevel ? "MAX" : _trackedSkill.CurrentLevel.ToString();
+            
+            _nameAndLevelText.text = $"{_trackedSkill.Data.SkillName} - Lvl {levelString}";
             _descriptionText.text = _trackedSkill.Data.Description;
 
             // Dynamic stat display based on specific SkillData types
@@ -100,7 +108,6 @@ namespace UI
         {
             if (_skillManager != null)
             {
-                // Reuse the RPC from Step [4] to perform the upgrade via UI
                 _skillManager.RPC_RequestUpgradeSkill(_slotIndex);
             }
         }

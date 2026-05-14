@@ -50,7 +50,12 @@ namespace Skills
         public virtual void UpgradeSkill()
         {
             if (!HasStateAuthority) return;
-            CurrentLevel++;
+
+            // Server-side validation against MaxLevel
+            if (_skillData != null && CurrentLevel < _skillData.MaxLevel)
+            {
+                CurrentLevel++;
+            }
         }
         
         public virtual int ModifyAttackDamage(int baseDamage)

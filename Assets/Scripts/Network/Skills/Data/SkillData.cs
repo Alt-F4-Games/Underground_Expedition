@@ -8,6 +8,9 @@ namespace Skills
         public string SkillName;
         [TextArea] public string Description;
         public Sprite Icon;
+        
+        [Header("Progression Settings")]
+        public int MaxLevel = 5;
 
         [Header("Cooldown Settings")]
         public float BaseCooldown;
