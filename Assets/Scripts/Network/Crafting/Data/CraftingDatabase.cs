@@ -11,7 +11,7 @@ namespace Network.Crafting
         [SerializeField]
         private List<CraftingRecipeSO> recipes = new();
 
-        private Dictionary<int, CraftingRecipeSO> _lookup = new();
+        private Dictionary<string, CraftingRecipeSO> _lookup = new();
 
         public void Initialize()
         {
@@ -21,16 +21,20 @@ namespace Network.Crafting
 
             foreach (var recipe in recipes)
             {
-                _lookup.TryAdd(recipe.resultItemId, recipe);
+                if (!_lookup.ContainsKey(recipe.resultItemId))
+                {
+                    _lookup.Add(recipe.resultItemId, recipe);
+                }
             }
         }
+
 
         public List<CraftingRecipeSO> GetAllRecipes()
         {
             return recipes;
         }
 
-        public CraftingRecipeSO GetRecipeByResult(int itemId)
+        public CraftingRecipeSO GetRecipeByResult(string itemId)
         {
             return _lookup.GetValueOrDefault(itemId);
         }
