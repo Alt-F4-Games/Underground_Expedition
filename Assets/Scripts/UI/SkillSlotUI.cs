@@ -16,7 +16,8 @@ namespace UI
         [Header("Text & Indicators")]
         [SerializeField] private TextMeshProUGUI _cooldownText; // Displays remaining time (Active or CD)
         [SerializeField] private TextMeshProUGUI _chargesText;  // Displays numeric charges
-        [SerializeField] private GameObject _upgradeIndicator;  // The green '+' icon/button
+        [SerializeField] private TextMeshProUGUI _levelText;    // Displays current skill level
+        [SerializeField] private GameObject _upgradeIndicator;  // '+' icon/button
 
         private NetworkSkill _trackedSkill;
         private NetworkLevelSystem _levelSystem;
@@ -39,6 +40,7 @@ namespace UI
                 
                 if (_cooldownText) _cooldownText.text = "";
                 if (_chargesText) _chargesText.text = "";
+                if (_levelText) _levelText.text = "";
             }
             
             if (_levelSystem != null)
@@ -72,6 +74,25 @@ namespace UI
             UpdateActiveUI();
             UpdateChargesUI();
             UpdateTimeTextUI();
+            UpdateLevelUI();
+        }
+
+        // ============================================================
+        // UI UPDATES
+        // ============================================================
+
+        private void UpdateLevelUI()
+        {
+            if (_levelText == null) return;
+
+            if (_trackedSkill.CurrentLevel > 0)
+            {
+                _levelText.text = $"Lv. {_trackedSkill.CurrentLevel}";
+            }
+            else
+            {
+                _levelText.text = "";
+            }
         }
 
         private void UpdateCooldownUI()
