@@ -38,6 +38,12 @@ namespace Events{
         public string resultItemId;
         public int quantity;
     }
+
+    public class NpcInteractionEvent : GameEvent
+    {
+        public PlayerRef player;
+        public string npcId;
+    }
     
     public class QuestAcceptedEvent : GameEvent
     {
