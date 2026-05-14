@@ -9,6 +9,7 @@ namespace Events{
     {
         public PlayerRef killer;
         public int exp;
+        public string enemyId;
     }
 
     public class PlayerDiedEvent : GameEvent
@@ -21,6 +22,21 @@ namespace Events{
         public int MaxHealth;
         public float MaxStamina;
         public int PlayerDamage;
+    }
+    
+    public class ItemCollectedEvent : GameEvent
+    {
+        public PlayerRef player;
+        public string itemId;
+        public int quantity;
+    }
+    
+    public class ItemCraftedEvent : GameEvent
+    {
+        public PlayerRef player;
+        public string recipeId;
+        public string resultItemId;
+        public int quantity;
     }
     
     public class QuestAcceptedEvent : GameEvent

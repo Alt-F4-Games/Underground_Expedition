@@ -33,8 +33,8 @@ namespace Network.Quests.Definitions
         public string description;
 
         [Header("Target")]
-        public int targetId;
-
+        public string targetId;
+        
         [Header("Amount")]
         public int requiredAmount = 1;
     }
