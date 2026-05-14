@@ -1,6 +1,7 @@
 using System;
 using Fusion;
 using Network.Crafting;
+using Network.Inventory;
 using UnityEngine;
 
 /// <summary>
@@ -182,7 +183,7 @@ public class NetworkInventoryManager : NetworkBehaviour
         RPC_DropItem(type, index);
     }
     
-    public void Input_Craft(int resultItemId)
+    public void Input_Craft(string resultItemId)
     {
         if (!HasInputAuthority)
             return;
@@ -224,7 +225,7 @@ public class NetworkInventoryManager : NetworkBehaviour
     }
     
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_RequestCraft(int resultItemId)
+    private void RPC_RequestCraft(string resultItemId)
     {
         var recipe = CraftingDatabase.Instance.GetRecipeByResult(resultItemId);
 

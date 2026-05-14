@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine;
 using System;
+using Network.Inventory;
 
 /// <summary>
 /// NETWORKED INVENTORY SYSTEM (Fusion)

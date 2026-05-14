@@ -1,3 +1,4 @@
+using Network.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

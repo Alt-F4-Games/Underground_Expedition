@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine;
 using System.Collections;
+using Network.Inventory;
 
 /// <summary>
 /// Represents a physical item in the world.
