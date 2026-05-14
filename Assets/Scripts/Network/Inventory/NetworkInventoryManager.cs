@@ -145,7 +145,7 @@ public class NetworkInventoryManager : NetworkBehaviour
 
         ClearHandModel();
 
-        var prefab = ItemDatabase.Instance.GetEquipPrefab(slot.ItemId);
+        var prefab = ItemDatabase.Instance.GetEquipPrefabByNetworkId(slot.ItemId);
         if (prefab != null)
         {
             _currentHandModel = Instantiate(prefab, handTransform);

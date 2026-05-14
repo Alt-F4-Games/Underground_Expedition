@@ -171,7 +171,7 @@ namespace UI.Crafting
         if (_selectedRecipe == null)
             return;
 
-        var item = ItemDatabase.Instance.GetItemById(
+        var item = ItemDatabase.Instance.GetItemByNetworkId(
             _selectedRecipe.resultItemId);
 
         resultIcon.sprite = item.icon;

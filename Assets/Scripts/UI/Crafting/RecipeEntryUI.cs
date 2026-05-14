@@ -21,7 +21,7 @@ namespace UI.Crafting
             _recipe = recipe;
             _controller = controller;
 
-            var item = ItemDatabase.Instance.GetItemById(recipe.resultItemId);
+            var item = ItemDatabase.Instance.GetItemByNetworkId(recipe.resultItemId);
 
             icon.sprite = item.icon;
             recipeName.text = item.itemName;

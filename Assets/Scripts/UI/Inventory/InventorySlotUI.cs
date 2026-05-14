@@ -130,7 +130,7 @@ public class InventorySlotUI : MonoBehaviour,
 
     private void ApplyItemVisuals(int itemId, int quantity)
     {
-        var itemSo = ItemDatabase.Instance.GetItemById(itemId);
+        var itemSo = ItemDatabase.Instance.GetItemByNetworkId(itemId);
         if (!itemSo) { Clear(); return; }
 
         if (iconImage)

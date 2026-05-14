@@ -70,7 +70,7 @@ public class NetworkWorldItem : NetworkBehaviour
             return;
         }
 
-        var prefab = ItemDatabase.Instance.GetEquipPrefab(ItemId);
+        var prefab = ItemDatabase.Instance.GetEquipPrefabByNetworkId(ItemId);
 
         if (prefab != null)
             Instantiate(prefab, visualContainer);

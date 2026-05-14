@@ -11,7 +11,7 @@ namespace UI.Crafting
 
         public void Setup(int itemId, int required, int owned)
         {
-            var item = ItemDatabase.Instance.GetItemById(itemId);
+            var item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
 
             if (item == null)
                 return;

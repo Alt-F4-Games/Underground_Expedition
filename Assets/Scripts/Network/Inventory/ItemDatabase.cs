@@ -15,7 +15,13 @@ public class ItemDatabase : ScriptableObject
     [System.Serializable]
     public struct Entry
     {
-        public int id;                 // Stable ID used in networking and saves
+        [Header("Network")]
+        public int networkId;                 // Stable ID used in networking and saves
+        
+        [Header("Gameplay")]
+        public string gameplayId;
+        
+        [Header("Data")]
         public ItemSO item;            // Reference to the ScriptableObject defining the item
         public GameObject equipPrefab; // Visual model used in the player's hand
     }
@@ -26,7 +32,8 @@ public class ItemDatabase : ScriptableObject
     [SerializeField] 
     private List<Entry> entries = new();
 
-    private Dictionary<int, Entry> _lookup = new();
+    private Dictionary<int, Entry> _networkLookup = new();
+    private Dictionary<string, Entry> _gameplayLookup = new();
 
     // ------------------------------------------------------------
     //  INITIALIZATION
@@ -35,14 +42,22 @@ public class ItemDatabase : ScriptableObject
     {
         Instance = this;
 
-        _lookup.Clear();
+        _networkLookup.Clear();
+        _gameplayLookup.Clear();
 
         foreach (var entry in entries)
         {
-            if (_lookup.ContainsKey(entry.id))
-                continue;
+            // Network lookup
+            if (!_networkLookup.ContainsKey(entry.networkId))
+            {
+                _networkLookup.Add(entry.networkId, entry);
+            }
 
-            _lookup.Add(entry.id, entry);
+            // Gameplay lookup
+            if (!_gameplayLookup.ContainsKey(entry.gameplayId))
+            {
+                _gameplayLookup.Add(entry.gameplayId, entry);
+            }
         }
 
         Debug.Log($"[ItemDatabase] Initialized with {entries.Count} items.");
@@ -62,21 +77,46 @@ public class ItemDatabase : ScriptableObject
             Debug.LogWarning("[ItemDatabase] No ItemDatabase found in Resources!");
     }
 
-    // ------------------------------------------------------------
-    //  PUBLIC API — LOOKUP
-    // ------------------------------------------------------------
+    // =========================================================
+    // NETWORK LOOKUP
+    // =========================================================
     
-    public ItemSO GetItemById(int id)   // Returns the ItemSO associated with the given ID. Returns null if the ID does not exist.
+    public ItemSO GetItemByNetworkId(int networkId)   // Returns the ItemSO associated with the given ID. Returns null if the ID does not exist.
     {
-        return _lookup.TryGetValue(id, out var entry) 
+        return _networkLookup.TryGetValue(networkId, out var entry) 
             ? entry.item 
             : null;
     }
 
-    public GameObject GetEquipPrefab(int id)    // Returns the prefab used for equipping this item (hand visual).
+    public GameObject GetEquipPrefabByNetworkId(int networkId)    // Returns the prefab used for equipping this item (hand visual).
     {
-        return _lookup.TryGetValue(id, out var entry) 
+        return _networkLookup.TryGetValue(networkId, out var entry) 
             ? entry.equipPrefab 
             : null;
+    }
+    
+    public string GetGameplayId(int networkId)
+    {
+        return _networkLookup.TryGetValue(networkId, out var entry)
+            ? entry.gameplayId
+            : string.Empty;
+    }
+    
+    // =========================================================
+    // GAMEPLAY LOOKUP
+    // =========================================================
+
+    public ItemSO GetItemByGameplayId(string gameplayId)
+    {
+        return _gameplayLookup.TryGetValue(gameplayId, out var entry)
+            ? entry.item
+            : null;
+    }
+
+    public int GetNetworkId(string gameplayId)
+    {
+        return _gameplayLookup.TryGetValue(gameplayId, out var entry)
+            ? entry.networkId
+            : -1;
     }
 }
