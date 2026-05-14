@@ -11,9 +11,6 @@ namespace Network.Enemies
         [Header("Identity")]
         public string enemyId;
 
-        [Header("Prefab")]
-        public GameObject prefab;
-
         [Header("UI")]
         public Sprite icon;
         
