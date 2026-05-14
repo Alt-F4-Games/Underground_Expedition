@@ -23,6 +23,31 @@ namespace Events{
         public int PlayerDamage;
     }
     
+    public class QuestAcceptedEvent : GameEvent
+    {
+        public string questId;
+    }
+    
+    public class QuestCompletedEvent : GameEvent
+    {
+        public string questId;
+    }
+    
+    public class ObjectiveCompletedEvent : GameEvent
+    {
+        public string questId;
+        public int stepIndex;
+    }
+    
+    public class RewardClaimedEvent : GameEvent
+    {
+        public string questId;
+    }
+    
+    public class QuestCancelledEvent : GameEvent
+    {
+        public string questId;
+    }
 }
 
 
