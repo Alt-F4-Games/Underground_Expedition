@@ -1,5 +1,6 @@
 using Fusion;
 using Network.Enemies;
+using Network.Inventory;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,7 +30,7 @@ namespace Network.Spawn
     
         [Header("Pickup")]
         [SerializeField] private int _pickupsAmount;
-        [SerializeField] private int pickupId;
+        [SerializeField] private string pickupId;
         [SerializeField] private int _amount;
     
 
@@ -104,7 +105,9 @@ namespace Network.Spawn
                                                                                                   
                         if (obj.TryGetComponent(out NetworkWorldItem item))
                         {
-                            item.Init(pickupId, _amount);
+                            int networkId = ItemDatabase.Instance.GetNetworkId(pickupId);
+
+                            item.Init(networkId, _amount);
                         }
                     }
                     break;
