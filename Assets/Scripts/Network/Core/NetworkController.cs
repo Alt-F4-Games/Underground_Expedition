@@ -30,7 +30,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Mouse Settings")]
     [SerializeField] private float _mouseSensitivity = 0.15f;
     [SerializeField] private float _maxLookAngle = 80f;
-
+    
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private bool _sprintPressed;
@@ -39,7 +39,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private bool _skill1Pressed;
     private bool _skill2Pressed;
     private bool _attackPressed;
-    
     private bool _upgradeModifierPressed;
 
     private float _accumulatedYaw;
@@ -93,7 +92,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnMove(InputAction.CallbackContext context) => _moveInput = context.ReadValue<Vector2>(); 
     public void OnJump(InputAction.CallbackContext context) => _jumpPressed = context.ReadValue<float>() > 0;
     public void OnSprint(InputAction.CallbackContext context) => _sprintPressed = context.ReadValue<float>() > 0;
-    
     public void OnInteract(InputAction.CallbackContext context) => _interactPressed = context.ReadValueAsButton();
 
     public void OnLook(InputAction.CallbackContext context) 
