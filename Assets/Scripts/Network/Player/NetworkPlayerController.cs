@@ -35,6 +35,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
+    public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
 
@@ -66,6 +67,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             if (_cameraPivot != null) _cameraPivot.gameObject.SetActive(false);
             return;
         }
+        
+        Local = this;
 
         if (HasStateAuthority)
         {
@@ -128,6 +131,9 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public override void FixedUpdateNetwork()
     {
+        if (!UI.InputManager.IsGameMode())
+            return;
+        
         if (_health != null && !_health.IsAlive) return;
         if (!GetInput(out NetworkInputPlayer input)) return;
 
