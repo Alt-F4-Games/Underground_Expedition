@@ -43,12 +43,17 @@ namespace Local.Progression
             EventController.Instance.RemoveListener<PlayerDiedEvent>(OnPlayerDead);
         }
 
+        // ==================================================
+        // SERVER LOGIC (Eventos escuchados en el Servidor)
+        // ==================================================
 
         private void OnEnemyDied(EnemyDiedEvent evt)
         {
-            if (Object.Runner.LocalPlayer == evt.killer)
+            if (!HasStateAuthority) return;
+            
+            if (Object.InputAuthority == evt.killer)
             {
-                RPC_RequestAddXP(evt.exp);
+                Server_AddXP(evt.exp);
             }
             
         }
@@ -57,27 +62,9 @@ namespace Local.Progression
         {
             if (!HasStateAuthority) return;
             
-            RPC_RequestResetXP(evt.IsAlive);
-        }
-        
-        // ==================================================
-        // CLIENT -> SERVER
-        // ==================================================
-        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-        public void RPC_RequestAddXP(int amount)
-        {
-            Server_AddXP(amount);
-        }
-        
-        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-        public void RPC_RequestResetXP(bool isAlive)
-        {
-            ResetActualXP(isAlive);
+            ResetActualXP(evt.IsAlive);
         }
 
-        // ==================================================
-        // SERVER LOGIC
-        // ==================================================
         private void Server_AddXP(int amount)
         {
             if (!HasStateAuthority) return;
@@ -136,7 +123,7 @@ namespace Local.Progression
         }
         
         // ==================================================
-        // CLIENT SIDE (SYNC EVENTS)
+        // CLIENT SIDE (SYNC EVENTS FOR UI)
         // ==================================================
         public override void Render()
         {

@@ -30,11 +30,16 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Mouse Settings")]
     [SerializeField] private float _mouseSensitivity = 0.15f;
     [SerializeField] private float _maxLookAngle = 80f;
-
+    
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private bool _sprintPressed;
     private bool _interactPressed;
+    
+    private bool _skill1Pressed;
+    private bool _skill2Pressed;
+    private bool _attackPressed;
+    private bool _upgradeModifierPressed;
 
     private float _accumulatedYaw;
     private float _accumulatedPitch;
@@ -87,7 +92,6 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnMove(InputAction.CallbackContext context) => _moveInput = context.ReadValue<Vector2>(); 
     public void OnJump(InputAction.CallbackContext context) => _jumpPressed = context.ReadValue<float>() > 0;
     public void OnSprint(InputAction.CallbackContext context) => _sprintPressed = context.ReadValue<float>() > 0;
-    
     public void OnInteract(InputAction.CallbackContext context) => _interactPressed = context.ReadValueAsButton();
 
     public void OnLook(InputAction.CallbackContext context) 
@@ -98,6 +102,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         _accumulatedPitch -= mouseDelta.y * _mouseSensitivity; 
         _accumulatedPitch = Mathf.Clamp(_accumulatedPitch, -_maxLookAngle, _maxLookAngle);
     }
+    
+    public void OnSkill1(InputAction.CallbackContext context) => _skill1Pressed = context.ReadValueAsButton();
+    public void OnSkill2(InputAction.CallbackContext context) => _skill2Pressed = context.ReadValueAsButton();
+    public void OnAttack(InputAction.CallbackContext context) => _attackPressed = context.ReadValueAsButton();
+    public void OnUpgradeModifier(InputAction.CallbackContext context) => _upgradeModifierPressed = context.ReadValueAsButton();
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
@@ -107,9 +116,21 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         data.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
         data.Buttons.Set(NetworkInputPlayer.INTERACT_BUTTON, _interactPressed);
         
-        data.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
-        data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch); 
+        data.Buttons.Set(NetworkInputPlayer.SKILL1_BUTTON, _skill1Pressed);
+        data.Buttons.Set(NetworkInputPlayer.SKILL2_BUTTON, _skill2Pressed);
+        data.Buttons.Set(NetworkInputPlayer.ATTACK_BUTTON, _attackPressed);
+        data.Buttons.Set(NetworkInputPlayer.UPGRADE_MODIFIER, _upgradeModifierPressed);
         
+        if (InputManager.Mode != InputMode.Game)
+        {
+            data.MoveDirection = Vector3.zero;
+            data.MouseRotation = Vector2.zero;
+        }
+        else
+        {
+            data.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
+            data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch); 
+        }
         
         input.Set(data);
     }

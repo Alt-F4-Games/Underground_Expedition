@@ -2,6 +2,7 @@
 using Fusion;
 using UI;
 using UnityEngine;
+using Skills.Core;
 
 namespace Health
 {
@@ -13,12 +14,20 @@ namespace Health
 
         [Header("References")]
         [SerializeField] private AttackAreaDetector _detector;
+        
+        // reference to the Skill Manager for loose coupling
+        private PlayerSkillManager _skillManager;
 
         private float _lastAttackTime;
         
         private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseAttack); }
-
         private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseAttack); }
+
+        public override void Spawned()
+        {
+            // Cache the Skill Manager located on the same Player Prefab
+            _skillManager = GetComponent<PlayerSkillManager>();
+        }
 
         // ============================================================
         // INPUT (CLIENT ONLY)
@@ -43,29 +52,26 @@ namespace Health
                 return;
 
             _lastAttackTime = Time.time;
-
+            
             RPC_RequestAttack();
         }
-
+        
         private void IncreaseAttack(PlayerStatsEvent evt)
         {
             if (!HasStateAuthority) return;
-
             _damage += evt.PlayerDamage;
         }
-        
+
         // ============================================================
         // SERVER LOGIC
         // ============================================================
 
-        // ReSharper disable Unity.PerformanceAnalysis
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         private void RPC_RequestAttack()
         {
             if (!HasStateAuthority) return;
 
             Vector3 attackerPosition = transform.position;
-
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
 
             if (!target)
@@ -78,8 +84,15 @@ namespace Health
 
             if (health)
             {
-                Debug.Log($"[SERVER] Applying damage to: {target.name}");
-                health.TakeDamage(_damage, Object.InputAuthority);
+                int finalDamage = _damage;
+                
+                if (_skillManager != null)
+                {
+                    finalDamage = _skillManager.GetModifiedDamage(finalDamage);
+                }
+
+                Debug.Log($"[SERVER] Applying {finalDamage} damage to: {target.name}");
+                health.TakeDamage(finalDamage, Object.InputAuthority); 
             }
         }
     }

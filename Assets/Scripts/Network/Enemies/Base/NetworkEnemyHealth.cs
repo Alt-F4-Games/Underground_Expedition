@@ -13,8 +13,9 @@ namespace Health
 
         public override void TakeDamage(int damage, PlayerRef playerRef)
         {
-            base.TakeDamage(damage, playerRef);
             _enemyDiedEventEvent.killer = playerRef;
+            
+            base.TakeDamage(damage, playerRef);
         }
 
         protected override void Death()

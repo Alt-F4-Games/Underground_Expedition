@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae1c67ca8834efa94897b2646da0526, type: 3}
+  m_Name: SO_EmpoweredStrike
+  m_EditorClassIdentifier: 
+  SkillName: Golpe Potenciado
+  Description: 
+  Icon: {fileID: -2104237582, guid: 1613f86c162e58e4c8eae690410e85c0, type: 3}
+  BaseCooldown: 5
+  CooldownReductionPerLevel: 1
+  BaseCharges: 3
+  BaseDamageBonus: 1
+  BonusPerLevel: 0.02

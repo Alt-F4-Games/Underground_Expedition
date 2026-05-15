@@ -23,6 +23,15 @@ namespace Events{
         public int PlayerDamage;
     }
     
+    public class SkillUpgradeRequestedEvent : GameEvent
+    {
+        public NetworkObject Player;
+        public int SlotIndex;
+    }
+
+    public class SkillPointConsumedEvent : GameEvent
+    {
+        public NetworkObject Player;
+        public int SlotIndex;
+    }
 }
-
-
