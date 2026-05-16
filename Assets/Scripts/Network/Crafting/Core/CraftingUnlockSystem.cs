@@ -1,16 +1,16 @@
-﻿
+﻿using Network.Inventory;
 
 namespace Network.Crafting
 {
     public static class CraftingUnlockSystem
     {
-        public static bool IsUnlocked(
-            NetworkInventorySystem inventory,
-            CraftingRecipeSO recipe)
+        public static bool IsUnlocked(NetworkInventorySystem inventory, CraftingRecipeSO recipe)
         {
             foreach (var ingredient in recipe.ingredients)
             {
-                if (inventory.CountItem(ingredient.itemId) > 0)
+                int networkId = ItemDatabase.Instance.GetNetworkId(ingredient.itemId);
+
+                if (inventory.CountItem(networkId) > 0)
                 {
                     return true;
                 }

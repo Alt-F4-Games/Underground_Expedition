@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SO_Stone_Sharpener_Recipe
   m_EditorClassIdentifier: 
   recipeName: Stone Sharpener
-  resultItemId: 12
+  recipeId: craft_stone_sharpener
+  resultItemId: obj_stone_sharpener
   resultQuantity: 1
   ingredients:
-  - itemId: 7
+  - itemId: obj_gold_ingot
     quantity: 7
-  - itemId: 1
+  - itemId: obj_rock
     quantity: 20

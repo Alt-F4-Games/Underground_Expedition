@@ -9,6 +9,7 @@ namespace Events{
     {
         public PlayerRef killer;
         public int exp;
+        public string enemyId;
     }
 
     public class PlayerDiedEvent : GameEvent
@@ -23,15 +24,52 @@ namespace Events{
         public int PlayerDamage;
     }
     
-    public class SkillUpgradeRequestedEvent : GameEvent
+    public class ItemCollectedEvent : GameEvent
     {
-        public NetworkObject Player;
-        public int SlotIndex;
+        public PlayerRef player;
+        public string itemId;
+        public int quantity;
+    }
+    
+    public class ItemCraftedEvent : GameEvent
+    {
+        public PlayerRef player;
+        public string recipeId;
+        public string resultItemId;
+        public int quantity;
     }
 
-    public class SkillPointConsumedEvent : GameEvent
+    public class NpcInteractionEvent : GameEvent
     {
-        public NetworkObject Player;
-        public int SlotIndex;
+        public PlayerRef player;
+        public string npcId;
+    }
+    
+    public class QuestAcceptedEvent : GameEvent
+    {
+        public string questId;
+    }
+    
+    public class QuestCompletedEvent : GameEvent
+    {
+        public string questId;
+    }
+    
+    public class ObjectiveCompletedEvent : GameEvent
+    {
+        public string questId;
+        public int stepIndex;
+    }
+    
+    public class RewardClaimedEvent : GameEvent
+    {
+        public string questId;
+    }
+    
+    public class QuestCancelledEvent : GameEvent
+    {
+        public string questId;
     }
 }
+
+
