@@ -1,4 +1,5 @@
-﻿using Network.Quests.Definitions;
+﻿using System.Collections.Generic;
+using Network.Quests.Definitions;
 using Network.Quests.Objectives.Core;
 using Quests.Objectives;
 
@@ -12,7 +13,8 @@ namespace Network.Quests.Runtime
 
         public int StepIndex { get; private set; }
 
-        public ObjectiveRuntimeBase ObjectiveRuntime { get; private set; }
+        public List<ObjectiveRuntimeBase> ObjectiveRuntimes
+            { get; private set; } = new();
 
         public QuestStepRuntime(
             QuestRuntime parentQuest,
@@ -23,26 +25,57 @@ namespace Network.Quests.Runtime
             Definition = definition;
             StepIndex = stepIndex;
 
-            BuildObjective();
+            BuildObjectives();
         }
 
         public void Initialize()
         {
-            ObjectiveRuntime.Initialize();
+            foreach (var runtime in ObjectiveRuntimes)
+            {
+                runtime.Initialize();
+            }
         }
 
         public void Dispose()
         {
-            ObjectiveRuntime.Dispose();
+            foreach (var runtime in ObjectiveRuntimes)
+            {
+                runtime.Dispose();
+            }
         }
 
-        private void BuildObjective()
+        private void BuildObjectives()
         {
-            ObjectiveRuntime =
-                ObjectiveFactory.CreateObjective(
-                    ParentQuest,
-                    Definition.objective,
-                    StepIndex);
+            ObjectiveRuntimes.Clear();
+
+            foreach (var objective in Definition.objectives)
+            {
+                var runtime =
+                    ObjectiveFactory.CreateObjective(
+                        ParentQuest,
+                        objective,
+                        StepIndex);
+
+                if (runtime != null)
+                {
+                    ObjectiveRuntimes.Add(runtime);
+                }
+            }
+        }
+
+        // =====================================================
+        // STEP COMPLETION
+        // =====================================================
+
+        public bool IsCompleted()
+        {
+            foreach (var runtime in ObjectiveRuntimes)
+            {
+                if (!runtime.IsCompleted())
+                    return false;
+            }
+
+            return true;
         }
     }
 }
