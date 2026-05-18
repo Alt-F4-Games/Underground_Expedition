@@ -1,5 +1,6 @@
 ﻿using Network.Quests.Definitions;
 using Network.Quests.Enums;
+using Network.Quests.Objectives.Types;
 using Network.Quests.Runtime;
 using Quests.Objectives;
 

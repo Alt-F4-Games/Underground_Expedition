@@ -6,8 +6,10 @@ namespace Quests.Objectives
 {
     public abstract class ObjectiveRuntimeBase : IQuestObjective
     {
-        protected QuestRuntime Quest;
+        protected QuestRuntime ParentQuest;
+
         protected QuestObjectiveDefinition Definition;
+
         protected int StepIndex;
 
         protected int CurrentAmount;
@@ -17,18 +19,27 @@ namespace Quests.Objectives
             QuestObjectiveDefinition definition,
             int stepIndex)
         {
-            Quest = quest;
+            ParentQuest = quest;
             Definition = definition;
             StepIndex = stepIndex;
         }
+
+        // =====================================================
+        // LIFECYCLE
+        // =====================================================
 
         public abstract void Initialize();
 
         public abstract void Dispose();
 
+        // =====================================================
+        // PROGRESS
+        // =====================================================
+
         public virtual bool IsCompleted()
         {
-            return CurrentAmount >= Definition.requiredAmount;
+            return CurrentAmount >=
+                   Definition.requiredAmount;
         }
 
         public virtual float GetProgress()
@@ -36,12 +47,21 @@ namespace Quests.Objectives
             if (Definition.requiredAmount <= 0)
                 return 0f;
 
-            return (float) CurrentAmount / Definition.requiredAmount;
+            return (float)CurrentAmount /
+                   Definition.requiredAmount;
         }
 
-        protected void CompleteObjective()
+        // =====================================================
+        // COMPLETION
+        // =====================================================
+
+        protected void EvaluateCompletion()
         {
-            Quest.CompleteCurrentStep();
+            if (!IsCompleted())
+                return;
+
+            QuestStepService.EvaluateStep(
+                ParentQuest);
         }
     }
 }
