@@ -13,33 +13,33 @@ namespace Network.Quests.Objectives.Core
             QuestObjectiveDefinition definition,
             int stepIndex)
         {
-            return definition.objectiveType switch
+            return definition.questObjectiveType switch
             {
-                ObjectiveType.Kill =>
+                Enums.QuestObjectiveType.KillEnemy =>
                     new KillObjectiveRuntime(
                         quest,
                         definition,
                         stepIndex),
 
-                ObjectiveType.Collect =>
+                Enums.QuestObjectiveType.CollectItem =>
                     new CollectObjectiveRuntime(
                         quest,
                         definition,
                         stepIndex),
 
-                ObjectiveType.Craft =>
+                Enums.QuestObjectiveType.CraftItem =>
                     new CraftObjectiveRuntime(
                         quest,
                         definition,
                         stepIndex),
 
-                ObjectiveType.Interact =>
+                Enums.QuestObjectiveType.Interact =>
                     new InteractObjectiveRuntime(
                         quest,
                         definition,
                         stepIndex),
 
-                ObjectiveType.Explore =>
+                Enums.QuestObjectiveType.ExploreArea =>
                     new ExploreObjectiveRuntime(
                         quest,
                         definition,

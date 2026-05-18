@@ -18,13 +18,13 @@
         Cancelled
     }
     
-    public enum ObjectiveType
+    public enum QuestObjectiveType
     {
-        Kill,
-        Collect,
-        Craft,
+        KillEnemy,
+        CollectItem,
+        CraftItem,
         Interact,
-        Explore
+        ExploreArea
     }
     
     public enum ProgressScope

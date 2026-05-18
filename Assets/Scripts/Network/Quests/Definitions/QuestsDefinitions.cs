@@ -43,7 +43,7 @@ namespace Network.Quests.Definitions
     public class QuestObjectiveDefinition
     {
         [Header("Type")]
-        public ObjectiveType objectiveType;
+        public QuestObjectiveType questObjectiveType;
 
         [TextArea]
         public string description;
