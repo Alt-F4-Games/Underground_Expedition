@@ -1,4 +1,5 @@
 using System;
+using Events;
 using Fusion;
 using Network.Crafting;
 using Network.Inventory;
@@ -236,6 +237,15 @@ public class NetworkInventoryManager : NetworkBehaviour
 
         if (crafted)
         {
+            ItemCraftedEvent itemCraftedEvent = new ItemCraftedEvent
+            {
+                player = Object.InputAuthority,
+                resultItemId = resultItemId,
+                quantity = recipe.resultQuantity  
+            };
+            
+            EventController.Instance.TriggerEvent(itemCraftedEvent);
+            
             Debug.Log("Craft success");
         }
     }
@@ -277,15 +287,23 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
 
         bool added = inventorySystem.Server_TryAddItem(worldItem.ItemId, worldItem.Quantity, SlotType.Base);
-        if (added)
+        
+        if (!added) return;
+        string gameplayId =
+            ItemDatabase.Instance.GetGameplayId(
+                worldItem.ItemId);
+
+        ItemCollectedEvent itemCollectedEvent = new ItemCollectedEvent
         {
-            Runner.Despawn(item.Object);
-            RPC_PickupResult(true, item.Object);
-        }
-        else
-        {
-            RPC_PickupResult(false, item.Object);
-        }
+            player = Object.InputAuthority,
+            itemId = gameplayId,
+            quantity = worldItem.Quantity
+        };
+            
+        EventController.Instance.TriggerEvent(itemCollectedEvent);
+        
+        Runner.Despawn(item.Object);
+        RPC_PickupResult(true, item.Object);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
@@ -301,7 +319,6 @@ public class NetworkInventoryManager : NetworkBehaviour
             // Reset local debounce to allow retry
             worldItem.ResetPickupRequest();
         }
-        // else: success — server has despawned object
     }
 
     // -------------------- SAVED INVENTORY SYNC (client -> server) -----------
