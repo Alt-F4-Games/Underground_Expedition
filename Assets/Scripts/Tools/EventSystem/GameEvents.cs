@@ -38,6 +38,18 @@ namespace Events{
         public string resultItemId;
         public int quantity;
     }
+    
+    public class ZoneDiscoveredEvent : GameEvent
+    {
+        public PlayerRef player;
+        public string zoneId;
+    }
+
+    public class InteractObjectiveEvent : GameEvent
+    {
+        public PlayerRef player;
+        public string interactionId;
+    }
 
     public class NpcInteractionEvent : GameEvent
     {
