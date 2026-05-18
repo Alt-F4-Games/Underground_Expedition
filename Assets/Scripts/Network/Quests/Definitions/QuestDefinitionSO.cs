@@ -9,29 +9,58 @@ namespace Network.Quests.Definitions
     {
         [Header("Identification")]
         public string questId;
+
         public string questName;
 
         [TextArea]
         public string description;
 
+        // =====================================================
+        // TYPE
+        // =====================================================
+
         [Header("Quest Type")]
         public QuestType questType;
 
+        // =====================================================
+        // RULES
+        // =====================================================
+
         [Header("Quest Rules")]
         public bool canCancel = true;
+
         public bool requiresManualAccept = true;
+
         public bool requiresNpcToComplete = true;
+
+        // =====================================================
+        // SCOPES
+        // =====================================================
 
         [Header("Scopes")]
         public ProgressScope progressScope;
+
         public CompletionScope completionScope;
+
         public RewardScope rewardScope;
+
+        // =====================================================
+        // NPC
+        // =====================================================
 
         [Header("NPC")]
         public string npcId;
 
+        // =====================================================
+        // STEPS
+        // =====================================================
+
         [Header("Steps")]
         public List<QuestStepDefinition> steps = new();
+
+        // =====================================================
+        // REWARDS
+        // =====================================================
 
         [Header("Rewards")]
         public List<RewardDefinition> rewards = new();
