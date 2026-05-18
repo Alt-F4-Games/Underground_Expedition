@@ -1,43 +1,27 @@
 ﻿using System.Collections.Generic;
 using Network.Quests.Definitions;
+using Network.Quests.Enums;
 
 namespace Network.Quests.Runtime
 {
     public class QuestRuntime
     {
-        // =====================================================
-        // DEFINITION
-        // =====================================================
-
         public QuestDefinitionSO Definition
-            { get; private set; }
-
-        // =====================================================
-        // STATE
-        // =====================================================
+        { get; private set; }
 
         public QuestStatus Status
-            { get; private set; } =
-                QuestStatus.Locked;
-
-        // =====================================================
-        // STEPS
-        // =====================================================
-
-        public List<QuestStepRuntime> Steps
-            { get; private set; } = new();
+        { get; private set; }
 
         public int CurrentStepIndex
-            { get; private set; }
+        { get; private set; }
+
+        public List<QuestStepRuntime> Steps
+        { get; private set; } = new();
 
         public QuestStepRuntime CurrentStep =>
             CurrentStepIndex >= Steps.Count
                 ? null
                 : Steps[CurrentStepIndex];
-
-        // =====================================================
-        // CONSTRUCTOR
-        // =====================================================
 
         public QuestRuntime(
             QuestDefinitionSO definition)
@@ -48,7 +32,7 @@ namespace Network.Quests.Runtime
         }
 
         // =====================================================
-        // INITIALIZATION
+        // BUILD
         // =====================================================
 
         private void BuildSteps()
@@ -59,13 +43,11 @@ namespace Network.Quests.Runtime
                  i < Definition.steps.Count;
                  i++)
             {
-                var runtime =
+                Steps.Add(
                     new QuestStepRuntime(
                         this,
                         Definition.steps[i],
-                        i);
-
-                Steps.Add(runtime);
+                        i));
             }
         }
 
@@ -73,33 +55,16 @@ namespace Network.Quests.Runtime
         // QUEST FLOW
         // =====================================================
 
-        public void MakeAvailable()
-        {
-            Status = QuestStatus.Available;
-        }
-
-        public void AcceptQuest()
-        {
-            Status = QuestStatus.Accepted;
-
-            StartQuest();
-        }
-
         public void StartQuest()
         {
-            Status = QuestStatus.Active;
+            Status = QuestStatus.InProgress;
 
             CurrentStep?.Initialize();
         }
 
-        public void CancelQuest()
+        public void Dispose()
         {
-            if (!Definition.canCancel)
-                return;
-
             CurrentStep?.Dispose();
-
-            Status = QuestStatus.Cancelled;
         }
 
         // =====================================================
@@ -114,55 +79,35 @@ namespace Network.Quests.Runtime
 
             if (CurrentStepIndex >= Steps.Count)
             {
-                CompleteObjectives();
+                CompleteQuest();
                 return;
             }
 
-            CurrentStep.Initialize();
+            CurrentStep?.Initialize();
         }
 
         // =====================================================
         // COMPLETION
         // =====================================================
 
-        private void CompleteObjectives()
-        {
-            if (Definition.requiresNpcToComplete)
-            {
-                Status = QuestStatus.RewardPending;
-            }
-            else
-            {
-                ClaimRewards();
-            }
-        }
-
-        public void ClaimRewards()
-        {
-            if (Status != QuestStatus.RewardPending &&
-                Status != QuestStatus.Active)
-                return;
-
-            QuestRewardService.GiveRewards(this);
-
-            Status = QuestStatus.RewardClaimed;
-
-            CompleteQuest();
-        }
-
         private void CompleteQuest()
         {
             Status = QuestStatus.Completed;
-            QuestManager.Instance.CompleteQuest(this);
         }
 
         // =====================================================
-        // CLEANUP
+        // STATE
         // =====================================================
 
-        public void Dispose()
+        public bool IsQuestFinished()
         {
-            CurrentStep?.Dispose();
+            return Status == QuestStatus.Completed;
+        }
+
+        public void SetStatus(
+            QuestStatus status)
+        {
+            Status = status;
         }
     }
 }
