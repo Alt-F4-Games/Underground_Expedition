@@ -7,16 +7,12 @@ namespace Network.Quests
     public class QuestManager : MonoBehaviour
     {
         public static QuestManager Instance
-            { get; private set; }
+        { get; private set; }
 
-        // =====================================================
-        // QUEST STORAGE
-        // =====================================================
+        private readonly Dictionary<string,
+            QuestRuntime> _activeQuests = new();
 
-        private readonly Dictionary<string, QuestRuntime>
-            _activeQuests = new();
-
-        private readonly Dictionary<string, QuestRuntime>
+        private readonly HashSet<string>
             _completedQuests = new();
 
         private void Awake()
@@ -24,134 +20,64 @@ namespace Network.Quests
             Instance = this;
         }
 
-        // =====================================================
-        // QUEST CREATION
-        // =====================================================
-
-        public bool RegisterQuest(string questId)
+        public void RegisterQuest(
+            QuestRuntime runtime)
         {
-            if (_activeQuests.ContainsKey(questId))
-                return false;
+            if (runtime == null)
+                return;
 
-            var definition =
-                QuestDatabase.Instance.GetQuestById(
-                    questId);
+            string questId =
+                runtime.Definition.questId;
 
-            if (definition == null)
-            {
-                Debug.LogWarning(
-                    $"Quest not found: {questId}");
-
-                return false;
-            }
-
-            var runtime =
-                new QuestRuntime(definition);
-
-            runtime.MakeAvailable();
+            if (_activeQuests.ContainsKey(
+                    questId))
+                return;
 
             _activeQuests.Add(
                 questId,
                 runtime);
-
-            return true;
         }
 
-        // =====================================================
-        // ACCEPT
-        // =====================================================
-
-        public bool AcceptQuest(string questId)
-        {
-            if (!_activeQuests.TryGetValue(
-                    questId,
-                    out var runtime))
-                return false;
-
-            if (runtime.Status !=
-                QuestStatus.Available)
-                return false;
-
-            runtime.AcceptQuest();
-
-            return true;
-        }
-
-        // =====================================================
-        // CANCEL
-        // =====================================================
-
-        public bool CancelQuest(string questId)
-        {
-            if (!_activeQuests.TryGetValue(
-                    questId,
-                    out var runtime))
-                return false;
-
-            runtime.CancelQuest();
-
-            return true;
-        }
-
-        // =====================================================
-        // COMPLETE
-        // =====================================================
-
-        public void CompleteQuest(
-            QuestRuntime runtime)
-        {
-            string questId =
-                runtime.Definition.questId;
-
-            if (!_activeQuests.ContainsKey(
-                    questId))
-                return;
-
-            runtime.ClaimRewards();
-
-            _activeQuests.Remove(
-                questId);
-
-            _completedQuests.TryAdd(
-                questId,
-                runtime);
-        }
-
-        // =====================================================
-        // LOOKUP
-        // =====================================================
-
-        public bool IsQuestActive(
-            string questId)
+        public bool HasQuest(string questId)
         {
             return _activeQuests.ContainsKey(
-                questId);
-        }
-
-        public bool IsQuestCompleted(
-            string questId)
-        {
-            return _completedQuests.ContainsKey(
                 questId);
         }
 
         public QuestRuntime GetQuest(
             string questId)
         {
-            return _activeQuests.GetValueOrDefault(
+            return _activeQuests
+                .GetValueOrDefault(questId);
+        }
+
+        public List<QuestRuntime> GetAllActiveQuests()
+        {
+            return new List<QuestRuntime>(
+                _activeQuests.Values);
+        }
+
+        public void CompleteQuest(
+            string questId)
+        {
+            if (!_activeQuests.Remove(questId,
+                    out var runtime))
+                return;
+
+            if (runtime.IsQuestFinished())
+            {
+                _completedQuests.Add(
+                    questId);
+            }
+
+            runtime.Dispose();
+        }
+
+        public bool IsQuestCompleted(
+            string questId)
+        {
+            return _completedQuests.Contains(
                 questId);
-        }
-
-        public IReadOnlyDictionary<string, QuestRuntime>
-            GetActiveQuests()
-        {
-            return _activeQuests;
-        }
-
-        public IReadOnlyDictionary<string, QuestRuntime>
-            GetCompletedQuests()
-        {
-            return _completedQuests;
         }
     }
 }
