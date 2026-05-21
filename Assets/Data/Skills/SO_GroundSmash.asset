@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687ab3451a66aac46bd5897836f8e4bd, type: 3}
   m_Name: SO_GroundSmash
   m_EditorClassIdentifier: 
-  SkillName: Golpe en el Suelo
-  Description: 
+  SkillName: Ground Smash
+  Description: Slams the ground with tremendous force, dealing area damage to all
+    nearby enemies within range.
   Icon: {fileID: -732061197, guid: 1613f86c162e58e4c8eae690410e85c0, type: 3}
+  MaxLevel: 5
   BaseCooldown: 10
   CooldownReductionPerLevel: 2
   BaseDamage: 20
