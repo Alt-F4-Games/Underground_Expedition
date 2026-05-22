@@ -18,20 +18,13 @@ namespace Skills.Core
 
         [Networked] 
         private NetworkButtons _previousButtons { get; set; }
-        
-        private void OnEnable()
-        {
-            EventController.Instance.AddListener<SkillPointConsumedEvent>(OnSkillPointConsumed);
-        }
-        
-        private void OnDisable()
-        {
-            EventController.Instance.RemoveListener<SkillPointConsumedEvent>(OnSkillPointConsumed);
-        }
 
         public override void Spawned()
         {
             base.Spawned();
+
+            // Subscribe when safely spawned
+            EventController.Instance.AddListener<SkillPointConsumedEvent>(OnSkillPointConsumed);
 
             // Hook for the UI to read the skills when the local player spawns
             if (HasInputAuthority)
@@ -42,6 +35,14 @@ namespace Skills.Core
                 if (InventorySkillPanelUI.Instance != null)
                     InventorySkillPanelUI.Instance.InitializeInventorySkills(this);
             }
+        }
+
+        public override void Despawned(NetworkRunner runner, bool hasState)
+        {
+            // Unsubscribe when despawning
+            EventController.Instance.RemoveListener<SkillPointConsumedEvent>(OnSkillPointConsumed);
+            
+            base.Despawned(runner, hasState);
         }
 
         public override void FixedUpdateNetwork()
@@ -91,11 +92,8 @@ namespace Skills.Core
                 }
             }
 
-            EventController.Instance.TriggerEvent(new SkillUpgradeRequestedEvent 
-            { 
-                Player = Object, 
-                SlotIndex = slotIndex 
-            });
+            // Trigger the upgrade event using the constructor
+            EventController.Instance.TriggerEvent(new SkillUpgradeRequestedEvent(Object, slotIndex));
         }
         
         private void OnSkillPointConsumed(SkillPointConsumedEvent evt)

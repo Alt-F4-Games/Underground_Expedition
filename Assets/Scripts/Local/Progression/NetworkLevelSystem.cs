@@ -25,23 +25,24 @@ namespace Local.Progression
             {
                 _expSystem.OnLevelUp += HandleLevelUp;
             }
-        }
-
-        // Subscribe to the upgrade request event
-        private void OnEnable()
-        {
+            
+            // Subscribe to the upgrade request event when safely spawned
             EventController.Instance.AddListener<SkillUpgradeRequestedEvent>(OnSkillUpgradeRequested);
         }
 
-        // Unsubscribe from the upgrade request event
-        private void OnDisable()
+        public override void Despawned(NetworkRunner runner, bool hasState)
         {
+            if (_expSystem != null)
+            {
+                _expSystem.OnLevelUp -= HandleLevelUp;
+            }
+            
+            // Unsubscribe from the upgrade request event
             EventController.Instance.RemoveListener<SkillUpgradeRequestedEvent>(OnSkillUpgradeRequested);
         }
 
         private void HandleLevelUp(int newLevel)
         {
-            
             if (!Object.HasStateAuthority) return;
 
             bool shouldGivePoint = newLevel % levelsPerSkillPoint == 0 || newLevel >= _expSystem.GetLevel() && newLevel == GetMaxLevel();
@@ -64,12 +65,8 @@ namespace Local.Progression
                 {
                     SkillPoints--;
                     
-                    // Trigger the confirmation event
-                    EventController.Instance.TriggerEvent(new SkillPointConsumedEvent 
-                    { 
-                        Player = Object, 
-                        SlotIndex = evt.SlotIndex 
-                    });
+                    // Trigger the confirmation event using the constructor
+                    EventController.Instance.TriggerEvent(new SkillPointConsumedEvent(Object, evt.SlotIndex));
                 }
                 else
                 {
@@ -98,14 +95,6 @@ namespace Local.Progression
         private int GetMaxLevel()
         {
             return _expSystem != null ? _expSystem.MaxLevel : 0;
-        }
-
-        public override void Despawned(NetworkRunner runner, bool hasState)
-        {
-            if (_expSystem != null)
-            {
-                _expSystem.OnLevelUp -= HandleLevelUp;
-            }
         }
     }
 }

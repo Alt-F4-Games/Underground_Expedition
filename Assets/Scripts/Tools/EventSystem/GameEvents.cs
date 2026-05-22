@@ -70,6 +70,28 @@ namespace Events{
     {
         public string questId;
     }
+
+    public class SkillUpgradeRequestedEvent : GameEvent
+    {
+        public NetworkObject Player;
+        public int SlotIndex;
+        
+        public SkillUpgradeRequestedEvent(NetworkObject player, int slotIndex)
+        {
+            Player = player;
+            SlotIndex = slotIndex;
+        }
+    }
+
+    public class SkillPointConsumedEvent : GameEvent
+    {
+        public NetworkObject Player;
+        public int SlotIndex;
+
+        public SkillPointConsumedEvent(NetworkObject player, int slotIndex)
+        {
+            Player = player;
+            SlotIndex = slotIndex;
+        }
+    }
 }
-
-
