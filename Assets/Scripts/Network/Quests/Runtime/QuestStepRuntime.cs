@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Network.Quests.Definitions;
 using Network.Quests.Objectives.Core;
-using Quests.Objectives;
 
 namespace Network.Quests.Runtime
 {
@@ -60,14 +59,19 @@ namespace Network.Quests.Runtime
         {
             ObjectiveRuntimes.Clear();
 
-            foreach (var objective
-                     in Definition.objectives)
+            for (int i = 0;
+                 i < Definition.objectives.Count;
+                 i++)
             {
+                var objective =
+                    Definition.objectives[i];
+
                 var runtime =
                     ObjectiveFactory.CreateObjective(
                         ParentQuest,
                         objective,
-                        StepIndex);
+                        StepIndex,
+                        i);
 
                 if (runtime != null)
                 {
