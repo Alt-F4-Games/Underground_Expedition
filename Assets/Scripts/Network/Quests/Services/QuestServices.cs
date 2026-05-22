@@ -1,9 +1,10 @@
 ﻿using Network.Inventory;
 using Network.Quests.Definitions;
 using Network.Quests.Enums;
+using Network.Quests.Runtime;
 using UnityEngine;
 
-namespace Network.Quests.Runtime
+namespace Network.Quests.Services
 {
     public static class QuestRewardService
     {
@@ -91,6 +92,51 @@ namespace Network.Quests.Runtime
                 return;
 
             quest.AdvanceStep();
+
+            if (quest.IsQuestFinished())
+            {
+                if (quest.Definition.requiresNpcToComplete)
+                {
+                    quest.SetStatus(
+                        QuestStatus.Completed);
+                }
+                else
+                {
+                    quest.SetStatus(
+                        QuestStatus.Completed);
+                }
+            }
+        }
+    }
+    
+    public static class QuestValidationService
+    {
+        public static bool CanAcceptQuest(
+            QuestDefinitionSO definition,
+            QuestManager manager)
+        {
+            if (definition == null)
+                return false;
+
+            if (manager.HasQuest(
+                    definition.questId))
+                return false;
+
+            if (manager.IsQuestCompleted(
+                    definition.questId))
+                return false;
+
+            return true;
+        }
+
+        public static bool CanTurnInQuest(
+            Runtime.QuestRuntime runtime)
+        {
+            if (runtime == null)
+                return false;
+
+            return runtime.Status ==
+                   Enums.QuestStatus.Completed;
         }
     }
     

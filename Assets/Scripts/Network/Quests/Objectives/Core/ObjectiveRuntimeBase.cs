@@ -1,6 +1,7 @@
 ﻿using Network.Quests.Definitions;
 using Network.Quests.Interfaces;
 using Network.Quests.Runtime;
+using Network.Quests.Services;
 
 namespace Quests.Objectives
 {
