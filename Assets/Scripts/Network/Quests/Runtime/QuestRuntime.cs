@@ -109,5 +109,11 @@ namespace Network.Quests.Runtime
         {
             Status = status;
         }
+        
+        public bool IsCurrentStepCompleted()
+        {
+            return CurrentStep != null &&
+                   CurrentStep.IsCompleted();
+        }
     }
 }
