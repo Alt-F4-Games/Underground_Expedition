@@ -88,5 +88,33 @@ namespace Network.Quests
                 questId,
                 out runtime);
         }
+        
+        public IReadOnlyCollection<QuestRuntime>
+            ActiveQuests =>
+            _activeQuests.Values;
+
+        public IReadOnlyCollection<string>
+            CompletedQuestIds =>
+            _completedQuests;
+        
+        public void MarkQuestCompleted(
+            string questId)
+        {
+            _completedQuests.Add(
+                questId);
+        }
+        
+        public void ClearAll()
+        {
+            foreach (var runtime
+                     in _activeQuests.Values)
+            {
+                runtime.Dispose();
+            }
+
+            _activeQuests.Clear();
+
+            _completedQuests.Clear();
+        }
     }
 }
