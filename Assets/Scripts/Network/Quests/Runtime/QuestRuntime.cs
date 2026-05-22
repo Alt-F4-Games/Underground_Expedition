@@ -9,11 +9,14 @@ namespace Network.Quests.Runtime
         public QuestDefinitionSO Definition
         { get; private set; }
 
+        public QuestRuntimeState State
+        { get; private set; }
+
         public QuestStatus Status
         { get; private set; }
 
-        public int CurrentStepIndex
-        { get; private set; }
+        public int CurrentStepIndex =>
+            State.CurrentStepIndex;
 
         public List<QuestStepRuntime> Steps
         { get; private set; } = new();
@@ -24,9 +27,16 @@ namespace Network.Quests.Runtime
                 : Steps[CurrentStepIndex];
 
         public QuestRuntime(
-            QuestDefinitionSO definition)
+            QuestDefinitionSO definition,
+            QuestRuntimeState state = null)
         {
             Definition = definition;
+
+            State = state ??
+                    new QuestRuntimeState
+                    {
+                        QuestId = definition.questId
+                    };
 
             BuildSteps();
         }
@@ -73,20 +83,16 @@ namespace Network.Quests.Runtime
 
         public void AdvanceStep()
         {
-            // Dispose current active step
             CurrentStep?.Dispose();
 
-            // Move to next step
-            CurrentStepIndex++;
+            State.CurrentStepIndex++;
 
-            // Quest finished
             if (CurrentStepIndex >= Steps.Count)
             {
                 CompleteQuest();
                 return;
             }
 
-            // Initialize next active step
             CurrentStep?.Initialize();
         }
 
@@ -97,6 +103,8 @@ namespace Network.Quests.Runtime
         private void CompleteQuest()
         {
             Status = QuestStatus.Completed;
+
+            State.IsCompleted = true;
         }
 
         // =====================================================
