@@ -79,5 +79,14 @@ namespace Network.Quests
             return _completedQuests.Contains(
                 questId);
         }
+        
+        public bool TryGetQuest(
+            string questId,
+            out QuestRuntime runtime)
+        {
+            return _activeQuests.TryGetValue(
+                questId,
+                out runtime);
+        }
     }
 }
