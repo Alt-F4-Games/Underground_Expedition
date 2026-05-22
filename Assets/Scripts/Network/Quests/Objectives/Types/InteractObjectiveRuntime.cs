@@ -1,13 +1,13 @@
 ﻿using Events;
 using Network.Quests.Definitions;
+using Network.Quests.Objectives.Core;
 using Network.Quests.Runtime;
-using Quests.Objectives;
 
 namespace Network.Quests.Objectives.Types
 {
     public class InteractObjectiveRuntime : ObjectiveRuntimeBase
     {
-        public InteractObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex) : base(quest, definition, stepIndex)
+        public InteractObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex, int objectiveIndex) : base(quest, definition, stepIndex, objectiveIndex)
         {
         }
 
@@ -26,8 +26,8 @@ namespace Network.Quests.Objectives.Types
             if (evt.interactionId != Definition.targetId)
                 return;
 
-            CurrentAmount++;
-
+            AddProgress(1);
+            
             EvaluateCompletion();
         }
     }

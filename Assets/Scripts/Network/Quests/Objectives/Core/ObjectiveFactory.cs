@@ -2,7 +2,6 @@
 using Network.Quests.Enums;
 using Network.Quests.Objectives.Types;
 using Network.Quests.Runtime;
-using Quests.Objectives;
 
 namespace Network.Quests.Objectives.Core
 {
@@ -11,39 +10,45 @@ namespace Network.Quests.Objectives.Core
         public static ObjectiveRuntimeBase CreateObjective(
             QuestRuntime quest,
             QuestObjectiveDefinition definition,
-            int stepIndex)
+            int stepIndex,
+            int objectiveIndex)
         {
             return definition.questObjectiveType switch
             {
-                Enums.QuestObjectiveType.KillEnemy =>
+                QuestObjectiveType.KillEnemy =>
                     new KillObjectiveRuntime(
                         quest,
                         definition,
-                        stepIndex),
+                        stepIndex,
+                        objectiveIndex),
 
-                Enums.QuestObjectiveType.CollectItem =>
+                QuestObjectiveType.CollectItem =>
                     new CollectObjectiveRuntime(
                         quest,
                         definition,
-                        stepIndex),
+                        stepIndex,
+                        objectiveIndex),
 
-                Enums.QuestObjectiveType.CraftItem =>
+                QuestObjectiveType.CraftItem =>
                     new CraftObjectiveRuntime(
                         quest,
                         definition,
-                        stepIndex),
+                        stepIndex,
+                        objectiveIndex),
 
-                Enums.QuestObjectiveType.Interact =>
+                QuestObjectiveType.Interact =>
                     new InteractObjectiveRuntime(
                         quest,
                         definition,
-                        stepIndex),
+                        stepIndex,
+                        objectiveIndex),
 
-                Enums.QuestObjectiveType.ExploreArea =>
+                QuestObjectiveType.ExploreArea =>
                     new ExploreObjectiveRuntime(
                         quest,
                         definition,
-                        stepIndex),
+                        stepIndex,
+                        objectiveIndex),
 
                 _ => null
             };

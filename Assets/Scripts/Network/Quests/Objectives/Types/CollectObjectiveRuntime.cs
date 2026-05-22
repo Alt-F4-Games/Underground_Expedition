@@ -1,13 +1,13 @@
 ﻿using Events;
 using Network.Quests.Definitions;
+using Network.Quests.Objectives.Core;
 using Network.Quests.Runtime;
-using Quests.Objectives;
 
 namespace Network.Quests.Objectives.Types
 {
     public class CollectObjectiveRuntime : ObjectiveRuntimeBase
     {
-        public CollectObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex) : base(quest, definition, stepIndex)
+        public CollectObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex, int objectiveIndex) : base(quest, definition, stepIndex, objectiveIndex)
         {
         }
 
@@ -26,7 +26,7 @@ namespace Network.Quests.Objectives.Types
             if (evt.itemId != Definition.targetId)
                 return;
 
-            CurrentAmount += evt.quantity;
+            AddProgress(evt.quantity);
 
             EvaluateCompletion();
         }

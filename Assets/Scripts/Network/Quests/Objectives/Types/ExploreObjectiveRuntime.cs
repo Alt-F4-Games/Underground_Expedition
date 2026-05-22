@@ -1,13 +1,13 @@
 ﻿using Events;
 using Network.Quests.Definitions;
+using Network.Quests.Objectives.Core;
 using Network.Quests.Runtime;
-using Quests.Objectives;
 
 namespace Network.Quests.Objectives.Types
 {
     public class ExploreObjectiveRuntime : ObjectiveRuntimeBase
     {
-        public ExploreObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex) : base(quest, definition, stepIndex)
+        public ExploreObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex, int objectiveIndex) : base(quest, definition, stepIndex, objectiveIndex)
         {
         }
 
@@ -26,8 +26,8 @@ namespace Network.Quests.Objectives.Types
             if (evt.zoneId != Definition.targetId)
                 return;
 
-            CurrentAmount = 1;
-
+            SetProgress(1);
+            
             EvaluateCompletion();
         }
     }
