@@ -13,6 +13,8 @@ namespace Network.Quests
         private List<QuestDefinitionSO> quests = new();
 
         private Dictionary<string, QuestDefinitionSO> _lookup = new();
+        
+        public IReadOnlyList<QuestDefinitionSO> Quests => quests;
 
         public void Initialize()
         {
