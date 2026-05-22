@@ -3,9 +3,10 @@ using Network.Quests.Interfaces;
 using Network.Quests.Runtime;
 using Network.Quests.Services;
 
-namespace Quests.Objectives
+namespace Network.Quests.Objectives.Core
 {
-    public abstract class ObjectiveRuntimeBase : IQuestObjective
+    public abstract class ObjectiveRuntimeBase
+        : IQuestObjective
     {
         protected QuestRuntime ParentQuest;
 
@@ -13,16 +14,47 @@ namespace Quests.Objectives
 
         protected int StepIndex;
 
-        protected int CurrentAmount;
+        protected int ObjectiveIndex;
 
         protected ObjectiveRuntimeBase(
             QuestRuntime quest,
             QuestObjectiveDefinition definition,
-            int stepIndex)
+            int stepIndex,
+            int objectiveIndex)
         {
             ParentQuest = quest;
             Definition = definition;
             StepIndex = stepIndex;
+            ObjectiveIndex = objectiveIndex;
+
+            EnsureState();
+        }
+
+        // =====================================================
+        // STATE
+        // =====================================================
+
+        protected QuestObjectiveState State =>
+            ParentQuest.State
+                .Steps[StepIndex]
+                .Objectives[ObjectiveIndex];
+
+        private void EnsureState()
+        {
+            while (ParentQuest.State.Steps.Count <= StepIndex)
+            {
+                ParentQuest.State.Steps.Add(
+                    new QuestStepState());
+            }
+
+            QuestStepState step =
+                ParentQuest.State.Steps[StepIndex];
+
+            while (step.Objectives.Count <= ObjectiveIndex)
+            {
+                step.Objectives.Add(
+                    new QuestObjectiveState());
+            }
         }
 
         // =====================================================
@@ -37,9 +69,23 @@ namespace Quests.Objectives
         // PROGRESS
         // =====================================================
 
+        protected void AddProgress(int amount)
+        {
+            State.CurrentAmount += amount;
+
+            EvaluateCompletion();
+        }
+
+        protected void SetProgress(int amount)
+        {
+            State.CurrentAmount = amount;
+
+            EvaluateCompletion();
+        }
+
         public virtual bool IsCompleted()
         {
-            return CurrentAmount >=
+            return State.CurrentAmount >=
                    Definition.requiredAmount;
         }
 
@@ -48,8 +94,13 @@ namespace Quests.Objectives
             if (Definition.requiredAmount <= 0)
                 return 0f;
 
-            return (float)CurrentAmount /
+            return (float)State.CurrentAmount /
                    Definition.requiredAmount;
+        }
+
+        public int GetCurrentAmount()
+        {
+            return State.CurrentAmount;
         }
 
         // =====================================================
