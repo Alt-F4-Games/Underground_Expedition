@@ -92,20 +92,6 @@ namespace Network.Quests.Services
                 return;
 
             quest.AdvanceStep();
-
-            if (quest.IsQuestFinished())
-            {
-                if (quest.Definition.requiresNpcToComplete)
-                {
-                    quest.SetStatus(
-                        QuestStatus.Completed);
-                }
-                else
-                {
-                    quest.SetStatus(
-                        QuestStatus.Completed);
-                }
-            }
         }
     }
     
