@@ -65,6 +65,8 @@ namespace Network.Quests.Services
             QuestRewardService.GiveRewards(
                 inventory,
                 runtime.Definition);
+            
+            runtime.State.RewardClaimed = true;
 
             runtime.SetStatus(
                 QuestStatus.RewardClaimed);
