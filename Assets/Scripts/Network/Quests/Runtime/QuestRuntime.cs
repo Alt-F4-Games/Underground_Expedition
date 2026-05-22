@@ -73,16 +73,20 @@ namespace Network.Quests.Runtime
 
         public void AdvanceStep()
         {
+            // Dispose current active step
             CurrentStep?.Dispose();
 
+            // Move to next step
             CurrentStepIndex++;
 
+            // Quest finished
             if (CurrentStepIndex >= Steps.Count)
             {
                 CompleteQuest();
                 return;
             }
 
+            // Initialize next active step
             CurrentStep?.Initialize();
         }
 
@@ -109,7 +113,7 @@ namespace Network.Quests.Runtime
         {
             Status = status;
         }
-        
+
         public bool IsCurrentStepCompleted()
         {
             return CurrentStep != null &&

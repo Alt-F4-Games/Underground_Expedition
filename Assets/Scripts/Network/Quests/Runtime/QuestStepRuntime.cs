@@ -7,13 +7,17 @@ namespace Network.Quests.Runtime
 {
     public class QuestStepRuntime
     {
-        public QuestRuntime ParentQuest { get; private set; }
+        public QuestRuntime ParentQuest
+        { get; private set; }
 
-        public QuestStepDefinition Definition { get; private set; }
+        public QuestStepDefinition Definition
+        { get; private set; }
 
-        public int StepIndex { get; private set; }
+        public int StepIndex
+        { get; private set; }
 
-        public List<ObjectiveRuntimeBase> ObjectiveRuntimes
+        public List<ObjectiveRuntimeBase>
+            ObjectiveRuntimes
             { get; private set; } = new();
 
         public QuestStepRuntime(
@@ -27,6 +31,10 @@ namespace Network.Quests.Runtime
 
             BuildObjectives();
         }
+
+        // =====================================================
+        // LIFECYCLE
+        // =====================================================
 
         public void Initialize()
         {
@@ -44,11 +52,16 @@ namespace Network.Quests.Runtime
             }
         }
 
+        // =====================================================
+        // BUILD
+        // =====================================================
+
         private void BuildObjectives()
         {
             ObjectiveRuntimes.Clear();
 
-            foreach (var objective in Definition.objectives)
+            foreach (var objective
+                     in Definition.objectives)
             {
                 var runtime =
                     ObjectiveFactory.CreateObjective(
@@ -69,7 +82,8 @@ namespace Network.Quests.Runtime
 
         public bool IsCompleted()
         {
-            foreach (var runtime in ObjectiveRuntimes)
+            foreach (var runtime
+                     in ObjectiveRuntimes)
             {
                 if (!runtime.IsCompleted())
                     return false;
