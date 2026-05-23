@@ -9,12 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67151ef9fc4fe89459ca51aefd1dda33, type: 3}
+  m_Script: {fileID: 11500000, guid: 11113ef221a74184ae3d6cc8f8d89183, type: 3}
   m_Name: SO_Canteen
   m_EditorClassIdentifier: 
   itemName: Canteen
-  icon: {fileID: 21300000, guid: 4053e37e89549034da5fe68270b2f44c, type: 3}
+  icon: {fileID: 0}
   itemType: 1
   maxStack: 8
-  description: A refreshing canteen filled with an energizing drink that restores
-    stamina when consumed.
+  description: 
+  effects:
+  - rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

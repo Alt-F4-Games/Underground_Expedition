@@ -40,6 +40,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private bool _skill2Pressed;
     private bool _attackPressed;
     private bool _upgradeModifierPressed;
+    
+    private bool _dropPressed;
+    private bool _useItemPressed;
 
     private float _accumulatedYaw;
     private float _accumulatedPitch;
@@ -107,6 +110,20 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSkill2(InputAction.CallbackContext context) => _skill2Pressed = context.ReadValueAsButton();
     public void OnAttack(InputAction.CallbackContext context) => _attackPressed = context.ReadValueAsButton();
     public void OnUpgradeModifier(InputAction.CallbackContext context) => _upgradeModifierPressed = context.ReadValueAsButton();
+    
+    public void OnDrop(InputAction.CallbackContext context) 
+    {
+        if (context.performed) _dropPressed = true;
+    }
+    
+    public void OnUseItem(InputAction.CallbackContext context) 
+    {
+        if (context.performed) _useItemPressed = true;
+    }
+
+    // ============================================================
+    // FUSION ON INPUT
+    // ============================================================
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
@@ -121,6 +138,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         data.Buttons.Set(NetworkInputPlayer.ATTACK_BUTTON, _attackPressed);
         data.Buttons.Set(NetworkInputPlayer.UPGRADE_MODIFIER, _upgradeModifierPressed);
         
+        data.Buttons.Set(NetworkInputPlayer.DROP_BUTTON, _dropPressed);
+        data.Buttons.Set(NetworkInputPlayer.USE_ITEM_BUTTON, _useItemPressed);
+        
         if (InputManager.Mode != InputMode.Game)
         {
             data.MoveDirection = Vector3.zero;
@@ -133,6 +153,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         }
         
         input.Set(data);
+        
+        _dropPressed = false;
+        _useItemPressed = false;
     }
 
     // ============================================================

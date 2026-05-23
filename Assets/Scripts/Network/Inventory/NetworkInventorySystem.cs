@@ -1,7 +1,9 @@
 using Fusion;
 using UnityEngine;
 using System;
+using Local.Inventory;
 using Network.Inventory;
+using Network.Items;
 
 /// <summary>
 /// NETWORKED INVENTORY SYSTEM (Fusion)
@@ -156,7 +158,7 @@ public class NetworkInventorySystem : NetworkBehaviour
         if (from.IsEmpty)
             return;
 
-        // If same item type → try stacking
+        // If same item type -> try stacking
         if (to.ItemId == from.ItemId)
         {
             var itemData = ItemDatabase.Instance.GetItemByNetworkId(from.ItemId);
@@ -256,7 +258,7 @@ public class NetworkInventorySystem : NetworkBehaviour
         if (!HasStateAuthority)
             return false;
 
-        ItemSO item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
+        ItemSo item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
 
         if (item == null)
             return false;
@@ -314,7 +316,7 @@ public class NetworkInventorySystem : NetworkBehaviour
     
     public bool CanAddItemGlobal(int itemId, int quantity)
     {
-        ItemSO item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
+        ItemSo item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
 
         if (item == null)
             return false;

@@ -1,3 +1,4 @@
+using Local.Inventory;
 using Network.Inventory;
 using TMPro;
 using UnityEngine;

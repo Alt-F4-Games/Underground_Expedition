@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Network.Items;
 using UnityEngine;
 
 namespace Network.Inventory
@@ -18,7 +19,7 @@ namespace Network.Inventory
             public string gameplayId;
 
             [Header("Data")]
-            public ItemSO item;
+            public ItemSo item;
 
             public GameObject equipPrefab;
         }
@@ -68,7 +69,7 @@ namespace Network.Inventory
         // NETWORK LOOKUP
         // =====================================================
 
-        public ItemSO GetItemByNetworkId(int networkId)
+        public ItemSo GetItemByNetworkId(int networkId)
         {
             return _networkLookup.TryGetValue(networkId, out var entry)
                 ? entry.item
@@ -93,7 +94,7 @@ namespace Network.Inventory
         // GAMEPLAY LOOKUP
         // =====================================================
 
-        public ItemSO GetItemByGameplayId(string gameplayId)
+        public ItemSo GetItemByGameplayId(string gameplayId)
         {
             return _gameplayLookup.TryGetValue(gameplayId, out var entry)
                 ? entry.item

@@ -14,6 +14,9 @@ namespace Network
         public const byte ATTACK_BUTTON = 6;
         public const byte UPGRADE_MODIFIER = 7; 
         
+        public const byte DROP_BUTTON = 8;
+        public const byte USE_ITEM_BUTTON = 9;
+        
         public NetworkButtons Buttons;
         public Vector3 MoveDirection;
         public Vector2 MouseRotation;

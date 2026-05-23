@@ -1,5 +1,6 @@
 using System;
 using Fusion;
+using Local.Inventory;
 using Network.Crafting;
 using Network.Inventory;
 using UnityEngine;
