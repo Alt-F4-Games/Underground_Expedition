@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Events;
+using System.Collections.Generic;
 using Network.Quests.Definitions;
 using Network.Quests.Enums;
+using Tools.EventSystem;
 
 namespace Network.Quests.Runtime
 {
@@ -25,6 +27,16 @@ namespace Network.Quests.Runtime
             CurrentStepIndex >= Steps.Count
                 ? null
                 : Steps[CurrentStepIndex];
+        
+        public string QuestId =>
+            Definition.questId;
+
+        public string QuestName =>
+            Definition.questName;
+
+        public IReadOnlyList<QuestStepRuntime>
+            StepRuntimes =>
+            Steps;
 
         public QuestRuntime(
             QuestDefinitionSO definition,
@@ -105,6 +117,12 @@ namespace Network.Quests.Runtime
             Status = QuestStatus.Completed;
 
             State.IsCompleted = true;
+
+            EventController.Instance.TriggerEvent(
+                new QuestCompletedEvent
+                {
+                    Runtime = this
+                });
         }
 
         // =====================================================
