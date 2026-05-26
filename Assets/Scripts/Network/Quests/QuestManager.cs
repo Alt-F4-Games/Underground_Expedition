@@ -87,7 +87,15 @@ namespace Network.Quests
             return _activeQuests.TryGetValue(
                 questId,
                 out runtime);
-        }
+        } 
+        
+    // =====================================================
+    // READONLY ACCESS
+    // =====================================================
+
+        public IReadOnlyDictionary<string, QuestRuntime>
+            ActiveQuestMap =>
+            _activeQuests;
         
         public IReadOnlyCollection<QuestRuntime>
             ActiveQuests =>
