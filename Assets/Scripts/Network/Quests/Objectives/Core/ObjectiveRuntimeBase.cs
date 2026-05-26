@@ -1,7 +1,9 @@
-﻿using Network.Quests.Definitions;
+﻿using Events;
+using Network.Quests.Definitions;
 using Network.Quests.Interfaces;
 using Network.Quests.Runtime;
 using Network.Quests.Services;
+using Tools.EventSystem;
 
 namespace Network.Quests.Objectives.Core
 {
@@ -10,7 +12,7 @@ namespace Network.Quests.Objectives.Core
     {
         protected QuestRuntime ParentQuest;
 
-        protected QuestObjectiveDefinition Definition;
+        public QuestObjectiveDefinition Definition;
 
         protected int StepIndex;
 
@@ -73,12 +75,32 @@ namespace Network.Quests.Objectives.Core
         {
             State.CurrentAmount += amount;
 
+            EventController.Instance.TriggerEvent(
+                new QuestObjectiveProgressEvent
+                {
+                    Runtime = ParentQuest,
+                    StepIndex = StepIndex,
+                    ObjectiveIndex = ObjectiveIndex,
+                    CurrentAmount = State.CurrentAmount,
+                    RequiredAmount = Definition.requiredAmount
+                });
+
             EvaluateCompletion();
         }
 
         protected void SetProgress(int amount)
         {
             State.CurrentAmount = amount;
+
+            EventController.Instance.TriggerEvent(
+                new QuestObjectiveProgressEvent
+                {
+                    Runtime = ParentQuest,
+                    StepIndex = StepIndex,
+                    ObjectiveIndex = ObjectiveIndex,
+                    CurrentAmount = State.CurrentAmount,
+                    RequiredAmount = Definition.requiredAmount
+                });
 
             EvaluateCompletion();
         }
