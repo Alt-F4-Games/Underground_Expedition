@@ -1,7 +1,8 @@
-﻿using Network.Inventory;
+﻿using Events;
 using Network.Quests.Definitions;
 using Network.Quests.Enums;
 using Network.Quests.Runtime;
+using Tools.EventSystem;
 
 namespace Network.Quests.Services
 {
@@ -30,11 +31,17 @@ namespace Network.Quests.Services
                 new QuestRuntime(definition);
 
             runtime.SetStatus(
-                QuestStatus.Accepted);
+                QuestStatus.InProgress);
 
             runtime.StartQuest();
 
             manager.RegisterQuest(runtime);
+            
+            EventController.Instance.TriggerEvent(
+                new QuestAcceptedEvent
+                {
+                    Runtime = runtime
+                });
 
             return runtime;
         }
@@ -70,6 +77,12 @@ namespace Network.Quests.Services
 
             runtime.SetStatus(
                 QuestStatus.RewardClaimed);
+            
+            EventController.Instance.TriggerEvent(
+                new RewardClaimedEvent
+                {
+                    Quest = runtime
+                });
         }
     }
 }
