@@ -75,33 +75,33 @@ namespace Tools.EventSystem
 
     public class QuestAcceptedEvent : GameEvent
     {
-        public QuestRuntime Runtime;
+        public QuestRuntime quest;
     }
 
     public class QuestCompletedEvent : GameEvent
     {
-        public QuestRuntime Runtime;
+        public QuestRuntime quest;
     }
 
     public class QuestCancelledEvent : GameEvent
     {
-        public QuestRuntime Quest;
+        public QuestRuntime quest;
     }
 
     public class RewardClaimedEvent : GameEvent
     {
-        public QuestRuntime Quest;
+        public QuestRuntime quest;
     }
 
     public class ObjectiveCompletedEvent : GameEvent
     {
-        public QuestRuntime Quest;
+        public QuestRuntime quest;
         public int StepIndex;
     }
 
     public class QuestObjectiveProgressEvent : GameEvent
     {
-        public QuestRuntime Runtime;
+        public QuestRuntime quest;
 
         public int StepIndex;
 

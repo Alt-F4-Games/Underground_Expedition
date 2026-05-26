@@ -98,7 +98,7 @@ namespace Network.Quests.Services
             EventController.Instance.TriggerEvent(
                 new ObjectiveCompletedEvent
                 {
-                    Quest = quest,
+                    quest = quest,
                     StepIndex = completedStep
                 });
             

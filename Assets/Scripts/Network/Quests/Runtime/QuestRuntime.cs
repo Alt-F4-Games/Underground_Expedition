@@ -121,7 +121,7 @@ namespace Network.Quests.Runtime
             EventController.Instance.TriggerEvent(
                 new QuestCompletedEvent
                 {
-                    Runtime = this
+                    quest = this
                 });
         }
 

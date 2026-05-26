@@ -17,6 +17,9 @@ namespace Network.Quests.Objectives.Core
         protected int StepIndex;
 
         protected int ObjectiveIndex;
+        
+        public QuestObjectiveDefinition DefinitionData =>
+            Definition;
 
         protected ObjectiveRuntimeBase(
             QuestRuntime quest,
@@ -78,7 +81,7 @@ namespace Network.Quests.Objectives.Core
             EventController.Instance.TriggerEvent(
                 new QuestObjectiveProgressEvent
                 {
-                    Runtime = ParentQuest,
+                    quest = ParentQuest,
                     StepIndex = StepIndex,
                     ObjectiveIndex = ObjectiveIndex,
                     CurrentAmount = State.CurrentAmount,
@@ -95,7 +98,7 @@ namespace Network.Quests.Objectives.Core
             EventController.Instance.TriggerEvent(
                 new QuestObjectiveProgressEvent
                 {
-                    Runtime = ParentQuest,
+                    quest = ParentQuest,
                     StepIndex = StepIndex,
                     ObjectiveIndex = ObjectiveIndex,
                     CurrentAmount = State.CurrentAmount,

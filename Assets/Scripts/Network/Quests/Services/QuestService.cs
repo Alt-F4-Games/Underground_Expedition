@@ -40,7 +40,7 @@ namespace Network.Quests.Services
             EventController.Instance.TriggerEvent(
                 new QuestAcceptedEvent
                 {
-                    Runtime = runtime
+                    quest = runtime
                 });
 
             return runtime;
@@ -81,7 +81,7 @@ namespace Network.Quests.Services
             EventController.Instance.TriggerEvent(
                 new RewardClaimedEvent
                 {
-                    Quest = runtime
+                    quest = runtime
                 });
         }
     }
