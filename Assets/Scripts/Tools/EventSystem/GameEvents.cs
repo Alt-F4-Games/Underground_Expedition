@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
-using Fusion;
-using UnityEngine;
+﻿using Fusion;
+using Network.Quests.Runtime;
 
-namespace Events{
-    public class GameEvent  { }
+namespace Tools.EventSystem
+{
+    public class GameEvent { }
+
+    // =====================================================
+    // PLAYER
+    // =====================================================
 
     public class EnemyDiedEvent : GameEvent
     {
@@ -23,14 +27,18 @@ namespace Events{
         public float MaxStamina;
         public int PlayerDamage;
     }
-    
+
+    // =====================================================
+    // ITEMS
+    // =====================================================
+
     public class ItemCollectedEvent : GameEvent
     {
         public PlayerRef player;
         public string itemId;
         public int quantity;
     }
-    
+
     public class ItemCraftedEvent : GameEvent
     {
         public PlayerRef player;
@@ -38,7 +46,11 @@ namespace Events{
         public string resultItemId;
         public int quantity;
     }
-    
+
+    // =====================================================
+    // WORLD
+    // =====================================================
+
     public class ZoneDiscoveredEvent : GameEvent
     {
         public PlayerRef player;
@@ -56,32 +68,47 @@ namespace Events{
         public PlayerRef player;
         public string npcId;
     }
-    
+
+    // =====================================================
+    // QUESTS
+    // =====================================================
+
     public class QuestAcceptedEvent : GameEvent
     {
-        public string questId;
+        public QuestRuntime Runtime;
     }
-    
+
     public class QuestCompletedEvent : GameEvent
     {
-        public string questId;
+        public QuestRuntime Runtime;
     }
-    
-    public class ObjectiveCompletedEvent : GameEvent
-    {
-        public string questId;
-        public int stepIndex;
-    }
-    
-    public class RewardClaimedEvent : GameEvent
-    {
-        public string questId;
-    }
-    
+
     public class QuestCancelledEvent : GameEvent
     {
-        public string questId;
+        public QuestRuntime Quest;
+    }
+
+    public class RewardClaimedEvent : GameEvent
+    {
+        public QuestRuntime Quest;
+    }
+
+    public class ObjectiveCompletedEvent : GameEvent
+    {
+        public QuestRuntime Quest;
+        public int StepIndex;
+    }
+
+    public class QuestObjectiveProgressEvent : GameEvent
+    {
+        public QuestRuntime Runtime;
+
+        public int StepIndex;
+
+        public int ObjectiveIndex;
+
+        public int CurrentAmount;
+
+        public int RequiredAmount;
     }
 }
-
-
