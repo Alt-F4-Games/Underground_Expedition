@@ -1,7 +1,8 @@
-﻿using Network.Inventory;
+﻿using Events;
+using Network.Inventory;
 using Network.Quests.Definitions;
-using Network.Quests.Enums;
 using Network.Quests.Runtime;
+using Tools.EventSystem;
 using UnityEngine;
 
 namespace Network.Quests.Services
@@ -91,6 +92,16 @@ namespace Network.Quests.Services
             if (!currentStep.IsCompleted())
                 return;
 
+            int completedStep =
+                quest.CurrentStepIndex;
+
+            EventController.Instance.TriggerEvent(
+                new ObjectiveCompletedEvent
+                {
+                    Quest = quest,
+                    StepIndex = completedStep
+                });
+            
             quest.AdvanceStep();
         }
     }

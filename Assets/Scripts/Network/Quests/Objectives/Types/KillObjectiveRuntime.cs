@@ -2,6 +2,7 @@
 using Network.Quests.Definitions;
 using Network.Quests.Objectives.Core;
 using Network.Quests.Runtime;
+using Tools.EventSystem;
 
 namespace Network.Quests.Objectives.Types
 {

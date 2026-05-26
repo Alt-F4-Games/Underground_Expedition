@@ -3,6 +3,7 @@ using Events;
 using Fusion;
 using Network.Crafting;
 using Network.Inventory;
+using Tools.EventSystem;
 using UnityEngine;
 
 /// <summary>

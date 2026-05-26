@@ -1,6 +1,7 @@
 ﻿using Events;
 using Fusion;
 using Network.Interaction;
+using Tools.EventSystem;
 using UnityEngine;
 
 namespace Network.Quests.World

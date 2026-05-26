@@ -1,6 +1,7 @@
 ﻿using Events;
 using Fusion;
 using Network.Enemies;
+using Tools.EventSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
