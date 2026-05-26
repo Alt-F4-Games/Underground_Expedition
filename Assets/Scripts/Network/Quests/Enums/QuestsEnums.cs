@@ -10,10 +10,8 @@
     {
         Locked,
         Available,
-        Accepted,
         InProgress,
         Completed,
-        RewardPending,
         RewardClaimed,
         Cancelled
     }
