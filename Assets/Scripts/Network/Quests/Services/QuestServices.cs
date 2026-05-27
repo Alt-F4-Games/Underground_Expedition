@@ -39,7 +39,7 @@ namespace Network.Quests.Services
     {
         public static bool CanStartQuest(
             QuestDefinitionSO definition,
-            QuestManager manager)
+            NetworkQuestManager manager)
         {
             if (definition == null)
                 return false;
@@ -58,7 +58,7 @@ namespace Network.Quests.Services
 
         private static bool ValidateRequirement(
             QuestRequirementDefinition requirement,
-            QuestManager manager)
+            NetworkQuestManager manager)
         {
             if (!string.IsNullOrWhiteSpace(
                     requirement.requiredQuestId))
@@ -110,7 +110,7 @@ namespace Network.Quests.Services
     {
         public static bool CanAcceptQuest(
             QuestDefinitionSO definition,
-            QuestManager manager)
+            NetworkQuestManager manager)
         {
             if (definition == null)
                 return false;
