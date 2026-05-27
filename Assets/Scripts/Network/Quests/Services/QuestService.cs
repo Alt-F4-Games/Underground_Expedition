@@ -10,7 +10,7 @@ namespace Network.Quests.Services
     {
         public static QuestRuntime AcceptQuest(
             QuestDefinitionSO definition,
-            QuestManager manager)
+            NetworkQuestManager manager)
         {
             if (definition == null)
                 return null;
@@ -34,8 +34,6 @@ namespace Network.Quests.Services
                 QuestStatus.InProgress);
 
             runtime.StartQuest();
-
-            manager.RegisterQuest(runtime);
             
             EventController.Instance.TriggerEvent(
                 new QuestAcceptedEvent
