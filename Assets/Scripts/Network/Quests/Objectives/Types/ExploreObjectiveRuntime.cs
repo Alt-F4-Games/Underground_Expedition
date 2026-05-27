@@ -6,30 +6,50 @@ using Tools.EventSystem;
 
 namespace Network.Quests.Objectives.Types
 {
-    public class ExploreObjectiveRuntime : ObjectiveRuntimeBase
+    public class ExploreObjectiveRuntime
+        : ObjectiveRuntimeBase
     {
-        public ExploreObjectiveRuntime(QuestRuntime quest, QuestObjectiveDefinition definition, int stepIndex, int objectiveIndex) : base(quest, definition, stepIndex, objectiveIndex)
+        public ExploreObjectiveRuntime(
+            QuestRuntime quest,
+            QuestObjectiveDefinition definition,
+            int stepIndex,
+            int objectiveIndex)
+            : base(
+                quest,
+                definition,
+                stepIndex,
+                objectiveIndex)
         {
         }
 
         public override void Initialize()
         {
-            EventController.Instance.AddListener<ZoneDiscoveredEvent>(OnZoneDiscovered);
+            EventController.Instance
+                .AddListener<ZoneDiscoveredEvent>(
+                    OnZoneDiscovered);
         }
 
         public override void Dispose()
         {
-            EventController.Instance.RemoveListener<ZoneDiscoveredEvent>(OnZoneDiscovered);
+            EventController.Instance
+                .RemoveListener<ZoneDiscoveredEvent>(
+                    OnZoneDiscovered);
         }
 
-        private void OnZoneDiscovered(ZoneDiscoveredEvent evt)
+        private void OnZoneDiscovered(
+            ZoneDiscoveredEvent evt)
         {
-            if (evt.zoneId != Definition.targetId)
+            if (evt.zoneId !=
+                Definition.targetId)
+            {
                 return;
+            }
 
-            SetProgress(1);
-            
-            EvaluateCompletion();
+            NetworkQuestManager.Local
+                .RPC_AddProgressByTarget(
+                    Definition.questObjectiveType,
+                    Definition.targetId,
+                    1);
         }
     }
 }
