@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
-using Network.Items;
+using Fusion;
 using UnityEngine;
 
-namespace Network.Inventory
+namespace Network.Items
 {
     [CreateAssetMenu(menuName = "Inventory/Item Database")]
     public class ItemDatabase : ScriptableObject
     {
         public static ItemDatabase Instance { get; private set; }
+
+        [Header("Global Network Prefabs")]
+        [Tooltip("The generic world prefab containing the NetworkWorldItem script.")]
+        [SerializeField] private NetworkPrefabRef worldItemPrefab;
+        public NetworkPrefabRef WorldItemPrefab => worldItemPrefab;
 
         [System.Serializable]
         public struct Entry

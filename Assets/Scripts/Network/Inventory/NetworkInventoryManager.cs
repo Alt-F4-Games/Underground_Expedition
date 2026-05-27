@@ -3,6 +3,7 @@ using Fusion;
 using Local.Inventory;
 using Network.Crafting;
 using Network.Inventory;
+using Network.Items;
 using UnityEngine;
 
 /// <summary>

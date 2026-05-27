@@ -12,46 +12,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0422c754a94d4926892fb235bd63d477, type: 3}
   m_Name: ItemDatabase
   m_EditorClassIdentifier: 
+  worldItemPrefab:
+    RawGuidValue: 98b299d1fd750bf4187672354fea34b3
   entries:
   - networkId: 1
     gameplayId: obj_rock
-    item: {fileID: 11400000, guid: 4e4a8de0c7ab7b54998454a6a8d82572, type: 2}
+    item: {fileID: 11400000, guid: 7ad8934361d0b424a87167c6371ea77a, type: 2}
     equipPrefab: {fileID: 2480851720117140581, guid: bb84140efb4d5f34d9716660f6f46936, type: 3}
   - networkId: 2
     gameplayId: obj_leaf
-    item: {fileID: 11400000, guid: a7ddcfb4dc0106d4595275b1dd2b512b, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 4404186000882276173, guid: 93a2abf71f38f0344a75cd0325b1c677, type: 3}
   - networkId: 3
     gameplayId: obj_rat_tail
-    item: {fileID: 11400000, guid: 6cb3bf7405289e742b4af5b907b11a3c, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 6300615438172944, guid: 683b12c1e2cacff48908887f5081f0c7, type: 3}
   - networkId: 4
     gameplayId: obj_tooth
-    item: {fileID: 11400000, guid: 14582fc79d963d149a0a439a2393f3a2, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 541048546124375388, guid: 01a63e9ca24a50b419d84fe8673e11d5, type: 3}
   - networkId: 5
     gameplayId: obj_ruby
-    item: {fileID: 11400000, guid: 3b9a9c31d79ba5e4d87c498ef0b6d5cc, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 5146863705138974573, guid: 8774eb8d5ccfcac45b347ce19f970018, type: 3}
   - networkId: 6
     gameplayId: obj_jade
-    item: {fileID: 11400000, guid: 8fd0f7b302f08ab4ea7685b723977622, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 2361888065420236014, guid: 1caa678d107822348aa8f1bd137eb5d5, type: 3}
   - networkId: 7
     gameplayId: obj_gold_ingot
-    item: {fileID: 11400000, guid: b189387042f9b9c4ca626d85c1ba7b19, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 5900994845983557031, guid: 5a2ae35aea121234bb3ba972bbd5f4d8, type: 3}
   - networkId: 8
     gameplayId: obj_sap
-    item: {fileID: 11400000, guid: c01101a43534b584688ae91da7d72071, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 4609994862071649811, guid: 774511639e8a6c54ea3a103b23348919, type: 3}
   - networkId: 9
     gameplayId: obj_bone_dust
-    item: {fileID: 11400000, guid: 52a49488a625fb64e866974e330d5b5b, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 3015695602909181529, guid: aa0c41e6015076741a6fd4dd91ec1c80, type: 3}
   - networkId: 10
     gameplayId: obj_healing_ointment
-    item: {fileID: 11400000, guid: bb8556b5a36174b488c7b8f6d4c51d44, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 223804017762803384, guid: d856160c7ab7de846b6e9489613e15e5, type: 3}
   - networkId: 11
     gameplayId: obj_canteen
@@ -59,17 +61,17 @@ MonoBehaviour:
     equipPrefab: {fileID: 7531637577072468163, guid: 2fdb3461763e49b419705e700f8ab7a2, type: 3}
   - networkId: 12
     gameplayId: obj_stone_sharpener
-    item: {fileID: 11400000, guid: d5f928cc4d345b94c8408adb274cf7b7, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 5768729504813946086, guid: e2dc3908a7000f041bfd2243b6e248a3, type: 3}
   - networkId: 13
     gameplayId: obj_totem01
-    item: {fileID: 11400000, guid: b5cd0479234852b47a6941d37004d2ee, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 3462229856979228945, guid: f9e2fe667958ca54f8c5ffca6efa9d00, type: 3}
   - networkId: 14
     gameplayId: obj_totem02
-    item: {fileID: 11400000, guid: 51e68a6d99219b145a02484bf37e5064, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 8115681959285292994, guid: 3221b0e5a79fca54fa72be90ae193901, type: 3}
   - networkId: 15
     gameplayId: obj_totem
-    item: {fileID: 11400000, guid: 0e8d91b3931507e44b1642ec9f3701b2, type: 2}
+    item: {fileID: 0}
     equipPrefab: {fileID: 2078067786966889454, guid: 3bfa0f38f7183bb459ed2e18429088af, type: 3}
