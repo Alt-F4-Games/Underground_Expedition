@@ -30,4 +30,14 @@ namespace Network.Quests.Runtime
         public List<QuestStepState>
             Steps = new();
     }
+    
+    [Serializable]
+    public class QuestSyncData
+    {
+        public List<QuestRuntimeState>
+            ActiveQuests = new();
+
+        public List<string>
+            CompletedQuests = new();
+    }
 }
