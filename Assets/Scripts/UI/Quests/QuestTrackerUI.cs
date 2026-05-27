@@ -43,7 +43,7 @@ namespace UI.Quests
         private void BuildInitialUI()
         {
             foreach (var runtime
-                     in QuestManager.Instance.ActiveQuests)
+                     in NetworkQuestManager.Local.ActiveQuests)
             {
                 CreateEntry(runtime);
             }
@@ -66,6 +66,10 @@ namespace UI.Quests
             EventController.Instance
                 .AddListener<QuestObjectiveProgressEvent>(
                     OnObjectiveProgress);
+            
+            EventController.Instance
+                .AddListener<QuestUIRefreshEvent>(
+                    OnQuestUIRefresh);
         }
 
         private void UnsubscribeEvents()
@@ -143,6 +147,34 @@ namespace UI.Quests
                 return;
 
             Destroy(entry.gameObject);
+        }
+        
+        private void OnQuestUIRefresh(
+            QuestUIRefreshEvent evt)
+        {
+            RefreshAll();
+        }
+        
+        private void RefreshAll()
+        {
+            ClearEntries();
+
+            foreach (var runtime
+                     in NetworkQuestManager
+                         .Local
+                         .ActiveQuests)
+            {
+                CreateEntry(runtime);
+            }
+        }
+        
+        private void ClearEntries()
+        {
+            foreach (Transform child
+                     in content)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 }
