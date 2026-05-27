@@ -90,6 +90,11 @@ namespace Network.Quests.Objectives.Core
 
             EvaluateCompletion();
         }
+        
+        public void Debug_AddProgress(int amount)
+        {
+            AddProgress(amount);
+        }
 
         protected void SetProgress(int amount)
         {
@@ -139,6 +144,11 @@ namespace Network.Quests.Objectives.Core
 
             QuestStepService.EvaluateStep(
                 ParentQuest);
+        }
+        
+        public void EvaluateCompletionFromNetwork()
+        {
+            EvaluateCompletion();
         }
     }
 }
