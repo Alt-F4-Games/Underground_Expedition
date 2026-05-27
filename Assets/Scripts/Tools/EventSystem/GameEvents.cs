@@ -111,4 +111,9 @@ namespace Tools.EventSystem
 
         public int RequiredAmount;
     }
+    
+    public class QuestUIRefreshEvent
+        : GameEvent
+    {
+    }
 }
