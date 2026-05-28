@@ -1,7 +1,5 @@
-﻿using Events;
-using Fusion;
-using Network.Interaction;
-using Tools.EventSystem;
+﻿using Network.Interaction;
+using Network.Quests.Enums;
 using UnityEngine;
 
 namespace Network.Quests.World
@@ -12,22 +10,15 @@ namespace Network.Quests.World
         [SerializeField]
         private string interactionId;
 
-        public override void OnInteract(
-            NetworkPlayerController player)
+        public override void OnInteract(NetworkPlayerController player)
         {
-            if (!HasStateAuthority)
+            if (!player.Object.HasInputAuthority)
                 return;
 
-            InteractObjectiveEvent interactObjectiveEvent = new InteractObjectiveEvent
-            {
-                player = player.Object.InputAuthority,
-                interactionId = interactionId
-            };
-            
-            EventController.Instance.TriggerEvent(interactObjectiveEvent);
-
-            Debug.Log(
-                $"[QuestInteractable] Interaction triggered: {interactionId}");
+            NetworkQuestManager.Local.RPC_ReportQuestEvent(
+                (int)QuestObjectiveType.Interact,
+                interactionId,
+                1);
         }
     }
 }
