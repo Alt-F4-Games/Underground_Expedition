@@ -1,149 +1,74 @@
-﻿using Events;
-using System.Collections.Generic;
-using Network.Quests.Definitions;
-using Network.Quests.Enums;
-using Tools.EventSystem;
+﻿using Network.Quests.Definitions;
 
 namespace Network.Quests.Runtime
 {
     public class QuestRuntime
     {
-        public QuestDefinitionSO Definition
-        { get; private set; }
+        public QuestDefinitionSO Definition { get; private set; }
+        public QuestState State { get; private set; }
 
-        public QuestRuntimeState State
-        { get; private set; }
+        public string QuestId => Definition.questId;
+        public string QuestName => Definition.questName;
 
-        public QuestStatus Status
-        { get; private set; }
-
-        public int CurrentStepIndex =>
-            State.CurrentStepIndex;
-
-        public List<QuestStepRuntime> Steps
-        { get; private set; } = new();
-
-        public QuestStepRuntime CurrentStep =>
-            CurrentStepIndex >= Steps.Count
-                ? null
-                : Steps[CurrentStepIndex];
-        
-        public string QuestId =>
-            Definition.questId;
-
-        public string QuestName =>
-            Definition.questName;
-
-        public IReadOnlyList<QuestStepRuntime>
-            StepRuntimes =>
-            Steps;
-
-        public QuestRuntime(
-            QuestDefinitionSO definition,
-            QuestRuntimeState state = null)
+        public QuestRuntime(QuestDefinitionSO definition)
         {
             Definition = definition;
 
-            State = state ??
-                    new QuestRuntimeState
-                    {
-                        QuestId = definition.questId
-                    };
-
-            BuildSteps();
-        }
-
-        // =====================================================
-        // BUILD
-        // =====================================================
-
-        private void BuildSteps()
-        {
-            Steps.Clear();
-
-            for (int i = 0;
-                 i < Definition.steps.Count;
-                 i++)
+            State = new QuestState
             {
-                Steps.Add(
-                    new QuestStepRuntime(
-                        this,
-                        Definition.steps[i],
-                        i));
-            }
+                questId = definition.questId,
+                currentStepIndex = 0,
+                isCompleted = false
+            };
+
+            BuildState();
         }
 
-        // =====================================================
-        // QUEST FLOW
-        // =====================================================
-
-        public void StartQuest()
+        public QuestRuntime(
+            QuestDefinitionSO definition,
+            QuestState state)
         {
-            Status = QuestStatus.InProgress;
-
-            CurrentStep?.Initialize();
+            Definition = definition;
+            State = state;
         }
 
-        public void Dispose()
+        private void BuildState()
         {
-            CurrentStep?.Dispose();
-        }
-
-        // =====================================================
-        // STEP FLOW
-        // =====================================================
-
-        public void AdvanceStep()
-        {
-            CurrentStep?.Dispose();
-
-            State.CurrentStepIndex++;
-
-            if (CurrentStepIndex >= Steps.Count)
+            for (int i = 0; i < Definition.steps.Count; i++)
             {
-                CompleteQuest();
-                return;
-            }
+                QuestStepState stepState = new();
 
-            CurrentStep?.Initialize();
-        }
-
-        // =====================================================
-        // COMPLETION
-        // =====================================================
-
-        private void CompleteQuest()
-        {
-            Status = QuestStatus.Completed;
-
-            State.IsCompleted = true;
-
-            EventController.Instance.TriggerEvent(
-                new QuestCompletedEvent
+                for (int j = 0;
+                     j < Definition.steps[i].objectives.Count;
+                     j++)
                 {
-                    quest = this
-                });
-        }
+                    stepState.objectives.Add(
+                        new QuestObjectiveState
+                        {
+                            currentAmount = 0
+                        });
+                }
 
-        // =====================================================
-        // STATE
-        // =====================================================
+                State.steps.Add(stepState);
+            }
+        }
 
         public bool IsQuestFinished()
         {
-            return Status == QuestStatus.Completed;
+            return State.isCompleted;
         }
 
-        public void SetStatus(
-            QuestStatus status)
+        public bool HasPlayerClaimed(string playerId)
         {
-            Status = status;
+            return State.claimedPlayerIds.Contains(playerId);
         }
 
-        public bool IsCurrentStepCompleted()
+        public void MarkRewardClaimed(string playerId)
         {
-            return CurrentStep != null &&
-                   CurrentStep.IsCompleted();
+            if (!State.claimedPlayerIds.Contains(playerId))
+            {
+                State.claimedPlayerIds.Add(playerId);
+            }
         }
     }
 }
