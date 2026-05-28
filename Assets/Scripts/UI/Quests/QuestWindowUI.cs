@@ -15,6 +15,9 @@ namespace UI.Quests
         public static QuestWindowUI Instance
         { get; private set; }
 
+        [Header("Root")]
+        [SerializeField] private GameObject root;
+        
         [Header("List")]
         [SerializeField]
         private Transform questListContainer;
@@ -49,11 +52,8 @@ namespace UI.Quests
         {
             Instance = this;
 
-            gameObject.SetActive(false);
-        }
-
-        private void Start()
-        {
+            root.SetActive(false);
+            
             acceptButton.onClick
                 .AddListener(
                     AcceptSelectedQuest);
@@ -85,12 +85,12 @@ namespace UI.Quests
 
             BuildQuestList();
 
-            gameObject.SetActive(true);
+            root.SetActive(true);
         }
 
         public void Close()
         {
-            gameObject.SetActive(false);
+            root.SetActive(false);
         }
 
         private void BuildQuestList()
