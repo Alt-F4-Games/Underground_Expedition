@@ -18,20 +18,23 @@ namespace UI.Quests
 
         private QuestWindowUI _window;
 
-        // =====================================================
-        // SETUP
-        // =====================================================
+        private bool _locked;
 
         public void Bind(
             QuestDefinitionSO definition,
-            QuestWindowUI window)
+            QuestWindowUI window,
+            bool locked)
         {
             _definition = definition;
 
             _window = window;
 
+            _locked = locked;
+
             questNameText.text =
-                definition.questName;
+                locked
+                    ? "????"
+                    : definition.questName;
 
             button.onClick.RemoveAllListeners();
 
@@ -39,14 +42,11 @@ namespace UI.Quests
                 SelectQuest);
         }
 
-        // =====================================================
-        // EVENTS
-        // =====================================================
-
         private void SelectQuest()
         {
             _window.SelectQuest(
-                _definition);
+                _definition,
+                _locked);
         }
     }
 }
