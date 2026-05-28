@@ -7,79 +7,31 @@ namespace Network.Quests.Save
 {
     public static class NetworkQuestSaveSystem
     {
-        // =====================================================
-        // PATH
-        // =====================================================
-
-        private static string GetPath(
-            PlayerRef player)
+        public static void Save(string playerId, QuestSaveData data)
         {
-            return Path.Combine(
-                Application.persistentDataPath,
-                $"quests_{player.PlayerId}.json");
+            string path = GetPath(playerId);
+
+            string json = JsonUtility.ToJson(data, true);
+
+            File.WriteAllText(path, json);
         }
 
-        // =====================================================
-        // SAVE
-        // =====================================================
-
-        public static void Save(
-            PlayerRef player,
-            NetworkQuestManager manager)
+        public static QuestSaveData Load(string playerId)
         {
-            if (manager == null)
-                return;
-
-            QuestSyncData data =
-                manager.CreateSyncData();
-
-            string json =
-                JsonUtility.ToJson(
-                    data,
-                    true);
-
-            File.WriteAllText(
-                GetPath(player),
-                json);
-
-            Debug.Log(
-                $"[QuestSave] Saved player quests: {player.PlayerId}");
-        }
-
-        // =====================================================
-        // LOAD
-        // =====================================================
-
-        public static void Load(
-            PlayerRef player,
-            NetworkQuestManager manager)
-        {
-            string path =
-                GetPath(player);
+            string path = GetPath(playerId);
 
             if (!File.Exists(path))
-            {
-                Debug.Log(
-                    $"[QuestSave] No save found for player {player.PlayerId}");
+                return new QuestSaveData();
 
-                return;
-            }
+            string json = File.ReadAllText(path);
 
-            string json =
-                File.ReadAllText(path);
+            return JsonUtility.FromJson<QuestSaveData>(json);
+        }
 
-            QuestSyncData data =
-                JsonUtility.FromJson<QuestSyncData>(
-                    json);
-
-            if (data == null)
-                return;
-
-            manager.LoadFromSyncData(
-                data);
-
-            Debug.Log(
-                $"[QuestSave] Loaded player quests: {player.PlayerId}");
+        private static string GetPath(string playerId)
+        {
+            return Path.Combine(Application.persistentDataPath,
+                $"quests_{playerId}.json");
         }
     }
 }
