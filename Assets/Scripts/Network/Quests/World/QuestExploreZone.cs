@@ -1,5 +1,6 @@
 ﻿using Events;
 using Fusion;
+using Network.Quests.Enums;
 using Tools.EventSystem;
 using UnityEngine;
 
@@ -20,22 +21,16 @@ namespace Network.Quests.World
             if (!other.CompareTag(playerTag))
                 return;
 
-            var networkObject =
-                other.GetComponent<NetworkObject>();
+            var netObj = other.GetComponent<NetworkObject>();
+            if (netObj == null) return;
 
-            if (networkObject == null)
+            if (!netObj.HasInputAuthority)
                 return;
 
-            ZoneDiscoveredEvent zoneDiscoveredEvent = new ZoneDiscoveredEvent
-            {
-                player = networkObject.InputAuthority,
-                zoneId = zoneId
-            };
-            
-            EventController.Instance.TriggerEvent(zoneDiscoveredEvent);
-
-            Debug.Log(
-                $"[QuestExploreZone] Player discovered zone: {zoneId}");
+            NetworkQuestManager.Local.RPC_ReportQuestEvent(
+                (int)QuestObjectiveType.ExploreArea,
+                zoneId,
+                1);
         }
     }
 }
