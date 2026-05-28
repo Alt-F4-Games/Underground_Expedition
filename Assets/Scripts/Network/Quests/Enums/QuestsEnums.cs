@@ -12,8 +12,7 @@
         Available,
         InProgress,
         Completed,
-        RewardClaimed,
-        Cancelled
+        RewardClaimed
     }
     
     public enum QuestObjectiveType
@@ -41,5 +40,11 @@
     {
         Individual,
         Shared
+    }
+    
+    public enum QuestRequirementType
+    {
+        None,
+        RequireCompletedAndClaimedQuest
     }
 }
