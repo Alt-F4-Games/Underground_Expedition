@@ -28,11 +28,10 @@ namespace Network.Quests.Definitions
     [Serializable]
     public class QuestRequirementDefinition
     {
+        public QuestRequirementType requirementType;
+
         [Header("Quest Dependency")]
         public string requiredQuestId;
-
-        [Header("Player Requirement")]
-        public int requiredLevel;
     }
 
     // =====================================================
