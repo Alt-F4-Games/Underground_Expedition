@@ -20,104 +20,30 @@ namespace UI.Quests
             QuestTrackerEntryUI>
             _entries = new();
 
-        // =====================================================
-        // UNITY
-        // =====================================================
-
         private void Start()
         {
-            BuildInitialUI();
+            Build();
 
-            SubscribeEvents();
+            Subscribe();
         }
 
         private void OnDestroy()
         {
-            UnsubscribeEvents();
+            Unsubscribe();
         }
 
-        // =====================================================
-        // BUILD
-        // =====================================================
-
-        private void BuildInitialUI()
+        private void Build()
         {
-            foreach (var runtime
-                     in NetworkQuestManager.Local.ActiveQuests)
+            Clear();
+
+            foreach (var pair
+                     in NetworkQuestManager
+                         .Local
+                         .ActiveQuests)
             {
-                CreateEntry(runtime);
+                CreateEntry(pair.Value);
             }
         }
-
-        // =====================================================
-        // EVENTS
-        // =====================================================
-
-        private void SubscribeEvents()
-        {
-            EventController.Instance
-                .AddListener<QuestAcceptedEvent>(
-                    OnQuestAccepted);
-
-            EventController.Instance
-                .AddListener<QuestCompletedEvent>(
-                    OnQuestCompleted);
-
-            EventController.Instance
-                .AddListener<QuestObjectiveProgressEvent>(
-                    OnObjectiveProgress);
-            
-            EventController.Instance
-                .AddListener<QuestUIRefreshEvent>(
-                    OnQuestUIRefresh);
-        }
-
-        private void UnsubscribeEvents()
-        {
-            EventController.Instance
-                .RemoveListener<QuestAcceptedEvent>(
-                    OnQuestAccepted);
-
-            EventController.Instance
-                .RemoveListener<QuestCompletedEvent>(
-                    OnQuestCompleted);
-
-            EventController.Instance
-                .RemoveListener<QuestObjectiveProgressEvent>(
-                    OnObjectiveProgress);
-        }
-
-        // =====================================================
-        // EVENT CALLBACKS
-        // =====================================================
-
-        private void OnQuestAccepted(
-            QuestAcceptedEvent evt)
-        {
-            CreateEntry(evt.quest);
-        }
-
-        private void OnQuestCompleted(
-            QuestCompletedEvent evt)
-        {
-            RemoveEntry(
-                evt.quest.QuestId);
-        }
-
-        private void OnObjectiveProgress(
-            QuestObjectiveProgressEvent evt)
-        {
-            if (!_entries.TryGetValue(
-                    evt.quest.QuestId,
-                    out var entry))
-                return;
-
-            entry.Refresh();
-        }
-
-        // =====================================================
-        // ENTRY MANAGEMENT
-        // =====================================================
 
         private void CreateEntry(
             QuestRuntime runtime)
@@ -138,43 +64,35 @@ namespace UI.Quests
                 entry);
         }
 
-        private void RemoveEntry(
-            string questId)
-        {
-            if (!_entries.Remove(
-                    questId,
-                    out var entry))
-                return;
-
-            Destroy(entry.gameObject);
-        }
-        
-        private void OnQuestUIRefresh(
-            QuestUIRefreshEvent evt)
-        {
-            RefreshAll();
-        }
-        
-        private void RefreshAll()
-        {
-            ClearEntries();
-
-            foreach (var runtime
-                     in NetworkQuestManager
-                         .Local
-                         .ActiveQuests)
-            {
-                CreateEntry(runtime);
-            }
-        }
-        
-        private void ClearEntries()
+        private void Clear()
         {
             foreach (Transform child
                      in content)
             {
                 Destroy(child.gameObject);
             }
+
+            _entries.Clear();
+        }
+
+        private void Subscribe()
+        {
+            EventController.Instance
+                .AddListener<QuestUIRefreshEvent>(
+                    OnRefresh);
+        }
+
+        private void Unsubscribe()
+        {
+            EventController.Instance
+                .RemoveListener<QuestUIRefreshEvent>(
+                    OnRefresh);
+        }
+
+        private void OnRefresh(
+            QuestUIRefreshEvent evt)
+        {
+            Build();
         }
     }
 }
