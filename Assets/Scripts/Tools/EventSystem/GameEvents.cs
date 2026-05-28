@@ -102,18 +102,11 @@ namespace Tools.EventSystem
     public class QuestObjectiveProgressEvent : GameEvent
     {
         public QuestRuntime quest;
-
         public int StepIndex;
-
         public int ObjectiveIndex;
-
         public int CurrentAmount;
-
         public int RequiredAmount;
     }
-    
-    public class QuestUIRefreshEvent
-        : GameEvent
-    {
-    }
+
+    public class QuestUIRefreshEvent : GameEvent { }
 }
