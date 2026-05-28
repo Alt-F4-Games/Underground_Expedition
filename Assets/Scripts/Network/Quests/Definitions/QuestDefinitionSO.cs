@@ -34,6 +34,15 @@ namespace Network.Quests.Definitions
         public bool requiresNpcToComplete = true;
 
         // =====================================================
+        // REQUIREMENTS
+        // =====================================================
+
+        [Header("Requirements")]
+        public QuestRequirementType requirementType;
+
+        public string requiredQuestId;
+
+        // =====================================================
         // SCOPES
         // =====================================================
 
