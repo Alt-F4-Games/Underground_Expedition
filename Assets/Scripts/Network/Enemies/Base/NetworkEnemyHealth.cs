@@ -1,6 +1,8 @@
 ﻿using Events;
 using Fusion;
 using Network.Enemies;
+using Network.Quests;
+using Network.Quests.Enums;
 using Tools.EventSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -35,6 +37,11 @@ namespace Health
             };
 
             EventController.Instance.TriggerEvent(enemyDiedEvent);
+            
+            NetworkQuestManager.Local.RPC_ReportQuestEvent(
+                (int)QuestObjectiveType.KillEnemy,
+                enemyData.enemyId,
+                1);
 
         }
     }
