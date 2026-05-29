@@ -23,17 +23,6 @@ namespace Network.Quests.Definitions
         public QuestType questType;
 
         // =====================================================
-        // RULES
-        // =====================================================
-
-        [Header("Quest Rules")]
-        public bool canCancel = true;
-
-        public bool requiresManualAccept = true;
-
-        public bool requiresNpcToComplete = true;
-
-        // =====================================================
         // REQUIREMENTS
         // =====================================================
 
