@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿// =====================================================
+// QuestDefinitionSO.cs
+// =====================================================
+
+using System;
+using System.Collections.Generic;
 using Network.Quests.Enums;
 using UnityEngine;
 
@@ -15,25 +20,13 @@ namespace Network.Quests.Definitions
         [TextArea]
         public string description;
 
-        // =====================================================
-        // TYPE
-        // =====================================================
-
-        [Header("Quest Type")]
+        [Header("Type")]
         public QuestType questType;
-
-        // =====================================================
-        // REQUIREMENTS
-        // =====================================================
 
         [Header("Requirements")]
         public QuestRequirementType requirementType;
 
         public string requiredQuestId;
-
-        // =====================================================
-        // SCOPES
-        // =====================================================
 
         [Header("Scopes")]
         public ProgressScope progressScope;
@@ -42,25 +35,34 @@ namespace Network.Quests.Definitions
 
         public RewardScope rewardScope;
 
-        // =====================================================
-        // NPC
-        // =====================================================
-
-        [Header("NPC")]
-        public string npcId;
-
-        // =====================================================
-        // STEPS
-        // =====================================================
-
-        [Header("Steps")]
-        public List<QuestStepDefinition> steps = new();
-
-        // =====================================================
-        // REWARDS
-        // =====================================================
+        [Header("Objectives")]
+        public List<QuestObjectiveDefinition> objectives = new();
 
         [Header("Rewards")]
         public List<RewardDefinition> rewards = new();
+    }
+
+    [Serializable]
+    public class RewardDefinition
+    {
+        public string itemId;
+
+        public int quantity;
+
+        public int experience;
+    }
+
+    [Serializable]
+    public class QuestObjectiveDefinition
+    {
+        public string objectiveId;
+
+        public string displayName;
+
+        public QuestObjectiveType objectiveType;
+
+        public string targetId;
+
+        public int requiredAmount = 1;
     }
 }
