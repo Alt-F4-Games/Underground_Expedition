@@ -81,16 +81,21 @@ namespace UI.Quests
         public void Open(
             QuestNpc npc)
         {
+            if (npc == null)
+                return;
+            
             _currentNpc = npc;
 
             BuildQuestList();
 
             root.SetActive(true);
+            InputManager.SetMode(InputMode.UI);
         }
 
         public void Close()
         {
             root.SetActive(false);
+            InputManager.SetMode(InputMode.Game);
         }
 
         private void BuildQuestList()
@@ -134,8 +139,8 @@ namespace UI.Quests
             QuestDefinitionSO definition,
             bool locked)
         {
-            _selectedQuest =
-                definition;
+            _selectedQuest = definition;
+            _selectedLocked = locked;
 
             if (locked)
             {
@@ -165,19 +170,37 @@ namespace UI.Quests
         private void RefreshButtons(
             QuestRuntime runtime)
         {
+            if (_selectedQuest == null)
+                return;
+
             bool hasQuest =
                 runtime != null;
 
-            acceptButton.gameObject
-                .SetActive(!hasQuest);
+            bool completed =
+                hasQuest &&
+                runtime.State.isCompleted;
 
-            claimButton.gameObject
-                .SetActive(
-                    hasQuest &&
-                    runtime.State.isCompleted &&
-                    !NetworkQuestManager.Local
-                        .IsQuestRewardClaimed(
-                            runtime.QuestId));
+            bool claimed =
+                hasQuest &&
+                NetworkQuestManager.Local
+                    .IsQuestRewardClaimed(
+                        runtime.QuestId);
+
+            bool locked =
+                _selectedLocked;
+
+            // ACCEPT
+
+            acceptButton.gameObject.SetActive(
+                !locked &&
+                !hasQuest);
+
+            // CLAIM
+
+            claimButton.gameObject.SetActive(
+                !locked &&
+                completed &&
+                !claimed);
         }
 
         private void AcceptSelectedQuest()
@@ -206,10 +229,24 @@ namespace UI.Quests
         private void OnQuestUIRefresh(
             QuestUIRefreshEvent evt)
         {
-            if (!gameObject.activeSelf)
+            if (!root.activeSelf)
                 return;
 
             BuildQuestList();
+
+            if (_selectedQuest == null)
+                return;
+
+            NetworkQuestManager.Local
+                .TryGetQuest(
+                    _selectedQuest.questId,
+                    out QuestRuntime runtime);
+
+            detailsUI.ShowQuest(
+                _selectedQuest,
+                runtime);
+
+            RefreshButtons(runtime);
         }
     }
 }
