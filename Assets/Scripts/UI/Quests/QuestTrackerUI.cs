@@ -20,11 +20,24 @@ namespace UI.Quests
             QuestTrackerEntryUI>
             _entries = new();
 
+        private bool _initialized;
+
         private void Start()
         {
+            Subscribe();
+        }
+        
+        private void Update()
+        {
+            if (_initialized)
+                return;
+
+            if (NetworkQuestManager.Local == null)
+                return;
+
             Build();
 
-            Subscribe();
+            _initialized = true;
         }
 
         private void OnDestroy()
@@ -36,12 +49,31 @@ namespace UI.Quests
         {
             Clear();
 
+            if (!NetworkQuestManager.Local)
+            {
+                Debug.LogWarning(
+                    "[QuestTrackerUI] Local QuestManager null");
+
+                return;
+            }
+
             foreach (var pair
                      in NetworkQuestManager
                          .Local
                          .ActiveQuests)
             {
-                CreateEntry(pair.Value);
+                QuestRuntime runtime =
+                    pair.Value;
+
+                bool claimed =
+                    NetworkQuestManager.Local
+                        .IsQuestRewardClaimed(
+                            runtime.QuestId);
+                
+                if (claimed)
+                    continue;
+
+                CreateEntry(runtime);
             }
         }
 
