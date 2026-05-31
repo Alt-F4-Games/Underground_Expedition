@@ -11,14 +11,17 @@ namespace Network.Interaction
     {
         [Header("Interaction Settings")]
         [Tooltip("Maximum distance the player can be to interact.")]
-        [SerializeField] private float _interactionRange = 3f;
-        
+        [SerializeField]
+        private float _interactionRange = 3f;
+
         [Tooltip("The layer assigned to interactable objects.")]
-        [SerializeField] private LayerMask _interactableLayer;
+        [SerializeField]
+        private LayerMask _interactableLayer;
 
         [Header("References")]
         [Tooltip("The transform from which the server will fire the raycast (usually the camera pivot).")]
-        [SerializeField] private Transform _rayOrigin;
+        [SerializeField]
+        private Transform _rayOrigin;
 
         // --- NETWORKED STATE ---
         [Networked] public NetworkObject CurrentTarget { get; private set; }
@@ -27,10 +30,7 @@ namespace Network.Interaction
 
         private NetworkPlayerController _controller;
 
-        public override void Spawned()
-        {
-            _controller = GetComponent<NetworkPlayerController>();
-        }
+        public override void Spawned() { _controller = GetComponent<NetworkPlayerController>(); }
 
         public override void FixedUpdateNetwork()
         {
@@ -39,14 +39,18 @@ namespace Network.Interaction
                 ResetInteraction();
                 return;
             }
-            
-            if (GetInput(out NetworkInputPlayer input))
+
+            if (GetInput(
+                    out NetworkInputPlayer input))
             {
-                bool isPressingInteract = input.Buttons.IsSet(NetworkInputPlayer.INTERACT_BUTTON);
+                bool isPressingInteract =
+                    input.Buttons.IsSet(
+                        NetworkInputPlayer.INTERACT_BUTTON);
 
                 if (HasStateAuthority)
                 {
-                    ProcessServerInteraction(isPressingInteract);
+                    ProcessServerInteraction(
+                        isPressingInteract);
                 }
             }
         }
@@ -58,43 +62,58 @@ namespace Network.Interaction
                 ResetInteraction();
                 return;
             }
-
-            // If we are not currently interacting with anything, try to find a target
+            
             if (CurrentTarget == null || !CurrentTarget.IsValid)
             {
-                if (_rayOrigin == null) return;
+                if (_rayOrigin == null)
+                    return;
 
                 Ray ray = new Ray(_rayOrigin.position, _rayOrigin.forward);
-                
+
                 if (Physics.Raycast(ray, out RaycastHit hit, _interactionRange, _interactableLayer))
                 {
-                    var interactableObj = hit.collider.GetComponentInParent<IInteractable>();
+                    var interactables = hit.collider.GetComponentsInParent<IInteractable>();
+
                     var netObj = hit.collider.GetComponentInParent<NetworkObject>();
 
-                    if (interactableObj != null && netObj != null && interactableObj.CanInteract(Object.InputAuthority))
+                    if (interactables.Length > 0 && netObj != null)
                     {
-                        CurrentTarget = netObj;
-                        CurrentInteractionDuration = interactableObj.GetInteractionDuration();
-                        
-                        if (CurrentInteractionDuration > 0)
+                        bool canInteract = false;
+
+                        foreach (var interactable in interactables)
                         {
-                            // Start the hold timer
+                            if (interactable.CanInteract(Object.InputAuthority))
+                            {
+                                canInteract = true;
+                                break;
+                            }
+                        }
+
+                        if (!canInteract)
+                            return;
+
+                        CurrentTarget = netObj;
+
+                        CurrentInteractionDuration = interactables[0].GetInteractionDuration();
+
+                        if (CurrentInteractionDuration > 0f)
+                        {
                             InteractionTimer = TickTimer.CreateFromSeconds(Runner, CurrentInteractionDuration);
                         }
                         else
                         {
-                            // Instant interaction
-                            interactableObj.OnInteract(_controller);
+                            ExecuteInteractions(netObj);
+
                             ResetInteraction();
                         }
                     }
                 }
             }
-            // If we are already interacting with a target, keep updating the state
             else
             {
-                if (_rayOrigin == null) return;
-                
+                if (_rayOrigin == null)
+                    return;
+
                 if (Vector3.Distance(_rayOrigin.position, CurrentTarget.transform.position) > _interactionRange + 1.5f)
                 {
                     ResetInteraction();
@@ -103,15 +122,28 @@ namespace Network.Interaction
 
                 if (InteractionTimer.Expired(Runner))
                 {
-                    var interactable = CurrentTarget.GetComponent<IInteractable>();
-                    
-                    if (interactable != null && interactable.CanInteract(Object.InputAuthority))
-                    {
-                        interactable.OnInteract(_controller);
-                    }
-                    
+                    ExecuteInteractions(CurrentTarget);
+
                     ResetInteraction();
                 }
+            }
+        }
+
+        private void ExecuteInteractions(NetworkObject target)
+        {
+            if (target == null)
+                return;
+
+            var interactables = target.GetComponents<IInteractable>();
+
+            foreach (var interactable in interactables)
+            {
+                if (!interactable.CanInteract(Object.InputAuthority))
+                {
+                    continue;
+                }
+
+                interactable.OnInteract(_controller);
             }
         }
 
@@ -124,10 +156,16 @@ namespace Network.Interaction
 
         public float GetInteractionProgress()
         {
-            if (CurrentTarget == null || !CurrentTarget.IsValid || CurrentInteractionDuration <= 0f || !InteractionTimer.IsRunning) 
+            if (!CurrentTarget ||
+                !CurrentTarget.IsValid ||
+                CurrentInteractionDuration <= 0f ||
+                !InteractionTimer.IsRunning)
+            {
                 return 0f;
+            }
 
             float remaining = InteractionTimer.RemainingTime(Runner) ?? 0f;
+
             return Mathf.Clamp01(1f - (remaining / CurrentInteractionDuration));
         }
     }
