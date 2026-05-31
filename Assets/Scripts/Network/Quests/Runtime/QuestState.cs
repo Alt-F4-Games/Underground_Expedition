@@ -1,4 +1,8 @@
-﻿using System;
+﻿// =====================================================
+// QuestState.cs
+// =====================================================
+
+using System;
 using System.Collections.Generic;
 
 namespace Network.Quests.Runtime
@@ -10,29 +14,13 @@ namespace Network.Quests.Runtime
     }
 
     [Serializable]
-    public class QuestStepState
-    {
-        public List<QuestObjectiveState> objectives = new();
-    }
-
-    [Serializable]
     public class QuestState
     {
         public string questId;
 
-        public int currentStepIndex;
-
         public bool isCompleted;
 
-        // =====================================================
-        // GLOBAL QUEST STATE
-        // =====================================================
-
-        public List<QuestStepState> steps = new();
-
-        // =====================================================
-        // INDIVIDUAL REWARD CLAIMS
-        // =====================================================
+        public List<QuestObjectiveState> objectives = new();
 
         public List<string> claimedPlayerIds = new();
     }
