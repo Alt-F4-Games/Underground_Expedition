@@ -27,10 +27,14 @@ namespace Network.Quests.World
             if (!netObj.HasInputAuthority)
                 return;
 
-            NetworkQuestManager.Local.RPC_ReportQuestEvent(
-                (int)QuestObjectiveType.ExploreArea,
-                zoneId,
-                1);
+            if (NetworkQuestManager.Local == null)
+                return;
+
+            NetworkQuestManager.Local
+                .RPC_ReportQuestEvent(
+                    (int)QuestObjectiveType.ExploreArea,
+                    zoneId,
+                    1);
         }
     }
 }

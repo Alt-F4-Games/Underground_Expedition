@@ -12,13 +12,14 @@ namespace Network.Quests.World
 
         public override void OnInteract(NetworkPlayerController player)
         {
-            if (!player.Object.HasInputAuthority)
+            if (!NetworkPlayerController.Local)
                 return;
 
-            NetworkQuestManager.Local.RPC_ReportQuestEvent(
-                (int)QuestObjectiveType.Interact,
-                interactionId,
-                1);
+            NetworkQuestManager.Local
+                .RPC_ReportQuestEvent(
+                    (int)QuestObjectiveType.Interact,
+                    interactionId,
+                    1);
         }
     }
 }
