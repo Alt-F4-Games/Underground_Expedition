@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// =====================================================
+// QuestTrackerEntryUI.cs
+// =====================================================
+
+using System.Collections.Generic;
 using Network.Quests.Definitions;
 using Network.Quests.Runtime;
 using TMPro;
@@ -8,7 +12,6 @@ namespace UI.Quests
 {
     public class QuestTrackerEntryUI : MonoBehaviour
     {
-        [Header("References")]
         [SerializeField]
         private TMP_Text questNameText;
 
@@ -44,30 +47,21 @@ namespace UI.Quests
 
             ClearObjectives();
 
-            int currentStep =
-                _runtime.State.currentStepIndex;
-
-            if (currentStep >= definition.steps.Count)
-                return;
-
-            var step =
-                definition.steps[currentStep];
-
             for (int i = 0;
-                 i < step.objectives.Count;
+                 i < definition.objectives.Count;
                  i++)
             {
                 var objective =
-                    step.objectives[i];
+                    definition.objectives[i];
 
                 int current =
                     _runtime.State
-                        .steps[currentStep]
                         .objectives[i]
                         .currentAmount;
 
                 bool completed =
-                    current >= objective.requiredAmount;
+                    current >=
+                    objective.requiredAmount;
 
                 ObjectiveEntryUI entry =
                     Instantiate(
@@ -75,7 +69,7 @@ namespace UI.Quests
                         objectiveContainer);
 
                 entry.SetData(
-                    objective.description,
+                    objective.displayName,
                     current,
                     objective.requiredAmount,
                     completed);
