@@ -13,9 +13,10 @@ namespace Network.Interaction.QuestNPC
 
         public override void OnInteract(NetworkPlayerController player)
         {
-            if (!player.Object.HasInputAuthority)
+            if (!NetworkPlayerController.Local)
                 return;
 
+            Debug.Log("Quest database loaded");
             QuestWindowUI.Instance.Open(this);
         }
     }
