@@ -3,6 +3,8 @@ using Events;
 using Fusion;
 using Network.Crafting;
 using Network.Inventory;
+using Network.Quests;
+using Network.Quests.Enums;
 using Tools.EventSystem;
 using UnityEngine;
 
@@ -247,6 +249,11 @@ public class NetworkInventoryManager : NetworkBehaviour
             
             EventController.Instance.TriggerEvent(itemCraftedEvent);
             
+            NetworkQuestManager.Local.RPC_ReportQuestEvent(
+                (int)QuestObjectiveType.CraftItem,
+                resultItemId,
+                recipe.resultQuantity);
+            
             Debug.Log("Craft success");
         }
     }
@@ -302,6 +309,11 @@ public class NetworkInventoryManager : NetworkBehaviour
         };
             
         EventController.Instance.TriggerEvent(itemCollectedEvent);
+        
+        NetworkQuestManager.Local.RPC_ReportQuestEvent(
+            (int)QuestObjectiveType.CollectItem,
+            gameplayId,
+            worldItem.Quantity);
         
         Runner.Despawn(item.Object);
         RPC_PickupResult(true, item.Object);
