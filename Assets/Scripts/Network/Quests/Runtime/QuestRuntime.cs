@@ -1,23 +1,29 @@
-﻿using Network.Quests.Definitions;
+﻿// =====================================================
+// QuestRuntime.cs
+// =====================================================
+
+using Network.Quests.Definitions;
 
 namespace Network.Quests.Runtime
 {
     public class QuestRuntime
     {
         public QuestDefinitionSO Definition { get; private set; }
+
         public QuestState State { get; private set; }
 
         public string QuestId => Definition.questId;
+
         public string QuestName => Definition.questName;
 
-        public QuestRuntime(QuestDefinitionSO definition)
+        public QuestRuntime(
+            QuestDefinitionSO definition)
         {
             Definition = definition;
 
             State = new QuestState
             {
                 questId = definition.questId,
-                currentStepIndex = 0,
                 isCompleted = false
             };
 
@@ -34,22 +40,14 @@ namespace Network.Quests.Runtime
 
         private void BuildState()
         {
-            for (int i = 0; i < Definition.steps.Count; i++)
+            foreach (var objective
+                     in Definition.objectives)
             {
-                QuestStepState stepState = new();
-
-                for (int j = 0;
-                     j < Definition.steps[i].objectives.Count;
-                     j++)
-                {
-                    stepState.objectives.Add(
-                        new QuestObjectiveState
-                        {
-                            currentAmount = 0
-                        });
-                }
-
-                State.steps.Add(stepState);
+                State.objectives.Add(
+                    new QuestObjectiveState
+                    {
+                        currentAmount = 0
+                    });
             }
         }
 
@@ -58,16 +56,21 @@ namespace Network.Quests.Runtime
             return State.isCompleted;
         }
 
-        public bool HasPlayerClaimed(string playerId)
+        public bool HasPlayerClaimed(
+            string playerId)
         {
-            return State.claimedPlayerIds.Contains(playerId);
+            return State.claimedPlayerIds
+                .Contains(playerId);
         }
 
-        public void MarkRewardClaimed(string playerId)
+        public void MarkRewardClaimed(
+            string playerId)
         {
-            if (!State.claimedPlayerIds.Contains(playerId))
+            if (!State.claimedPlayerIds
+                    .Contains(playerId))
             {
-                State.claimedPlayerIds.Add(playerId);
+                State.claimedPlayerIds
+                    .Add(playerId);
             }
         }
     }

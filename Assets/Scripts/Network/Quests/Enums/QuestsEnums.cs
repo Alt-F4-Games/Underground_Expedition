@@ -1,11 +1,15 @@
-﻿namespace Network.Quests.Enums
+﻿// =====================================================
+// QuestEnums.cs
+// =====================================================
+
+namespace Network.Quests.Enums
 {
     public enum QuestType
     {
         Main,
         Secondary
     }
-    
+
     public enum QuestStatus
     {
         Locked,
@@ -14,7 +18,7 @@
         Completed,
         RewardClaimed
     }
-    
+
     public enum QuestObjectiveType
     {
         KillEnemy,
@@ -23,25 +27,25 @@
         Interact,
         ExploreArea
     }
-    
+
     public enum ProgressScope
     {
         Individual,
         Shared
     }
-    
+
     public enum CompletionScope
     {
         Individual,
         Shared
     }
-    
+
     public enum RewardScope
     {
         Individual,
         Shared
     }
-    
+
     public enum QuestRequirementType
     {
         None,
