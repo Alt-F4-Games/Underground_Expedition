@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿// =====================================================
+// QuestDetailsUI.cs
+// =====================================================
+
+using System.Text;
 using Network.Quests.Definitions;
 using Network.Quests.Runtime;
 using TMPro;
@@ -32,6 +36,9 @@ namespace UI.Quests
             QuestDefinitionSO definition,
             QuestRuntime runtime)
         {
+            if (definition == null)
+                return;
+
             titleText.text =
                 definition.questName;
 
@@ -53,14 +60,25 @@ namespace UI.Quests
             StringBuilder builder =
                 new();
 
-            foreach (var step in definition.steps)
+            for (int i = 0;
+                 i < definition.objectives.Count;
+                 i++)
             {
-                foreach (var objective
-                         in step.objectives)
+                var objective =
+                    definition.objectives[i];
+
+                int current = 0;
+
+                if (runtime != null)
                 {
-                    builder.AppendLine(
-                        objective.description);
+                    current =
+                        runtime.State
+                            .objectives[i]
+                            .currentAmount;
                 }
+
+                builder.AppendLine(
+                    $"{objective.displayName} ({current}/{objective.requiredAmount})");
             }
 
             objectivesText.text =
