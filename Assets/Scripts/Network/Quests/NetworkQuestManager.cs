@@ -1,8 +1,4 @@
-﻿// =====================================================
-// NetworkQuestManager.cs
-// =====================================================
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Events;
 using Fusion;
 using Local.Progression;
@@ -17,29 +13,23 @@ namespace Network.Quests
 {
     public class NetworkQuestManager : NetworkBehaviour
     {
-        public static NetworkQuestManager Local
-        { get; private set; }
+        public static NetworkQuestManager Local { get; private set; }
 
         [Header("Database")]
         [SerializeField]
         private QuestDatabase database;
 
-        private readonly Dictionary<string,
-            QuestRuntime>
-            _activeQuests = new();
+        private readonly Dictionary<string, QuestRuntime> _activeQuests = new();
 
-        public IReadOnlyDictionary<string,
-            QuestRuntime>
-            ActiveQuests => _activeQuests;
+        public IReadOnlyDictionary<string, QuestRuntime> ActiveQuests => _activeQuests;
 
-        private readonly HashSet<string>
-            _completedQuests = new();
+        private readonly HashSet<string> _completedQuests = new();
 
-        private NetworkQuestSession Session =>
-            NetworkQuestSession.Instance;
+        private NetworkQuestSession Session => NetworkQuestSession.Instance;
 
-        private string LocalPlayerId =>
-            SystemInfo.deviceUniqueIdentifier;
+        private string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
+
+        private int _lastAcceptedMainQuestCount;
 
         public override void Spawned()
         {
@@ -47,8 +37,19 @@ namespace Network.Quests
             {
                 Local = this;
             }
-            
+
             SyncSharedMainQuests();
+
+            if (Session != null)
+            {
+                _lastAcceptedMainQuestCount =
+                    Session.AcceptedMainQuests.Count;
+            }
+        }
+
+        public override void FixedUpdateNetwork()
+        {
+            SyncAcceptedMainQuests();
         }
 
         public override void Despawned(
@@ -92,7 +93,27 @@ namespace Network.Quests
                     definition);
             }
         }
-        
+
+        private void SyncAcceptedMainQuests()
+        {
+            if (Session == null)
+                return;
+
+            int currentCount =
+                Session.AcceptedMainQuests.Count;
+
+            if (currentCount ==
+                _lastAcceptedMainQuestCount)
+            {
+                return;
+            }
+
+            _lastAcceptedMainQuestCount =
+                currentCount;
+
+            SyncSharedMainQuests();
+        }
+
         public bool IsQuestRewardClaimed(
             string questId)
         {
@@ -404,7 +425,7 @@ namespace Network.Quests
                 .TriggerEvent(
                     new QuestUIRefreshEvent());
         }
-        
+
         private void AcceptMainQuestShared(
             QuestDefinitionSO definition)
         {
