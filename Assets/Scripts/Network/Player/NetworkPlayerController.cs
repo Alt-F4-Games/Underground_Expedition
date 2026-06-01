@@ -7,6 +7,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
+[RequireComponent(typeof(Animator))]
 public class NetworkPlayerController : NetworkBehaviour, IStunnable
 {
     [Header("References")]
@@ -35,6 +36,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
+    private Animator _animator;
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -47,6 +49,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
+    [Networked] private float _movementSpeed { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -61,6 +64,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
         _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
+        _animator  = GetComponent<Animator>();
 
         if (!HasInputAuthority)
         {
@@ -115,14 +119,24 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         {
             SpawnCamera();
         }
-        
+
         transform.rotation = Quaternion.Euler(0, _yaw, 0);
+
         if (_cameraPivot != null)
         {
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
         }
 
         _isStunnedVisual = IsStunnedGameplay;
+
+        // =========================
+        // ANIMATIONS
+        // =========================
+
+        if (_animator != null)
+        {
+            _animator.SetFloat("movementSpeed", _movementSpeed);
+        }
     }
 
     // ============================================================
@@ -159,9 +173,22 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _controller.maxSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
 
         if (IsStunnedGameplay)
+        {
             _controller.Velocity = Vector3.zero;
+            _movementSpeed = 0f;
+            return;
+        }
+
+        _controller.Move(moveDir);
+
+        // =========================
+        // ANIMATION SPEED
+        // =========================
+
+        if (moveDir.sqrMagnitude > 0.01f)
+            _movementSpeed = IsSprinting ? 1f : 0.5f;
         else
-            _controller.Move(moveDir);
+            _movementSpeed = 0f;
     }
 
     private void HandleSprint(NetworkInputPlayer input)
