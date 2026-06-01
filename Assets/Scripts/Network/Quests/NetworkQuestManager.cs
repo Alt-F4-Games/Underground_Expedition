@@ -35,6 +35,9 @@ namespace Network.Quests
         private readonly HashSet<string>
             _completedQuests = new();
 
+        private static readonly SharedQuestState
+            SharedState = new();
+
         private string LocalPlayerId =>
             SystemInfo.deviceUniqueIdentifier;
 
@@ -60,10 +63,9 @@ namespace Network.Quests
             string questId,
             out QuestRuntime runtime)
         {
-            return _activeQuests
-                .TryGetValue(
-                    questId,
-                    out runtime);
+            return _activeQuests.TryGetValue(
+                questId,
+                out runtime);
         }
 
         public bool IsQuestRewardClaimed(
@@ -83,7 +85,13 @@ namespace Network.Quests
         public bool HasCompletedQuest(
             string questId)
         {
-            return _completedQuests.Contains(
+            if (_completedQuests.Contains(
+                    questId))
+            {
+                return true;
+            }
+
+            return SharedState.IsCompleted(
                 questId);
         }
 
@@ -159,6 +167,17 @@ namespace Network.Quests
                 new QuestRuntime(
                     definition);
 
+            if (definition.questType ==
+                QuestType.Main)
+            {
+                if (SharedState.IsCompleted(
+                        questId))
+                {
+                    runtime.State.isCompleted =
+                        true;
+                }
+            }
+
             _activeQuests.Add(
                 questId,
                 runtime);
@@ -201,9 +220,6 @@ namespace Network.Quests
 
             runtime.MarkRewardClaimed(
                 LocalPlayerId);
-
-            _activeQuests.Remove(
-                runtime.QuestId);
 
             EventController.Instance
                 .TriggerEvent(
@@ -356,6 +372,13 @@ namespace Network.Quests
 
             _completedQuests.Add(
                 runtime.QuestId);
+
+            if (runtime.Definition.questType ==
+                QuestType.Main)
+            {
+                SharedState.MarkCompleted(
+                    runtime.QuestId);
+            }
 
             EventController.Instance
                 .TriggerEvent(
