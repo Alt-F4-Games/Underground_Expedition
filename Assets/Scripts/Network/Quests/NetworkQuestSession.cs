@@ -24,8 +24,8 @@ namespace Network.Quests
         public NetworkDictionary<NetworkString<_32>, byte>
             CompletedMainQuests => default;
 
-        [Networked, Capacity(512)]
-        public NetworkDictionary<NetworkString<_64>, int>
+        [Networked, Capacity(32)]
+        public NetworkDictionary<NetworkString<_16>, int>
             ObjectiveProgress => default;
         
 
