@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using Fusion;
-using UnityEngine;
+﻿using Fusion;
 
 namespace Network.Quests
 {
     /// <summary>
-    /// Estado compartido de quests para toda la sesión.
-    /// Solamente almacena Main Quests.
-    /// El Host tiene State Authority.
+    /// Estado compartido de Main Quests para toda la sesión.
+    /// Solo puede ser modificado por State Authority.
     /// </summary>
     public class NetworkQuestSession : NetworkBehaviour
     {
@@ -17,11 +14,13 @@ namespace Network.Quests
             private set;
         }
 
-        private readonly HashSet<string>
-            _acceptedMainQuests = new();
+        [Networked, Capacity(64)]
+        public NetworkDictionary<NetworkString<_32>, byte>
+            AcceptedMainQuests => default;
 
-        private readonly HashSet<string>
-            _completedMainQuests = new();
+        [Networked, Capacity(64)]
+        public NetworkDictionary<NetworkString<_32>, byte>
+            CompletedMainQuests => default;
 
         public override void Spawned()
         {
@@ -41,33 +40,37 @@ namespace Network.Quests
         public bool IsMainQuestAccepted(
             string questId)
         {
-            return _acceptedMainQuests.Contains(
+            return AcceptedMainQuests.ContainsKey(
                 questId);
         }
 
         public bool IsMainQuestCompleted(
             string questId)
         {
-            return _completedMainQuests.Contains(
+            return CompletedMainQuests.ContainsKey(
                 questId);
         }
 
         public void MarkMainQuestAccepted(
             string questId)
         {
-            _acceptedMainQuests.Add(
-                questId);
+            if (!HasStateAuthority)
+                return;
+
+            AcceptedMainQuests.Set(
+                questId,
+                1);
         }
 
         public void MarkMainQuestCompleted(
             string questId)
         {
-            _completedMainQuests.Add(
-                questId);
-        }
+            if (!HasStateAuthority)
+                return;
 
-        public IEnumerable<string>
-            AcceptedMainQuests =>
-            _acceptedMainQuests;
+            CompletedMainQuests.Set(
+                questId,
+                1);
+        }
     }
 }

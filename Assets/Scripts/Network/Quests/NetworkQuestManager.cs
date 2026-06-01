@@ -75,9 +75,12 @@ namespace Network.Quests
             if (Session == null)
                 return;
 
-            foreach (string questId
+            foreach (var pair
                      in Session.AcceptedMainQuests)
             {
+                string questId =
+                    pair.Key.ToString();
+
                 QuestDefinitionSO definition =
                     database.GetQuestById(
                         questId);
