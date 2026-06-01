@@ -50,6 +50,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
     [Networked] private float _movementSpeed { get; set; }
+    [Networked] private bool IsGrounded { get; set; }
+    [Networked] private float VerticalSpeed { get; set; }
+    
+    [Networked, OnChangedRender(nameof(OnHitReceived))]
+    private int HitCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -65,7 +70,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _health = GetComponent<NetworkPlayerHealth>();
         _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
         _animator  = GetComponent<Animator>();
-
+        
+        if (_health != null)
+        {
+            _health.OnDamageTaken += OnDamageTaken;
+        }
+        
         if (!HasInputAuthority)
         {
             if (_cameraPivot != null) _cameraPivot.gameObject.SetActive(false);
@@ -90,6 +100,13 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         SpawnCamera();
     }
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        if (_health != null)
+        {
+            _health.OnDamageTaken -= OnDamageTaken;
+        }
+    }
 
     private void SpawnCamera()
     {
@@ -102,8 +119,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_playerCameraInstance != null) return;
 
         _playerCameraInstance = Instantiate(_cameraPrefab);
-
-        Debug.Log("[Player] Camera spawned");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -136,6 +151,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator != null)
         {
             _animator.SetFloat("movementSpeed", _movementSpeed);
+            _animator.SetBool("isGrounded", IsGrounded);
+            _animator.SetFloat("verticalSpeed", VerticalSpeed);
         }
     }
 
@@ -163,6 +180,9 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         HandleMovement(input);
         HandleJump(input);
         HandleSprint(input);
+        
+        IsGrounded = _controller.Grounded;
+        VerticalSpeed = _controller.Velocity.y;
     }
 
     private void HandleMovement(NetworkInputPlayer input)
@@ -252,5 +272,26 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         MaxStamina += evt.MaxStamina;
         CurrentStamina = MaxStamina;
+    }
+    
+    private void OnDamageTaken()
+    {
+        PlayHitAnimation();
+    }
+    
+    private void OnHitReceived()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.SetTrigger("Hit");
+    }
+
+    private void PlayHitAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        HitCounter++;
     }
 }
