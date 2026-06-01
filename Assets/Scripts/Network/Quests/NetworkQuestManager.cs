@@ -50,6 +50,7 @@ namespace Network.Quests
         public override void FixedUpdateNetwork()
         {
             SyncAcceptedMainQuests();
+            SyncMainQuestProgress();
         }
 
         public override void Despawned(
@@ -76,8 +77,7 @@ namespace Network.Quests
             if (Session == null)
                 return;
 
-            foreach (var pair
-                     in Session.AcceptedMainQuests)
+            foreach (var pair in Session.AcceptedMainQuests)
             {
                 string questId =
                     pair.Key.ToString();
@@ -112,6 +112,39 @@ namespace Network.Quests
                 currentCount;
 
             SyncSharedMainQuests();
+        }
+
+        private void SyncMainQuestProgress()
+        {
+            if (Session == null)
+                return;
+
+            foreach (var runtime
+                     in _activeQuests.Values)
+            {
+                if (runtime.Definition.questType !=
+                    QuestType.Main)
+                {
+                    continue;
+                }
+
+                for (int i = 0;
+                     i < runtime.State.objectives.Count;
+                     i++)
+                {
+                    runtime.State.objectives[i]
+                        .currentAmount =
+                        Session.GetObjectiveProgress(
+                            runtime.QuestId,
+                            i);
+                }
+
+                if (Session.IsMainQuestCompleted(
+                        runtime.QuestId))
+                {
+                    runtime.State.isCompleted = true;
+                }
+            }
         }
 
         public bool IsQuestRewardClaimed(
@@ -231,81 +264,6 @@ namespace Network.Quests
         [Rpc(
             RpcSources.InputAuthority,
             RpcTargets.StateAuthority)]
-        public void RPC_ClaimReward(
-            string questId)
-        {
-            if (!_activeQuests.TryGetValue(
-                    questId,
-                    out QuestRuntime runtime))
-            {
-                return;
-            }
-
-            if (!runtime.State.isCompleted)
-                return;
-
-            if (runtime.HasPlayerClaimed(
-                    LocalPlayerId))
-            {
-                return;
-            }
-
-            GiveRewards(runtime);
-
-            runtime.MarkRewardClaimed(
-                LocalPlayerId);
-
-            EventController.Instance
-                .TriggerEvent(
-                    new RewardClaimedEvent
-                    {
-                        quest = runtime
-                    });
-
-            EventController.Instance
-                .TriggerEvent(
-                    new QuestUIRefreshEvent());
-        }
-
-        private void GiveRewards(
-            QuestRuntime runtime)
-        {
-            var inventory =
-                GetComponent<NetworkInventorySystem>();
-
-            var exp =
-                GetComponent<NetworkExperienceSystem>();
-
-            foreach (var reward
-                     in runtime.Definition.rewards)
-            {
-                if (!string.IsNullOrWhiteSpace(
-                        reward.itemId))
-                {
-                    int itemId =
-                        ItemDatabase.Instance
-                            .GetNetworkId(
-                                reward.itemId);
-
-                    if (itemId > 0)
-                    {
-                        inventory.Server_AddItemGlobal(
-                            itemId,
-                            reward.quantity);
-                    }
-                }
-
-                if (reward.experience > 0)
-                {
-                    exp.RPC_RequestAddXP(
-                        reward.experience);
-                }
-            }
-        }
-
-        [Rpc(
-            RpcSources.InputAuthority,
-            RpcTargets.StateAuthority)]
         public void RPC_ReportQuestEvent(
             int objectiveType,
             string targetId,
@@ -354,30 +312,37 @@ namespace Network.Quests
                     continue;
                 }
 
-                var objectiveState =
-                    runtime.State.objectives[i];
-
-                objectiveState.currentAmount +=
-                    amount;
-
-                if (objectiveState.currentAmount >
-                    objectiveDefinition.requiredAmount)
+                if (runtime.Definition.questType ==
+                    QuestType.Main)
                 {
-                    objectiveState.currentAmount =
-                        objectiveDefinition.requiredAmount;
-                }
+                    int current =
+                        Session.GetObjectiveProgress(
+                            runtime.QuestId,
+                            i);
 
-                EventController.Instance
-                    .TriggerEvent(
-                        new QuestObjectiveProgressEvent
-                        {
-                            quest = runtime,
-                            ObjectiveIndex = i,
-                            CurrentAmount =
-                                objectiveState.currentAmount,
-                            RequiredAmount =
-                                objectiveDefinition.requiredAmount
-                        });
+                    current += amount;
+
+                    current = Mathf.Min(
+                        current,
+                        objectiveDefinition.requiredAmount);
+
+                    Session.SetObjectiveProgress(
+                        runtime.QuestId,
+                        i,
+                        current);
+                }
+                else
+                {
+                    var state =
+                        runtime.State.objectives[i];
+
+                    state.currentAmount += amount;
+
+                    state.currentAmount =
+                        Mathf.Min(
+                            state.currentAmount,
+                            objectiveDefinition.requiredAmount);
+                }
             }
 
             CheckQuestCompletion(runtime);
@@ -390,9 +355,22 @@ namespace Network.Quests
                  i < runtime.Definition.objectives.Count;
                  i++)
             {
-                int current =
-                    runtime.State.objectives[i]
-                        .currentAmount;
+                int current;
+
+                if (runtime.Definition.questType ==
+                    QuestType.Main)
+                {
+                    current =
+                        Session.GetObjectiveProgress(
+                            runtime.QuestId,
+                            i);
+                }
+                else
+                {
+                    current =
+                        runtime.State.objectives[i]
+                            .currentAmount;
+                }
 
                 int required =
                     runtime.Definition.objectives[i]
@@ -452,11 +430,24 @@ namespace Network.Quests
                 new QuestRuntime(
                     definition);
 
-            if (Session != null &&
-                Session.IsMainQuestCompleted(
-                    definition.questId))
+            if (Session != null)
             {
-                runtime.State.isCompleted = true;
+                for (int i = 0;
+                     i < runtime.State.objectives.Count;
+                     i++)
+                {
+                    runtime.State.objectives[i]
+                        .currentAmount =
+                        Session.GetObjectiveProgress(
+                            definition.questId,
+                            i);
+                }
+
+                if (Session.IsMainQuestCompleted(
+                        definition.questId))
+                {
+                    runtime.State.isCompleted = true;
+                }
             }
 
             _activeQuests.Add(

@@ -4,7 +4,7 @@ namespace Network.Quests
 {
     /// <summary>
     /// Estado compartido de Main Quests para toda la sesión.
-    /// Solo puede ser modificado por State Authority.
+    /// Solo State Authority puede modificarlo.
     /// </summary>
     public class NetworkQuestSession : NetworkBehaviour
     {
@@ -21,6 +21,10 @@ namespace Network.Quests
         [Networked, Capacity(64)]
         public NetworkDictionary<NetworkString<_32>, byte>
             CompletedMainQuests => default;
+
+        [Networked, Capacity(512)]
+        public NetworkDictionary<NetworkString<_64>, int>
+            ObjectiveProgress => default;
 
         public override void Spawned()
         {
@@ -71,6 +75,39 @@ namespace Network.Quests
             CompletedMainQuests.Set(
                 questId,
                 1);
+        }
+
+        public int GetObjectiveProgress(
+            string questId,
+            int objectiveIndex)
+        {
+            string key =
+                $"{questId}_{objectiveIndex}";
+
+            if (ObjectiveProgress.TryGet(
+                    key,
+                    out int value))
+            {
+                return value;
+            }
+
+            return 0;
+        }
+
+        public void SetObjectiveProgress(
+            string questId,
+            int objectiveIndex,
+            int value)
+        {
+            if (!HasStateAuthority)
+                return;
+
+            string key =
+                $"{questId}_{objectiveIndex}";
+
+            ObjectiveProgress.Set(
+                key,
+                value);
         }
     }
 }
