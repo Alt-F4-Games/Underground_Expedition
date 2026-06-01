@@ -28,8 +28,9 @@ namespace Network.Quests
         private NetworkQuestSession Session => NetworkQuestSession.Instance;
 
         private string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
+        
+        private ChangeDetector _sessionChanges;
 
-        private int _lastAcceptedMainQuestCount;
 
         public override void Spawned()
         {
@@ -40,18 +41,8 @@ namespace Network.Quests
 
             SyncSharedMainQuests();
 
-            if (Session != null)
-            {
-                _lastAcceptedMainQuestCount =
-                    Session.AcceptedMainQuests.Count;
-            }
         }
-
-        public override void FixedUpdateNetwork()
-        {
-            SyncAcceptedMainQuests();
-            SyncMainQuestProgress();
-        }
+        
 
         public override void Despawned(
             NetworkRunner runner,
@@ -60,6 +51,105 @@ namespace Network.Quests
             if (Local == this)
             {
                 Local = null;
+            }
+        }
+        
+        public override void Render()
+        {
+            if (Session == null)
+                return;
+
+            if (_sessionChanges == null)
+            {
+                _sessionChanges =
+                    Session.GetChangeDetector(
+                        ChangeDetector.Source
+                            .SimulationState);
+            }
+
+            bool refreshNeeded = false;
+
+            foreach (var change
+                     in _sessionChanges
+                         .DetectChanges(Session))
+            {
+                if (change ==
+                    nameof(NetworkQuestSession
+                        .AcceptedMainQuests))
+                {
+                    SyncSharedMainQuests();
+                    refreshNeeded = true;
+                }
+
+                if (change ==
+                    nameof(NetworkQuestSession
+                        .ObjectiveProgress))
+                {
+                    UpdateSharedProgress();
+                    refreshNeeded = true;
+                }
+
+                if (change ==
+                    nameof(NetworkQuestSession
+                        .CompletedMainQuests))
+                {
+                    UpdateSharedCompletion();
+                    refreshNeeded = true;
+                }
+            }
+
+            if (refreshNeeded)
+            {
+                EventController.Instance
+                    .TriggerEvent(
+                        new QuestUIRefreshEvent());
+            }
+        }
+        
+        private void UpdateSharedProgress()
+        {
+            if (Session == null)
+                return;
+
+            foreach (var runtime
+                     in _activeQuests.Values)
+            {
+                if (runtime.Definition.questType !=
+                    QuestType.Main)
+                {
+                    continue;
+                }
+
+                for (int i = 0;
+                     i < runtime.State.objectives.Count;
+                     i++)
+                {
+                    runtime.State.objectives[i]
+                            .currentAmount =
+                        Session.GetObjectiveProgress(
+                            runtime.QuestId,
+                            i);
+                }
+            }
+        }
+        
+        private void UpdateSharedCompletion()
+        {
+            if (Session == null)
+                return;
+
+            foreach (var runtime
+                     in _activeQuests.Values)
+            {
+                if (runtime.Definition.questType !=
+                    QuestType.Main)
+                {
+                    continue;
+                }
+
+                runtime.State.isCompleted =
+                    Session.IsMainQuestCompleted(
+                        runtime.QuestId);
             }
         }
 
@@ -93,29 +183,11 @@ namespace Network.Quests
                     definition);
             }
         }
-
-        private void SyncAcceptedMainQuests()
+        
+        private void RefreshSharedQuestData()
         {
-            if (Session == null)
-                return;
-
-            int currentCount =
-                Session.AcceptedMainQuests.Count;
-
-            if (currentCount ==
-                _lastAcceptedMainQuestCount)
-            {
-                return;
-            }
-
-            _lastAcceptedMainQuestCount =
-                currentCount;
-
             SyncSharedMainQuests();
-        }
 
-        private void SyncMainQuestProgress()
-        {
             if (Session == null)
                 return;
 
@@ -133,18 +205,20 @@ namespace Network.Quests
                      i++)
                 {
                     runtime.State.objectives[i]
-                        .currentAmount =
+                            .currentAmount =
                         Session.GetObjectiveProgress(
                             runtime.QuestId,
                             i);
                 }
 
-                if (Session.IsMainQuestCompleted(
-                        runtime.QuestId))
-                {
-                    runtime.State.isCompleted = true;
-                }
+                runtime.State.isCompleted =
+                    Session.IsMainQuestCompleted(
+                        runtime.QuestId);
             }
+
+            EventController.Instance
+                .TriggerEvent(
+                    new QuestUIRefreshEvent());
         }
 
         public bool IsQuestRewardClaimed(

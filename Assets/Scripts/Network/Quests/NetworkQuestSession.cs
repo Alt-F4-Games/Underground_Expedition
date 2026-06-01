@@ -1,4 +1,6 @@
-﻿using Fusion;
+﻿using System;
+using Fusion;
+using Unity.VisualScripting;
 
 namespace Network.Quests
 {
@@ -25,6 +27,7 @@ namespace Network.Quests
         [Networked, Capacity(512)]
         public NetworkDictionary<NetworkString<_64>, int>
             ObjectiveProgress => default;
+        
 
         public override void Spawned()
         {
@@ -64,6 +67,7 @@ namespace Network.Quests
             AcceptedMainQuests.Set(
                 questId,
                 1);
+            
         }
 
         public void MarkMainQuestCompleted(
@@ -75,6 +79,7 @@ namespace Network.Quests
             CompletedMainQuests.Set(
                 questId,
                 1);
+            
         }
 
         public int GetObjectiveProgress(
@@ -108,6 +113,7 @@ namespace Network.Quests
             ObjectiveProgress.Set(
                 key,
                 value);
+            
         }
     }
 }
