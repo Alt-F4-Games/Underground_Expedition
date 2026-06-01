@@ -26,13 +26,13 @@ namespace UI.Quests
         {
             Subscribe();
         }
-        
+
         private void Update()
         {
             if (_initialized)
                 return;
 
-            if (NetworkQuestManager.Local == null)
+            if (!NetworkQuestManager.Local)
                 return;
 
             Build();
@@ -47,42 +47,42 @@ namespace UI.Quests
 
         private void Build()
         {
-            Clear();
-
             if (!NetworkQuestManager.Local)
-            {
-                Debug.LogWarning(
-                    "[QuestTrackerUI] Local QuestManager null");
-
                 return;
-            }
 
             foreach (var pair
                      in NetworkQuestManager
                          .Local
                          .ActiveQuests)
             {
-                QuestRuntime runtime =
-                    pair.Value;
-
-                bool claimed =
-                    NetworkQuestManager.Local
-                        .IsQuestRewardClaimed(
-                            runtime.QuestId);
-                
-                if (claimed)
-                    continue;
-
-                CreateEntry(runtime);
+                CreateOrRefreshEntry(
+                    pair.Value);
             }
         }
 
-        private void CreateEntry(
+        private void CreateOrRefreshEntry(
             QuestRuntime runtime)
         {
-            if (_entries.ContainsKey(
-                    runtime.QuestId))
+            bool claimed =
+                NetworkQuestManager.Local
+                    .IsQuestRewardClaimed(
+                        runtime.QuestId);
+
+            if (claimed)
+            {
+                RemoveEntry(
+                    runtime.QuestId);
+
                 return;
+            }
+
+            if (_entries.TryGetValue(
+                    runtime.QuestId,
+                    out QuestTrackerEntryUI existing))
+            {
+                existing.Refresh();
+                return;
+            }
 
             QuestTrackerEntryUI entry =
                 Instantiate(
@@ -96,15 +96,20 @@ namespace UI.Quests
                 entry);
         }
 
-        private void Clear()
+        private void RemoveEntry(
+            string questId)
         {
-            foreach (Transform child
-                     in content)
+            if (!_entries.TryGetValue(
+                    questId,
+                    out QuestTrackerEntryUI entry))
             {
-                Destroy(child.gameObject);
+                return;
             }
 
-            _entries.Clear();
+            Destroy(entry.gameObject);
+
+            _entries.Remove(
+                questId);
         }
 
         private void Subscribe()

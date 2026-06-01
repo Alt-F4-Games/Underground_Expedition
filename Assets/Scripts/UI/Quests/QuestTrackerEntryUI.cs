@@ -1,8 +1,4 @@
-﻿// =====================================================
-// QuestTrackerEntryUI.cs
-// =====================================================
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Network.Quests.Definitions;
 using Network.Quests.Runtime;
 using TMPro;
@@ -25,6 +21,9 @@ namespace UI.Quests
             _entries = new();
 
         private QuestRuntime _runtime;
+
+        public string QuestId =>
+            _runtime?.QuestId;
 
         public void Bind(
             QuestRuntime runtime)

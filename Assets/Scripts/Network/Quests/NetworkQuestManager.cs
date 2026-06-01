@@ -260,6 +260,45 @@ namespace Network.Quests
             AddQuestLocally(
                 definition);
         }
+        
+        [Rpc(
+            RpcSources.InputAuthority,
+            RpcTargets.StateAuthority)]
+        public void RPC_ClaimReward(
+            string questId)
+        {
+            if (!_activeQuests.TryGetValue(
+                    questId,
+                    out QuestRuntime runtime))
+            {
+                return;
+            }
+
+            if (!runtime.State.isCompleted)
+                return;
+
+            if (runtime.HasPlayerClaimed(
+                    LocalPlayerId))
+            {
+                return;
+            }
+
+            GiveRewards(runtime);
+
+            runtime.MarkRewardClaimed(
+                LocalPlayerId);
+
+            EventController.Instance
+                .TriggerEvent(
+                    new RewardClaimedEvent
+                    {
+                        quest = runtime
+                    });
+
+            EventController.Instance
+                .TriggerEvent(
+                    new QuestUIRefreshEvent());
+        }
 
         [Rpc(
             RpcSources.InputAuthority,
@@ -464,6 +503,51 @@ namespace Network.Quests
             EventController.Instance
                 .TriggerEvent(
                     new QuestUIRefreshEvent());
+        }
+        
+        private void GiveRewards(
+            QuestRuntime runtime)
+        {
+            var inventory =
+                GetComponent<NetworkInventorySystem>();
+
+            var exp =
+                GetComponent<NetworkExperienceSystem>();
+
+            foreach (var reward
+                     in runtime.Definition.rewards)
+            {
+                // ==========================
+                // ITEMS
+                // ==========================
+
+                if (!string.IsNullOrWhiteSpace(
+                        reward.itemId))
+                {
+                    int itemId =
+                        ItemDatabase.Instance
+                            .GetNetworkId(
+                                reward.itemId);
+
+                    if (itemId > 0)
+                    {
+                        inventory.Server_AddItemGlobal(
+                            itemId,
+                            reward.quantity);
+                    }
+                }
+
+                // ==========================
+                // XP
+                // ==========================
+
+                if (reward.experience > 0 &&
+                    exp != null)
+                {
+                    exp.Server_AddXP(
+                        reward.experience);
+                }
+            }
         }
     }
 }

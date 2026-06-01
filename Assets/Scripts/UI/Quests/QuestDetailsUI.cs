@@ -1,8 +1,4 @@
-﻿// =====================================================
-// QuestDetailsUI.cs
-// =====================================================
-
-using System.Text;
+﻿using System.Text;
 using Network.Quests.Definitions;
 using Network.Quests.Runtime;
 using TMPro;
@@ -24,12 +20,20 @@ namespace UI.Quests
         [SerializeField]
         private TMP_Text rewardsText;
 
+        [SerializeField]
+        private TMP_Text questTypeText;
+
         public void Clear()
         {
             titleText.text = "";
             descriptionText.text = "";
             objectivesText.text = "";
             rewardsText.text = "";
+
+            if (questTypeText != null)
+            {
+                questTypeText.text = "";
+            }
         }
 
         public void ShowQuest(
@@ -45,12 +49,41 @@ namespace UI.Quests
             descriptionText.text =
                 definition.description;
 
+            if (questTypeText != null)
+            {
+                questTypeText.text =
+                    definition.questType ==
+                    Network.Quests.Enums.QuestType.Main
+                        ? "Main Quest (Shared)"
+                        : "Secondary Quest (Personal)";
+            }
+
             BuildObjectives(
                 definition,
                 runtime);
 
             BuildRewards(
                 definition);
+        }
+
+        public void ShowLockedQuest(
+            QuestDefinitionSO definition,
+            string requiredQuestName)
+        {
+            titleText.text = "???";
+
+            descriptionText.text =
+                "This quest is locked.";
+
+            objectivesText.text =
+                $"Complete:\n{requiredQuestName}\n\nto unlock this quest.";
+
+            rewardsText.text = "";
+
+            if (questTypeText != null)
+            {
+                questTypeText.text = "Locked";
+            }
         }
 
         private void BuildObjectives(

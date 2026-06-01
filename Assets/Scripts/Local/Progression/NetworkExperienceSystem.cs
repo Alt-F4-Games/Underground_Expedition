@@ -79,7 +79,7 @@ namespace Local.Progression
         // ==================================================
         // SERVER LOGIC
         // ==================================================
-        private void Server_AddXP(int amount)
+        public void Server_AddXP(int amount)
         {
             if (!HasStateAuthority) return;
 

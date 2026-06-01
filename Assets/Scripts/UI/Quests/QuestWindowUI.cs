@@ -144,7 +144,23 @@ namespace UI.Quests
 
             if (locked)
             {
-                detailsUI.Clear();
+                string requiredQuestName =
+                    definition.requiredQuestId;
+
+                var requiredQuest =
+                    QuestDatabase.Instance
+                        .GetQuestById(
+                            definition.requiredQuestId);
+
+                if (requiredQuest != null)
+                {
+                    requiredQuestName =
+                        requiredQuest.questName;
+                }
+
+                detailsUI.ShowLockedQuest(
+                    definition,
+                    requiredQuestName);
 
                 acceptButton.gameObject
                     .SetActive(false);
@@ -237,16 +253,9 @@ namespace UI.Quests
             if (_selectedQuest == null)
                 return;
 
-            NetworkQuestManager.Local
-                .TryGetQuest(
-                    _selectedQuest.questId,
-                    out QuestRuntime runtime);
-
-            detailsUI.ShowQuest(
+            SelectQuest(
                 _selectedQuest,
-                runtime);
-
-            RefreshButtons(runtime);
+                _selectedLocked);
         }
     }
 }
