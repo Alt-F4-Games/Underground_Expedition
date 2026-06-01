@@ -7,12 +7,29 @@ using System.Collections.Generic;
 namespace Network.Quests.Runtime
 {
     /// <summary>
-    /// Estado compartido por sala para Main Quests.
+    /// Estado compartido por sesión para Main Quests.
     /// </summary>
     public class SharedQuestState
     {
         private readonly HashSet<string>
+            _acceptedMainQuests = new();
+
+        private readonly HashSet<string>
             _completedMainQuests = new();
+
+        public bool IsAccepted(
+            string questId)
+        {
+            return _acceptedMainQuests.Contains(
+                questId);
+        }
+
+        public void MarkAccepted(
+            string questId)
+        {
+            _acceptedMainQuests.Add(
+                questId);
+        }
 
         public bool IsCompleted(
             string questId)
@@ -27,5 +44,9 @@ namespace Network.Quests.Runtime
             _completedMainQuests.Add(
                 questId);
         }
+
+        public IEnumerable<string>
+            AcceptedMainQuests =>
+            _acceptedMainQuests;
     }
 }

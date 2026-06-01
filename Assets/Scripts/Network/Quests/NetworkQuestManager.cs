@@ -47,6 +47,8 @@ namespace Network.Quests
             {
                 Local = this;
             }
+            
+            SyncSharedMainQuests();
         }
 
         public override void Despawned(
@@ -68,6 +70,23 @@ namespace Network.Quests
                 out runtime);
         }
 
+        private void SyncSharedMainQuests()
+        {
+            foreach (string questId
+                     in SharedState.AcceptedMainQuests)
+            {
+                QuestDefinitionSO definition =
+                    database.GetQuestById(
+                        questId);
+
+                if (definition == null)
+                    continue;
+
+                AddQuestLocally(
+                    definition);
+            }
+        }
+        
         public bool IsQuestRewardClaimed(
             string questId)
         {
@@ -150,12 +169,6 @@ namespace Network.Quests
         public void RPC_AcceptQuest(
             string questId)
         {
-            if (_activeQuests.ContainsKey(
-                    questId))
-            {
-                return;
-            }
-
             QuestDefinitionSO definition =
                 database.GetQuestById(
                     questId);
@@ -163,35 +176,23 @@ namespace Network.Quests
             if (definition == null)
                 return;
 
-            QuestRuntime runtime =
-                new QuestRuntime(
-                    definition);
-
             if (definition.questType ==
                 QuestType.Main)
             {
-                if (SharedState.IsCompleted(
-                        questId))
-                {
-                    runtime.State.isCompleted =
-                        true;
-                }
+                AcceptMainQuestShared(
+                    definition);
+
+                return;
             }
 
-            _activeQuests.Add(
-                questId,
-                runtime);
+            if (_activeQuests.ContainsKey(
+                    questId))
+            {
+                return;
+            }
 
-            EventController.Instance
-                .TriggerEvent(
-                    new QuestAcceptedEvent
-                    {
-                        quest = runtime
-                    });
-
-            EventController.Instance
-                .TriggerEvent(
-                    new QuestUIRefreshEvent());
+            AddQuestLocally(
+                definition);
         }
 
         [Rpc(
@@ -383,6 +384,51 @@ namespace Network.Quests
             EventController.Instance
                 .TriggerEvent(
                     new QuestCompletedEvent
+                    {
+                        quest = runtime
+                    });
+
+            EventController.Instance
+                .TriggerEvent(
+                    new QuestUIRefreshEvent());
+        }
+        
+        private void AcceptMainQuestShared(
+            QuestDefinitionSO definition)
+        {
+            SharedState.MarkAccepted(
+                definition.questId);
+
+            AddQuestLocally(
+                definition);
+        }
+
+        private void AddQuestLocally(
+            QuestDefinitionSO definition)
+        {
+            if (_activeQuests.ContainsKey(
+                    definition.questId))
+            {
+                return;
+            }
+
+            QuestRuntime runtime =
+                new QuestRuntime(
+                    definition);
+
+            if (SharedState.IsCompleted(
+                    definition.questId))
+            {
+                runtime.State.isCompleted = true;
+            }
+
+            _activeQuests.Add(
+                definition.questId,
+                runtime);
+
+            EventController.Instance
+                .TriggerEvent(
+                    new QuestAcceptedEvent
                     {
                         quest = runtime
                     });
