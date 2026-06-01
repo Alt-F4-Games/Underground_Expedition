@@ -4,6 +4,7 @@ using Fusion;
 using Fusion.Sockets;
 using System; 
 using Network;
+using Network.Quests;
 using UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner _networkRunner;
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
     [SerializeField] private NetworkObject _playerprefab;
+    [SerializeField] private NetworkObject _networkQuestSessionPrefab;
     
     [Header("Spawn Settings")]
     [SerializeField] private Transform _spawnPoint;
@@ -167,6 +169,15 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         var obj = runner.Spawn(_playerprefab, spawnPos, spawnRot, player);
         _players.Add(player, obj);
+        
+        if (NetworkQuestSession.Instance == null &&
+            _networkQuestSessionPrefab != null)
+        {
+            runner.Spawn(
+                _networkQuestSessionPrefab,
+                Vector3.zero,
+                Quaternion.identity);
+        }
 
         if (!worldItemsSpawned && _testEnemyPrefab != null)
         {

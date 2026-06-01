@@ -35,8 +35,8 @@ namespace Network.Quests
         private readonly HashSet<string>
             _completedQuests = new();
 
-        private static readonly SharedQuestState
-            SharedState = new();
+        private NetworkQuestSession Session =>
+            NetworkQuestSession.Instance;
 
         private string LocalPlayerId =>
             SystemInfo.deviceUniqueIdentifier;
@@ -72,8 +72,11 @@ namespace Network.Quests
 
         private void SyncSharedMainQuests()
         {
+            if (Session == null)
+                return;
+
             foreach (string questId
-                     in SharedState.AcceptedMainQuests)
+                     in Session.AcceptedMainQuests)
             {
                 QuestDefinitionSO definition =
                     database.GetQuestById(
@@ -110,8 +113,14 @@ namespace Network.Quests
                 return true;
             }
 
-            return SharedState.IsCompleted(
-                questId);
+            if (Session != null &&
+                Session.IsMainQuestCompleted(
+                    questId))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool CanAcceptQuest(
@@ -377,7 +386,7 @@ namespace Network.Quests
             if (runtime.Definition.questType ==
                 QuestType.Main)
             {
-                SharedState.MarkCompleted(
+                Session?.MarkMainQuestCompleted(
                     runtime.QuestId);
             }
 
@@ -396,7 +405,10 @@ namespace Network.Quests
         private void AcceptMainQuestShared(
             QuestDefinitionSO definition)
         {
-            SharedState.MarkAccepted(
+            if (Session == null)
+                return;
+
+            Session.MarkMainQuestAccepted(
                 definition.questId);
 
             AddQuestLocally(
@@ -416,7 +428,8 @@ namespace Network.Quests
                 new QuestRuntime(
                     definition);
 
-            if (SharedState.IsCompleted(
+            if (Session != null &&
+                Session.IsMainQuestCompleted(
                     definition.questId))
             {
                 runtime.State.isCompleted = true;
