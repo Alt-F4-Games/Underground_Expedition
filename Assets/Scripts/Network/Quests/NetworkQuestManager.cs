@@ -31,13 +31,13 @@ namespace Network.Quests
         public IReadOnlyDictionary<string,
             QuestRuntime>
             ActiveQuests => _activeQuests;
-        
+
         private readonly HashSet<string>
-            _claimedQuests = new();
+            _completedQuests = new();
 
         private string LocalPlayerId =>
             SystemInfo.deviceUniqueIdentifier;
-        
+
         public override void Spawned()
         {
             if (Object.HasInputAuthority)
@@ -55,7 +55,7 @@ namespace Network.Quests
                 Local = null;
             }
         }
-        
+
         public bool TryGetQuest(
             string questId,
             out QuestRuntime runtime)
@@ -79,11 +79,11 @@ namespace Network.Quests
             return runtime.HasPlayerClaimed(
                 LocalPlayerId);
         }
-        
-        public bool HasClaimedQuest(
+
+        public bool HasCompletedQuest(
             string questId)
         {
-            return _claimedQuests.Contains(
+            return _completedQuests.Contains(
                 questId);
         }
 
@@ -101,9 +101,9 @@ namespace Network.Quests
 
             if (definition.requirementType ==
                 QuestRequirementType
-                    .RequireCompletedAndClaimedQuest)
+                    .RequireCompletedQuest)
             {
-                if (!HasClaimedQuest(
+                if (!HasCompletedQuest(
                         definition.requiredQuestId))
                 {
                     return false;
@@ -127,16 +127,17 @@ namespace Network.Quests
 
             if (definition.requirementType ==
                 QuestRequirementType
-                    .RequireCompletedAndClaimedQuest)
+                    .RequireCompletedQuest)
             {
-                return !HasClaimedQuest(
+                return !HasCompletedQuest(
                     definition.requiredQuestId);
             }
 
             return false;
         }
 
-        [Rpc(RpcSources.InputAuthority,
+        [Rpc(
+            RpcSources.InputAuthority,
             RpcTargets.StateAuthority)]
         public void RPC_AcceptQuest(
             string questId)
@@ -174,7 +175,8 @@ namespace Network.Quests
                     new QuestUIRefreshEvent());
         }
 
-        [Rpc(RpcSources.InputAuthority,
+        [Rpc(
+            RpcSources.InputAuthority,
             RpcTargets.StateAuthority)]
         public void RPC_ClaimReward(
             string questId)
@@ -199,9 +201,6 @@ namespace Network.Quests
 
             runtime.MarkRewardClaimed(
                 LocalPlayerId);
-
-            _claimedQuests.Add(
-                runtime.QuestId);
 
             _activeQuests.Remove(
                 runtime.QuestId);
@@ -254,7 +253,8 @@ namespace Network.Quests
             }
         }
 
-        [Rpc(RpcSources.InputAuthority,
+        [Rpc(
+            RpcSources.InputAuthority,
             RpcTargets.StateAuthority)]
         public void RPC_ReportQuestEvent(
             int objectiveType,
@@ -286,16 +286,13 @@ namespace Network.Quests
                 return;
 
             for (int i = 0;
-                 i < runtime.Definition
-                     .objectives.Count;
+                 i < runtime.Definition.objectives.Count;
                  i++)
             {
                 var objectiveDefinition =
-                    runtime.Definition
-                        .objectives[i];
+                    runtime.Definition.objectives[i];
 
-                if (objectiveDefinition
-                        .objectiveType
+                if (objectiveDefinition.objectiveType
                     != objectiveType)
                 {
                     continue;
@@ -308,8 +305,7 @@ namespace Network.Quests
                 }
 
                 var objectiveState =
-                    runtime.State
-                        .objectives[i];
+                    runtime.State.objectives[i];
 
                 objectiveState.currentAmount +=
                     amount;
@@ -341,18 +337,15 @@ namespace Network.Quests
             QuestRuntime runtime)
         {
             for (int i = 0;
-                 i < runtime.Definition
-                     .objectives.Count;
+                 i < runtime.Definition.objectives.Count;
                  i++)
             {
                 int current =
-                    runtime.State
-                        .objectives[i]
+                    runtime.State.objectives[i]
                         .currentAmount;
 
                 int required =
-                    runtime.Definition
-                        .objectives[i]
+                    runtime.Definition.objectives[i]
                         .requiredAmount;
 
                 if (current < required)
@@ -361,12 +354,19 @@ namespace Network.Quests
 
             runtime.State.isCompleted = true;
 
+            _completedQuests.Add(
+                runtime.QuestId);
+
             EventController.Instance
                 .TriggerEvent(
                     new QuestCompletedEvent
                     {
                         quest = runtime
                     });
+
+            EventController.Instance
+                .TriggerEvent(
+                    new QuestUIRefreshEvent());
         }
     }
 }
