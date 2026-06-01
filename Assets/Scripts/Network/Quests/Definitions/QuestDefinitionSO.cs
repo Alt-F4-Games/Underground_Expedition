@@ -28,13 +28,6 @@ namespace Network.Quests.Definitions
 
         public string requiredQuestId;
 
-        [Header("Scopes")]
-        public ProgressScope progressScope;
-
-        public CompletionScope completionScope;
-
-        public RewardScope rewardScope;
-
         [Header("Objectives")]
         public List<QuestObjectiveDefinition> objectives = new();
 

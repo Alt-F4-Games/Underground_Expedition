@@ -28,27 +28,9 @@ namespace Network.Quests.Enums
         ExploreArea
     }
 
-    public enum ProgressScope
-    {
-        Individual,
-        Shared
-    }
-
-    public enum CompletionScope
-    {
-        Individual,
-        Shared
-    }
-
-    public enum RewardScope
-    {
-        Individual,
-        Shared
-    }
-
     public enum QuestRequirementType
     {
         None,
-        RequireCompletedAndClaimedQuest
+        RequireCompletedQuest
     }
 }
