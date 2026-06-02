@@ -29,12 +29,12 @@ namespace Health
         {
             if (!HasInputAuthority) return;
 
-            if (InputManager.Mode == InputMode.Game)
+            if (InputBlocker.IsBlocked)
+                    return;
+            
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    TryAttack();
-                }
+                TryAttack();
             }
         }
 

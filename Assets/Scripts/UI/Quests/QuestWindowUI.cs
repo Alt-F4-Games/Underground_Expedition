@@ -10,13 +10,10 @@ using UnityEngine.UI;
 
 namespace UI.Quests
 {
-    public class QuestWindowUI : MonoBehaviour
+    public class QuestWindowUI : UIWindow
     {
         public static QuestWindowUI Instance
         { get; private set; }
-
-        [Header("Root")]
-        [SerializeField] private GameObject root;
         
         [Header("List")]
         [SerializeField]
@@ -88,14 +85,12 @@ namespace UI.Quests
 
             BuildQuestList();
 
-            root.SetActive(true);
-            InputManager.SetMode(InputMode.UI);
+            base.Open();
         }
 
-        public void Close()
+        public override void Close()
         {
-            root.SetActive(false);
-            InputManager.SetMode(InputMode.Game);
+            base.Close();
         }
 
         private void BuildQuestList()

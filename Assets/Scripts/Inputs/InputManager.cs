@@ -5,36 +5,32 @@ namespace UI
 {
     public static class InputManager
     {
-        public static InputMode Mode { get; private set; } = InputMode.Game;
+        public static InputMode Mode { get; private set; }
+            = InputMode.Game;
 
         public static event Action<InputMode> OnInputModeChanged;
 
-        public static void SetMode(InputMode newMode)
+        public static void SetMode(InputMode mode)
         {
-            if (Mode == newMode)
+            if (Mode == mode)
                 return;
 
-            Mode = newMode;
+            Mode = mode;
 
-            ApplyCursorState(newMode);
+            Cursor.lockState =
+                mode == InputMode.Game
+                    ? CursorLockMode.Locked
+                    : CursorLockMode.None;
 
-            OnInputModeChanged?.Invoke(newMode);
+            Cursor.visible =
+                mode == InputMode.UI;
+
+            OnInputModeChanged?.Invoke(mode);
         }
 
         public static bool IsGameMode()
         {
             return Mode == InputMode.Game;
-        }
-
-        private static void ApplyCursorState(InputMode mode)
-        {
-            bool isUI = mode == InputMode.UI;
-
-            Cursor.lockState = isUI
-                ? CursorLockMode.None
-                : CursorLockMode.Locked;
-
-            Cursor.visible = isUI;
         }
     }
 }
