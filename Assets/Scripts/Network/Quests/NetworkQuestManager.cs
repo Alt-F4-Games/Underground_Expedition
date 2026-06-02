@@ -96,6 +96,13 @@ namespace Network.Quests
                     UpdateSharedCompletion();
                     refreshNeeded = true;
                 }
+                
+                if (change ==
+                    nameof(NetworkQuestSession
+                        .ClaimedRewards))
+                {
+                    refreshNeeded = true;
+                }
             }
 
             if (refreshNeeded)
@@ -224,15 +231,12 @@ namespace Network.Quests
         public bool IsQuestRewardClaimed(
             string questId)
         {
-            if (!_activeQuests.TryGetValue(
-                    questId,
-                    out QuestRuntime runtime))
-            {
+            if (!Session)
                 return false;
-            }
 
-            return runtime.HasPlayerClaimed(
-                LocalPlayerId);
+            return Session.HasClaimedReward(
+                LocalPlayerId,
+                questId);
         }
 
         public bool HasCompletedQuest(
@@ -351,16 +355,18 @@ namespace Network.Quests
             if (!runtime.State.isCompleted)
                 return;
 
-            if (runtime.HasPlayerClaimed(
-                    LocalPlayerId))
+            if (Session.HasClaimedReward(
+                    LocalPlayerId,
+                    questId))
             {
                 return;
             }
 
             GiveRewards(runtime);
 
-            runtime.MarkRewardClaimed(
-                LocalPlayerId);
+            Session.MarkRewardClaimed(
+                LocalPlayerId,
+                questId);
 
             EventController.Instance
                 .TriggerEvent(

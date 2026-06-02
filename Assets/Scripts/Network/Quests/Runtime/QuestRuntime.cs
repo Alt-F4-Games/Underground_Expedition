@@ -30,14 +30,6 @@ namespace Network.Quests.Runtime
             BuildState();
         }
 
-        public QuestRuntime(
-            QuestDefinitionSO definition,
-            QuestState state)
-        {
-            Definition = definition;
-            State = state;
-        }
-
         private void BuildState()
         {
             foreach (var objective
@@ -48,29 +40,6 @@ namespace Network.Quests.Runtime
                     {
                         currentAmount = 0
                     });
-            }
-        }
-
-        public bool IsQuestFinished()
-        {
-            return State.isCompleted;
-        }
-
-        public bool HasPlayerClaimed(
-            string playerId)
-        {
-            return State.claimedPlayerIds
-                .Contains(playerId);
-        }
-
-        public void MarkRewardClaimed(
-            string playerId)
-        {
-            if (!State.claimedPlayerIds
-                    .Contains(playerId))
-            {
-                State.claimedPlayerIds
-                    .Add(playerId);
             }
         }
     }

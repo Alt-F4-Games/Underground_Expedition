@@ -16,13 +16,17 @@ namespace Network.Quests
             private set;
         }
 
-        [Networked, Capacity(64)]
-        public NetworkDictionary<NetworkString<_32>, byte>
+        [Networked, Capacity(32)]
+        public NetworkDictionary<NetworkString<_16>, byte>
             AcceptedMainQuests => default;
 
-        [Networked, Capacity(64)]
-        public NetworkDictionary<NetworkString<_32>, byte>
+        [Networked, Capacity(32)]
+        public NetworkDictionary<NetworkString<_16>, byte>
             CompletedMainQuests => default;
+        
+        [Networked, Capacity(32)]
+        public NetworkDictionary<NetworkString<_16>, byte>
+            ClaimedRewards => default;
 
         [Networked, Capacity(32)]
         public NetworkDictionary<NetworkString<_16>, int>
@@ -114,6 +118,27 @@ namespace Network.Quests
                 key,
                 value);
             
+        }
+        
+        public bool HasClaimedReward(
+            string playerId,
+            string questId)
+        {
+            string key = $"{playerId}_{questId}";
+
+            return ClaimedRewards.ContainsKey(key);
+        }
+
+        public void MarkRewardClaimed(
+            string playerId,
+            string questId)
+        {
+            if (!HasStateAuthority)
+                return;
+
+            string key = $"{playerId}_{questId}";
+
+            ClaimedRewards.Set(key, 1);
         }
     }
 }

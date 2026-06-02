@@ -22,7 +22,6 @@ namespace Network.Quests.Runtime
 
         public List<QuestObjectiveState> objectives = new();
 
-        public List<string> claimedPlayerIds = new();
     }
 
     [Serializable]
