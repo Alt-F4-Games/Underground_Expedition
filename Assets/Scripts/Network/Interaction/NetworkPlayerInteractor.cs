@@ -129,22 +129,31 @@ namespace Network.Interaction
             }
         }
 
-        private void ExecuteInteractions(NetworkObject target)
+        private void ExecuteInteractions(
+            NetworkObject target)
         {
             if (target == null)
                 return;
 
-            var interactables = target.GetComponents<IInteractable>();
+            var interactables =
+                target.GetComponents<IInteractable>();
 
-            foreach (var interactable in interactables)
+            foreach (var interactable
+                     in interactables)
             {
-                if (!interactable.CanInteract(Object.InputAuthority))
+                if (!interactable.CanInteract(
+                        Object.InputAuthority))
                 {
                     continue;
                 }
 
-                interactable.OnInteract(_controller);
+                interactable.OnInteract(
+                    _controller);
             }
+
+            RPC_InteractionSucceeded(
+                target.Id,
+                Object.InputAuthority);
         }
 
         private void ResetInteraction()
@@ -167,6 +176,36 @@ namespace Network.Interaction
             float remaining = InteractionTimer.RemainingTime(Runner) ?? 0f;
 
             return Mathf.Clamp01(1f - (remaining / CurrentInteractionDuration));
+        }
+        
+        [Rpc(
+            RpcSources.StateAuthority,
+            RpcTargets.All)]
+        private void RPC_InteractionSucceeded(
+            NetworkId targetId,
+            PlayerRef targetPlayer)
+        {
+            if (Runner.LocalPlayer != targetPlayer)
+                return;
+
+            if (!Runner.TryFindObject(
+                    targetId,
+                    out NetworkObject obj))
+            {
+                return;
+            }
+
+            var localInteractables =
+                obj.GetComponents<MonoBehaviour>();
+
+            foreach (var component
+                     in localInteractables)
+            {
+                if (component is ILocalInteractable local)
+                {
+                    local.OnLocalInteract();
+                }
+            }
         }
     }
 }

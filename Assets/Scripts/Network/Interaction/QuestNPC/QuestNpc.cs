@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Network.Interaction.QuestNPC
 {
-    public class QuestNpc : InteractableBase
+    public class QuestNpc : InteractableBase, ILocalInteractable
     {
         [Header("Quest Database")]
         [SerializeField]
@@ -13,10 +13,11 @@ namespace Network.Interaction.QuestNPC
 
         public override void OnInteract(NetworkPlayerController player)
         {
-            if (!NetworkPlayerController.Local)
-                return;
-
-            Debug.Log("Quest database loaded");
+            
+        }
+        
+        public void OnLocalInteract()
+        {
             QuestWindowUI.Instance.Open(this);
         }
     }
