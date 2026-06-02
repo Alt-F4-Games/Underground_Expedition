@@ -10,15 +10,6 @@ namespace Network.Quests.Enums
         Secondary
     }
 
-    public enum QuestStatus
-    {
-        Locked,
-        Available,
-        InProgress,
-        Completed,
-        RewardClaimed
-    }
-
     public enum QuestObjectiveType
     {
         KillEnemy,
@@ -26,18 +17,6 @@ namespace Network.Quests.Enums
         CraftItem,
         Interact,
         ExploreArea
-    }
-
-    public enum ProgressScope
-    {
-        Individual,
-        Shared
-    }
-
-    public enum CompletionScope
-    {
-        Individual,
-        Shared
     }
 
     public enum QuestRequirementType
