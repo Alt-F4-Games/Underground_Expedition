@@ -53,8 +53,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private bool IsGrounded { get; set; }
     [Networked] private float VerticalSpeed { get; set; }
     
+    // Animation variables
     [Networked, OnChangedRender(nameof(OnHitReceived))]
     private int HitCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackReceived))]
+    private int AttackCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -293,5 +296,20 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             return;
 
         HitCounter++;
+    }
+    private void OnAttackReceived()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.SetTrigger("Attack");
+    }
+
+    public void PlayAttackAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackCounter++;
     }
 }
