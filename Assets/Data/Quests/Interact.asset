@@ -10,24 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
-  m_Name: InteractQuest
+  m_Name: Interact
   m_EditorClassIdentifier: 
-  questId: quest_interaction
-  questName: Mision de Interaccion
-  description: Esta es una mision de prueba para interactuar con un objeto
+  questId: quest_interact
+  questName: INTERACCION
+  description: interactuar con la mesa
   questType: 0
   requirementType: 0
   requiredQuestId: 
-  progressScope: 0
-  completionScope: 0
-  rewardScope: 0
   objectives:
-  - objectiveId: quest_objec_interact
+  - objectiveId: quest_interact_objective
     displayName: Interactua con la mesa de crafteo.
     objectiveType: 3
     targetId: interact_crafting
     requiredAmount: 1
   rewards:
-  - itemId: obj_tooth
-    quantity: 9
-    experience: 40
+  - itemId: 
+    quantity: 0
+    experience: 70
