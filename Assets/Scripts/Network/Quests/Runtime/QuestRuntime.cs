@@ -13,34 +13,20 @@ namespace Network.Quests.Runtime
         public QuestState State { get; private set; }
 
         public string QuestId => Definition.questId;
-
-        public string QuestName => Definition.questName;
-
-        public QuestRuntime(
-            QuestDefinitionSO definition)
+        
+        public QuestRuntime(QuestDefinitionSO definition)
         {
             Definition = definition;
 
-            State = new QuestState
-            {
-                questId = definition.questId,
-                isCompleted = false
-            };
+            State = new QuestState { questId = definition.questId, isCompleted = false };
 
             BuildState();
         }
 
         private void BuildState()
         {
-            foreach (var objective
-                     in Definition.objectives)
-            {
-                State.objectives.Add(
-                    new QuestObjectiveState
-                    {
-                        currentAmount = 0
-                    });
-            }
+            foreach (var objective in Definition.objectives)
+            { State.objectives.Add(new QuestObjectiveState { currentAmount = 0 }); }
         }
     }
 }

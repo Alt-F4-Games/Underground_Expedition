@@ -23,125 +23,69 @@ namespace UI.Quests
         [SerializeField]
         private TMP_Text questTypeText;
 
-        public void Clear()
-        {
-            titleText.text = "";
-            descriptionText.text = "";
-            objectivesText.text = "";
-            rewardsText.text = "";
-
-            if (questTypeText != null)
-            {
-                questTypeText.text = "";
-            }
-        }
-
-        public void ShowQuest(
-            QuestDefinitionSO definition,
-            QuestRuntime runtime)
+        public void ShowQuest(QuestDefinitionSO definition, QuestRuntime runtime)
         {
             if (definition == null)
                 return;
 
-            titleText.text =
-                definition.questName;
+            titleText.text = definition.questName;
 
-            descriptionText.text =
-                definition.description;
+            descriptionText.text = definition.description;
 
             if (questTypeText != null)
             {
-                questTypeText.text =
-                    definition.questType ==
-                    Network.Quests.Enums.QuestType.Main
+                questTypeText.text = definition.questType == Network.Quests.Enums.QuestType.Main
                         ? "Main Quest (Shared)"
                         : "Secondary Quest (Personal)";
             }
 
-            BuildObjectives(
-                definition,
-                runtime);
-
-            BuildRewards(
-                definition);
+            BuildObjectives(definition, runtime);
+            BuildRewards(definition);
         }
 
-        public void ShowLockedQuest(
-            QuestDefinitionSO definition,
-            string requiredQuestName)
+        public void ShowLockedQuest(QuestDefinitionSO definition, string requiredQuestName)
         {
             titleText.text = "???";
 
-            descriptionText.text =
-                "This quest is locked.";
+            descriptionText.text = "This quest is locked.";
 
-            objectivesText.text =
-                $"Complete:\n{requiredQuestName}\n\nto unlock this quest.";
+            objectivesText.text = $"Complete:\n{requiredQuestName}\n\nto unlock this quest.";
 
             rewardsText.text = "";
 
-            if (questTypeText != null)
-            {
-                questTypeText.text = "Locked";
-            }
+            if (questTypeText != null) { questTypeText.text = "Locked"; }
         }
 
-        private void BuildObjectives(
-            QuestDefinitionSO definition,
-            QuestRuntime runtime)
+        private void BuildObjectives(QuestDefinitionSO definition, QuestRuntime runtime)
         {
-            StringBuilder builder =
-                new();
+            StringBuilder builder = new();
 
-            for (int i = 0;
-                 i < definition.objectives.Count;
-                 i++)
+            for (int i = 0; i < definition.objectives.Count; i++)
             {
-                var objective =
-                    definition.objectives[i];
+                var objective = definition.objectives[i];
 
                 int current = 0;
 
-                if (runtime != null)
-                {
-                    current =
-                        runtime.State
-                            .objectives[i]
-                            .currentAmount;
-                }
+                if (runtime != null) { current = runtime.State.objectives[i].currentAmount; }
 
-                builder.AppendLine(
-                    $"{objective.displayName} ({current}/{objective.requiredAmount})");
+                builder.AppendLine($"{objective.displayName} ({current}/{objective.requiredAmount})");
             }
 
-            objectivesText.text =
-                builder.ToString();
+            objectivesText.text = builder.ToString();
         }
 
-        private void BuildRewards(
-            QuestDefinitionSO definition)
+        private void BuildRewards(QuestDefinitionSO definition)
         {
-            StringBuilder builder =
-                new();
+            StringBuilder builder = new();
 
-            foreach (var reward
-                     in definition.rewards)
+            foreach (var reward in definition.rewards)
             {
-                if (reward.quantity > 0)
-                {
-                    builder.AppendLine(
-                        $"{reward.quantity}x {reward.itemId}");
-                }
+                if (reward.quantity > 0) { builder.AppendLine($"{reward.quantity}x {reward.itemId}"); }
 
-                if (reward.experience > 0)
-                {
-                    builder.AppendLine(
-                        $"{reward.experience} XP");
-                }
+                if (reward.experience > 0) { builder.AppendLine($"{reward.experience} XP"); }
             }
 
-            rewardsText.text =
-                builder.ToString();
+            rewardsText.text = builder.ToString();
         }
     }
 }

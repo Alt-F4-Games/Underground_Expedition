@@ -6,8 +6,7 @@ namespace Network.Quests.Enums
 {
     public enum QuestType
     {
-        Main,
-        Secondary
+        Main
     }
 
     public enum QuestObjectiveType
@@ -22,7 +21,6 @@ namespace Network.Quests.Enums
     public enum QuestRequirementType
     {
         None,
-
         RequireCompletedQuest
     }
 }

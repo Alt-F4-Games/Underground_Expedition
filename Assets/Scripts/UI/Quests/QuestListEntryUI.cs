@@ -15,15 +15,10 @@ namespace UI.Quests
         private Button button;
 
         private QuestDefinitionSO _definition;
-
         private QuestWindowUI _window;
-
         private bool _locked;
 
-        public void Bind(
-            QuestDefinitionSO definition,
-            QuestWindowUI window,
-            bool locked)
+        public void Bind(QuestDefinitionSO definition, QuestWindowUI window, bool locked)
         {
             _definition = definition;
 
@@ -31,22 +26,13 @@ namespace UI.Quests
 
             _locked = locked;
 
-            questNameText.text =
-                locked
-                    ? "????"
-                    : definition.questName;
+            questNameText.text = locked ? "????" : definition.questName;
 
             button.onClick.RemoveAllListeners();
 
-            button.onClick.AddListener(
-                SelectQuest);
+            button.onClick.AddListener(SelectQuest);
         }
 
-        private void SelectQuest()
-        {
-            _window.SelectQuest(
-                _definition,
-                _locked);
-        }
+        private void SelectQuest() { _window.SelectQuest(_definition, _locked); }
     }
 }

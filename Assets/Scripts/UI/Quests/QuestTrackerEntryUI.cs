@@ -17,16 +17,10 @@ namespace UI.Quests
         [SerializeField]
         private ObjectiveEntryUI objectivePrefab;
 
-        private readonly List<ObjectiveEntryUI>
-            _entries = new();
-
+        private readonly List<ObjectiveEntryUI> _entries = new();
         private QuestRuntime _runtime;
-
-        public string QuestId =>
-            _runtime?.QuestId;
-
-        public void Bind(
-            QuestRuntime runtime)
+        
+        public void Bind(QuestRuntime runtime)
         {
             _runtime = runtime;
 
@@ -38,40 +32,23 @@ namespace UI.Quests
             if (_runtime == null)
                 return;
 
-            QuestDefinitionSO definition =
-                _runtime.Definition;
+            QuestDefinitionSO definition = _runtime.Definition;
 
-            questNameText.text =
-                definition.questName;
+            questNameText.text = definition.questName;
 
             ClearObjectives();
 
-            for (int i = 0;
-                 i < definition.objectives.Count;
-                 i++)
+            for (int i = 0; i < definition.objectives.Count; i++)
             {
-                var objective =
-                    definition.objectives[i];
+                var objective = definition.objectives[i];
 
-                int current =
-                    _runtime.State
-                        .objectives[i]
-                        .currentAmount;
+                int current = _runtime.State.objectives[i].currentAmount;
 
-                bool completed =
-                    current >=
-                    objective.requiredAmount;
+                bool completed = current >= objective.requiredAmount;
 
-                ObjectiveEntryUI entry =
-                    Instantiate(
-                        objectivePrefab,
-                        objectiveContainer);
+                ObjectiveEntryUI entry = Instantiate(objectivePrefab, objectiveContainer);
 
-                entry.SetData(
-                    objective.displayName,
-                    current,
-                    objective.requiredAmount,
-                    completed);
+                entry.SetData(objective.displayName, current, objective.requiredAmount, completed);
 
                 _entries.Add(entry);
             }
@@ -79,11 +56,7 @@ namespace UI.Quests
 
         private void ClearObjectives()
         {
-            foreach (var entry
-                     in _entries)
-            {
-                Destroy(entry.gameObject);
-            }
+            foreach (var entry in _entries) { Destroy(entry.gameObject); }
 
             _entries.Clear();
         }

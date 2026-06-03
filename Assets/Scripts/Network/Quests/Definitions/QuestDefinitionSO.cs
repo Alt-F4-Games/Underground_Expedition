@@ -48,8 +48,6 @@ namespace Network.Quests.Definitions
     [Serializable]
     public class QuestObjectiveDefinition
     {
-        public string objectiveId;
-
         public string displayName;
 
         public QuestObjectiveType objectiveType;
