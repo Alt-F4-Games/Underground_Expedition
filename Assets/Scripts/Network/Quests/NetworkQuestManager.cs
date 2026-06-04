@@ -7,6 +7,7 @@ using Network.Quests.Definitions;
 using Network.Quests.Enums;
 using Network.Quests.Runtime;
 using Tools.EventSystem;
+using UI.Quests;
 using UnityEngine;
 
 namespace Network.Quests
@@ -236,6 +237,14 @@ namespace Network.Quests
 
             EventController.Instance.TriggerEvent(new QuestUIRefreshEvent());
         }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_ShowQuestNotification(int notificationType, string questName)
+        {
+            QuestNotificationsUI.Instance?.ShowNotification(
+                (QuestNotificationType)notificationType,
+                questName);
+        }
 
         private void ProcessQuestProgress(QuestRuntime runtime, QuestObjectiveType objectiveType, string targetId, int amount)
         {
@@ -294,6 +303,10 @@ namespace Network.Quests
 
             if (runtime.Definition.questType == QuestType.Main) 
             { Session?.MarkMainQuestCompleted(runtime.QuestId); }
+            
+            RPC_ShowQuestNotification(
+                (int)QuestNotificationType.Completed,
+                runtime.Definition.questName);
 
             EventController.Instance.TriggerEvent(new QuestUIRefreshEvent());
         }
@@ -306,6 +319,10 @@ namespace Network.Quests
             Session.MarkMainQuestAccepted(definition.questId);
 
             AddQuestLocally(definition);
+            
+            RPC_ShowQuestNotification(
+                (int)QuestNotificationType.Accepted,
+                definition.questName);
         }
 
         private void AddQuestLocally(QuestDefinitionSO definition)

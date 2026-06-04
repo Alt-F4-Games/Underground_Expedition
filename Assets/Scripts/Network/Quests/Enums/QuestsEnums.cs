@@ -23,4 +23,10 @@ namespace Network.Quests.Enums
         None,
         RequireCompletedQuest
     }
+    
+    public enum QuestNotificationType
+    {
+        Accepted,
+        Completed
+    }
 }
