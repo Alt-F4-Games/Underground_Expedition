@@ -680,10 +680,23 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
       insertIndex: -1
       addedObject: {fileID: -3878111871377178858}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 759461725232283544}
   m_SourcePrefab: {fileID: 100100000, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
 --- !u!137 &1350348187809696445 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7749732529269283607, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
+  m_PrefabInstance: {fileID: 8733027411800609194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2371705037129328196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2749431066748586002, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
+  m_PrefabInstance: {fileID: 8733027411800609194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2628616580574721527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2500822760372804515, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
   m_PrefabInstance: {fileID: 8733027411800609194}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8498463989289905403 stripped
@@ -773,6 +786,7 @@ MonoBehaviour:
   - {fileID: 6540033902390079558}
   - {fileID: 1369550194095931580}
   - {fileID: 8407366263889867682}
+  - {fileID: 759461725232283544}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &-5681399805886807003
 MonoBehaviour:
@@ -1074,6 +1088,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &759461725232283544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498463989289905403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c569b73665dd08c6f893ba62bf858227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstPersonMesh: {fileID: 2371705037129328196}
+  thirdPersonMesh: {fileID: 2628616580574721527}
 --- !u!4 &9131975494254900801 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
