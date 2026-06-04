@@ -8,11 +8,8 @@ namespace UI.Quests
     public class QuestListEntryUI : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField]
-        private TMP_Text questNameText;
-
-        [SerializeField]
-        private Button button;
+        [SerializeField] private TMP_Text questNameText;
+        [SerializeField] private Button button;
 
         private QuestDefinitionSO _definition;
         private QuestWindowUI _window;

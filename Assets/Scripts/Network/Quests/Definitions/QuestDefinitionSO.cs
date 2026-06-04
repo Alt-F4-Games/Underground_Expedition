@@ -14,18 +14,15 @@ namespace Network.Quests.Definitions
     {
         [Header("Identification")]
         public string questId;
-
         public string questName;
 
-        [TextArea]
-        public string description;
+        [TextArea] public string description;
 
         [Header("Type")]
         public QuestType questType;
 
         [Header("Requirements")]
         public QuestRequirementType requirementType;
-
         public string requiredQuestId;
 
         [Header("Objectives")]

@@ -12,37 +12,23 @@ namespace UI.Quests
 {
     public class QuestWindowUI : UIWindow
     {
-        public static QuestWindowUI Instance
-        { get; private set; }
+        public static QuestWindowUI Instance { get; private set; }
         
         [Header("List")]
-        [SerializeField]
-        private Transform questListContainer;
-
-        [SerializeField]
-        private QuestListEntryUI listEntryPrefab;
+        [SerializeField] private Transform questListContainer;
+        [SerializeField] private QuestListEntryUI listEntryPrefab;
 
         [Header("Details")]
-        [SerializeField]
-        private QuestDetailsUI detailsUI;
+        [SerializeField] private QuestDetailsUI detailsUI;
 
         [Header("Buttons")]
-        [SerializeField]
-        private Button acceptButton;
+        [SerializeField] private Button acceptButton;
+        [SerializeField] private Button claimButton;
+        [SerializeField] private Button closeButton;
 
-        [SerializeField]
-        private Button claimButton;
-
-        [SerializeField]
-        private Button closeButton;
-
-        private readonly List<QuestListEntryUI>
-            _entries = new();
-
+        private readonly List<QuestListEntryUI> _entries = new();
         private QuestNpc _currentNpc;
-
         private QuestDefinitionSO _selectedQuest;
-
         private bool _selectedLocked;
 
         private void Awake()
@@ -51,32 +37,16 @@ namespace UI.Quests
 
             root.SetActive(false);
             
-            acceptButton.onClick
-                .AddListener(
-                    AcceptSelectedQuest);
+            acceptButton.onClick.AddListener(AcceptSelectedQuest);
+            claimButton.onClick.AddListener(ClaimSelectedQuest);
+            closeButton.onClick.AddListener(Close);
 
-            claimButton.onClick
-                .AddListener(
-                    ClaimSelectedQuest);
-
-            closeButton.onClick
-                .AddListener(
-                    Close);
-
-            EventController.Instance
-                .AddListener<QuestUIRefreshEvent>(
-                    OnQuestUIRefresh);
+            EventController.Instance.AddListener<QuestUIRefreshEvent>(OnQuestUIRefresh);
         }
 
-        private void OnDestroy()
-        {
-            EventController.Instance
-                .RemoveListener<QuestUIRefreshEvent>(
-                    OnQuestUIRefresh);
-        }
+        private void OnDestroy() { EventController.Instance.RemoveListener<QuestUIRefreshEvent>(OnQuestUIRefresh); }
 
-        public void Open(
-            QuestNpc npc)
+        public void Open(QuestNpc npc)
         {
             if (npc == null)
                 return;
@@ -88,130 +58,73 @@ namespace UI.Quests
             base.Open();
         }
 
-        public override void Close()
-        {
-            base.Close();
-        }
-
         private void BuildQuestList()
         {
             ClearList();
 
-            foreach (var quest
-                     in _currentNpc
-                         .questDatabase
-                         .Quests)
+            foreach (var quest in _currentNpc.questDatabase.Quests)
             {
-                bool locked =
-                    NetworkQuestManager.Local
-                        .IsQuestLocked(quest);
+                bool locked = NetworkQuestManager.Local.IsQuestLocked(quest);
 
-                QuestListEntryUI entry =
-                    Instantiate(
-                        listEntryPrefab,
-                        questListContainer);
+                QuestListEntryUI entry = Instantiate(listEntryPrefab, questListContainer);
 
-                entry.Bind(
-                    quest,
-                    this,
-                    locked);
-
+                entry.Bind(quest, this, locked);
+                
                 _entries.Add(entry);
             }
         }
 
         private void ClearList()
         {
-            foreach (var entry in _entries)
-            {
-                Destroy(entry.gameObject);
-            }
+            foreach (var entry in _entries) { Destroy(entry.gameObject); }
 
             _entries.Clear();
         }
 
-        public void SelectQuest(
-            QuestDefinitionSO definition,
-            bool locked)
+        public void SelectQuest(QuestDefinitionSO definition, bool locked)
         {
             _selectedQuest = definition;
             _selectedLocked = locked;
 
             if (locked)
             {
-                string requiredQuestName =
-                    definition.requiredQuestId;
+                string requiredQuestName = definition.requiredQuestId;
 
-                var requiredQuest =
-                    QuestDatabase.Instance
-                        .GetQuestById(
-                            definition.requiredQuestId);
+                var requiredQuest = QuestDatabase.Instance.GetQuestById(definition.requiredQuestId);
 
-                if (requiredQuest != null)
-                {
-                    requiredQuestName =
-                        requiredQuest.questName;
-                }
+                if (requiredQuest != null) { requiredQuestName = requiredQuest.questName; }
 
-                detailsUI.ShowLockedQuest(
-                    definition,
-                    requiredQuestName);
+                detailsUI.ShowLockedQuest(definition, requiredQuestName);
 
-                acceptButton.gameObject
-                    .SetActive(false);
+                acceptButton.gameObject.SetActive(false);
 
-                claimButton.gameObject
-                    .SetActive(false);
+                claimButton.gameObject.SetActive(false);
 
                 return;
             }
 
-            NetworkQuestManager.Local
-                .TryGetQuest(
-                    definition.questId,
-                    out QuestRuntime runtime);
+            NetworkQuestManager.Local.TryGetQuest(definition.questId, out QuestRuntime runtime);
 
-            detailsUI.ShowQuest(
-                definition,
-                runtime);
+            detailsUI.ShowQuest(definition, runtime);
 
             RefreshButtons(runtime);
         }
 
-        private void RefreshButtons(
-            QuestRuntime runtime)
+        private void RefreshButtons(QuestRuntime runtime)
         {
             if (_selectedQuest == null)
                 return;
 
-            bool hasQuest =
-                runtime != null;
+            bool hasQuest = runtime != null;
 
-            bool completed =
-                hasQuest &&
-                runtime.State.isCompleted;
+            bool completed = hasQuest && runtime.State.isCompleted;
 
-            bool claimed =
-                hasQuest &&
-                NetworkQuestManager.Local
-                    .IsQuestRewardClaimed(
-                        runtime.QuestId);
+            bool claimed = hasQuest && NetworkQuestManager.Local.IsQuestRewardClaimed(runtime.QuestId);
 
-            bool locked =
-                _selectedLocked;
+            bool locked = _selectedLocked;
 
-            // ACCEPT
-
-            acceptButton.gameObject.SetActive(
-                !locked &&
-                !hasQuest);
-
-            // CLAIM
-
-            claimButton.gameObject.SetActive(
-                !locked &&
-                completed &&
-                !claimed);
+            acceptButton.gameObject.SetActive(!locked && !hasQuest);
+            claimButton.gameObject.SetActive(!locked && completed && !claimed);
         }
 
         private void AcceptSelectedQuest()
@@ -222,9 +135,7 @@ namespace UI.Quests
             if (_selectedLocked)
                 return;
 
-            NetworkQuestManager.Local
-                .RPC_AcceptQuest(
-                    _selectedQuest.questId);
+            NetworkQuestManager.Local.RPC_AcceptQuest(_selectedQuest.questId);
         }
 
         private void ClaimSelectedQuest()
@@ -232,13 +143,10 @@ namespace UI.Quests
             if (_selectedQuest == null)
                 return;
 
-            NetworkQuestManager.Local
-                .RPC_ClaimReward(
-                    _selectedQuest.questId);
+            NetworkQuestManager.Local.RPC_ClaimReward( _selectedQuest.questId);
         }
 
-        private void OnQuestUIRefresh(
-            QuestUIRefreshEvent evt)
+        private void OnQuestUIRefresh(QuestUIRefreshEvent evt)
         {
             if (!root.activeSelf)
                 return;
@@ -248,9 +156,7 @@ namespace UI.Quests
             if (_selectedQuest == null)
                 return;
 
-            SelectQuest(
-                _selectedQuest,
-                _selectedLocked);
+            SelectQuest(_selectedQuest, _selectedLocked);
         }
     }
 }

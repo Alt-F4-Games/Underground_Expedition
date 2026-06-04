@@ -8,20 +8,11 @@ namespace UI.Quests
 {
     public class QuestDetailsUI : MonoBehaviour
     {
-        [SerializeField]
-        private TMP_Text titleText;
-
-        [SerializeField]
-        private TMP_Text descriptionText;
-
-        [SerializeField]
-        private TMP_Text objectivesText;
-
-        [SerializeField]
-        private TMP_Text rewardsText;
-
-        [SerializeField]
-        private TMP_Text questTypeText;
+        [SerializeField] private TMP_Text titleText;
+        [SerializeField] private TMP_Text descriptionText;
+        [SerializeField] private TMP_Text objectivesText;
+        [SerializeField] private TMP_Text rewardsText;
+        [SerializeField] private TMP_Text questTypeText;
 
         public void ShowQuest(QuestDefinitionSO definition, QuestRuntime runtime)
         {

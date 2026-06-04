@@ -8,14 +8,9 @@ namespace UI.Quests
 {
     public class QuestTrackerEntryUI : MonoBehaviour
     {
-        [SerializeField]
-        private TMP_Text questNameText;
-
-        [SerializeField]
-        private Transform objectiveContainer;
-
-        [SerializeField]
-        private ObjectiveEntryUI objectivePrefab;
+        [SerializeField] private TMP_Text questNameText;
+        [SerializeField] private Transform objectiveContainer;
+        [SerializeField] private ObjectiveEntryUI objectivePrefab;
 
         private readonly List<ObjectiveEntryUI> _entries = new();
         private QuestRuntime _runtime;

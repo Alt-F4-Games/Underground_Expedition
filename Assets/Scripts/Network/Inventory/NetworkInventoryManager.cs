@@ -240,15 +240,6 @@ public class NetworkInventoryManager : NetworkBehaviour
 
         if (crafted)
         {
-            ItemCraftedEvent itemCraftedEvent = new ItemCraftedEvent
-            {
-                player = Object.InputAuthority,
-                resultItemId = resultItemId,
-                quantity = recipe.resultQuantity  
-            };
-            
-            EventController.Instance.TriggerEvent(itemCraftedEvent);
-            
             NetworkQuestManager.Local.RPC_ReportQuestEvent(
                 (int)QuestObjectiveType.CraftItem,
                 resultItemId,
@@ -300,15 +291,6 @@ public class NetworkInventoryManager : NetworkBehaviour
         string gameplayId =
             ItemDatabase.Instance.GetGameplayId(
                 worldItem.ItemId);
-
-        ItemCollectedEvent itemCollectedEvent = new ItemCollectedEvent
-        {
-            player = Object.InputAuthority,
-            itemId = gameplayId,
-            quantity = worldItem.Quantity
-        };
-            
-        EventController.Instance.TriggerEvent(itemCollectedEvent);
         
         NetworkQuestManager.Local.RPC_ReportQuestEvent(
             (int)QuestObjectiveType.CollectItem,
