@@ -71,20 +71,15 @@ namespace Network.Quests
             
         }
         
-        public bool HasClaimedReward(string playerId, string questId)
+        public bool HasClaimedReward(PlayerRef playerRef, string questId)
         {
-            string key = $"{playerId}_{questId}";
-
+            string key = $"{playerRef.PlayerId}_{questId}";
             return ClaimedRewards.ContainsKey(key);
         }
 
-        public void MarkRewardClaimed(string playerId, string questId)
+        public void MarkRewardClaimed(PlayerRef playerRef, string questId)
         {
-            if (!HasStateAuthority)
-                return;
-
-            string key = $"{playerId}_{questId}";
-
+            string key = $"{playerRef.PlayerId}_{questId}";
             ClaimedRewards.Set(key, 1);
         }
     }

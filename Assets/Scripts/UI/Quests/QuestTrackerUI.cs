@@ -14,9 +14,9 @@ namespace UI.Quests
         [SerializeField] private QuestTrackerEntryUI entryPrefab;
 
         private readonly Dictionary<string, QuestTrackerEntryUI> _entries = new();
-        private bool _initialized;
 
         private void Start() { EventController.Instance.AddListener<QuestUIRefreshEvent>(OnRefresh); }
+        private void OnEnable() { Build(); }
         private void OnDestroy() { EventController.Instance.RemoveListener<QuestUIRefreshEvent>(OnRefresh); }
         private void OnRefresh(QuestUIRefreshEvent evt) { Build(); }
         private void Build()

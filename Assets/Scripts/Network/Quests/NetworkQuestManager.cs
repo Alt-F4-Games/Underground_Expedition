@@ -23,7 +23,7 @@ namespace Network.Quests
         public IReadOnlyDictionary<string, QuestRuntime> ActiveQuests => _activeQuests;
         private readonly HashSet<string> _completedQuests = new();
         private NetworkQuestSession Session => NetworkQuestSession.Instance;
-        private static string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
+        private PlayerRef LocalPlayerRef => Object.InputAuthority;
         private ChangeDetector _sessionChanges;
 
 
@@ -161,7 +161,7 @@ namespace Network.Quests
             if (!Session)
                 return false;
 
-            return Session.HasClaimedReward(LocalPlayerId, questId);
+            return Session.HasClaimedReward(LocalPlayerRef, questId);
         }
 
         private bool HasCompletedQuest(string questId)
@@ -209,16 +209,21 @@ namespace Network.Quests
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         public void RPC_ClaimReward(string questId)
         {
+            PlayerRef playerRef = Object.InputAuthority;
+            
             if (!_activeQuests.TryGetValue(questId, out QuestRuntime runtime)) { return; }
+            
+            if (!Session.IsMainQuestCompleted(questId)) { return; }
+            
+            if (Session.HasClaimedReward(playerRef, questId)) { return; }
+            
+            QuestDefinitionSO definition = database.GetQuestById(questId);
 
-            if (!runtime.State.isCompleted)
-                return;
-
-            if (Session.HasClaimedReward(LocalPlayerId, questId)) { return; }
-
-            GiveRewards(runtime);
-
-            Session.MarkRewardClaimed(LocalPlayerId, questId);
+            if (definition == null) { return; }
+            
+            GiveRewards(playerRef, definition);
+            
+            Session.MarkRewardClaimed(playerRef, questId);
             
             EventController.Instance.TriggerEvent(new QuestUIRefreshEvent());
         }
@@ -326,30 +331,32 @@ namespace Network.Quests
             EventController.Instance.TriggerEvent(new QuestUIRefreshEvent());
         }
         
-        private void GiveRewards(QuestRuntime runtime)
+        private void GiveRewards(PlayerRef playerRef, QuestDefinitionSO definition)
         {
-            var inventory = GetComponent<NetworkInventorySystem>();
+            bool found = Runner.TryGetPlayerObject(playerRef, out NetworkObject playerObject);
+            if (!found)
+                return;
+            
+            var inventory = playerObject.GetComponent<NetworkInventorySystem>();
 
-            var exp = GetComponent<NetworkExperienceSystem>();
+            var exp = playerObject.GetComponent<NetworkExperienceSystem>();
 
-            foreach (var reward in runtime.Definition.rewards)
+            foreach (var reward in definition.rewards)
             {
-                // ==========================
-                // ITEMS
-                // ==========================
-
                 if (!string.IsNullOrWhiteSpace(reward.itemId))
                 {
                     int itemId = ItemDatabase.Instance.GetNetworkId(reward.itemId);
 
-                    if (itemId > 0) { inventory.Server_AddItemGlobal(itemId, reward.quantity); }
+                    if (itemId > 0)
+                    {
+                        inventory.Server_AddItemGlobal(itemId, reward.quantity);
+                    }
                 }
 
-                // ==========================
-                // XP
-                // ==========================
-
-                if (reward.experience > 0 && exp != null) { exp.Server_AddXP(reward.experience); }
+                if (reward.experience > 0 && exp != null)
+                {
+                    exp.Server_AddXP(reward.experience);
+                }
             }
         }
     }

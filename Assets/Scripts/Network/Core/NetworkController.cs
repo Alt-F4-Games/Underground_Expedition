@@ -185,6 +185,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         Quaternion spawnRot = _spawnPoint != null ? _spawnPoint.rotation : Quaternion.identity;
 
         var obj = runner.Spawn(_playerprefab, spawnPos, spawnRot, player);
+        
+        runner.SetPlayerObject(player, obj);
+        
         _players.Add(player, obj);
         
         if (!worldItemsSpawned && _testEnemyPrefab != null)
