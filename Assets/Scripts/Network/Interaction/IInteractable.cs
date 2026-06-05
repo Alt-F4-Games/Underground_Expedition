@@ -23,4 +23,9 @@ namespace Network.Interaction
         void OnHoverEnter(NetworkPlayerController player);
         void OnHoverExit(NetworkPlayerController player);
     }
+    
+    public interface ILocalInteractable
+    {
+        void OnLocalInteract();
+    }
 }

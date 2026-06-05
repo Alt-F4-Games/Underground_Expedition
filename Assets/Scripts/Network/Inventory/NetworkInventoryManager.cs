@@ -1,6 +1,11 @@
 using System;
+using Events;
 using Fusion;
 using Network.Crafting;
+using Network.Inventory;
+using Network.Quests;
+using Network.Quests.Enums;
+using Tools.EventSystem;
 using UnityEngine;
 
 /// <summary>
@@ -145,7 +150,7 @@ public class NetworkInventoryManager : NetworkBehaviour
 
         ClearHandModel();
 
-        var prefab = ItemDatabase.Instance.GetEquipPrefab(slot.ItemId);
+        var prefab = ItemDatabase.Instance.GetEquipPrefabByNetworkId(slot.ItemId);
         if (prefab != null)
         {
             _currentHandModel = Instantiate(prefab, handTransform);
@@ -182,7 +187,7 @@ public class NetworkInventoryManager : NetworkBehaviour
         RPC_DropItem(type, index);
     }
     
-    public void Input_Craft(int resultItemId)
+    public void Input_Craft(string resultItemId)
     {
         if (!HasInputAuthority)
             return;
@@ -224,7 +229,7 @@ public class NetworkInventoryManager : NetworkBehaviour
     }
     
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_RequestCraft(int resultItemId)
+    private void RPC_RequestCraft(string resultItemId)
     {
         var recipe = CraftingDatabase.Instance.GetRecipeByResult(resultItemId);
 
@@ -235,6 +240,11 @@ public class NetworkInventoryManager : NetworkBehaviour
 
         if (crafted)
         {
+            NetworkQuestManager.Local.RPC_ReportQuestEvent(
+                (int)QuestObjectiveType.CraftItem,
+                resultItemId,
+                recipe.resultQuantity);
+            
             Debug.Log("Craft success");
         }
     }
@@ -276,15 +286,19 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
 
         bool added = inventorySystem.Server_TryAddItem(worldItem.ItemId, worldItem.Quantity, SlotType.Base);
-        if (added)
-        {
-            Runner.Despawn(item.Object);
-            RPC_PickupResult(true, item.Object);
-        }
-        else
-        {
-            RPC_PickupResult(false, item.Object);
-        }
+        
+        if (!added) return;
+        string gameplayId =
+            ItemDatabase.Instance.GetGameplayId(
+                worldItem.ItemId);
+        
+        NetworkQuestManager.Local.RPC_ReportQuestEvent(
+            (int)QuestObjectiveType.CollectItem,
+            gameplayId,
+            worldItem.Quantity);
+        
+        Runner.Despawn(item.Object);
+        RPC_PickupResult(true, item.Object);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
@@ -300,7 +314,6 @@ public class NetworkInventoryManager : NetworkBehaviour
             // Reset local debounce to allow retry
             worldItem.ResetPickupRequest();
         }
-        // else: success — server has despawned object
     }
 
     // -------------------- SAVED INVENTORY SYNC (client -> server) -----------

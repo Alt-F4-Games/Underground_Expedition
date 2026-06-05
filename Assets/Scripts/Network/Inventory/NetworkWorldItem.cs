@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine;
 using System.Collections;
+using Network.Inventory;
 
 /// <summary>
 /// Represents a physical item in the world.
@@ -70,7 +71,7 @@ public class NetworkWorldItem : NetworkBehaviour
             return;
         }
 
-        var prefab = ItemDatabase.Instance.GetEquipPrefab(ItemId);
+        var prefab = ItemDatabase.Instance.GetEquipPrefabByNetworkId(ItemId);
 
         if (prefab != null)
             Instantiate(prefab, visualContainer);

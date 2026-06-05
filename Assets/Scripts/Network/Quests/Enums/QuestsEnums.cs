@@ -1,0 +1,32 @@
+﻿// =====================================================
+// QuestEnums.cs
+// =====================================================
+
+namespace Network.Quests.Enums
+{
+    public enum QuestType
+    {
+        Main
+    }
+
+    public enum QuestObjectiveType
+    {
+        KillEnemy,
+        CollectItem,
+        CraftItem,
+        Interact,
+        ExploreArea
+    }
+
+    public enum QuestRequirementType
+    {
+        None,
+        RequireCompletedQuest
+    }
+    
+    public enum QuestNotificationType
+    {
+        Accepted,
+        Completed
+    }
+}

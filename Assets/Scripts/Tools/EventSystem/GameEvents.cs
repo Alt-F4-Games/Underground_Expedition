@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
-using Fusion;
-using UnityEngine;
+﻿using Fusion;
+using Network.Quests.Runtime;
 
-namespace Events{
-    public class GameEvent  { }
+namespace Tools.EventSystem
+{
+    public class GameEvent { }
+
+    // =====================================================
+    // PLAYER
+    // =====================================================
 
     public class EnemyDiedEvent : GameEvent
     {
         public PlayerRef killer;
         public int exp;
+        public string enemyId;
     }
 
     public class PlayerDiedEvent : GameEvent
@@ -22,6 +27,12 @@ namespace Events{
         public float MaxStamina;
         public int PlayerDamage;
     }
+
+    // =====================================================
+    // QUESTS
+    // =====================================================
+
+    public class QuestUIRefreshEvent : GameEvent { }
     
     public class SkillUpgradeRequestedEvent : GameEvent
     {

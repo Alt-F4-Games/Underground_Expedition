@@ -8,9 +8,11 @@ namespace Network.Crafting
     {
         [Header("Recipe Info")]
         public string recipeName;
+
+        public string recipeId;
         
         [Header("Craft Result")]
-        public int resultItemId;
+        public string resultItemId;
         public int resultQuantity = 1;
 
         [Header("Ingredients")]

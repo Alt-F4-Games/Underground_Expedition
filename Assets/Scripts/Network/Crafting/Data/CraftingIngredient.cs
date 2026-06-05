@@ -5,7 +5,7 @@ namespace Network.Crafting
     [Serializable]
     public class CraftingIngredient 
     {
-        public int itemId;
+        public string itemId;
         public int quantity;
     }
 }

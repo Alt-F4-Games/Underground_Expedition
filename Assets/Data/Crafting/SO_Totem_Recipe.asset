@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SO_Totem_Recipe
   m_EditorClassIdentifier: 
   recipeName: Totem
-  resultItemId: 15
+  recipeId: craft_totem
+  resultItemId: obj_totem
   resultQuantity: 1
   ingredients:
-  - itemId: 13
+  - itemId: obj_totem01
     quantity: 1
-  - itemId: 14
+  - itemId: obj_totem02
     quantity: 1

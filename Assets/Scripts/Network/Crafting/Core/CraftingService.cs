@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Network.Inventory;
+using UnityEngine;
 
 namespace Network.Crafting
 {
@@ -8,7 +9,10 @@ namespace Network.Crafting
         {
             foreach (var ingredient in recipe.ingredients)
             {
-                int owned = inventory.CountItem(ingredient.itemId);
+                int networkId =
+                    ItemDatabase.Instance.GetNetworkId(ingredient.itemId);
+
+                int owned = inventory.CountItem(networkId);
 
                 if (owned < ingredient.quantity)
                     return false;
@@ -19,40 +23,30 @@ namespace Network.Crafting
 
         public static bool Craft(NetworkInventorySystem inventory, CraftingRecipeSO recipe)
         {
-            
-                if (!inventory.HasStateAuthority)
+            if (!inventory.HasStateAuthority)
+                return false;
+
+            if (!CanCraft(inventory, recipe))
+                return false;
+
+            int resultNetworkId = ItemDatabase.Instance.GetNetworkId(recipe.resultItemId);
+
+            bool canStore = inventory.CanAddItemGlobal(resultNetworkId, recipe.resultQuantity);
+
+            if (!canStore)
+                return false;
+
+            foreach (var ingredient in recipe.ingredients)
+            {
+                int ingredientNetworkId = ItemDatabase.Instance.GetNetworkId(ingredient.itemId);
+
+                bool removed = inventory.Server_ConsumeItemGlobal(ingredientNetworkId, ingredient.quantity);
+
+                if (!removed)
                     return false;
+            }
 
-                if (!CanCraft(inventory, recipe))
-                    return false;
-
-                bool canStore = inventory.CanAddItemGlobal(
-                    recipe.resultItemId,
-                    recipe.resultQuantity);
-
-                if (!canStore)
-                {
-                    Debug.Log("INVENTORY FULL");
-                    return false;
-                }
-
-                // Consume ingredients
-                foreach (var ingredient in recipe.ingredients)
-                {
-                    bool removed = inventory.Server_ConsumeItemGlobal(
-                        ingredient.itemId,
-                        ingredient.quantity);
-
-                    if (!removed)
-                        return false;
-                }
-
-                bool added = inventory.Server_AddItemGlobal(
-                    recipe.resultItemId,
-                    recipe.resultQuantity);
-
-                return added;
-            
+            return inventory.Server_AddItemGlobal(resultNetworkId, recipe.resultQuantity);
         }
     }
 }
