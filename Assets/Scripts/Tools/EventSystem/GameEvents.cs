@@ -33,4 +33,16 @@ namespace Tools.EventSystem
     // =====================================================
 
     public class QuestUIRefreshEvent : GameEvent { }
+    
+    public class SkillUpgradeRequestedEvent : GameEvent
+    {
+        public NetworkObject Player;
+        public int SlotIndex;
+    }
+
+    public class SkillPointConsumedEvent : GameEvent
+    {
+        public NetworkObject Player;
+        public int SlotIndex;
+    }
 }
