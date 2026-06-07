@@ -3,6 +3,7 @@ using Events;
 using Fusion;
 using Health;
 using Network;
+using Skills;
 using UnityEngine;
 using Unity.Cinemachine;
 
@@ -37,6 +38,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
     private Animator _animator;
+    private EmpoweredStrikeSkill  _strikeSkill;
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -73,6 +75,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _health = GetComponent<NetworkPlayerHealth>();
         _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
         _animator  = GetComponent<Animator>();
+        _strikeSkill = GetComponent<EmpoweredStrikeSkill>();
         
         if (_health != null)
         {
@@ -302,7 +305,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator == null)
             return;
 
-        _animator.SetTrigger("Attack");
+        if (_strikeSkill.RemainingStrikes <= 0)
+            _animator.SetTrigger("Attack");
+        if (_strikeSkill.RemainingStrikes > 0)
+            _animator.SetTrigger("Strike");
     }
 
     public void PlayAttackAnimation()
