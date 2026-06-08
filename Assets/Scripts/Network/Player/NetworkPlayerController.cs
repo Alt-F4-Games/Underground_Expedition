@@ -3,11 +3,13 @@ using Events;
 using Fusion;
 using Health;
 using Network;
+using Skills;
 using Tools.EventSystem;
 using UnityEngine;
 using Unity.Cinemachine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
+[RequireComponent(typeof(Animator))]
 public class NetworkPlayerController : NetworkBehaviour, IStunnable
 {
     [Header("References")]
@@ -36,6 +38,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
+    private Animator _animator;
+    private EmpoweredStrikeSkill  _strikeSkill;
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -48,6 +52,15 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
+    [Networked] private float _movementSpeed { get; set; }
+    [Networked] private bool IsGrounded { get; set; }
+    [Networked] private float VerticalSpeed { get; set; }
+    
+    // Animation variables
+    [Networked, OnChangedRender(nameof(OnHitReceived))]
+    private int HitCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackReceived))]
+    private int AttackCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -62,7 +75,14 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
         _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
-
+        _animator  = GetComponent<Animator>();
+        _strikeSkill = GetComponent<EmpoweredStrikeSkill>();
+        
+        if (_health != null)
+        {
+            _health.OnDamageTaken += OnDamageTaken;
+        }
+        
         if (!HasInputAuthority)
         {
             if (_cameraPivot != null) _cameraPivot.gameObject.SetActive(false);
@@ -87,6 +107,13 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         SpawnCamera();
     }
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        if (_health != null)
+        {
+            _health.OnDamageTaken -= OnDamageTaken;
+        }
+    }
 
     private void SpawnCamera()
     {
@@ -99,8 +126,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_playerCameraInstance != null) return;
 
         _playerCameraInstance = Instantiate(_cameraPrefab);
-
-        Debug.Log("[Player] Camera spawned");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -116,14 +141,26 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         {
             SpawnCamera();
         }
-        
+
         transform.rotation = Quaternion.Euler(0, _yaw, 0);
+
         if (_cameraPivot != null)
         {
             _cameraPivot.localRotation = Quaternion.Euler(_currentPitch, 0, 0);
         }
 
         _isStunnedVisual = IsStunnedGameplay;
+
+        // =========================
+        // ANIMATIONS
+        // =========================
+
+        if (_animator != null)
+        {
+            _animator.SetFloat("movementSpeed", _movementSpeed);
+            _animator.SetBool("isGrounded", IsGrounded);
+            _animator.SetFloat("verticalSpeed", VerticalSpeed);
+        }
     }
 
     // ============================================================
@@ -150,6 +187,9 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         HandleMovement(input);
         HandleJump(input);
         HandleSprint(input);
+        
+        IsGrounded = _controller.Grounded;
+        VerticalSpeed = _controller.Velocity.y;
     }
 
     private void HandleMovement(NetworkInputPlayer input)
@@ -160,9 +200,22 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _controller.maxSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
 
         if (IsStunnedGameplay)
+        {
             _controller.Velocity = Vector3.zero;
+            _movementSpeed = 0f;
+            return;
+        }
+
+        _controller.Move(moveDir);
+
+        // =========================
+        // ANIMATION SPEED
+        // =========================
+
+        if (moveDir.sqrMagnitude > 0.01f)
+            _movementSpeed = IsSprinting ? 1f : 0.5f;
         else
-            _controller.Move(moveDir);
+            _movementSpeed = 0f;
     }
 
     private void HandleSprint(NetworkInputPlayer input)
@@ -226,5 +279,44 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         MaxStamina += evt.MaxStamina;
         CurrentStamina = MaxStamina;
+    }
+    
+    private void OnDamageTaken()
+    {
+        PlayHitAnimation();
+    }
+    
+    private void OnHitReceived()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.SetTrigger("Hit");
+    }
+
+    private void PlayHitAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        HitCounter++;
+    }
+    private void OnAttackReceived()
+    {
+        if (_animator == null)
+            return;
+
+        if (_strikeSkill.RemainingStrikes <= 0)
+            _animator.SetTrigger("Attack");
+        if (_strikeSkill.RemainingStrikes > 0)
+            _animator.SetTrigger("Strike");
+    }
+
+    public void PlayAttackAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackCounter++;
     }
 }

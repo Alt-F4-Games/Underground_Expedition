@@ -18,6 +18,8 @@ namespace Health
         
         // reference to the Skill Manager for loose coupling
         private PlayerSkillManager _skillManager;
+        
+        private NetworkPlayerController _playerController;
 
         private float _lastAttackTime;
         
@@ -28,6 +30,9 @@ namespace Health
         {
             // Cache the Skill Manager located on the same Player Prefab
             _skillManager = GetComponent<PlayerSkillManager>();
+            
+            // Cache the PlayerController located on the same Player Prefab
+            _playerController = GetComponent<NetworkPlayerController>();
         }
 
         // ============================================================
@@ -71,9 +76,11 @@ namespace Health
         private void RPC_RequestAttack()
         {
             if (!HasStateAuthority) return;
-
+            
             Vector3 attackerPosition = transform.position;
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
+            
+            _playerController?.PlayAttackAnimation();
 
             if (!target)
             {
