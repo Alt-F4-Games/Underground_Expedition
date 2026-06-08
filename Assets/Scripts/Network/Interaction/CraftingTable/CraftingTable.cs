@@ -6,20 +6,17 @@ using UnityEngine;
 
 namespace Network.Interaction.CraftingTable
 {
-    public class CraftingTable : InteractableBase
+    public class CraftingTable : InteractableBase, ILocalInteractable
     {
-        public override void OnInteract(NetworkPlayerController player)
+        public override void OnInteract(
+            NetworkPlayerController player)
         {
-            RPC_OpenUI();
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-        private void RPC_OpenUI()
+        public void OnLocalInteract()
         {
-            if (!NetworkPlayerController.Local)
-                return;
-
-            CraftingUIController.Instance.Open(NetworkPlayerController.Local);
+            CraftingUIController.Instance.Open(
+                NetworkPlayerController.Local);
         }
     }
 }

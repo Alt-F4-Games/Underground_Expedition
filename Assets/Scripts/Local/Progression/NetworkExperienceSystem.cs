@@ -2,6 +2,7 @@ using System;
 using Events;
 using Fusion;
 using Network;
+using Tools.EventSystem;
 using UI;
 using UnityEngine;
 
@@ -65,7 +66,10 @@ namespace Local.Progression
             ResetActualXP(evt.IsAlive);
         }
 
-        private void Server_AddXP(int amount)
+        // ==================================================
+        // SERVER LOGIC
+        // ==================================================
+        public void Server_AddXP(int amount)
         {
             if (!HasStateAuthority) return;
 

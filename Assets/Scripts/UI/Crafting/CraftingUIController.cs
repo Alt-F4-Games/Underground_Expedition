@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Network.Crafting;
+using Network.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Crafting
 {
-    public class CraftingUIController : MonoBehaviour
+    public class CraftingUIController : UIWindow
 {
     public static CraftingUIController Instance { get; private set; }
-
-    [Header("Root")]
-    [SerializeField] private GameObject root;
 
     [Header("Recipe List")]
     [SerializeField] private Transform recipeListContainer;
@@ -73,9 +71,7 @@ namespace UI.Crafting
         if (_localManager == null)
             return;
 
-        root.SetActive(true);
-
-        InputManager.SetMode(InputMode.UI);
+        base.Open();
 
         RefreshRecipeList();
 
@@ -93,15 +89,9 @@ namespace UI.Crafting
 
         ClearIngredients();
         
-        root.SetActive(false);
-
-        InputManager.SetMode(InputMode.Game);
+        base.Close();
     }
-
-    public void OnCloseButtonPressed()
-    {
-        Close();
-    }
+    
     
     // =========================================================
     // RECIPE LIST
@@ -171,8 +161,11 @@ namespace UI.Crafting
         if (_selectedRecipe == null)
             return;
 
-        var item = ItemDatabase.Instance.GetItemById(
+        var item = ItemDatabase.Instance.GetItemByGameplayId(
             _selectedRecipe.resultItemId);
+
+        if (item == null)
+            return;
 
         resultIcon.sprite = item.icon;
         resultName.text = item.itemName;
@@ -200,8 +193,13 @@ namespace UI.Crafting
 
         foreach (var ingredient in _selectedRecipe.ingredients)
         {
-            int owned = _localManager.inventorySystem.CountItem(
-                ingredient.itemId);
+            int networkId =
+                ItemDatabase.Instance.GetNetworkId(
+                    ingredient.itemId);
+
+            int owned =
+                _localManager.inventorySystem.CountItem(
+                    networkId);
 
             var entry = Instantiate(
                 ingredientPrefab,
@@ -235,9 +233,14 @@ namespace UI.Crafting
         if (_selectedRecipe == null)
             return;
 
-        bool canAdd = _localManager.inventorySystem.CanAddItemGlobal(
-            _selectedRecipe.resultItemId,
-            _selectedRecipe.resultQuantity);
+        int resultNetworkId =
+            ItemDatabase.Instance.GetNetworkId(
+                _selectedRecipe.resultItemId);
+
+        bool canAdd =
+            _localManager.inventorySystem.CanAddItemGlobal(
+                resultNetworkId,
+                _selectedRecipe.resultQuantity);
 
         if (!canAdd)
         {
@@ -245,7 +248,9 @@ namespace UI.Crafting
             return;
         }
 
-        _localManager.Input_Craft(_selectedRecipe.resultItemId);
+        _localManager.Input_Craft(
+            _selectedRecipe.resultItemId);
+
         ShowMessage("Item Added To Your Bag!");
     }
     

@@ -1,3 +1,4 @@
+using Network.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -152,7 +153,7 @@ public class InventorySlotDragHandler : MonoBehaviour,
 
     private Sprite GetItemIcon(int itemId)
     {
-        var itemSO = ItemDatabase.Instance.GetItemById(itemId);
+        var itemSO = ItemDatabase.Instance.GetItemByNetworkId(itemId);
         return itemSO != null ? itemSO.icon : null;
     }
 
