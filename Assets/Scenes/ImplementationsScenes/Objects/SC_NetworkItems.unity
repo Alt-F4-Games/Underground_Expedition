@@ -743,6 +743,92 @@ Transform:
   - {fileID: 680774605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &549545170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3721167688385037856, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+  m_PrefabInstance: {fileID: 1167937097}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &549545171 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 887131267534503209, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+  m_PrefabInstance: {fileID: 1167937097}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &549545173 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+  m_PrefabInstance: {fileID: 1167937097}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &549545174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549545170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f546fa35d96b4d609264549fed0f50f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promptMessage: Interact
+  _interactionDuration: 1.5
+  _fresnelOnValue: 1
+  _fresnelOffValue: 0
+  _fresnelProperty: _FresnelIntensity
+  closedPrompt: Abrir Cofre
+  openedPrompt: "Vac\xEDo"
+  chestAnimator: {fileID: 549545171}
+  _IsOpened:
+    _value: 0
+--- !u!114 &549545175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549545170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e927c07828ce461a81dc79eb5c67c218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootTable:
+  - itemGameplayId: obj_ruby
+    minDrops: 1
+    maxDrops: 5
+    amountPerDrop: 1
+    dropChance: 1
+  - itemGameplayId: obj_jade
+    minDrops: 1
+    maxDrops: 10
+    amountPerDrop: 1
+    dropChance: 1
+  spawnMode: 1
+  dropRadius: 1.5
+  directionalReference: {fileID: 549545173}
+  forwardDistance: 1.5
+  sideSpread: 1
+  dropHeightOffset: 1
+--- !u!114 &549545176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549545170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 885206927
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 549545175}
+  - {fileID: 549545174}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1001 &587881157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1778,6 +1864,72 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
+--- !u!1001 &1167937097
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3721167688385037856, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_Name
+      value: Chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.820473
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.837814
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13.886402
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102760434038889626, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3721167688385037856, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 549545176}
+    - targetCorrespondingSourceObject: {fileID: 3721167688385037856, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 549545175}
+    - targetCorrespondingSourceObject: {fileID: 3721167688385037856, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 549545174}
+  m_SourcePrefab: {fileID: 100100000, guid: f0e06760b651b6f488542f63b795d8a0, type: 3}
 --- !u!1 &1196399650
 GameObject:
   m_ObjectHideFlags: 0
@@ -4770,3 +4922,4 @@ SceneRoots:
   - {fileID: 2115413891}
   - {fileID: 378388309}
   - {fileID: 973909022}
+  - {fileID: 1167937097}
