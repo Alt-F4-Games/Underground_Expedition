@@ -84,7 +84,7 @@ public class InventorySlotDragHandler : MonoBehaviour,
     }
 
     // ============================================================
-    // Shared Drag API (CLAVE PARA NO DUPLICAR)
+    // Shared Drag API 
     // ============================================================
 
     public static void BeginDragFromSlot(InventorySlotUI slot)
@@ -117,12 +117,14 @@ public class InventorySlotDragHandler : MonoBehaviour,
     }
 
     // ============================================================
-    // Item Move Logic
+    // Item Move Logic (With QoL Validation)
     // ============================================================
 
     private void TryMoveItem(InventorySlotUI from, InventorySlotUI to)
     {
         if (from.Manager != to.Manager || from.Manager == null) return;
+        if (!to.AcceptsItem(from.CurrentItemId)) return;
+        if (to.HasItem && !from.AcceptsItem(to.CurrentItemId)) return;
 
         from.Manager.Input_MoveItem(from.SlotType, from.SlotIndex, to.SlotType, to.SlotIndex);
     }

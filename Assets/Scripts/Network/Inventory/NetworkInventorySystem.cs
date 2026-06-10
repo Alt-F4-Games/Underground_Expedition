@@ -140,7 +140,6 @@ public class NetworkInventorySystem : NetworkBehaviour
 
         return false;
     }
-
     public void Server_MoveItem(SlotType fromType, int fromIdx, SlotType toType, int toIdx)     // Moves or combines items between any slots.
     {
         if (!HasStateAuthority)
@@ -157,8 +156,17 @@ public class NetworkInventorySystem : NetworkBehaviour
 
         if (from.IsEmpty)
             return;
-
-        // If same item type -> try stacking
+        
+        if (toType == SlotType.Hotbar)
+        {
+            var itemData = ItemDatabase.Instance.GetItemByNetworkId(from.ItemId);
+            if (itemData != null && itemData.IsPickup)
+            {
+                Debug.LogWarning($"[SERVER] Move rejected: {itemData.itemName} is a Pickup material and cannot be placed in the Hotbar.");
+                return;
+            }
+        }
+        
         if (to.ItemId == from.ItemId)
         {
             var itemData = ItemDatabase.Instance.GetItemByNetworkId(from.ItemId);
@@ -180,8 +188,17 @@ public class NetworkInventorySystem : NetworkBehaviour
                 return;
             }
         }
+        
+        if (fromType == SlotType.Hotbar)
+        {
+            var itemData = ItemDatabase.Instance.GetItemByNetworkId(to.ItemId);
+            if (itemData != null && itemData.IsPickup)
+            {
+                Debug.LogWarning($"[SERVER] Swap rejected: Cannot move a Pickup material into the Hotbar via swapping.");
+                return; 
+            }
+        }
 
-        // Simple swap
         fromArray.Set(fromIdx, to);
         toArray.Set(toIdx, from);
     }
