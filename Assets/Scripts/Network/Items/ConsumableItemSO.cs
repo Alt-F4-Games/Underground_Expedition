@@ -7,8 +7,7 @@ namespace Network.Items
     public class ConsumableItemSO : ItemSo
     {
         [Header("Modular Strategy Effects")]
-        // Enables Unity's native dynamic dropdown menu in the Inspector
-        [SerializeReference] 
+        // List of modular strategy effects. Now uses drag-and-drop ScriptableObjects.
         public List<ItemEffect> effects = new List<ItemEffect>();
 
         protected override void OnValidate()
@@ -26,7 +25,8 @@ namespace Network.Items
             // The server iterates through each modular strategy injected into the item
             foreach (var effect in effects)
             {
-                if (effect.Apply(player))
+                // Added a null check in case an empty element is left in the Inspector list
+                if (effect != null && effect.Apply(player))
                 {
                     appliedAtLeastOne = true;
                 }

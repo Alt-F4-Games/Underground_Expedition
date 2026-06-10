@@ -3,6 +3,7 @@ using Fusion;
 using UI;
 using UnityEngine;
 using Skills.Core;
+using Network; // Added to access PlayerStatsManager
 
 namespace Health
 {
@@ -17,6 +18,9 @@ namespace Health
         
         // reference to the Skill Manager for loose coupling
         private PlayerSkillManager _skillManager;
+        
+        // reference to the Stats Manager (Facade)
+        private PlayerStatsManager _statsManager;
 
         private float _lastAttackTime;
         
@@ -27,6 +31,9 @@ namespace Health
         {
             // Cache the Skill Manager located on the same Player Prefab
             _skillManager = GetComponent<PlayerSkillManager>();
+            
+            // Cache the Stats Manager
+            _statsManager = GetComponent<PlayerStatsManager>();
         }
 
         // ============================================================
@@ -84,7 +91,13 @@ namespace Health
 
             if (health)
             {
-                int finalDamage = _damage;
+                // Fetch the dynamic multiplier from the Stats Manager (default to 1f if null)
+                float currentMultiplier = _statsManager != null ? _statsManager.DamageMultiplier : 1f;
+                
+                // Calculate base damage considering active buffs
+                int baseCalculatedDamage = Mathf.RoundToInt(_damage * currentMultiplier);
+                
+                int finalDamage = baseCalculatedDamage;
                 
                 if (_skillManager != null)
                 {

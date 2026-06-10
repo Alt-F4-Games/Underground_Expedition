@@ -29,12 +29,18 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private float _staminaDrainRate = 1f;
 
     [Networked] private bool IsSprinting { get; set; }
-    [Networked] public float CurrentStamina { get; private set; }
-    [Networked]  public float MaxStamina { get; private set; } 
+    
+    // Removed private set to allow PlayerStatsManager to modify them
+    [Networked] public float CurrentStamina { get; set; }
+    [Networked] public float MaxStamina { get; set; } 
     [Networked] private float RechargeDelayTimer { get; set; }
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
+    
+    // Reference to the Stats Manager (Facade)
+    private PlayerStatsManager _statsManager;
+    
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -60,6 +66,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
+        
+        // Cache the Stats Manager
+        _statsManager = GetComponent<PlayerStatsManager>();
+        
         _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
 
         if (!HasInputAuthority)
@@ -156,7 +166,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         Quaternion yawRotation = Quaternion.Euler(0, _yaw, 0);
         Vector3 moveDir = yawRotation * new Vector3(input.MoveDirection.x, 0, input.MoveDirection.z);
 
-        _controller.maxSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
+        // Fetch speed multipliers from the Stats Manager (default to 1f if null)
+        float walkMultiplier = _statsManager != null ? _statsManager.WalkSpeedMultiplier : 1f;
+        float sprintMultiplier = _statsManager != null ? _statsManager.SprintSpeedMultiplier : 1f;
+
+        // Apply specific multipliers based on sprinting state
+        _controller.maxSpeed = IsSprinting ? (_sprintSpeed * sprintMultiplier) : (_walkSpeed * walkMultiplier);
 
         if (IsStunnedGameplay)
             _controller.Velocity = Vector3.zero;

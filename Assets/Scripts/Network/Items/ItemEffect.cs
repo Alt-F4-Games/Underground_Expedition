@@ -1,14 +1,9 @@
-using System;
+using UnityEngine;
 
 namespace Network.Items
 {
-    [Serializable]
-    public abstract class ItemEffect
+    public abstract class ItemEffect : ScriptableObject
     {
-        /// <summary>
-        /// Executes exclusively on the Server (State Authority).
-        /// Returns TRUE if the effect was successfully applied to the player.
-        /// </summary>
         public abstract bool Apply(NetworkPlayerController player);
     }
 }
