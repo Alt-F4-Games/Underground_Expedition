@@ -1250,7 +1250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 973909022}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1265,7 +1265,7 @@ Transform:
   m_GameObject: {fileID: 973909021}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2089634, y: -6.2254777, z: 28.968048}
+  m_LocalPosition: {x: -10.09, y: -6.66, z: -14.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1642,53 +1642,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.05554986, y: 4.245702, z: 10.597206}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1090801786
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1090801788}
-  - component: {fileID: 1090801787}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1090801787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090801786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13702793a5a8e5e41a3414aa084fc61e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicVolume: 1
-  sfxVolume: 1
-  sounds: []
---- !u!4 &1090801788
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090801786}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2089634, y: -6.2254777, z: 28.968048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2951,11 +2904,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5118970467772471058, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
       propertyPath: 'prefab.RawGuidValue.Array.data[0]'
-      value: -3119882462304321414
+      value: -7750011005990134269
       objectReference: {fileID: 0}
     - target: {fileID: 5118970467772471058, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
       propertyPath: 'prefab.RawGuidValue.Array.data[1]'
-      value: -6764380288036055463
+      value: -6388161456576087589
       objectReference: {fileID: 0}
     - target: {fileID: 5591905972452439689, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
       propertyPath: m_Name
@@ -2967,7 +2920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5951289637414149071, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.62
+      value: -6.66
       objectReference: {fileID: 0}
     - target: {fileID: 5951289637414149071, guid: 8233c90e211f58941af03a7cd04a418c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3888,6 +3841,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1616310839}
     m_Modifications:
+    - target: {fileID: 433980873560963574, guid: e48dd80a74e02634f9dd3dd749d5546d, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 8c96f9ea82baa1f49a81ed937f0f6f49, type: 2}
     - target: {fileID: 1582125249119506664, guid: e48dd80a74e02634f9dd3dd749d5546d, type: 3}
       propertyPath: m_Name
       value: NavMesh Surface
@@ -3932,6 +3889,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8069422185727435591, guid: e48dd80a74e02634f9dd3dd749d5546d, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 529d04b3ff94b3044a980bed561439a5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4808,5 +4769,4 @@ SceneRoots:
   - {fileID: 1159499234}
   - {fileID: 2115413891}
   - {fileID: 378388309}
-  - {fileID: 1090801788}
   - {fileID: 973909022}

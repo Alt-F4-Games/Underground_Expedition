@@ -25,7 +25,6 @@ namespace Health
 
         protected override void Death()
         {
-            base.Death();
             EnemyDiedEvent enemyDiedEvent = new EnemyDiedEvent
             {
                 killer = _lastDamager,
@@ -34,7 +33,14 @@ namespace Health
             };
 
             EventController.Instance.TriggerEvent(enemyDiedEvent);
-
+            
+            if (HasStateAuthority)
+            {
+                if (TryGetComponent(out NetworkEnemyController controller) && controller.StateMachine != null)
+                {
+                    controller.StateMachine.ChangeState(controller.GetDeadState());
+                }
+            }
         }
     }
 }
