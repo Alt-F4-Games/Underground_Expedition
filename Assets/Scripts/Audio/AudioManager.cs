@@ -1,7 +1,7 @@
 ﻿using FMODUnity;
 using UnityEngine;
 
-namespace AudioSystem
+namespace Audio
 {
     public class AudioManager : MonoBehaviour
     {

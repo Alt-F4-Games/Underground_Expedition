@@ -4,9 +4,7 @@ using UnityEngine;
 
 namespace Audio
 {
-    [CreateAssetMenu(
-        fileName = "AudioCollection",
-        menuName = "Audio/Audio Collection")]
+    [CreateAssetMenu(fileName = "AudioCollection", menuName = "Audio/Audio Collection")]
     public class AudioCollection : ScriptableObject
     {
         [SerializeField]
