@@ -5,9 +5,7 @@ namespace Audio
     [System.Serializable]
     public class AudioEntry
     {
-        public AudioEvent audioEvent;
-
-        [EventRef]
+        public string id;
         public EventReference eventReference;
     }
 }
