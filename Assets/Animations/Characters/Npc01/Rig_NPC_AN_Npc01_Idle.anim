@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AN_Npc01_Idle
+  m_Name: Rig_NPC_AN_Npc01_Idle
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -36,7 +36,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG
+    path: Rig_NPC
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -61,7 +61,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller
+    path: Rig_NPC/Master.Controller
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -86,7 +86,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller
+    path: Rig_NPC/Master.Controller/Hips.Controller
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -111,7 +111,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -136,7 +136,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -161,7 +161,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -195,7 +195,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -220,7 +220,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -254,7 +254,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck/Head
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -288,33 +288,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.008300812, y: -0.034803946, z: 0.47290733, w: 0.8803854}
-        inSlope: {x: -0.0026601031, y: -0.0015391409, z: -0.017595291, w: 0.009355545}
-        outSlope: {x: -0.0026601031, y: -0.0015391409, z: -0.017595291, w: 0.009355545}
+        value: {x: -0.008300817, y: -0.034803916, z: 0.47290736, w: 0.8803854}
+        inSlope: {x: -0.0026601031, y: -0.0015391409, z: -0.017596722, w: 0.009355545}
+        outSlope: {x: -0.0026601031, y: -0.0015391409, z: -0.017596722, w: 0.009355545}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.625
-        value: {x: -0.013362625, y: -0.036949426, z: 0.44118553, w: 0.89655536}
-        inSlope: {x: 0.013310855, y: 0.0055899033, z: 0.08429183, w: -0.041097887}
-        outSlope: {x: 0.013310855, y: 0.0055899033, z: 0.08429183, w: -0.041097887}
+        value: {x: -0.013362631, y: -0.03694939, z: 0.44118553, w: 0.89655536}
+        inSlope: {x: 0.013310911, y: 0.0055899033, z: 0.08429183, w: -0.041097887}
+        outSlope: {x: 0.013310911, y: 0.0055899033, z: 0.08429183, w: -0.041097887}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -0.008300812, y: -0.034803946, z: 0.47290733, w: 0.8803854}
-        inSlope: {x: 0.00274616, y: 0.0013792826, z: 0.017590301, w: -0.009359846}
-        outSlope: {x: 0.00274616, y: 0.0013792826, z: 0.017590301, w: -0.009359846}
+        value: {x: -0.008300817, y: -0.034803916, z: 0.47290736, w: 0.8803854}
+        inSlope: {x: 0.0027461823, y: 0.0013792826, z: 0.017591016, w: -0.009359846}
+        outSlope: {x: 0.0027461823, y: 0.0013792826, z: 0.017591016, w: -0.009359846}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -322,33 +322,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.13946939, y: 0.027991287, z: -0.009139039, w: 0.98978853}
-        inSlope: {x: -0.003665328, y: 0.0016923845, z: 0.0053129643, w: 0.00051641464}
-        outSlope: {x: -0.003665328, y: 0.0016923845, z: 0.0053129643, w: 0.00051641464}
+        value: {x: 0.13946937, y: 0.027991258, z: -0.009139028, w: 0.98978853}
+        inSlope: {x: -0.0036649704, y: 0.0016924739, z: 0.0053127855, w: 0.00051641464}
+        outSlope: {x: -0.0036649704, y: 0.0016924739, z: 0.0053127855, w: 0.00051641464}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.75
-        value: {x: 0.13733007, y: 0.029767068, z: -0.0035628856, w: 0.99007154}
-        inSlope: {x: 0.012732628, y: -0.010552864, z: -0.0331481, w: -0.0015678409}
-        outSlope: {x: 0.012732628, y: -0.010552864, z: -0.0331481, w: -0.0015678409}
+        value: {x: 0.13733007, y: 0.029767035, z: -0.0035628863, w: 0.99007154}
+        inSlope: {x: 0.012732628, y: -0.010552819, z: -0.033148225, w: -0.0015678409}
+        outSlope: {x: 0.012732628, y: -0.010552819, z: -0.033148225, w: -0.0015678409}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.13946939, y: 0.027991287, z: -0.009139039, w: 0.98978853}
-        inSlope: {x: 0.0036653315, y: -0.0016923414, z: -0.005312947, w: -0.0005164151}
-        outSlope: {x: 0.0036653315, y: -0.0016923414, z: -0.005312947, w: -0.0005164151}
+        value: {x: 0.13946937, y: 0.027991258, z: -0.009139028, w: 0.98978853}
+        inSlope: {x: 0.003664974, y: -0.001692252, z: -0.0053129694, w: -0.0005164151}
+        outSlope: {x: 0.003664974, y: -0.001692252, z: -0.0053129694, w: -0.0005164151}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -356,33 +356,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.024713239, y: -0.022156823, z: -0.061257787, w: 0.99757}
-        inSlope: {x: 0.0016231835, y: 0.0071765184, z: 0.033904552, w: 0.002175808}
-        outSlope: {x: 0.0016231835, y: 0.0071765184, z: 0.033904552, w: 0.002175808}
+        value: {x: 0.02471324, y: -0.022156823, z: -0.061257783, w: 0.99757}
+        inSlope: {x: 0.0016230941, y: 0.0071765184, z: 0.033904284, w: 0.002175808}
+        outSlope: {x: 0.0016230941, y: 0.0071765184, z: 0.033904284, w: 0.002175808}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.5833334
-        value: {x: 0.026969725, y: -0.007980901, z: 0.0053510224, w: 0.9995901}
-        inSlope: {x: -0.0038875283, y: -0.025129234, z: -0.117904454, w: 0.00041198725}
-        outSlope: {x: -0.0038875283, y: -0.025129234, z: -0.117904454, w: 0.00041198725}
+        value: {x: 0.026969722, y: -0.0079809, z: 0.005351014, w: 0.9995901}
+        inSlope: {x: -0.003887506, y: -0.0251292, z: -0.117904246, w: 0.00041198725}
+        outSlope: {x: -0.003887506, y: -0.0251292, z: -0.117904246, w: 0.00041198725}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.024713239, y: -0.022156823, z: -0.061257787, w: 0.99757}
-        inSlope: {x: -0.0012575102, y: -0.0071985195, z: -0.03389654, w: -0.0021843931}
-        outSlope: {x: -0.0012575102, y: -0.0071985195, z: -0.03389654, w: -0.0021843931}
+        value: {x: 0.02471324, y: -0.022156823, z: -0.061257783, w: 0.99757}
+        inSlope: {x: -0.001257376, y: -0.007198475, z: -0.03389645, w: -0.0021843931}
+        outSlope: {x: -0.001257376, y: -0.007198475, z: -0.03389645, w: -0.0021843931}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -390,33 +390,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.01381757, y: 0.0073199933, z: 0.07208658, w: 0.99727577}
-        inSlope: {x: 0.00038854033, y: 0.0014872067, z: 0.0024279356, w: -0.00018024445}
-        outSlope: {x: 0.00038854033, y: 0.0014872067, z: 0.0024279356, w: -0.00018024445}
+        value: {x: -0.013817563, y: 0.007319995, z: 0.07208657, w: 0.99727577}
+        inSlope: {x: 0.00038847327, y: 0.001487162, z: 0.0024281144, w: -0.00018024445}
+        outSlope: {x: 0.00038847327, y: 0.001487162, z: 0.0024281144, w: -0.00018024445}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.9166667
-        value: {x: -0.013756635, y: 0.007553277, z: 0.072467536, w: 0.99724734}
-        inSlope: {x: -0.0013478764, y: -0.005161255, z: -0.008428123, w: 0.0006337163}
-        outSlope: {x: -0.0013478764, y: -0.005161255, z: -0.008428123, w: 0.0006337163}
+        value: {x: -0.013756646, y: 0.0075532733, z: 0.072467536, w: 0.99724734}
+        inSlope: {x: -0.0013479993, y: -0.005161255, z: -0.008428123, w: 0.0006337163}
+        outSlope: {x: -0.0013479993, y: -0.005161255, z: -0.008428123, w: 0.0006337163}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -0.01381757, y: 0.0073199933, z: 0.07208658, w: 0.99727577}
-        inSlope: {x: -0.00038885363, y: -0.0014871969, z: -0.002427938, w: 0.00018024462}
-        outSlope: {x: -0.00038885363, y: -0.0014871969, z: -0.002427938, w: 0.00018024462}
+        value: {x: -0.013817563, y: 0.007319995, z: 0.07208657, w: 0.99727577}
+        inSlope: {x: -0.00038860776, y: -0.0014871187, z: -0.0024281167, w: 0.00018024462}
+        outSlope: {x: -0.00038860776, y: -0.0014871187, z: -0.0024281167, w: 0.00018024462}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -424,33 +424,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.034368377, y: 0.015559807, z: 0.08389744, w: 0.99575996}
-        inSlope: {x: 0.0021463037, y: 0.0056676865, z: 0.009331942, w: -0.00095129013}
-        outSlope: {x: 0.0021463037, y: 0.0056676865, z: 0.009331942, w: -0.00095129013}
+        value: {x: 0.034368385, y: 0.0155598065, z: 0.08389744, w: 0.99575996}
+        inSlope: {x: 0.0021460354, y: 0.005667709, z: 0.009331942, w: -0.00095129013}
+        outSlope: {x: 0.0021460354, y: 0.005667709, z: 0.009331942, w: -0.00095129013}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.6666667
-        value: {x: 0.037729435, y: 0.024448238, z: 0.09852314, w: 0.9941187}
-        inSlope: {x: -0.011954019, y: -0.03165354, z: -0.052053876, w: 0.0063807936}
-        outSlope: {x: -0.011954019, y: -0.03165354, z: -0.052053876, w: 0.0063807936}
+        value: {x: 0.037729435, y: 0.024448238, z: 0.09852315, w: 0.9941187}
+        inSlope: {x: -0.011954108, y: -0.031653583, z: -0.052053608, w: 0.0063807936}
+        outSlope: {x: -0.011954108, y: -0.031653583, z: -0.052053608, w: 0.0063807936}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.034368377, y: 0.015559807, z: 0.08389744, w: 0.99575996}
-        inSlope: {x: -0.0021462163, y: -0.0056677815, z: -0.009331951, w: 0.00095129106}
-        outSlope: {x: -0.0021462163, y: -0.0056677815, z: -0.009331951, w: 0.00095129106}
+        value: {x: 0.034368385, y: 0.0155598065, z: 0.08389744, w: 0.99575996}
+        inSlope: {x: -0.002146127, y: -0.0056677144, z: -0.009331951, w: 0.00095129106}
+        outSlope: {x: -0.002146127, y: -0.0056677144, z: -0.009331951, w: 0.00095129106}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -458,13 +458,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L/Finger.01.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L/Finger.01.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.45692122, y: 0.43855363, z: 0.29006854, w: 0.71746355}
+        value: {x: 0.45692116, y: 0.43855372, z: 0.29006857, w: 0.71746355}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -473,7 +473,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.45692122, y: 0.43855363, z: 0.29006854, w: 0.71746355}
+        value: {x: 0.45692116, y: 0.43855372, z: 0.29006857, w: 0.71746355}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -483,13 +483,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.26184112, y: 0.024096092, z: -0.20832525, w: 0.9420506}
+        value: {x: -0.26184112, y: 0.02409608, z: -0.20832527, w: 0.9420506}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -498,7 +498,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -0.26184112, y: 0.024096092, z: -0.20832525, w: 0.9420506}
+        value: {x: -0.26184112, y: 0.02409608, z: -0.20832527, w: 0.9420506}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -508,7 +508,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L/Thumb.01.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L/Thumb.01.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -533,33 +533,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.0033447547, y: 0.02915239, z: -0.47288287, w: 0.8806366}
-        inSlope: {x: -0.0015231427, y: -0.001318574, z: 0.012298822, w: 0.0066375732}
-        outSlope: {x: -0.0015231427, y: -0.001318574, z: 0.012298822, w: 0.0066375732}
+        value: {x: -0.0033447593, y: 0.029152356, z: -0.47288287, w: 0.8806366}
+        inSlope: {x: -0.0015231427, y: -0.0013184845, z: 0.012299538, w: 0.0066375732}
+        outSlope: {x: -0.0015231427, y: -0.0013184845, z: 0.012299538, w: 0.0066375732}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.6666667
-        value: {x: -0.005733371, y: 0.027077118, z: -0.45347643, w: 0.89083844}
-        inSlope: {x: 0.008505203, y: 0.007416997, z: -0.06952998, w: -0.035583243}
-        outSlope: {x: 0.008505203, y: 0.007416997, z: -0.06952998, w: -0.035583243}
+        value: {x: -0.0057333736, y: 0.027077083, z: -0.45347643, w: 0.89083844}
+        inSlope: {x: 0.008505208, y: 0.007417042, z: -0.06952998, w: -0.035583243}
+        outSlope: {x: 0.008505208, y: 0.007417042, z: -0.06952998, w: -0.035583243}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -0.0033447547, y: 0.02915239, z: -0.47288287, w: 0.8806366}
-        inSlope: {x: 0.0015230938, y: 0.0013184858, z: -0.0122988345, w: -0.0066375798}
-        outSlope: {x: 0.0015230938, y: 0.0013184858, z: -0.0122988345, w: -0.0066375798}
+        value: {x: -0.0033447593, y: 0.029152356, z: -0.47288287, w: 0.8806366}
+        inSlope: {x: 0.0015231441, y: 0.0013184858, z: -0.01229955, w: -0.0066375798}
+        outSlope: {x: 0.0015231441, y: 0.0013184858, z: -0.01229955, w: -0.0066375798}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -567,13 +567,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.13949153, y: -0.027969135, z: 0.008697281, w: 0.98978996}
+        value: {x: 0.13949153, y: -0.027969105, z: 0.008697273, w: 0.98978996}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -582,7 +582,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.13949153, y: -0.027969135, z: 0.008697281, w: 0.98978996}
+        value: {x: 0.13949153, y: -0.027969105, z: 0.008697273, w: 0.98978996}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -592,33 +592,33 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.024713244, y: 0.022156823, z: 0.061257765, w: 0.99757}
-        inSlope: {x: 0.0020294935, y: 0.0022101402, z: -0.01895678, w: 0.001057148}
-        outSlope: {x: 0.0020294935, y: 0.0022101402, z: -0.01895678, w: 0.001057148}
+        value: {x: 0.024713246, y: 0.022156823, z: 0.061257765, w: 0.99757}
+        inSlope: {x: 0.0020293146, y: 0.0022102743, z: -0.018956423, w: 0.001057148}
+        outSlope: {x: 0.0020293146, y: 0.0022102743, z: -0.018956423, w: 0.001057148}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.625
-        value: {x: 0.028325254, y: 0.026093755, z: 0.02734916, w: 0.9988838}
-        inSlope: {x: -0.009471351, y: -0.01033053, z: 0.08935823, w: -0.0019462111}
-        outSlope: {x: -0.009471351, y: -0.01033053, z: 0.08935823, w: -0.0019462111}
+        value: {x: 0.028325267, y: 0.026093757, z: 0.02734918, w: 0.9988838}
+        inSlope: {x: -0.009471307, y: -0.01033053, z: 0.08935812, w: -0.0019462111}
+        outSlope: {x: -0.009471307, y: -0.01033053, z: 0.08935812, w: -0.0019462111}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.024713244, y: 0.022156823, z: 0.061257765, w: 0.99757}
-        inSlope: {x: -0.0020293165, y: -0.0022102317, z: 0.01895653, w: -0.001057149}
-        outSlope: {x: -0.0020293165, y: -0.0022102317, z: 0.01895653, w: -0.001057149}
+        value: {x: 0.024713246, y: 0.022156823, z: 0.061257765, w: 0.99757}
+        inSlope: {x: -0.002029406, y: -0.0022102764, z: 0.01895662, w: -0.001057149}
+        outSlope: {x: -0.002029406, y: -0.0022102764, z: 0.01895662, w: -0.001057149}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -626,13 +626,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.013817556, y: -0.007319994, z: -0.07208653, w: 0.9972758}
+        value: {x: -0.013817554, y: -0.0073199915, z: -0.07208653, w: 0.9972758}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -641,7 +641,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -0.013817556, y: -0.007319994, z: -0.07208653, w: 0.9972758}
+        value: {x: -0.013817554, y: -0.0073199915, z: -0.07208653, w: 0.9972758}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -651,13 +651,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.034368392, y: -0.015559808, z: -0.083897494, w: 0.99575996}
+        value: {x: 0.034368385, y: -0.015559809, z: -0.08389749, w: 0.99575996}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -666,7 +666,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.034368392, y: -0.015559808, z: -0.083897494, w: 0.99575996}
+        value: {x: 0.034368385, y: -0.015559809, z: -0.08389749, w: 0.99575996}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -676,13 +676,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.11703474, y: 0.696914, z: 0.69545925, w: 0.13019338}
+        value: {x: 0.4569212, y: -0.4385536, z: -0.2900686, w: 0.71746355}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -691,7 +691,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.11703474, y: 0.696914, z: 0.69545925, w: 0.13019338}
+        value: {x: 0.4569212, y: -0.4385536, z: -0.2900686, w: 0.71746355}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -701,13 +701,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R/Bone_Stick
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.4569212, y: -0.43855363, z: -0.2900685, w: 0.7174636}
+        value: {x: -0.2618412, y: -0.024095912, z: 0.20832516, w: 0.9420505}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -716,7 +716,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.4569212, y: -0.43855363, z: -0.2900685, w: 0.7174636}
+        value: {x: -0.2618412, y: -0.024095912, z: 0.20832516, w: 0.9420505}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -726,32 +726,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: -0.26184124, y: -0.024095861, z: 0.2083252, w: 0.9420505}
-        inSlope: {x: 0, y: 0, z: 0, w: 0}
-        outSlope: {x: 0, y: 0, z: 0, w: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: -0.26184124, y: -0.024095861, z: 0.2083252, w: 0.9420505}
-        inSlope: {x: 0, y: 0, z: 0, w: 0}
-        outSlope: {x: 0, y: 0, z: 0, w: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R/Thumb.01.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R/Thumb.01.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -785,7 +760,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -819,7 +794,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -853,7 +828,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -878,7 +853,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L/Toes.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L/Toes.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -912,7 +887,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -946,7 +921,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -980,7 +955,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1005,7 +980,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R/Toes.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R/Toes.R
   m_CompressedRotationCurves: []
   m_EulerCurves: []
   m_PositionCurves:
@@ -1033,7 +1008,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG
+    path: Rig_NPC
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1058,7 +1033,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller
+    path: Rig_NPC/Master.Controller
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1083,7 +1058,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller
+    path: Rig_NPC/Master.Controller/Hips.Controller
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1108,7 +1083,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1133,7 +1108,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1158,7 +1133,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1183,7 +1158,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1208,7 +1183,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1233,7 +1208,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck/Head
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1258,7 +1233,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1283,13 +1258,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 2.3443134e-10, y: 0.0024457492, z: -5.122274e-11}
+        value: {x: -2.0831066e-10, y: 0.0024457504, z: 1.1525116e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1298,7 +1273,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 2.3443134e-10, y: 0.0024457492, z: -5.122274e-11}
+        value: {x: -2.0831066e-10, y: 0.0024457504, z: 1.1525116e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1308,13 +1283,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 1.5497789e-10, y: 0.0025468573, z: -2.0023434e-10}
+        value: {x: 1.5352271e-10, y: 0.0025468573, z: -1.3038516e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1323,7 +1298,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 1.5497789e-10, y: 0.0025468573, z: -2.0023434e-10}
+        value: {x: 1.5352271e-10, y: 0.0025468573, z: -1.3038516e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1333,13 +1308,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 3.352761e-10, y: 0.00026074157, z: -2.0489097e-10}
+        value: {x: 1.816079e-10, y: 0.00026074212, z: -1.4901161e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1348,7 +1323,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 3.352761e-10, y: 0.00026074157, z: -2.0489097e-10}
+        value: {x: 1.816079e-10, y: 0.00026074212, z: -1.4901161e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1358,13 +1333,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 2.7939676e-10, y: 0.0004632944, z: -1.3969838e-10}
+        value: {x: 2.8172506e-10, y: 0.00046329433, z: -3.7252902e-11}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1373,7 +1348,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 2.7939676e-10, y: 0.0004632944, z: -1.3969838e-10}
+        value: {x: 2.8172506e-10, y: 0.00046329433, z: -3.7252902e-11}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1383,13 +1358,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L/Finger.01.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L/Finger.01.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 3.352761e-10, y: 0.00026074157, z: -2.0489097e-10}
+        value: {x: 1.816079e-10, y: 0.00026074212, z: -1.4901161e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1398,7 +1373,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 3.352761e-10, y: 0.00026074157, z: -2.0489097e-10}
+        value: {x: 1.816079e-10, y: 0.00026074212, z: -1.4901161e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1408,13 +1383,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 5.587935e-10, y: 0.0004836624, z: 9.406358e-10}
+        value: {x: -2.8871e-10, y: 0.00048366224, z: 0.0000000012107193}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1423,7 +1398,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 5.587935e-10, y: 0.0004836624, z: 9.406358e-10}
+        value: {x: -2.8871e-10, y: 0.00048366224, z: 0.0000000012107193}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1433,7 +1408,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L/Thumb.01.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L/Thumb.01.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1458,7 +1433,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1483,13 +1458,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -4.978938e-10, y: 0.002445748, z: 5.8207657e-12}
+        value: {x: -4.9971277e-10, y: 0.002445748, z: -1.2805685e-11}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1498,7 +1473,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -4.978938e-10, y: 0.002445748, z: 5.8207657e-12}
+        value: {x: -4.9971277e-10, y: 0.002445748, z: -1.2805685e-11}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1508,13 +1483,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 2.0081642e-10, y: 0.0025468576, z: -6.984919e-11}
+        value: {x: -3.9464793e-10, y: 0.0025468557, z: -4.0046869e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1523,7 +1498,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 2.0081642e-10, y: 0.0025468576, z: -6.984919e-11}
+        value: {x: -3.9464793e-10, y: 0.0025468557, z: -4.0046869e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1533,13 +1508,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -3.5772244e-10, y: 0.00026074122, z: -1.8626451e-11}
+        value: {x: -5.01459e-10, y: 0.00026074063, z: -2.9802322e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1548,7 +1523,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -3.5772244e-10, y: 0.00026074122, z: -1.8626451e-11}
+        value: {x: -5.01459e-10, y: 0.00026074063, z: -2.9802322e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1558,13 +1533,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 6.0535965e-11, y: 0.00046329445, z: 2.8871e-10}
+        value: {x: 6.286427e-11, y: 0.00046329445, z: 2.7939676e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1573,7 +1548,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 6.0535965e-11, y: 0.00046329445, z: 2.8871e-10}
+        value: {x: 6.286427e-11, y: 0.00046329445, z: 2.7939676e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1583,13 +1558,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.00029813717, y: 0.00015971124, z: -0.0006023689}
+        value: {x: -5.01459e-10, y: 0.00026074063, z: -2.9802322e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1598,7 +1573,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0.00029813717, y: 0.00015971124, z: -0.0006023689}
+        value: {x: -5.01459e-10, y: 0.00026074063, z: -2.9802322e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1608,13 +1583,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R/Bone_Stick
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -3.5772244e-10, y: 0.00026074122, z: -1.8626451e-11}
+        value: {x: -4.842877e-10, y: 0.00048366236, z: 4.749745e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1623,7 +1598,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -3.5772244e-10, y: 0.00026074122, z: -1.8626451e-11}
+        value: {x: -4.842877e-10, y: 0.00048366236, z: 4.749745e-10}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1633,32 +1608,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: -2.4214386e-10, y: 0.00048366247, z: -8.381903e-11}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: -2.4214386e-10, y: 0.00048366247, z: -8.381903e-11}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R/Thumb.01.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R/Thumb.01.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1683,7 +1633,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1708,7 +1658,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1733,7 +1683,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1758,7 +1708,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L/Toes.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L/Toes.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1783,7 +1733,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1808,7 +1758,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1833,7 +1783,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1858,7 +1808,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R/Toes.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R/Toes.R
   m_ScaleCurves:
   - curve:
       serializedVersion: 2
@@ -1884,7 +1834,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG
+    path: Rig_NPC
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1909,7 +1859,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller
+    path: Rig_NPC/Master.Controller
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1934,7 +1884,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller
+    path: Rig_NPC/Master.Controller/Hips.Controller
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1959,7 +1909,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1984,7 +1934,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2009,7 +1959,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2034,7 +1984,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2059,7 +2009,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2084,7 +2034,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck/Head
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Neck/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2109,182 +2059,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1.0000001, y: 1, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1.0000001, y: 1, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.9999999, y: 1, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.9999999, y: 1, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1, y: 1, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1, y: 1, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1, y: 0.9999999, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1, y: 0.9999999, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1.0000001, y: 0.99999994, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1.0000001, y: 0.99999994, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L/Finger.01.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.99999994, y: 0.99999994, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.99999994, y: 0.99999994, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L/Thumb.01.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2309,182 +2084,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.99999994, y: 0.99999994, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.99999994, y: 0.99999994, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.9999999, y: 0.9999999, z: 0.99999976}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.9999999, y: 0.9999999, z: 0.99999976}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.99999994, y: 1, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.99999994, y: 1, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1, y: 0.9999999, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1, y: 0.9999999, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1, y: 1.0000001, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1, y: 1.0000001, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R/Bone_Stick
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 1, y: 0.9999999, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 1
-        value: {x: 1, y: 0.9999999, z: 0.99999994}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2509,7 +2109,332 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R/Thumb.01.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1, y: 1, z: 0.9999999}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1, y: 1, z: 0.9999999}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1, y: 0.9999998, z: 0.9999999}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1, y: 0.9999998, z: 0.9999999}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1.0000001, y: 0.99999994, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1.0000001, y: 0.99999994, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Fingers.L/Finger.01.L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.L/Arm.L/Forearm.L/Hand.L/Thumb.L/Thumb.01.L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.99999994, y: 0.99999994, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 0.99999994, y: 0.99999994, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.9999999, y: 0.9999999, z: 0.99999976}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 0.9999999, y: 0.9999999, z: 0.99999976}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1, y: 0.99999994, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1, y: 0.99999994, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Fingers.R/Finger.01.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.99999994, y: 0.9999999, z: 0.99999994}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 0.99999994, y: 0.9999999, z: 0.99999994}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 1, y: 0.99999994, z: 0.99999994}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 1
+        value: {x: 1, y: 0.99999994, z: 0.99999994}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Spine/Spine.01/Spine.02/Shoulder.R/Arm.R/Forearm.R/Hand.R/Thumb.R/Thumb.01.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2534,7 +2459,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2559,7 +2484,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2584,7 +2509,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2609,7 +2534,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L/Toes.L
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.L/Leg.L/Foot.L/Toes.L
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2634,7 +2559,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2659,7 +2584,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2684,7 +2609,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -2709,7 +2634,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: CHR_Npc01_RIG/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R/Toes.R
+    path: Rig_NPC/Master.Controller/Hips.Controller/Hips/Thigh.R/Leg.R/Foot.R/Toes.R
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 24
@@ -2720,7 +2645,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1549997919
+      path: 3099968360
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2729,7 +2654,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1414596365
+      path: 207151734
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2738,7 +2663,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 165138494
+      path: 3461902703
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2747,7 +2672,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3559452769
+      path: 2137504701
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2756,7 +2681,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1453014837
+      path: 4200635133
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2765,7 +2690,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145953886
+      path: 3392620574
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2774,7 +2699,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 980554206
+      path: 4177408317
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2783,7 +2708,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2682012168
+      path: 1279516294
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2792,7 +2717,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4091080029
+      path: 878136332
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2801,7 +2726,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 432417425
+      path: 2995347789
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2810,7 +2735,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4255555430
+      path: 1943800102
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2819,7 +2744,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3508331540
+      path: 1882184692
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2828,7 +2753,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1017244601
+      path: 867221364
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2837,7 +2762,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 486452389
+      path: 600356459
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2846,7 +2771,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 722721143
+      path: 2317411991
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2855,7 +2780,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4048499017
+      path: 4267599236
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2864,7 +2789,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 585751347
+      path: 501203453
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -2873,7 +2798,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4238446458
+      path: 2446008431
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2882,7 +2807,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1343518644
+      path: 3139600584
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2891,7 +2816,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 493200332
+      path: 2898242040
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2900,7 +2825,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3094167587
+      path: 4273049886
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2909,7 +2834,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 165580593
+      path: 490355448
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2918,7 +2843,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1516821065
+      path: 3216143632
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2927,7 +2852,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1549997919
+      path: 3099968360
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2936,7 +2861,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 264681892
+      path: 1377232070
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2945,7 +2870,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1414596365
+      path: 207151734
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2954,7 +2879,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 165138494
+      path: 3461902703
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2963,7 +2888,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3559452769
+      path: 2137504701
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2972,7 +2897,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1453014837
+      path: 4200635133
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2981,7 +2906,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145953886
+      path: 3392620574
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2990,7 +2915,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 980554206
+      path: 4177408317
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2999,7 +2924,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2682012168
+      path: 1279516294
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3008,7 +2933,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 351062639
+      path: 352742352
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3017,7 +2942,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 890667199
+      path: 3696058622
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3026,7 +2951,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4091080029
+      path: 878136332
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3035,7 +2960,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 432417425
+      path: 2995347789
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3044,7 +2969,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 107056240
+      path: 2862229944
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3053,7 +2978,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4255555430
+      path: 1943800102
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3062,7 +2987,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 434621041
+      path: 3681282706
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3071,7 +2996,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3744581174
+      path: 212753080
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3080,7 +3005,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2635105711
+      path: 973726098
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3089,7 +3014,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1004748845
+      path: 2796477264
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3098,7 +3023,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1341471505
+      path: 1882184692
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3107,7 +3032,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3508331540
+      path: 867221364
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3116,7 +3041,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1017244601
+      path: 600356459
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3125,7 +3050,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 486452389
+      path: 671523428
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3134,7 +3059,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2420163230
+      path: 2317411991
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3143,7 +3068,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 722721143
+      path: 4267599236
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3152,7 +3077,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4048499017
+      path: 501203453
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3161,7 +3086,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 585751347
+      path: 2315396472
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -3170,16 +3095,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 843335042
-      attribute: 1
-      script: {fileID: 0}
-      typeID: 4
-      customType: 0
-      isPPtrCurve: 0
-      isIntCurve: 0
-      isSerializeReferenceCurve: 0
-    - serializedVersion: 2
-      path: 4238446458
+      path: 2446008431
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3188,7 +3104,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1343518644
+      path: 3139600584
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3197,7 +3113,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 493200332
+      path: 2898242040
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3206,7 +3122,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3094167587
+      path: 4273049886
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3215,7 +3131,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 165580593
+      path: 490355448
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3224,7 +3140,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1516821065
+      path: 3216143632
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3233,7 +3149,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 264681892
+      path: 1377232070
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3242,7 +3158,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 351062639
+      path: 352742352
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3251,7 +3167,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 890667199
+      path: 3696058622
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3260,7 +3176,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 107056240
+      path: 2862229944
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3269,7 +3185,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 434621041
+      path: 3681282706
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3278,7 +3194,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3744581174
+      path: 212753080
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3287,7 +3203,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2635105711
+      path: 973726098
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3296,7 +3212,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1004748845
+      path: 2796477264
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3305,7 +3221,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1341471505
+      path: 671523428
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3314,7 +3230,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2420163230
+      path: 2315396472
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -3323,16 +3239,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 843335042
-      attribute: 2
-      script: {fileID: 0}
-      typeID: 4
-      customType: 0
-      isPPtrCurve: 0
-      isIntCurve: 0
-      isSerializeReferenceCurve: 0
-    - serializedVersion: 2
-      path: 4238446458
+      path: 2446008431
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3341,7 +3248,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1343518644
+      path: 3139600584
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3350,7 +3257,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 493200332
+      path: 2898242040
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3359,7 +3266,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3094167587
+      path: 4273049886
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3368,7 +3275,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 165580593
+      path: 490355448
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3377,7 +3284,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1516821065
+      path: 3216143632
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3386,7 +3293,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1549997919
+      path: 3099968360
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3395,7 +3302,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 264681892
+      path: 1377232070
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3404,7 +3311,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1414596365
+      path: 207151734
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3413,7 +3320,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 165138494
+      path: 3461902703
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3422,7 +3329,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3559452769
+      path: 2137504701
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3431,7 +3338,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1453014837
+      path: 4200635133
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3440,7 +3347,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145953886
+      path: 3392620574
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3449,7 +3356,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 980554206
+      path: 4177408317
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3458,7 +3365,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2682012168
+      path: 1279516294
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3467,7 +3374,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 351062639
+      path: 352742352
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3476,7 +3383,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 890667199
+      path: 3696058622
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3485,7 +3392,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4091080029
+      path: 878136332
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3494,7 +3401,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 432417425
+      path: 2995347789
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3503,7 +3410,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 107056240
+      path: 2862229944
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3512,7 +3419,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4255555430
+      path: 1943800102
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3521,7 +3428,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 434621041
+      path: 3681282706
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3530,7 +3437,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3744581174
+      path: 212753080
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3539,7 +3446,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2635105711
+      path: 973726098
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3548,7 +3455,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1004748845
+      path: 2796477264
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3557,7 +3464,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1341471505
+      path: 1882184692
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3566,7 +3473,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3508331540
+      path: 867221364
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3575,7 +3482,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1017244601
+      path: 600356459
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3584,7 +3491,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 486452389
+      path: 671523428
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3593,7 +3500,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2420163230
+      path: 2317411991
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3602,7 +3509,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 722721143
+      path: 4267599236
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3611,7 +3518,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4048499017
+      path: 501203453
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -3620,16 +3527,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 585751347
-      attribute: 3
-      script: {fileID: 0}
-      typeID: 4
-      customType: 0
-      isPPtrCurve: 0
-      isIntCurve: 0
-      isSerializeReferenceCurve: 0
-    - serializedVersion: 2
-      path: 843335042
+      path: 2315396472
       attribute: 3
       script: {fileID: 0}
       typeID: 4
