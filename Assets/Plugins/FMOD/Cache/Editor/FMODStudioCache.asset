@@ -1,5 +1,207 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8864589614331051459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639167952615042947
+  FileSizes:
+  - Name: Desktop
+    Value: 1414688
+  Exists: 1
+--- !u!114 &-6674176285207199278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BOSS/SFX_Boss_Walk
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BOSS/SFX_Boss_Walk
+  Guid:
+    Data1: 1697037885
+    Data2: 1116980704
+    Data3: 1883354753
+    Data4: -1254318809
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6467628745397420272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/BGM_Music
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/BGM_Music
+  Guid:
+    Data1: -1342701845
+    Data2: 1135122658
+    Data3: 1005375926
+    Data4: 492403044
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 36000
+--- !u!114 &-6083260264673442202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Walk
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Walk
+  Guid:
+    Data1: -1100100947
+    Data2: 1088328203
+    Data3: 950469774
+    Data4: -2116761125
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5753194651860206786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BOSS/SFX_Boss_Evoke
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BOSS/SFX_Boss_Evoke
+  Guid:
+    Data1: 1867977505
+    Data2: 1340156439
+    Data3: -788131456
+    Data4: -1260886897
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5714071939607029022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Explotion
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Explotion
+  Guid:
+    Data1: -1690662857
+    Data2: 1101391260
+    Data3: 618530993
+    Data4: 1093099157
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5520878928163057727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Death
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Death
+  Guid:
+    Data1: 856058060
+    Data2: 1267168801
+    Data3: 398165178
+    Data4: 106940553
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4777183301618554565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639167952615052973
+  FileSizes:
+  - Name: Desktop
+    Value: 1448
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,11 +214,303 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  EditorBanks: []
-  EditorEvents: []
+  EditorBanks:
+  - {fileID: -4777183301618554565}
+  - {fileID: -8864589614331051459}
+  EditorEvents:
+  - {fileID: 2043989497202384599}
+  - {fileID: 45042549029634630}
+  - {fileID: 7117127231357598524}
+  - {fileID: -5753194651860206786}
+  - {fileID: 1960822790554532048}
+  - {fileID: -5714071939607029022}
+  - {fileID: -6674176285207199278}
+  - {fileID: 8162321038975417646}
+  - {fileID: 7317969514000677946}
+  - {fileID: 3795961265664606068}
+  - {fileID: 2066970095988117764}
+  - {fileID: -6083260264673442202}
+  - {fileID: -5520878928163057727}
+  - {fileID: 5108494433520001098}
+  - {fileID: -6467628745397420272}
   EditorParameters: []
-  MasterBanks: []
-  StringsBanks: []
+  MasterBanks:
+  - {fileID: -8864589614331051459}
+  StringsBanks:
+  - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 0
-  SerializableEventsDict: []
+  cacheTime: 639167952615052973
+  SerializableEventsDict:
+  - key: event:/SFX/RAT/SFX_Rat_Damaged02
+    index: 0
+  - key: event:/SFX/SKULL/SFX_Skull_Walk
+    index: 1
+  - key: event:/SFX/RAT/SFX_Rat_Damaged01
+    index: 2
+  - key: event:/SFX/BOSS/SFX_Boss_Evoke
+    index: 3
+  - key: event:/SFX/RAT/SFX_Rat_Attack01
+    index: 4
+  - key: event:/SFX/SKULL/SFX_Skull_Explotion
+    index: 5
+  - key: event:/SFX/BOSS/SFX_Boss_Walk
+    index: 6
+  - key: event:/SFX/SKULL/SFX_Skull_Damaged
+    index: 7
+  - key: event:/MUSIC/BGM_Jungle
+    index: 8
+  - key: event:/SFX/RAT/SFX_Rat_Death
+    index: 9
+  - key: event:/SFX/BOSS/SFX_Boss_Spawn
+    index: 10
+  - key: event:/SFX/RAT/SFX_Rat_Walk
+    index: 11
+  - key: event:/SFX/SKULL/SFX_Skull_Death
+    index: 12
+  - key: event:/SFX/RAT/SFX_Rat_Attack02
+    index: 13
+  - key: event:/MUSIC/BGM_Music
+    index: 14
+--- !u!114 &45042549029634630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Walk
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Walk
+  Guid:
+    Data1: -2045679354
+    Data2: 1119267287
+    Data3: 948972441
+    Data4: 17637069
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1960822790554532048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Attack01
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Attack01
+  Guid:
+    Data1: -2113611729
+    Data2: 1248357208
+    Data3: 1089622965
+    Data4: 1933335446
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2043989497202384599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Damaged02
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Damaged02
+  Guid:
+    Data1: 762279682
+    Data2: 1195553928
+    Data3: -375978091
+    Data4: 138048472
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2066970095988117764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BOSS/SFX_Boss_Spawn
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BOSS/SFX_Boss_Spawn
+  Guid:
+    Data1: -1950428762
+    Data2: 1116008525
+    Data3: 450476175
+    Data4: 1857692867
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &3795961265664606068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Death
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Death
+  Guid:
+    Data1: 1749411998
+    Data2: 1280057302
+    Data3: 1983353472
+    Data4: 98432030
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &5108494433520001098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Attack02
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Attack02
+  Guid:
+    Data1: -1911591961
+    Data2: 1288264904
+    Data3: -308745043
+    Data4: 112372891
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7117127231357598524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Damaged01
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Damaged01
+  Guid:
+    Data1: -1893976049
+    Data2: 1318918985
+    Data3: -1650731624
+    Data4: -1050473920
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7317969514000677946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/BGM_Jungle
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/BGM_Jungle
+  Guid:
+    Data1: 848325003
+    Data2: 1263784474
+    Data3: -1695406457
+    Data4: 1550152332
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 36000
+--- !u!114 &8162321038975417646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Damaged
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Damaged
+  Guid:
+    Data1: -637954461
+    Data2: 1314287442
+    Data3: -1473373307
+    Data4: 507537304
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
