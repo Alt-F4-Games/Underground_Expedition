@@ -2,7 +2,7 @@
 using FMODUnity;
 using UnityEngine;
 
-namespace Audio
+namespace Audio.Core
 {
     [CreateAssetMenu(fileName = "AudioCollection", menuName = "Audio/Audio Collection")]
     public class AudioCollection : ScriptableObject

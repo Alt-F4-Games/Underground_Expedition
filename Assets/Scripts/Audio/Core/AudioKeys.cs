@@ -1,4 +1,4 @@
-﻿namespace Audio
+﻿namespace Audio.Core
 {
     public static class AudioKeys
     {

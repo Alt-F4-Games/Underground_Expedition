@@ -1,6 +1,6 @@
 ﻿using FMODUnity;
 
-namespace Audio
+namespace Audio.Core
 {
     [System.Serializable]
     public class AudioEntry
