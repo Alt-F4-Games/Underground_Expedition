@@ -68,37 +68,34 @@ public class InventoryUI : MonoBehaviour
     
     public void Show()
     {
-        if (_isOpen) return;
+        if (_isOpen)
+            return;
 
         _isOpen = true;
+
         inventoryPanelRoot.SetActive(true);
+
         InputManager.SetMode(InputMode.UI);
+        InputBlocker.PushBlock();
 
         RefreshAll();
-        UnlockCursor();
     }
 
     public void Hide()
     {
-        if (!_isOpen) return;
+        if (!_isOpen)
+            return;
 
         _isOpen = false;
+
         inventoryPanelRoot.SetActive(false);
-        InputManager.SetMode(InputMode.Game);
 
-        LockCursor();
-    }
+        InputBlocker.PopBlock();
 
-    private static void LockCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    private static void UnlockCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        if (!InputBlocker.IsBlocked)
+        {
+            InputManager.SetMode(InputMode.Game);
+        }
     }
 
     // =====================================================================

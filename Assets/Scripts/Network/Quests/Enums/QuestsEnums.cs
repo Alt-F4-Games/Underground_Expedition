@@ -1,47 +1,32 @@
-﻿namespace Network.Quests.Enums
+﻿// =====================================================
+// QuestEnums.cs
+// =====================================================
+
+namespace Network.Quests.Enums
 {
     public enum QuestType
     {
-        Main,
-        Secondary
+        Main
     }
-    
-    public enum QuestStatus
+
+    public enum QuestObjectiveType
     {
-        Locked,
-        Available,
-        Accepted,
-        InProgress,
-        Completed,
-        RewardPending,
-        RewardClaimed,
-        Cancelled
-    }
-    
-    public enum ObjectiveType
-    {
-        Kill,
-        Collect,
-        Craft,
+        KillEnemy,
+        CollectItem,
+        CraftItem,
         Interact,
-        Explore
+        ExploreArea
+    }
+
+    public enum QuestRequirementType
+    {
+        None,
+        RequireCompletedQuest
     }
     
-    public enum ProgressScope
+    public enum QuestNotificationType
     {
-        Individual,
-        Shared
-    }
-    
-    public enum CompletionScope
-    {
-        Individual,
-        Shared
-    }
-    
-    public enum RewardScope
-    {
-        Individual,
-        Shared
+        Accepted,
+        Completed
     }
 }

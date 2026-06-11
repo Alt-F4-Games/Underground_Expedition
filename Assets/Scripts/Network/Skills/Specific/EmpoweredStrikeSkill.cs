@@ -9,6 +9,8 @@ namespace Skills
         // Quick cast of the ScriptableObject to access specific methods
         private EmpoweredStrikeData StrikeData => _skillData as EmpoweredStrikeData;
 
+        [SerializeField] ParticleSystem particle;
+        
         // ============================================================
         // NETWORK VARIABLES
         // ============================================================
@@ -22,6 +24,8 @@ namespace Skills
         {
             base.Spawned();
             _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
+            if (particle != null)
+                particle.Stop();
         }
         
         public override bool CanCast(NetworkRunner runner)
@@ -122,11 +126,13 @@ namespace Skills
             // Hook ready for VFX partner
             if (RemainingStrikes > 0)
             {
-                // Enable fists VFX
+                if (particle != null)
+                    particle.Play();
             }
             else
             {
-                // Disable fists VFX
+                if (particle != null)
+                    particle.Stop();
             }
         }
     }

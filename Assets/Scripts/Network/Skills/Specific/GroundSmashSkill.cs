@@ -12,6 +12,8 @@ namespace Skills
     public class GroundSmashSkill : NetworkSkill
     {
         private GroundSmashData SmashData => _skillData as GroundSmashData;
+        
+        [SerializeField] private ParticleSystem smashEffect;
 
         // ============================================================
         // NETWORK VARIABLES
@@ -34,6 +36,7 @@ namespace Skills
             base.Spawned();
             _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
             _playerController = GetComponent<NetworkPlayerController>();
+            smashEffect.Stop();
         }
 
         // ============================================================
@@ -171,9 +174,7 @@ namespace Skills
         
         private void OnSmashExecuted() 
         { 
-            // Hola ale, porque haces publico mis mensajes de amor?
-            // por aca creo que tenes que aplicar las particulas y esas cosas 
-            // con amor benaj
+            smashEffect.Play();
         }
 
         // ============================================================

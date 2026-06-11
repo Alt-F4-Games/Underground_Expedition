@@ -4,6 +4,7 @@ using Fusion;
 using Fusion.Sockets;
 using System; 
 using Network;
+using Network.Quests;
 using UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -99,8 +100,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnLook(InputAction.CallbackContext context) 
     { 
+        if (InputBlocker.IsBlocked)
+            return;
+        
         Vector2 mouseDelta = context.ReadValue<Vector2>();
-
+        
         _accumulatedYaw += mouseDelta.x * _mouseSensitivity;
         _accumulatedPitch -= mouseDelta.y * _mouseSensitivity; 
         _accumulatedPitch = Mathf.Clamp(_accumulatedPitch, -_maxLookAngle, _maxLookAngle);
@@ -128,6 +132,21 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputPlayer();
+        
+        if (InputBlocker.IsBlocked)
+        {
+            data.MoveDirection = Vector3.zero;
+            
+            data.Buttons = default;
+            
+            data.MouseRotation = new Vector2(
+                _accumulatedYaw,
+                _accumulatedPitch);
+
+            input.Set(data);
+
+            return;
+        }
         
         data.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
         data.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
@@ -210,8 +229,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         Quaternion spawnRot = _spawnPoint != null ? _spawnPoint.rotation : Quaternion.identity;
 
         var obj = runner.Spawn(_playerprefab, spawnPos, spawnRot, player);
+        
+        runner.SetPlayerObject(player, obj);
+        
         _players.Add(player, obj);
-
+        
         if (!worldItemsSpawned && _testEnemyPrefab != null)
         {
             runner.Spawn(_testEnemyPrefab, spawnPos + new Vector3(5,0,5), Quaternion.identity);

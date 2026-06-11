@@ -1,9 +1,10 @@
 ﻿using Events;
 using Fusion;
+using Tools.EventSystem;
 using UI;
 using UnityEngine;
 using Skills.Core;
-using Network; // Added to access PlayerStatsManager
+using Network;
 
 namespace Health
 {
@@ -21,6 +22,8 @@ namespace Health
         
         // reference to the Stats Manager (Facade)
         private PlayerStatsManager _statsManager;
+        
+        private NetworkPlayerController _playerController;
 
         private float _lastAttackTime;
         
@@ -34,6 +37,9 @@ namespace Health
             
             // Cache the Stats Manager
             _statsManager = GetComponent<PlayerStatsManager>();
+            
+            // Cache the PlayerController located on the same Player Prefab
+            _playerController = GetComponent<NetworkPlayerController>();
         }
 
         // ============================================================
@@ -44,12 +50,12 @@ namespace Health
         {
             if (!HasInputAuthority) return;
 
-            if (InputManager.Mode == InputMode.Game)
+            if (InputBlocker.IsBlocked)
+                    return;
+            
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    TryAttack();
-                }
+                TryAttack();
             }
         }
 
@@ -80,6 +86,8 @@ namespace Health
 
             Vector3 attackerPosition = transform.position;
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
+            
+            _playerController?.PlayAttackAnimation();
 
             if (!target)
             {

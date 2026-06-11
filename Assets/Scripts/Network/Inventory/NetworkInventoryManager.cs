@@ -4,6 +4,9 @@ using Local.Inventory;
 using Network.Crafting;
 using Network.Inventory;
 using Network.Items;
+using Network.Quests;
+using Network.Quests.Enums;
+using Tools.EventSystem;
 using UnityEngine;
 using Network;
 

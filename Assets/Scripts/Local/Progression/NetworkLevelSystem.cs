@@ -3,6 +3,8 @@ using Fusion;
 using Player;
 using UnityEngine;
 using Events;
+using Tools.EventSystem;
+
 
 namespace Local.Progression
 {

@@ -12,13 +12,14 @@ namespace Network.Quests
         [SerializeField]
         private List<QuestDefinitionSO> quests = new();
 
-        private Dictionary<string, QuestDefinitionSO> _lookup = new();
+        private Dictionary<string, QuestDefinitionSO> _lookup; 
+        public IReadOnlyList<QuestDefinitionSO> Quests => quests;
 
         public void Initialize()
         {
             Instance = this;
 
-            _lookup.Clear();
+            _lookup = new Dictionary<string, QuestDefinitionSO>();
 
             foreach (var quest in quests)
             {
@@ -34,31 +35,24 @@ namespace Network.Quests
                 _lookup.Add(quest.questId, quest);
             }
 
-            Debug.Log(
-                $"[QuestDatabase] Initialized with {_lookup.Count} quests.");
         }
 
         public QuestDefinitionSO GetQuestById(string questId)
         {
-            return _lookup.GetValueOrDefault(questId);
+            if (_lookup == null)
+                Initialize();
+
+            _lookup.TryGetValue(questId, out var quest);
+            return quest;
         }
+        
 
-        public List<QuestDefinitionSO> GetAllQuests()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Load()
         {
-            return quests;
-        }
+            var db = Resources.Load<QuestDatabase>("QuestDatabase");
 
-        [RuntimeInitializeOnLoadMethod(
-            RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void LoadDatabase()
-        {
-            var db =
-                Resources.Load<QuestDatabase>("QuestDatabase");
-
-            if (db != null)
-            {
-                db.Initialize();
-            }
+            if (db != null) db.Initialize();
         }
     }
 }

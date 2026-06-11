@@ -9,12 +9,9 @@ using UnityEngine.UI;
 
 namespace UI.Crafting
 {
-    public class CraftingUIController : MonoBehaviour
+    public class CraftingUIController : UIWindow
 {
     public static CraftingUIController Instance { get; private set; }
-
-    [Header("Root")]
-    [SerializeField] private GameObject root;
 
     [Header("Recipe List")]
     [SerializeField] private Transform recipeListContainer;
@@ -75,9 +72,7 @@ namespace UI.Crafting
         if (_localManager == null)
             return;
 
-        root.SetActive(true);
-
-        InputManager.SetMode(InputMode.UI);
+        base.Open();
 
         RefreshRecipeList();
 
@@ -95,15 +90,9 @@ namespace UI.Crafting
 
         ClearIngredients();
         
-        root.SetActive(false);
-
-        InputManager.SetMode(InputMode.Game);
+        base.Close();
     }
-
-    public void OnCloseButtonPressed()
-    {
-        Close();
-    }
+    
     
     // =========================================================
     // RECIPE LIST

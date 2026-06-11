@@ -27,7 +27,7 @@ See [`contributing.md`](https://github.com/Alt-F4-Games/Underground_Expedition/b
 
 - **[Maggszz](https://github.com/Maggszz)**
 
-- **[Zero](https://github.com/Zero10903)**
+- **[Noirlinist](https://github.com/Zero10903)**
 
 - **[Emmazabala](https://github.com/emmazabala)**
 

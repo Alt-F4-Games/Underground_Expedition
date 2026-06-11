@@ -1,5 +1,6 @@
 ﻿using Events;
 using Fusion;
+using Tools.EventSystem;
 using Health;
 using UnityEngine;
 
@@ -139,5 +140,6 @@ namespace Network
                                         
             EventController.Instance.TriggerEvent(_playerStatsEvent);
         }
+        
     }
 }

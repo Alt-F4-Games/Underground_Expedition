@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
+using Network.Quests.Runtime;
 
-namespace Events{
-    public class GameEvent  { }
+namespace Tools.EventSystem
+{
+    public class GameEvent { }
+
+    // =====================================================
+    // PLAYER & ENEMIES
+    // =====================================================
 
     public class EnemyDiedEvent : GameEvent
     {
@@ -24,6 +30,10 @@ namespace Events{
         public int PlayerDamage;
     }
     
+    // =====================================================
+    // ITEMS & NPCs
+    // =====================================================
+
     public class ItemCollectedEvent : GameEvent
     {
         public PlayerRef player;
@@ -44,6 +54,12 @@ namespace Events{
         public PlayerRef player;
         public string npcId;
     }
+
+    // =====================================================
+    // QUESTS
+    // =====================================================
+
+    public class QuestUIRefreshEvent : GameEvent { }
     
     public class QuestAcceptedEvent : GameEvent
     {
@@ -70,6 +86,10 @@ namespace Events{
     {
         public string questId;
     }
+
+    // =====================================================
+    // SKILLS
+    // =====================================================
 
     public class SkillUpgradeRequestedEvent : GameEvent
     {

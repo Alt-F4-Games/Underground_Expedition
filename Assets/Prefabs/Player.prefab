@@ -148,9 +148,10 @@ GameObject:
   - component: {fileID: 1556996685357779886}
   - component: {fileID: 669421185991042192}
   - component: {fileID: 1561582750749242356}
-  - component: {fileID: 8645349319242235971}
-  - component: {fileID: 7638399522317199039}
-  - component: {fileID: 503276378546849494}
+  - component: {fileID: -8782711318912171112}
+  - component: {fileID: 2405819136796096340}
+  - component: {fileID: 8212935431761098898}
+  - component: {fileID: 2791647886381805130}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -284,9 +285,10 @@ MonoBehaviour:
   - {fileID: 1556996685357779886}
   - {fileID: 669421185991042192}
   - {fileID: 1561582750749242356}
-  - {fileID: 8645349319242235971}
-  - {fileID: 7638399522317199039}
-  - {fileID: 503276378546849494}
+  - {fileID: -8782711318912171112}
+  - {fileID: 2405819136796096340}
+  - {fileID: 8212935431761098898}
+  - {fileID: 2791647886381805130}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6570093051209352819
 CharacterController:
@@ -548,7 +550,20 @@ MonoBehaviour:
   _plusMaxHealth: 10
   _plusMaxStamimna: 5
   _plusPlayerDamage: 0
---- !u!114 &8645349319242235971
+--- !u!114 &-8782711318912171112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954193011416401844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca072ace15a4381835677a5c9629f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: ca0b81b60aa330f449b7d5736dd5e836, type: 2}
+--- !u!114 &2405819136796096340
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -560,9 +575,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d18cf9f0dd64e738b6d44b3979da501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slot1: {fileID: 7638399522317199039}
-  _slot2: {fileID: 503276378546849494}
---- !u!114 &7638399522317199039
+  _slot1: {fileID: 8212935431761098898}
+  _slot2: {fileID: 2791647886381805130}
+--- !u!114 &8212935431761098898
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -577,7 +592,7 @@ MonoBehaviour:
   _skillData: {fileID: 11400000, guid: d96a6a89777045243807bbb1f92559ac, type: 2}
   _CurrentLevel: 0
   _RemainingStrikes: 0
---- !u!114 &503276378546849494
+--- !u!114 &2791647886381805130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
