@@ -28,21 +28,22 @@ namespace Health
 
         protected override void Death()
         {
-            base.Death();
             EnemyDiedEvent enemyDiedEvent = new EnemyDiedEvent
             {
                 killer = _lastDamager,
                 enemyId = enemyData.enemyId,
-                exp = expPerKill
+                exp = expPerKill,
+                enemyObject = Object
             };
-
+            
             EventController.Instance.TriggerEvent(enemyDiedEvent);
+            
+            base.Death();
             
             NetworkQuestManager.Local.RPC_ReportQuestEvent(
                 (int)QuestObjectiveType.KillEnemy,
                 enemyData.enemyId,
                 1);
-
         }
     }
 }

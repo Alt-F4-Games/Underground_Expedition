@@ -1,6 +1,8 @@
-﻿using Fusion;
+﻿using Events;
+using Fusion;
 using UnityEngine;
 using Health;
+using Tools.EventSystem;
 
 namespace Network.Enemies.States
 {
@@ -73,6 +75,8 @@ namespace Network.Enemies.States
             _jumpDuration = totalDistance / Mathf.Max(0.1f, _jumpSpeed);
             
             Debug.Log($"[SERVER] {_enemy.gameObject.name} launched Jump Attack.");
+            
+            EventController.Instance.TriggerEvent(new EnemyAttackEvent { enemyObject = _enemy.Object});
         }
 
         public void Update()
