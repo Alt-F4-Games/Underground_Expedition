@@ -1,4 +1,6 @@
-﻿using Fusion;
+﻿using System.Collections;
+using Audio.Core;
+using Fusion;
 using Health;
 using Network.Enemies.States;
 using UnityEngine;
@@ -11,6 +13,8 @@ namespace Network.Enemies.Variants
     /// </summary>
     public class NetworkRatController : NetworkSwarmController
     {
+        [SerializeField] private AudioCollection _ratAudioCollection;
+        
         [Header("Rat Jump Settings")]
         // Time the rat waits in place (telegraphing) before executing the jump attack
         public float JumpChargeTime = 1.2f; 
@@ -30,11 +34,14 @@ namespace Network.Enemies.Variants
         // Components
         private Animator _animator;
         private NetworkEnemyHealth _enemyHealth;
+        private WaitForSeconds _walkTimer;
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
             _enemyHealth = GetComponent<NetworkEnemyHealth>();
+            _walkTimer = new WaitForSeconds(2f);
+            
         }
         
         private void OnEnable()
@@ -65,6 +72,7 @@ namespace Network.Enemies.Variants
                 case NetworkEnemyState.Chasing:
                     _animator.SetBool("IsMoving", true);
                     _animator.SetBool("IsCharging", false);
+                    StartCoroutine(RatWalkAudio());
                     break;
 
                 case NetworkEnemyState.Charging:
@@ -112,6 +120,16 @@ namespace Network.Enemies.Variants
             
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(transform.position, JumpHitboxRadius);
+        }
+
+        private IEnumerator RatWalkAudio()
+        {
+            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatWalk, out var sound))
+            {
+                AudioManager.Instance.PlayOneShot(sound, transform.position);
+            }
+
+            yield return _walkTimer;
         }
     }
 }

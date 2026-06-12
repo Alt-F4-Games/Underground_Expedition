@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Audio
 {
-    public class RatAudio : MonoBehaviour
+    public class RatAudio : NetworkBehaviour
     {
         [SerializeField] private AudioCollection _ratAudioCollection;
         
@@ -37,37 +37,50 @@ namespace Audio
             if (evt.enemyObject != _networkObject)
                 return;
 
-            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatDeath, out var sound))
-            {
-                AudioManager.Instance.PlayOneShot(sound, transform.position);
-            }
+            RPC_PlayRatDeathSound();
         }
 
         private void OnRatAttack(EnemyAttackEvent evt)
         {
             if (evt.enemyObject != _networkObject)
                 return;
-            
-            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatAttack01, out var sound))
-            {
-                AudioManager.Instance.PlayOneShot(sound, transform.position);
-            }
+
+            RPC_PlayRatAttackSound();
         }
 
         public void OnRatTakeDamage(EnemyTakeDamageEvent evt)
         {
             if (evt.enemyObject != _networkObject)
                 return;
-            
+
+            RPC_PlayRatTakeDamageSound();
+        }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_PlayRatDeathSound()
+        {
+            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatDeath, out var sound))
+            {
+                AudioManager.Instance.PlayOneShot(sound, transform.position);
+            }
+        }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_PlayRatAttackSound()
+        {
+            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatAttack01, out var sound))
+            {
+                AudioManager.Instance.PlayOneShot(sound, transform.position);
+            }
+        }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_PlayRatTakeDamageSound()
+        {
             if (_ratAudioCollection.TryGetAudio(AudioKeys.RatDamaged01, out var sound))
             {
                 AudioManager.Instance.PlayOneShot(sound, transform.position);
-            } 
-        }
-
-        public void OnRatWalk()
-        {
-            
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 
 namespace Health
 {
-    public class NetworkEnemyHealth : NetworkDespawnOnDeath
+    public class NetworkEnemyHealth : NetworkHealthSystem
     {
         [Header("Enemy Data")]
         [SerializeField] private EnemySO enemyData;
@@ -30,6 +30,8 @@ namespace Health
 
         protected override void Death()
         {
+            base.Death();
+            
             EnemyDiedEvent enemyDiedEvent = new EnemyDiedEvent
             {
                 killer = _lastDamager,
@@ -40,7 +42,7 @@ namespace Health
             
             EventController.Instance.TriggerEvent(enemyDiedEvent);
             
-            base.Death();
+            Runner.Despawn(Object);
             
             NetworkQuestManager.Local.RPC_ReportQuestEvent(
                 (int)QuestObjectiveType.KillEnemy,
