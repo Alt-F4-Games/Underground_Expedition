@@ -10,24 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
-  m_Name: PickupItem
+  m_Name: How to Gather
   m_EditorClassIdentifier: 
-  questId: quest_pickup
-  questName: Mision de Pickup
-  description: Esta es una mision en la que debes recoger una cola de rata del suelo
+  questId: how_to_gather
+  questName: How to Gather
+  description: Break 2 pots and collect 5 leaves from trees.
   questType: 0
   requirementType: 0
   requiredQuestId: 
-  progressScope: 0
-  completionScope: 0
-  rewardScope: 0
   objectives:
-  - objectiveId: quest_objec_pickup
-    displayName: Recoge 1 cola de rata.
-    objectiveType: 1
-    targetId: obj_rat_tail
-    requiredAmount: 1
-  rewards:
-  - itemId: 
-    quantity: 0
-    experience: 60
+  - displayName: Destroy vases.
+    objectiveType: 0
+    targetId: 
+    requiredAmount: 0
+  - displayName: Collect leaves.
+    objectiveType: 3
+    targetId: 
+    requiredAmount: 0
+  rewards: []

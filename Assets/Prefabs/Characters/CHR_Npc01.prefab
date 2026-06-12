@@ -244,6 +244,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dbe8681253291200aa6afcbf6c174fcb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4379003211321764862}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dbe8681253291200aa6afcbf6c174fcb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5353116612847601938}
   m_SourcePrefab: {fileID: 100100000, guid: dbe8681253291200aa6afcbf6c174fcb, type: 3}
 --- !u!1 &7263745437658890362 stripped
 GameObject:
@@ -268,6 +271,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -159046533809380839}
+  - {fileID: 5353116612847601938}
   ForceRemoteRenderTimeframe: 0
 --- !u!136 &8642629565647392282
 CapsuleCollider:
@@ -332,3 +336,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5353116612847601938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263745437658890362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8474a2d612e4801b246288bf1aeb065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promptMessage: Interact
+  _interactionDuration: 1.5
+  _fresnelOnValue: 1
+  _fresnelOffValue: 0
+  _fresnelProperty: _FresnelIntensity
+  interactionId: guide

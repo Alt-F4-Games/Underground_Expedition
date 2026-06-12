@@ -1124,6 +1124,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3310951747459086266, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310951747459086266, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310951747459086266, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310951747459086266, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389018310415899979, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389018310415899979, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389018310415899979, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389018310415899979, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4106464141563253034, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -4310,6 +4342,7 @@ Transform:
   - {fileID: 1195918429}
   - {fileID: 1596092739}
   - {fileID: 712616593}
+  - {fileID: 946116646}
   - {fileID: 2049695307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5066,6 +5099,74 @@ PrefabInstance:
       addedObject: {fileID: 1429624139}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be1a4d7e99f95da4c9681f8139ba6c7b, type: 3}
+--- !u!1 &946116645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 946116646}
+  - component: {fileID: 946116649}
+  - component: {fileID: 946116650}
+  m_Layer: 0
+  m_Name: TempleGate (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &946116646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946116645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 651.5, y: 220, z: 54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 728681846}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &946116649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946116645}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 7, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &946116650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946116645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ec42a26c5a45d6a17db5ae53eea3da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneId: temple_gate
+  playerTag: Player
 --- !u!1001 &973044298
 PrefabInstance:
   m_ObjectHideFlags: 0

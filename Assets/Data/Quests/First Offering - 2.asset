@@ -10,24 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
-  m_Name: ExploreQuest
+  m_Name: First Offering - 2
   m_EditorClassIdentifier: 
-  questId: quest_explore
-  questName: Mision de exploracion
-  description: Esta es una mision de prueba de EXPLORACION.
+  questId: first_offering_2
+  questName: First Offering
+  description: Venture deeper into the temple and find the second and final Sacrificial
+    Altar.
   questType: 0
-  requirementType: 0
-  requiredQuestId: 
-  progressScope: 0
-  completionScope: 0
-  rewardScope: 0
+  requirementType: 1
+  requiredQuestId: first_offering_1
   objectives:
-  - objectiveId: quest_objec_explore
-    displayName: Explora el area de la jungla.
+  - displayName: First Offering
     objectiveType: 4
-    targetId: Jungle_zone
+    targetId: first_expedition_zone_2
     requiredAmount: 1
-  rewards:
-  - itemId: 
-    quantity: 0
-    experience: 50
+  rewards: []
