@@ -1194,6 +1194,72 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3128049040168523048, guid: 89be8d05c9698e74fafa52e15e666a8a, type: 3}
   m_PrefabInstance: {fileID: 129986157}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &148296853
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1981230316}
+    m_Modifications:
+    - target: {fileID: 1484813959584826674, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: SortKey
+      value: 4196735332
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438551382832903416, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+      propertyPath: m_Name
+      value: QuestManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+--- !u!4 &148296854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3689895428455158138, guid: 7580a1a1380d950438d6c2382e1348c5, type: 3}
+  m_PrefabInstance: {fileID: 148296853}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &171450549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1873547425615257109, guid: 95221cd1a18f4434384c63a9accccc84, type: 3}
@@ -8856,6 +8922,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftingCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5279470218899484294, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279470218899484294, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279470218899484294, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 6708915073257633377, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9561,6 +9639,7 @@ Transform:
   m_Children:
   - {fileID: 1752815374}
   - {fileID: 547010690}
+  - {fileID: 148296854}
   - {fileID: 31207519}
   - {fileID: 66019770}
   - {fileID: 399468340}
