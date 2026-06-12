@@ -24,6 +24,11 @@ namespace Tools.EventSystem
         public NetworkObject enemyObject;
     }
 
+    public class EnemyTakeDamageEvent : GameEvent
+    {
+        public NetworkObject enemyObject;
+    }
+
     public class PlayerDiedEvent : GameEvent
     {
         public bool IsAlive;

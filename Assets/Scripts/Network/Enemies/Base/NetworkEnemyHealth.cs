@@ -24,6 +24,8 @@ namespace Health
             _lastDamager = playerRef;
 
             base.TakeDamage(damage, playerRef);
+            
+            EventController.Instance.TriggerEvent(new EnemyTakeDamageEvent {enemyObject = Object});
         }
 
         protected override void Death()

@@ -22,13 +22,14 @@ namespace Audio
         {
             EventController.Instance.AddListener<EnemyDiedEvent>(OnRatDied);
             EventController.Instance.AddListener<EnemyAttackEvent>(OnRatAttack);
+            EventController.Instance.AddListener<EnemyTakeDamageEvent>(OnRatTakeDamage);
         }
         
         private void OnDisable()
         {
             EventController.Instance.RemoveListener<EnemyDiedEvent>(OnRatDied);
             EventController.Instance.RemoveListener<EnemyAttackEvent>(OnRatAttack);
-
+            EventController.Instance.RemoveListener<EnemyTakeDamageEvent>(OnRatTakeDamage);
         }
 
         private void OnRatDied(EnemyDiedEvent evt)
@@ -51,6 +52,22 @@ namespace Audio
             {
                 AudioManager.Instance.PlayOneShot(sound, transform.position);
             }
+        }
+
+        public void OnRatTakeDamage(EnemyTakeDamageEvent evt)
+        {
+            if (evt.enemyObject != _networkObject)
+                return;
+            
+            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatDamaged01, out var sound))
+            {
+                AudioManager.Instance.PlayOneShot(sound, transform.position);
+            } 
+        }
+
+        public void OnRatWalk()
+        {
+            
         }
     }
 }
