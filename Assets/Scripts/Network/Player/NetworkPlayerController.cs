@@ -243,7 +243,9 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
 
-        if (wantsToSprint && CurrentStamina > 0f)
+        bool isMoving = input.MoveDirection.sqrMagnitude > 0.01f;
+
+        if (wantsToSprint && isMoving && CurrentStamina > 0f)
         {
             IsSprinting = true;
 
