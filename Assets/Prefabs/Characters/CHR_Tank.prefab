@@ -1043,12 +1043,15 @@ MonoBehaviour:
   _cameraPivot: {fileID: 3180960906323710526}
   _renderer: {fileID: 1350348187809696445}
   _cameraPrefab: {fileID: 7215237716590102320, guid: c9a39b0926a3a464e851b60e608f3c32, type: 3}
+  _normalFOV: 100
+  _sprintFOV: 115
+  _fovSpeed: 8
   _walkSpeed: 4
   _maxStaminaBase: 100
-  _sprintSpeed: 6.3
+  _sprintSpeed: 6
   _staminaRechargeDelay: 1.3
-  _staminaRechargeRate: 25
-  _staminaDrainRate: 50
+  _staminaRechargeRate: 12
+  _staminaDrainRate: 20
   _CurrentStamina: 0
   _MaxStamina: 0
 --- !u!114 &-4522593351845617225
