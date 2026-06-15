@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
+  m_Name: Second Offering - 2
+  m_EditorClassIdentifier: 
+  questId: second_offering_2
+  questName: Second Offering
+  description: Find the statue of the Ancient God.
+  questType: 0
+  requirementType: 1
+  requiredQuestId: second_offering_1
+  objectives:
+  - displayName: Find the statue
+    objectiveType: 4
+    targetId: boss_statue
+    requiredAmount: 1
+  rewards: []
