@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
-  m_Name: Interact
+  m_Name: Second Offering - 1
   m_EditorClassIdentifier: 
-  questId: quest_interact
-  questName: INTERACCION
-  description: interactuar con la mesa
+  questId: second_offering_1
+  questName: Second Offering
+  description: Craft and deliver your second offering at the Sacrificial Altar.
   questType: 0
-  requirementType: 0
-  requiredQuestId: 
+  requirementType: 1
+  requiredQuestId: first_offering_3
   objectives:
-  - objectiveId: quest_interact_objective
-    displayName: Interactua con la mesa de crafteo.
-    objectiveType: 3
-    targetId: interact_crafting
+  - displayName: Craft the totem
+    objectiveType: 2
+    targetId: obj_totem
     requiredAmount: 1
-  rewards:
-  - itemId: 
-    quantity: 0
-    experience: 70
+  - displayName: Offer the totem
+    objectiveType: 3
+    targetId: altar_2
+    requiredAmount: 1
+  rewards: []

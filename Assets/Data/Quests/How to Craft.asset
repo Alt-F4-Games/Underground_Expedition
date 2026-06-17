@@ -10,24 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
-  m_Name: CraftItem
+  m_Name: How to Craft
   m_EditorClassIdentifier: 
-  questId: quest_craft
-  questName: Mision de craftear
-  description: Esta es una mision de prueba de crafteo
+  questId: how_to_craft
+  questName: How to Craft
+  description: Craft 5 Healing Ointments.
   questType: 0
-  requirementType: 0
-  requiredQuestId: 
-  progressScope: 0
-  completionScope: 0
-  rewardScope: 0
+  requirementType: 1
+  requiredQuestId: how_to_gather
   objectives:
-  - objectiveId: quest_craft_heal01
-    displayName: "Craftea 1 ung\xFCento curativo."
+  - displayName: Craft healing ointments.
     objectiveType: 2
     targetId: obj_healing_ointment
-    requiredAmount: 1
-  rewards:
-  - itemId: obj_tooth
-    quantity: 1
-    experience: 23
+    requiredAmount: 5
+  rewards: []
