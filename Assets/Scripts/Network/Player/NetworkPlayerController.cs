@@ -249,7 +249,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         // =========================
 
         if (moveDir.sqrMagnitude > 0.01f)
-            _movementSpeed = IsSSprintting ? 1f : 0.5f;
+            _movementSpeed = IsSprinting ? 1f : 0.5f;
         else
             _controller.Move(moveDir);
     }
