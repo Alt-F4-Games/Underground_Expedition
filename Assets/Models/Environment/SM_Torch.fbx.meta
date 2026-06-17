@@ -3,7 +3,12 @@ guid: cfe71f12719813e43a0b081631ebeac0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_propsatlas_rough.001
+    second: {fileID: 2100000, guid: b310508bbeb449d419f4fedd1bc655cb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
