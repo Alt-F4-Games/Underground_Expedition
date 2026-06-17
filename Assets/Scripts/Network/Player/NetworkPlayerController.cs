@@ -357,4 +357,16 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
         AttackCounter++;
     }
+    
+    public void ModifyStamina(float amount)
+    {
+        if (!HasStateAuthority) return;
+
+        CurrentStamina += amount;
+
+        if (CurrentStamina > MaxStamina)
+            CurrentStamina = MaxStamina;
+        else if (CurrentStamina < 0f)
+            CurrentStamina = 0f;
+    }
 }

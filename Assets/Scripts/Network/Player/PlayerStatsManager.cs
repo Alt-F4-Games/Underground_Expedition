@@ -89,9 +89,7 @@ namespace Network
         {
             if (!HasStateAuthority || _controller == null) return;
             
-            _controller.CurrentStamina += amount;
-            if (_controller.CurrentStamina > _controller.MaxStamina)
-                _controller.CurrentStamina = _controller.MaxStamina;
+            _controller.ModifyStamina(amount);
         }
 
         /// <summary>
