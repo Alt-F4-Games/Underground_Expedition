@@ -7,4 +7,6 @@ public static class RoomConfig
     public static int MaxPlayers = 4; 
     
     public static bool IsHost = true; 
+    
+    public static bool IsSpectator = false;
 }
