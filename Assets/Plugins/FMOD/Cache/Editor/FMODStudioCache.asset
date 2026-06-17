@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639167952615042947
+  lastModified: 639173118833962332
   FileSizes:
   - Name: Desktop
-    Value: 1414688
+    Value: 1433792
   Exists: 1
 --- !u!114 &-6674176285207199278
 MonoBehaviour:
@@ -197,11 +197,38 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639167952615052973
+  lastModified: 639173118833972341
   FileSizes:
   - Name: Desktop
-    Value: 1448
+    Value: 1598
   Exists: 1
+--- !u!114 &-559719796990834279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Attack
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Attack
+  Guid:
+    Data1: -1057528785
+    Data2: 1276421157
+    Data3: 324909702
+    Data4: 1516886398
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,13 +260,16 @@ MonoBehaviour:
   - {fileID: -5520878928163057727}
   - {fileID: 5108494433520001098}
   - {fileID: -6467628745397420272}
+  - {fileID: -559719796990834279}
+  - {fileID: 6793330691174313026}
+  - {fileID: 2730048807127493247}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8864589614331051459}
   StringsBanks:
   - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 639167952615052973
+  cacheTime: 639173118833972341
   SerializableEventsDict:
   - key: event:/SFX/RAT/SFX_Rat_Damaged02
     index: 0
@@ -271,6 +301,12 @@ MonoBehaviour:
     index: 13
   - key: event:/MUSIC/BGM_Music
     index: 14
+  - key: event:/SFX/SKULL/SFX_Skull_Attack
+    index: 15
+  - key: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+    index: 16
+  - key: event:/LOOPS/ENEMIES/RAT/Rat walk
+    index: 17
 --- !u!114 &45042549029634630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +415,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &2730048807127493247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/RAT/Rat walk
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/RAT/Rat walk
+  Guid:
+    Data1: 182590143
+    Data2: 1305501886
+    Data3: 992138630
+    Data4: 55888740
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1896
 --- !u!114 &3795961265664606068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,6 +496,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &6793330691174313026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+  Guid:
+    Data1: 1769469904
+    Data2: 1324171215
+    Data3: 223261112
+    Data4: -224510959
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &7117127231357598524
 MonoBehaviour:
   m_ObjectHideFlags: 0

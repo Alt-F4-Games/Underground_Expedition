@@ -19,14 +19,19 @@ namespace Audio.Core
             DontDestroyOnLoad(gameObject);
         }
 
-        public void PlayOneShot(EventReference eventReference, Vector3 position)
+        public void PlayOneShot(EventReference sound)
         {
-            RuntimeManager.PlayOneShot(eventReference, position);
+            RuntimeManager.PlayOneShot(sound);
         }
 
-        public void PlayOneShot(EventReference eventReference)
+        public void PlayOneShot(EventReference sound, Vector3 position)
         {
-            RuntimeManager.PlayOneShot(eventReference);
+            RuntimeManager.PlayOneShot(sound, position);
+        }
+
+        public AudioEmitter CreateEmitter(EventReference sound, Transform target)
+        {
+            return new AudioEmitter(sound, target);
         }
     }
 }

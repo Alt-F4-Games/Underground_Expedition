@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using System;
+using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,6 +27,7 @@ namespace Network.Enemies
         // Networked enum. Triggers OnStateChanged on all clients when updated by the Host
         [Networked, OnChangedRender(nameof(OnStateChanged))]
         public NetworkEnemyState CurrentState { get; set; }
+        public event Action<NetworkEnemyState> OnEnemyStateChanged;
 
         public override void Spawned()
         {
@@ -77,6 +79,7 @@ namespace Network.Enemies
         void OnStateChanged()
         {
             HandleStateChanged();
+            OnEnemyStateChanged?.Invoke(CurrentState);
         }
         
         protected virtual void HandleStateChanged(){}

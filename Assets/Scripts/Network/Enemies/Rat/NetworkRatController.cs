@@ -72,7 +72,6 @@ namespace Network.Enemies.Variants
                 case NetworkEnemyState.Chasing:
                     _animator.SetBool("IsMoving", true);
                     _animator.SetBool("IsCharging", false);
-                    StartCoroutine(RatWalkAudio());
                     break;
 
                 case NetworkEnemyState.Charging:
@@ -120,16 +119,6 @@ namespace Network.Enemies.Variants
             
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(transform.position, JumpHitboxRadius);
-        }
-
-        private IEnumerator RatWalkAudio()
-        {
-            if (_ratAudioCollection.TryGetAudio(AudioKeys.RatWalk, out var sound))
-            {
-                AudioManager.Instance.PlayOneShot(sound, transform.position);
-            }
-
-            yield return _walkTimer;
         }
     }
 }
