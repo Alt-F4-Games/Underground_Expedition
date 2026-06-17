@@ -3,6 +3,7 @@ using Events;
 using Fusion;
 using Local.Progression;
 using Network.Inventory;
+using Network.Items;
 using Network.Quests.Definitions;
 using Network.Quests.Enums;
 using Network.Quests.Runtime;
