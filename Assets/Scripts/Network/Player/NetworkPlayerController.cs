@@ -9,7 +9,6 @@ using UnityEngine;
 using Unity.Cinemachine;
 
 [RequireComponent(typeof(NetworkCharacterController))]
-[RequireComponent(typeof(Animator))]
 public class NetworkPlayerController : NetworkBehaviour, IStunnable
 {
     [Header("References")]
@@ -20,6 +19,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private Camera _cameraPrefab;
     private Camera _playerCameraInstance;
     private CinemachineCamera _cinemachineCamera;
+
+    [Header("Camera FOV Juice")]
+    [SerializeField] private float _normalFOV = 100f; // Tu FOV base (según tu captura)
+    [SerializeField] private float _sprintFOV = 115f; // FOV ampliado al correr
+    [SerializeField] private float _fovSpeed = 8f;     // Velocidad de la transición (Lerp)
 
     [Header("Movement")]
     [SerializeField] private float _walkSpeed = 5f;
@@ -32,14 +36,20 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private float _staminaDrainRate = 1f;
 
     [Networked] private bool IsSprinting { get; set; }
+    
     [Networked] public float CurrentStamina { get; private set; }
-    [Networked]  public float MaxStamina { get; private set; } 
+    [Networked] public float MaxStamina { get; private set; } 
     [Networked] private float RechargeDelayTimer { get; set; }
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
+    
+    // Reference to the Stats Manager (Facade)
+    private PlayerStatsManager _statsManager;
+    
     private Animator _animator;
-    private EmpoweredStrikeSkill  _strikeSkill;
+    private EmpoweredStrikeSkill _strikeSkill;
+    
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -74,8 +84,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
+        
+        // Cache the Stats Manager
+        _statsManager = GetComponent<PlayerStatsManager>();
+        
         _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
-        _animator  = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _strikeSkill = GetComponent<EmpoweredStrikeSkill>();
         
         if (_health != null)
@@ -96,17 +110,22 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             MaxStamina = _maxStaminaBase;
             CurrentStamina = MaxStamina;
         }
+
+        _renderer.material.color = Color.yellow;
+
+        // Primero instanciamos la cámara local
+        SpawnCamera();
+
+        // Buscamos la CinemachineCamera de forma segura en la escena de este cliente
+        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
         
-        if (_cinemachineCamera != null)
+        if (_cinemachineCamera != null && _cameraPivot != null)
         {
             _cinemachineCamera.Follow = _cameraPivot;
             _cinemachineCamera.LookAt = _cameraPivot;
         }
-
-        _renderer.material.color = Color.yellow;
-
-        SpawnCamera();
     }
+
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         if (_health != null)
@@ -150,6 +169,18 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         }
 
         _isStunnedVisual = IsStunnedGameplay;
+
+        // ============================================================
+        // JUICE: DYNAMIC FOV CHANGE (CLIENT ONLY)
+        // ============================================================
+        if (HasInputAuthority && _cinemachineCamera != null)
+        {
+            float targetFOV = (IsSprinting && _movementSpeed > 0.1f) ? _sprintFOV : _normalFOV;
+            
+            var lens = _cinemachineCamera.Lens;
+            lens.FieldOfView = Mathf.Lerp(lens.FieldOfView, targetFOV, _fovSpeed * Time.deltaTime);
+            _cinemachineCamera.Lens = lens;
+        }
 
         // =========================
         // ANIMATIONS
@@ -197,7 +228,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         Quaternion yawRotation = Quaternion.Euler(0, _yaw, 0);
         Vector3 moveDir = yawRotation * new Vector3(input.MoveDirection.x, 0, input.MoveDirection.z);
 
-        _controller.maxSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
+        // Fetch speed multipliers from the Stats Manager (default to 1f if null)
+        float walkMultiplier = _statsManager != null ? _statsManager.WalkSpeedMultiplier : 1f;
+        float sprintMultiplier = _statsManager != null ? _statsManager.SprintSpeedMultiplier : 1f;
+
+        // Apply specific multipliers based on sprinting state
+        _controller.maxSpeed = IsSprinting ? (_sprintSpeed * sprintMultiplier) : (_walkSpeed * walkMultiplier);
 
         if (IsStunnedGameplay)
         {
@@ -215,14 +251,16 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (moveDir.sqrMagnitude > 0.01f)
             _movementSpeed = IsSprinting ? 1f : 0.5f;
         else
-            _movementSpeed = 0f;
+            _controller.Move(moveDir);
     }
 
     private void HandleSprint(NetworkInputPlayer input)
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
 
-        if (wantsToSprint && CurrentStamina > 0f)
+        bool isMoving = input.MoveDirection.sqrMagnitude > 0.01f;
+
+        if (wantsToSprint && isMoving && CurrentStamina > 0f)
         {
             IsSprinting = true;
 
@@ -318,5 +356,17 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             return;
 
         AttackCounter++;
+    }
+    
+    public void ModifyStamina(float amount)
+    {
+        if (!HasStateAuthority) return;
+
+        CurrentStamina += amount;
+
+        if (CurrentStamina > MaxStamina)
+            CurrentStamina = MaxStamina;
+        else if (CurrentStamina < 0f)
+            CurrentStamina = 0f;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Network.Inventory;
+using Network.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
