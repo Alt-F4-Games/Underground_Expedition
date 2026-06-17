@@ -336,7 +336,6 @@ public class NetworkInventoryManager : NetworkBehaviour
     // -------------------- UTILITIES ---------------------------------------
     private void SafeAssignInventorySystem()    
     {
-        if (inventorySystem == null)
-            inventorySystem = GetComponent<NetworkInventorySystem>();
+        inventorySystem = GetComponent<NetworkInventorySystem>();
     }
 }
