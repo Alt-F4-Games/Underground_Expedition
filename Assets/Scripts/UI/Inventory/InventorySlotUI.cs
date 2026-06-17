@@ -1,4 +1,6 @@
+using Local.Inventory;
 using Network.Inventory;
+using Network.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -91,9 +93,30 @@ public class InventorySlotUI : MonoBehaviour,
         _selectedSlot = null;
     }
 
+    // =====================================================================
+    // CLIENT-SIDE VALIDATION (QoL)
+    // =====================================================================
+
+    public bool AcceptsItem(int itemId)
+    {
+        if (SlotType == SlotType.Hotbar)
+        {
+            var itemSo = ItemDatabase.Instance.GetItemByNetworkId(itemId);
+            if (itemSo != null && itemSo.IsPickup)
+                return false;
+        }
+        return true;
+    }
+
     private void TryMoveItem(InventorySlotUI from, InventorySlotUI to)
     {
         if (from.Manager != to.Manager || from.Manager == null)
+            return;
+        
+        if (!to.AcceptsItem(from.CurrentItemId)) 
+            return;
+        
+        if (to.HasItem && !from.AcceptsItem(to.CurrentItemId)) 
             return;
 
         from.Manager.Input_MoveItem(from.SlotType, from.SlotIndex, to.SlotType, to.SlotIndex);
@@ -167,7 +190,7 @@ public class InventorySlotUI : MonoBehaviour,
     public void SetHighlight(bool active)
     {
         if (highlightFrame != null)
-            highlightFrame.SetActive(false);
+            highlightFrame.SetActive(active);
     }
 
     // =====================================================================

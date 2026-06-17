@@ -95,6 +95,7 @@ namespace Network.Enemies
         public virtual INetworkState GetPatrolState() => new NetworkPatrolState();
         public virtual INetworkState GetChaseState() => new NetworkChaseState();
         public virtual INetworkState GetAttackState() => new NetworkAttackState();
+        public virtual INetworkState GetDeadState() => new NetworkDeadState(2.5f);
 
     }
 }

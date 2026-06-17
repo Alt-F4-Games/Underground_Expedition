@@ -99,5 +99,3 @@ namespace Events {
 		}
 	}
 }
-
-

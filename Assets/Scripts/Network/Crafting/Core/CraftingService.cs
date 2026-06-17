@@ -1,4 +1,5 @@
 ﻿using Network.Inventory;
+using Network.Items;
 using UnityEngine;
 
 namespace Network.Crafting

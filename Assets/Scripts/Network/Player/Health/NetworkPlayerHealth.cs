@@ -114,9 +114,27 @@ namespace Health
             
             Debug.Log($"{gameObject.name} max health: {MaxHealth}");
 
-            
-            
             CurrentHealth = MaxHealth;
+        }
+
+        // ============================================================
+        // PUBLIC API FOR STATS MANAGER
+        // ============================================================
+        // These methods allow the Facade (PlayerStatsManager) to safely 
+        // modify health properties that have protected setters.
+
+        public void Heal(int amount)
+        {
+            if (!HasStateAuthority || !IsAlive) return;
+            CurrentHealth += amount;
+            if (CurrentHealth > MaxHealth) CurrentHealth = MaxHealth;
+        }
+
+        public void AddMaxHealth(int amount)
+        {
+            if (!HasStateAuthority) return;
+            MaxHealth += amount;
+            CurrentHealth += amount; // Fill the added health
         }
     }
 }
