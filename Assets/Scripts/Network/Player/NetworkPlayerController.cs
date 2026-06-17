@@ -15,6 +15,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private Transform _cameraPivot;
     [SerializeField] private Renderer _renderer;
 
+    // --- INYECCIÓN MODO DIRECTOR ---
+    [Header("Modo Director")]
+    [SerializeField] private GameObject _freeCamPrefab;
+    private bool _isLocalSpectator = false;
+    // --------------------------------
+
     [Header("Camera")]
     [SerializeField] private Camera _cameraPrefab;
     private Camera _playerCameraInstance;
@@ -96,6 +102,25 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         {
             _health.OnDamageTaken += OnDamageTaken;
         }
+
+        // --- INYECCIÓN MODO DIRECTOR: BYPASS DE SPAWN ---
+        if (HasInputAuthority && RoomConfig.IsSpectator)
+        {
+            _isLocalSpectator = true;
+
+            // 1. Instanciamos la cámara libre un poco más arriba de los pies
+            if (_freeCamPrefab != null)
+            {
+                Instantiate(_freeCamPrefab, transform.position + Vector3.up * 1.5f, transform.rotation);
+            }
+
+            // 2. Avisamos a la red que somos un fantasma
+            Rpc_NotifySpectator();
+
+            // 3. Cortamos la ejecución para no instanciar la cámara normal
+            return; 
+        }
+        // ------------------------------------------------
         
         if (!HasInputAuthority)
         {
@@ -156,6 +181,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public override void Render()
     {
+        // --- INYECCIÓN MODO DIRECTOR: FRENAR RENDER ---
+        if (_isLocalSpectator) return; 
+        // ----------------------------------------------
+
         if (HasInputAuthority && _playerCameraInstance == null)
         {
             SpawnCamera();
@@ -200,6 +229,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public override void FixedUpdateNetwork()
     {
+        // --- INYECCIÓN MODO DIRECTOR: FRENAR LÓGICA DE RED ---
+        if (_isLocalSpectator) return; 
+        // -----------------------------------------------------
+
         if (!UI.InputManager.IsGameMode())
             return;
         
@@ -369,4 +402,19 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         else if (CurrentStamina < 0f)
             CurrentStamina = 0f;
     }
+
+    // --- INYECCIÓN MODO DIRECTOR: RPC DE INVISIBILIDAD ---
+    // ============================================================
+    // MODO DIRECTOR (RPC)
+    // ============================================================
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void Rpc_NotifySpectator()
+    {
+        // Esto apaga tu cuerpo físico y visual en las pantallas de TODOS los jugadores
+        if (_renderer != null) _renderer.enabled = false;
+        if (_controller != null) _controller.enabled = false;
+        
+        Debug.Log("[Modo Director] Avatar convertido en fantasma globalmente.");
+    }
+    // -----------------------------------------------------
 }

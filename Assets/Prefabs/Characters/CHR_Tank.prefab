@@ -1042,6 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraPivot: {fileID: 3180960906323710526}
   _renderer: {fileID: 1350348187809696445}
+  _freeCamPrefab: {fileID: 3275079011807639498, guid: 24931dfe78842de4ab5cd2b9048a96d2, type: 3}
   _cameraPrefab: {fileID: 7215237716590102320, guid: c9a39b0926a3a464e851b60e608f3c32, type: 3}
   _normalFOV: 100
   _sprintFOV: 115
@@ -1080,9 +1081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad545388eaf1de4d80c0dcc2ed55069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handTransform: {fileID: 1936779615993735143}
   inventorySystem: {fileID: 6926954798261749035, guid: b773280a5163bd24cacebb2e41de5866, type: 3}
-  worldItemPrefab: {fileID: 554443575852828146, guid: d13fd83161a3bed49882289eda880586, type: 3}
   _SelectedHotbarIndex: 0
 --- !u!114 &2984169742273710120
 MonoBehaviour:
@@ -1247,6 +1246,9 @@ MonoBehaviour:
   _plusMaxHealth: 10
   _plusMaxStamimna: 5
   _plusPlayerDamage: 0
+  _DamageMultiplier: 0
+  _WalkSpeedMultiplier: 0
+  _SprintSpeedMultiplier: 0
 --- !u!114 &6540033902390079558
 MonoBehaviour:
   m_ObjectHideFlags: 0
