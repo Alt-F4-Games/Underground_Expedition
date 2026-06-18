@@ -13,7 +13,6 @@ namespace Network.Enemies.Variants
     /// </summary>
     public class NetworkRatController : NetworkSwarmController
     {
-        [SerializeField] private AudioCollection _ratAudioCollection;
         
         [Header("Rat Jump Settings")]
         // Time the rat waits in place (telegraphing) before executing the jump attack

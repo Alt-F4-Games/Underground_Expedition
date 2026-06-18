@@ -21,7 +21,7 @@
       public const string SkullDamaged =  "sfx_skull_damaged";
       public const string SkullWalk =  "sfx_skull_walk";
       public const string SkullExplotion =  "sfx_skull_explotion";
-      
+      public const string SkullCharge = "sfx_skull_charge";      
       //================================================================
       // BOSS SOUNDS
       //================================================================

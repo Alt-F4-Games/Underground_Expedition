@@ -40,8 +40,16 @@ MonoBehaviour:
   - id: sfx_skull_walk
     eventReference:
       Guid:
-        Data1: -2045679354
-        Data2: 1119267287
-        Data3: 948972441
-        Data4: 17637069
-      Path: event:/SFX/SKULL/SFX_Skull_Walk
+        Data1: 1769469904
+        Data2: 1324171215
+        Data3: 223261112
+        Data4: -224510959
+      Path: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+  - id: sfx_skull_charge
+    eventReference:
+      Guid:
+        Data1: -1057528785
+        Data2: 1276421157
+        Data3: 324909702
+        Data4: 1516886398
+      Path: event:/SFX/SKULL/SFX_Skull_Attack

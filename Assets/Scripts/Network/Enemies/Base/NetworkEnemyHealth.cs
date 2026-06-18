@@ -1,11 +1,12 @@
-﻿using Events;
+﻿using System.Collections;
+using Events;
 using Fusion;
 using Network.Enemies;
 using Network.Quests;
 using Network.Quests.Enums;
 using Tools.EventSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Audio.Enemies;
 
 namespace Health
 {
@@ -17,7 +18,14 @@ namespace Health
         [Header("Rewards")]
         [SerializeField] private int expPerKill;
 
+        [SerializeField] private float deathDespawnDelay = 0.35f;     
         private PlayerRef _lastDamager;
+        private IEnemyAudio _enemyAudio;
+         
+        private void Awake()
+        {
+            _enemyAudio = GetComponent<IEnemyAudio>();
+        }
         
         public override void TakeDamage(int damage, PlayerRef playerRef)
         {
@@ -25,12 +33,16 @@ namespace Health
 
             base.TakeDamage(damage, playerRef);
             
+            _enemyAudio?.PlayDamage();
+            
             EventController.Instance.TriggerEvent(new EnemyTakeDamageEvent {enemyObject = Object});
         }
 
         protected override void Death()
         {
             base.Death();
+            
+            _enemyAudio?.PlayDeath();
             
             EnemyDiedEvent enemyDiedEvent = new EnemyDiedEvent
             {
@@ -42,12 +54,22 @@ namespace Health
             
             EventController.Instance.TriggerEvent(enemyDiedEvent);
             
-            Runner.Despawn(Object);
+            StartCoroutine(DeathRoutine());
             
             NetworkQuestManager.Local.RPC_ReportQuestEvent(
                 (int)QuestObjectiveType.KillEnemy,
                 enemyData.enemyId,
                 1);
+        }
+        
+        private IEnumerator DeathRoutine()
+        {
+            yield return new WaitForSeconds(deathDespawnDelay);
+
+            if (Object && Object.IsValid)
+            {
+                Runner.Despawn(Object);
+            }
         }
     }
 }

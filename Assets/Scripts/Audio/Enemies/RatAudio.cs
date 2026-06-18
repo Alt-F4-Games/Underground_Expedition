@@ -33,6 +33,13 @@ namespace Audio.Enemies
             EventController.Instance.RemoveListener<EnemyTakeDamageEvent>(OnRatDamaged);
             if (_controller != null) { _controller.OnEnemyStateChanged -= HandleStateChanged; }
         }
+        
+        public override void Spawned()
+        {
+            base.Spawned();
+
+            HandleStateChanged(_controller.CurrentState);
+        }
 
         private void HandleStateChanged(NetworkEnemyState state)
         {
@@ -41,8 +48,7 @@ namespace Audio.Enemies
                 case NetworkEnemyState.Patrolling:
                 case NetworkEnemyState.Chasing:
 
-                    StartLoop(
-                        AudioKeys.RatWalk);
+                    StartLoop(AudioKeys.RatWalk);
 
                     break;
 
@@ -59,7 +65,7 @@ namespace Audio.Enemies
             if (evt.enemyObject != _networkObject)
                 return;
 
-            RPC_PlayDeath();
+            RPC_PlayRatDeath();
         }
 
         private void OnRatAttack(EnemyAttackEvent evt)
@@ -67,7 +73,7 @@ namespace Audio.Enemies
             if (evt.enemyObject != _networkObject)
                 return;
 
-            RPC_PlayAttack();
+            RPC_PlayRatAttack();
         }
 
         private void OnRatDamaged(EnemyTakeDamageEvent evt)
@@ -75,23 +81,23 @@ namespace Audio.Enemies
             if (evt.enemyObject != _networkObject)
                 return;
 
-            RPC_PlayDamage();
+            RPC_PlayRatDamage();
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-        private void RPC_PlayDeath()
+        private void RPC_PlayRatDeath()
         {
             PlayOneShot(AudioKeys.RatDeath);
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-        private void RPC_PlayAttack()
+        private void RPC_PlayRatAttack()
         {
             PlayOneShot(AudioKeys.RatAttack01);
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-        private void RPC_PlayDamage()
+        private void RPC_PlayRatDamage()
         {
             PlayOneShot(AudioKeys.RatDamaged01);
         }

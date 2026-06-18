@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Audio.Enemies
 {
-    public abstract class EnemyAudioBase : NetworkBehaviour
+    public abstract class EnemyAudioBase : NetworkBehaviour, IEnemyAudio
     {
         [SerializeField] protected AudioCollection audioCollection;
 
@@ -40,5 +40,11 @@ namespace Audio.Enemies
         {
             movementEmitter?.Release();
         }
+        
+        public virtual void PlayDeath() { }
+
+        public virtual void PlayDamage() { }
+
+        public virtual void PlayExplosion() { }
     }
 }
