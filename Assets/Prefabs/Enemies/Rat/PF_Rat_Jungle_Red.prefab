@@ -25,8 +25,32 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: lootTable.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
       propertyPath: lootTable.Array.data[0].minDrops
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: lootTable.Array.data[1].maxDrops
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: lootTable.Array.data[1].minDrops
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: lootTable.Array.data[1].dropChance
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: lootTable.Array.data[1].amountPerDrop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3256777816465720328, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: lootTable.Array.data[1].itemGameplayId
+      value: obj_rock
       objectReference: {fileID: 0}
     - target: {fileID: 3057699480165156707, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
       propertyPath: m_Speed
