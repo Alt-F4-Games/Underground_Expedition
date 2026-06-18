@@ -1,5 +1,7 @@
 using Fusion;
 using Network.Enemies;
+using Network.Inventory;
+using Network.Items;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,7 +31,7 @@ namespace Network.Spawn
     
         [Header("Pickup")]
         [SerializeField] private int _pickupsAmount;
-        [SerializeField] private int pickupId;
+        [SerializeField] private string pickupId;
         [SerializeField] private int _amount;
     
 
@@ -44,10 +46,16 @@ namespace Network.Spawn
         // Changed to protected virtual to allow SummonPoint to trigger it manually
         protected virtual void Spawn()
         {
-            if (!prefab.IsValid)
+            switch (spawnType)
             {
-                Debug.LogWarning($"No prefab in {name}");
-                return;
+                case SpawnType.Enemy:
+                case SpawnType.Destructible:
+                    if (!prefab.IsValid)
+                    {
+                        Debug.LogWarning($"No prefab in {name}");
+                        return;
+                    }
+                    break;
             }
 
             switch (spawnType)
@@ -97,15 +105,32 @@ namespace Network.Spawn
                     break;
 
                 case SpawnType.Pickup:
+                    NetworkPrefabRef globalWorldItemPrefab = ItemDatabase.Instance.WorldItemPrefab;
+                    if (!globalWorldItemPrefab.IsValid)
+                    {
+                        Debug.LogError($"[SpawnPoints] WorldItemPrefab no configurado en la ItemDatabase.");
+                        return;
+                    }
+
+                    int networkId = ItemDatabase.Instance.GetNetworkId(pickupId);
+                    if (networkId <= 0)
+                    {
+                        Debug.LogWarning($"[SpawnPoints] El ID '{pickupId}' no es válido en la ItemDatabase.");
+                        return;
+                    }
+
                     for (int i = 0; i < _pickupsAmount; i++)
                     {
                         Vector3 offset = new Vector3(Random.Range(-_offsetSpawn, _offsetSpawn), 0, Random.Range(-_offsetSpawn, _offsetSpawn));
-                        var obj = Runner.Spawn(prefab, transform.position + offset, transform.rotation);
-                                                                                                  
-                        if (obj.TryGetComponent(out NetworkWorldItem item))
+                        Vector3 spawnPos = transform.position + offset;
+
+                        Runner.Spawn(globalWorldItemPrefab, spawnPos, transform.rotation, null, (runner, obj) => 
                         {
-                            item.Init(pickupId, _amount);
-                        }
+                            if (obj.TryGetComponent(out NetworkWorldItem item))
+                            {
+                                item.Init(networkId, _amount);
+                            }
+                        });
                     }
                     break;
             }

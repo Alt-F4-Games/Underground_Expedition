@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
+  m_Name: The Greatest Heist of the Century
+  m_EditorClassIdentifier: 
+  questId: the_greatest_heist_of_the_century
+  questName: The Greatest Heist of the Century
+  description: Escape from Ah Puch and flee the Mayan temple.
+  questType: 0
+  requirementType: 1
+  requiredQuestId: second_offering_2
+  objectives:
+  - displayName: Escape from Ah Puch
+    objectiveType: 4
+    targetId: temple_gate
+    requiredAmount: 1
+  rewards: []

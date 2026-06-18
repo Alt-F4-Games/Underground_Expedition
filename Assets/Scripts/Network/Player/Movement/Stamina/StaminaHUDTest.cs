@@ -23,8 +23,9 @@ public class StaminaHUDTest : MonoBehaviour
             return;
         }
 
-        // Valor suave para UI
-        staminaSlider.value = _stamina.LocalStaminaNormalized;
+        staminaSlider.maxValue = _stamina.GetMaxStamina();
+        staminaSlider.value = _stamina.GetCurrentStamina();
+        
     }
 
     private void FindLocalPlayer()

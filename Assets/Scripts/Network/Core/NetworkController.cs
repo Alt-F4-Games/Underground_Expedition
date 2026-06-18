@@ -4,6 +4,7 @@ using Fusion;
 using Fusion.Sockets;
 using System; 
 using Network;
+using Network.Quests;
 using UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -30,11 +31,19 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Mouse Settings")]
     [SerializeField] private float _mouseSensitivity = 0.15f;
     [SerializeField] private float _maxLookAngle = 80f;
-
+    
     private Vector2 _moveInput; 
     private bool _jumpPressed;
     private bool _sprintPressed;
     private bool _interactPressed;
+    
+    private bool _skill1Pressed;
+    private bool _skill2Pressed;
+    private bool _attackPressed;
+    private bool _upgradeModifierPressed;
+    
+    private bool _dropPressed;
+    private bool _useItemPressed;
 
     private float _accumulatedYaw;
     private float _accumulatedPitch;
@@ -87,25 +96,69 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnMove(InputAction.CallbackContext context) => _moveInput = context.ReadValue<Vector2>(); 
     public void OnJump(InputAction.CallbackContext context) => _jumpPressed = context.ReadValue<float>() > 0;
     public void OnSprint(InputAction.CallbackContext context) => _sprintPressed = context.ReadValue<float>() > 0;
-    
     public void OnInteract(InputAction.CallbackContext context) => _interactPressed = context.ReadValueAsButton();
 
     public void OnLook(InputAction.CallbackContext context) 
     { 
+        if (InputBlocker.IsBlocked)
+            return;
+        
         Vector2 mouseDelta = context.ReadValue<Vector2>();
-
+        
         _accumulatedYaw += mouseDelta.x * _mouseSensitivity;
         _accumulatedPitch -= mouseDelta.y * _mouseSensitivity; 
         _accumulatedPitch = Mathf.Clamp(_accumulatedPitch, -_maxLookAngle, _maxLookAngle);
     }
+    
+    public void OnSkill1(InputAction.CallbackContext context) => _skill1Pressed = context.ReadValueAsButton();
+    public void OnSkill2(InputAction.CallbackContext context) => _skill2Pressed = context.ReadValueAsButton();
+    public void OnAttack(InputAction.CallbackContext context) => _attackPressed = context.ReadValueAsButton();
+    public void OnUpgradeModifier(InputAction.CallbackContext context) => _upgradeModifierPressed = context.ReadValueAsButton();
+    
+    public void OnDrop(InputAction.CallbackContext context) 
+    {
+        if (context.performed) _dropPressed = true;
+    }
+    
+    public void OnUseItem(InputAction.CallbackContext context) 
+    {
+        if (context.performed) _useItemPressed = true;
+    }
+
+    // ============================================================
+    // FUSION ON INPUT
+    // ============================================================
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputPlayer();
         
+        if (InputBlocker.IsBlocked)
+        {
+            data.MoveDirection = Vector3.zero;
+            
+            data.Buttons = default;
+            
+            data.MouseRotation = new Vector2(
+                _accumulatedYaw,
+                _accumulatedPitch);
+
+            input.Set(data);
+
+            return;
+        }
+        
         data.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
         data.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
         data.Buttons.Set(NetworkInputPlayer.INTERACT_BUTTON, _interactPressed);
+        
+        data.Buttons.Set(NetworkInputPlayer.SKILL1_BUTTON, _skill1Pressed);
+        data.Buttons.Set(NetworkInputPlayer.SKILL2_BUTTON, _skill2Pressed);
+        data.Buttons.Set(NetworkInputPlayer.ATTACK_BUTTON, _attackPressed);
+        data.Buttons.Set(NetworkInputPlayer.UPGRADE_MODIFIER, _upgradeModifierPressed);
+        
+        data.Buttons.Set(NetworkInputPlayer.DROP_BUTTON, _dropPressed);
+        data.Buttons.Set(NetworkInputPlayer.USE_ITEM_BUTTON, _useItemPressed);
         
         if (InputManager.Mode != InputMode.Game)
         {
@@ -119,6 +172,9 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         }
         
         input.Set(data);
+        
+        _dropPressed = false;
+        _useItemPressed = false;
     }
 
     // ============================================================
@@ -173,8 +229,11 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
         Quaternion spawnRot = _spawnPoint != null ? _spawnPoint.rotation : Quaternion.identity;
 
         var obj = runner.Spawn(_playerprefab, spawnPos, spawnRot, player);
+        
+        runner.SetPlayerObject(player, obj);
+        
         _players.Add(player, obj);
-
+        
         if (!worldItemsSpawned && _testEnemyPrefab != null)
         {
             runner.Spawn(_testEnemyPrefab, spawnPos + new Vector3(5,0,5), Quaternion.identity);

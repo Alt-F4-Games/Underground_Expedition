@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a14d73a927ad9d4d80d744da96054b5, type: 3}
+  m_Name: How to Gather
+  m_EditorClassIdentifier: 
+  questId: how_to_gather
+  questName: How to Gather
+  description: Break 2 pots and collect 5 leaves from trees.
+  questType: 0
+  requirementType: 0
+  requiredQuestId: 
+  objectives:
+  - displayName: Destroy vases.
+    objectiveType: 0
+    targetId: 
+    requiredAmount: 0
+  - displayName: Collect leaves.
+    objectiveType: 3
+    targetId: 
+    requiredAmount: 0
+  rewards: []

@@ -40,6 +40,12 @@ namespace Network.Interaction
         {
             // We only perform visual detection for the local player
             if (!HasInputAuthority) return;
+            
+            if (!UI.InputManager.IsGameMode())
+            {
+                ClearDetection();
+                return;
+            }
 
             ScanForInteractables();
         }

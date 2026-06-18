@@ -14,7 +14,7 @@ namespace Health
         public Action OnDamageTaken;
         public Action<int> OnDamageFeedback;
 
-        public int MaxHealth => _maxHealth;
+        public int MaxHealth { get ; protected set; }
 
         // ============================================================
         // Initialization
@@ -35,7 +35,7 @@ namespace Health
         // DAMAGE REQUEST (CLIENT → SERVER)
         // ============================================================
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage, PlayerRef playerRef =  default)
         {
             if (!HasStateAuthority) return;
 

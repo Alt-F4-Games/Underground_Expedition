@@ -1,6 +1,9 @@
 using Fusion;
 using UnityEngine;
 using System;
+using Local.Inventory;
+using Network.Inventory;
+using Network.Items;
 
 /// <summary>
 /// NETWORKED INVENTORY SYSTEM (Fusion)
@@ -137,7 +140,6 @@ public class NetworkInventorySystem : NetworkBehaviour
 
         return false;
     }
-
     public void Server_MoveItem(SlotType fromType, int fromIdx, SlotType toType, int toIdx)     // Moves or combines items between any slots.
     {
         if (!HasStateAuthority)
@@ -154,11 +156,20 @@ public class NetworkInventorySystem : NetworkBehaviour
 
         if (from.IsEmpty)
             return;
-
-        // If same item type → try stacking
+        
+        if (toType == SlotType.Hotbar)
+        {
+            var itemData = ItemDatabase.Instance.GetItemByNetworkId(from.ItemId);
+            if (itemData != null && itemData.IsPickup)
+            {
+                Debug.LogWarning($"[SERVER] Move rejected: {itemData.itemName} is a Pickup material and cannot be placed in the Hotbar.");
+                return;
+            }
+        }
+        
         if (to.ItemId == from.ItemId)
         {
-            var itemData = ItemDatabase.Instance.GetItemById(from.ItemId);
+            var itemData = ItemDatabase.Instance.GetItemByNetworkId(from.ItemId);
             int maxStack = itemData?.maxStack ?? 99;
 
             int space = maxStack - to.Quantity;
@@ -177,8 +188,17 @@ public class NetworkInventorySystem : NetworkBehaviour
                 return;
             }
         }
+        
+        if (fromType == SlotType.Hotbar)
+        {
+            var itemData = ItemDatabase.Instance.GetItemByNetworkId(to.ItemId);
+            if (itemData != null && itemData.IsPickup)
+            {
+                Debug.LogWarning($"[SERVER] Swap rejected: Cannot move a Pickup material into the Hotbar via swapping.");
+                return; 
+            }
+        }
 
-        // Simple swap
         fromArray.Set(fromIdx, to);
         toArray.Set(toIdx, from);
     }
@@ -205,7 +225,213 @@ public class NetworkInventorySystem : NetworkBehaviour
             HotbarSlots.Set(newIndex, temp[i]);
         }
     }
+    
+    public bool Server_ConsumeItemGlobal(int itemId, int quantity)
+    {
+        if (!HasStateAuthority)
+            return false;
 
+        int total = CountItem(itemId);
+
+        if (total < quantity)
+            return false;
+
+        quantity = RemoveFromArray(BaseSlots, itemId, quantity);
+        quantity = RemoveFromArray(HotbarSlots, itemId, quantity);
+
+        return quantity <= 0;
+    }
+    
+    private int RemoveFromArray(NetworkArray<NetworkInventorySlot> array, int itemId, int quantity)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (quantity <= 0)
+                return 0;
+
+            var slot = array[i];
+
+            if (slot.IsEmpty || slot.ItemId != itemId)
+                continue;
+
+            int removed = Mathf.Min(slot.Quantity, quantity);
+
+            slot.Quantity -= removed;
+            quantity -= removed;
+
+            if (slot.Quantity <= 0)
+            {
+                slot = new NetworkInventorySlot(0, 0);
+            }
+
+            array.Set(i, slot);
+        }
+
+        return quantity;
+    }
+    
+    public bool Server_AddItemGlobal(int itemId, int quantity)
+    {
+        if (!HasStateAuthority)
+            return false;
+
+        ItemSo item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
+
+        if (item == null)
+            return false;
+
+        int remaining = quantity;
+
+        remaining = AddToArray(
+            BaseSlots,
+            itemId,
+            item.maxStack,
+            remaining);
+
+        if (remaining > 0)
+        {
+            remaining = AddToArray(
+                HotbarSlots,
+                itemId,
+                item.maxStack,
+                remaining);
+        }
+
+        return remaining <= 0;
+    }
+
+    // =====================================================================
+    //                             COUNT ITEMS
+    // =====================================================================
+    
+    public int CountItem(int itemId)
+    {
+        int total = 0;
+
+        total += CountItemInArray(BaseSlots, itemId);
+        total += CountItemInArray(HotbarSlots, itemId);
+
+        return total;
+    }
+
+    private int CountItemInArray(NetworkArray<NetworkInventorySlot> array, int itemId)
+    {
+        int total = 0;
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            var slot = array[i];
+
+            if (!slot.IsEmpty && slot.ItemId == itemId)
+            {
+                total += slot.Quantity;
+            }
+        }
+
+        return total;
+    }
+    
+    public bool CanAddItemGlobal(int itemId, int quantity)
+    {
+        ItemSo item = ItemDatabase.Instance.GetItemByNetworkId(itemId);
+
+        if (item == null)
+            return false;
+
+        return HasSpaceInArray(BaseSlots, itemId, item.maxStack, quantity)
+               || HasSpaceInArray(HotbarSlots, itemId, item.maxStack, quantity);
+    }
+    
+    private bool HasSpaceInArray(NetworkArray<NetworkInventorySlot> array, int itemId, int maxStack, int quantity)
+    {
+        int remaining = quantity;
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            var slot = array[i];
+
+            // Empty slot can receive a full stack
+            if (slot.IsEmpty)
+            {
+                remaining -= maxStack;
+
+                if (remaining <= 0)
+                    return true;
+
+                continue;
+            }
+
+            // Existing compatible stack
+            if (slot.ItemId == itemId)
+            {
+                int free = maxStack - slot.Quantity;
+
+                remaining -= free;
+
+                if (remaining <= 0)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+    
+    private int AddToArray(NetworkArray<NetworkInventorySlot> array, int itemId, int maxStack, int quantity)
+    {
+        // =====================================================
+        // FILL EXISTING STACKS
+        // =====================================================
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (quantity <= 0)
+                return 0;
+
+            var slot = array[i];
+
+            if (slot.IsEmpty || slot.ItemId != itemId)
+                continue;
+
+            int free = maxStack - slot.Quantity;
+
+            if (free <= 0)
+                continue;
+
+            int add = Mathf.Min(free, quantity);
+
+            slot.Quantity += add;
+
+            quantity -= add;
+
+            array.Set(i, slot);
+        }
+
+        // =====================================================
+        // USE EMPTY SLOTS
+        // =====================================================
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (quantity <= 0)
+                return 0;
+
+            var slot = array[i];
+
+            if (!slot.IsEmpty)
+                continue;
+
+            int add = Mathf.Min(maxStack, quantity);
+
+            slot = new NetworkInventorySlot(itemId, add);
+
+            quantity -= add;
+
+            array.Set(i, slot);
+        }
+
+        return quantity;
+    }
+    
     // =====================================================================
     //                             HELPERS
     // =====================================================================

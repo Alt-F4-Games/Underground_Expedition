@@ -1,6 +1,10 @@
-﻿using Fusion;
+﻿using Events;
+using Fusion;
+using Tools.EventSystem;
 using UI;
 using UnityEngine;
+using Skills.Core;
+using Network;
 
 namespace Health
 {
@@ -12,8 +16,31 @@ namespace Health
 
         [Header("References")]
         [SerializeField] private AttackAreaDetector _detector;
+        
+        // reference to the Skill Manager for loose coupling
+        private PlayerSkillManager _skillManager;
+        
+        // reference to the Stats Manager (Facade)
+        private PlayerStatsManager _statsManager;
+        
+        private NetworkPlayerController _playerController;
 
         private float _lastAttackTime;
+        
+        private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseAttack); }
+        private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseAttack); }
+
+        public override void Spawned()
+        {
+            // Cache the Skill Manager located on the same Player Prefab
+            _skillManager = GetComponent<PlayerSkillManager>();
+            
+            // Cache the Stats Manager
+            _statsManager = GetComponent<PlayerStatsManager>();
+            
+            // Cache the PlayerController located on the same Player Prefab
+            _playerController = GetComponent<NetworkPlayerController>();
+        }
 
         // ============================================================
         // INPUT (CLIENT ONLY)
@@ -23,12 +50,12 @@ namespace Health
         {
             if (!HasInputAuthority) return;
 
-            if (InputManager.Mode == InputMode.Game)
+            if (InputBlocker.IsBlocked)
+                    return;
+            
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    TryAttack();
-                }
+                TryAttack();
             }
         }
 
@@ -38,24 +65,29 @@ namespace Health
                 return;
 
             _lastAttackTime = Time.time;
-
-            // 🔥 SOLO PEDIMOS AL SERVER QUE PROCESE
+            
             RPC_RequestAttack();
+        }
+        
+        private void IncreaseAttack(PlayerStatsEvent evt)
+        {
+            if (!HasStateAuthority) return;
+            _damage += evt.PlayerDamage;
         }
 
         // ============================================================
         // SERVER LOGIC
         // ============================================================
 
-        // ReSharper disable Unity.PerformanceAnalysis
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         private void RPC_RequestAttack()
         {
             if (!HasStateAuthority) return;
 
             Vector3 attackerPosition = transform.position;
-
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
+            
+            _playerController?.PlayAttackAnimation();
 
             if (!target)
             {
@@ -67,8 +99,21 @@ namespace Health
 
             if (health)
             {
-                Debug.Log($"[SERVER] Applying damage to: {target.name}");
-                health.TakeDamage(_damage);
+                // Fetch the dynamic multiplier from the Stats Manager (default to 1f if null)
+                float currentMultiplier = _statsManager != null ? _statsManager.DamageMultiplier : 1f;
+                
+                // Calculate base damage considering active buffs
+                int baseCalculatedDamage = Mathf.RoundToInt(_damage * currentMultiplier);
+                
+                int finalDamage = baseCalculatedDamage;
+                
+                if (_skillManager != null)
+                {
+                    finalDamage = _skillManager.GetModifiedDamage(finalDamage);
+                }
+
+                Debug.Log($"[SERVER] Applying {finalDamage} damage to: {target.name}");
+                health.TakeDamage(finalDamage, Object.InputAuthority); 
             }
         }
     }
