@@ -15,92 +15,11 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639173118833962332
+  lastModified: 639173841356074845
   FileSizes:
   - Name: Desktop
-    Value: 1433792
+    Value: 7066400
   Exists: 1
---- !u!114 &-6674176285207199278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/BOSS/SFX_Boss_Walk
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/BOSS/SFX_Boss_Walk
-  Guid:
-    Data1: 1697037885
-    Data2: 1116980704
-    Data3: 1883354753
-    Data4: -1254318809
-  Banks:
-  - {fileID: -8864589614331051459}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &-6467628745397420272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/BGM_Music
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/BGM_Music
-  Guid:
-    Data1: -1342701845
-    Data2: 1135122658
-    Data3: 1005375926
-    Data4: 492403044
-  Banks:
-  - {fileID: -8864589614331051459}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 36000
---- !u!114 &-6083260264673442202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/RAT/SFX_Rat_Walk
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/RAT/SFX_Rat_Walk
-  Guid:
-    Data1: -1100100947
-    Data2: 1088328203
-    Data3: 950469774
-    Data4: -2116761125
-  Banks:
-  - {fileID: -8864589614331051459}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-5753194651860206786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,11 +116,38 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639173118833972341
+  lastModified: 639173841356095364
   FileSizes:
   - Name: Desktop
-    Value: 1598
+    Value: 1746
   Exists: 1
+--- !u!114 &-1285106030042246055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
+  Guid:
+    Data1: 1396255738
+    Data2: 1250393205
+    Data3: 1843227311
+    Data4: 471578960
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-559719796990834279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,68 +192,71 @@ MonoBehaviour:
   - {fileID: -8864589614331051459}
   EditorEvents:
   - {fileID: 2043989497202384599}
-  - {fileID: 45042549029634630}
   - {fileID: 7117127231357598524}
   - {fileID: -5753194651860206786}
   - {fileID: 1960822790554532048}
   - {fileID: -5714071939607029022}
-  - {fileID: -6674176285207199278}
   - {fileID: 8162321038975417646}
-  - {fileID: 7317969514000677946}
   - {fileID: 3795961265664606068}
   - {fileID: 2066970095988117764}
-  - {fileID: -6083260264673442202}
   - {fileID: -5520878928163057727}
   - {fileID: 5108494433520001098}
-  - {fileID: -6467628745397420272}
   - {fileID: -559719796990834279}
-  - {fileID: 6793330691174313026}
-  - {fileID: 2730048807127493247}
+  - {fileID: 1765435382890351914}
+  - {fileID: 6488521701993813497}
+  - {fileID: 1767382117796244585}
+  - {fileID: 3697989235280245727}
+  - {fileID: 988924650022443405}
+  - {fileID: 4310572211356555379}
+  - {fileID: 8837315386285344674}
+  - {fileID: -1285106030042246055}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8864589614331051459}
   StringsBanks:
   - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 639173118833972341
+  cacheTime: 639173841356095364
   SerializableEventsDict:
   - key: event:/SFX/RAT/SFX_Rat_Damaged02
     index: 0
-  - key: event:/SFX/SKULL/SFX_Skull_Walk
-    index: 1
   - key: event:/SFX/RAT/SFX_Rat_Damaged01
-    index: 2
+    index: 1
   - key: event:/SFX/BOSS/SFX_Boss_Evoke
-    index: 3
+    index: 2
   - key: event:/SFX/RAT/SFX_Rat_Attack01
-    index: 4
+    index: 3
   - key: event:/SFX/SKULL/SFX_Skull_Explotion
-    index: 5
-  - key: event:/SFX/BOSS/SFX_Boss_Walk
-    index: 6
+    index: 4
   - key: event:/SFX/SKULL/SFX_Skull_Damaged
-    index: 7
-  - key: event:/MUSIC/BGM_Jungle
-    index: 8
+    index: 5
   - key: event:/SFX/RAT/SFX_Rat_Death
-    index: 9
+    index: 6
   - key: event:/SFX/BOSS/SFX_Boss_Spawn
-    index: 10
-  - key: event:/SFX/RAT/SFX_Rat_Walk
-    index: 11
+    index: 7
   - key: event:/SFX/SKULL/SFX_Skull_Death
-    index: 12
+    index: 8
   - key: event:/SFX/RAT/SFX_Rat_Attack02
-    index: 13
-  - key: event:/MUSIC/BGM_Music
-    index: 14
+    index: 9
   - key: event:/SFX/SKULL/SFX_Skull_Attack
+    index: 10
+  - key: event:/BGM/JUNGLE/BGM_Jungle
+    index: 11
+  - key: event:/LOOPS/JUNGLE/SFX_River_loop
+    index: 12
+  - key: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
+    index: 13
+  - key: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
+    index: 14
+  - key: event:/SFX/PYRAMID/SFX_StoneDoorAlone
     index: 15
-  - key: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+  - key: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
     index: 16
-  - key: event:/LOOPS/ENEMIES/RAT/Rat walk
+  - key: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
     index: 17
---- !u!114 &45042549029634630
+  - key: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
+    index: 18
+--- !u!114 &988924650022443405
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,23 +266,77 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/SKULL/SFX_Skull_Walk
+  m_Name: event:/SFX/PYRAMID/SFX_StoneDoorAlone
   m_EditorClassIdentifier: 
-  Path: event:/SFX/SKULL/SFX_Skull_Walk
+  Path: event:/SFX/PYRAMID/SFX_StoneDoorAlone
   Guid:
-    Data1: -2045679354
-    Data2: 1119267287
-    Data3: 948972441
-    Data4: 17637069
+    Data1: 1472413124
+    Data2: 1223677199
+    Data3: -447286107
+    Data4: -58794616
   Banks:
   - {fileID: -8864589614331051459}
-  IsStream: 0
+  IsStream: 1
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &1765435382890351914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BGM/JUNGLE/BGM_Jungle
+  m_EditorClassIdentifier: 
+  Path: event:/BGM/JUNGLE/BGM_Jungle
+  Guid:
+    Data1: 2019065418
+    Data2: 1226266156
+    Data3: -1730843006
+    Data4: -843552611
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 316577
+--- !u!114 &1767382117796244585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
+  m_EditorClassIdentifier: 
+  Path: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
+  Guid:
+    Data1: -1485706081
+    Data2: 1246291034
+    Data3: 1118915498
+    Data4: 861412823
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 126500
 --- !u!114 &1960822790554532048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +418,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &2730048807127493247
+--- !u!114 &3697989235280245727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -425,9 +428,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/LOOPS/ENEMIES/RAT/Rat walk
+  m_Name: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
   m_EditorClassIdentifier: 
-  Path: event:/LOOPS/ENEMIES/RAT/Rat walk
+  Path: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
   Guid:
     Data1: 182590143
     Data2: 1305501886
@@ -469,6 +472,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &4310572211356555379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
+  Guid:
+    Data1: 22444484
+    Data2: 1232272353
+    Data3: 1621373589
+    Data4: -1590790339
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 11500
 --- !u!114 &5108494433520001098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,7 +526,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &6793330691174313026
+--- !u!114 &6488521701993813497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,23 +536,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+  m_Name: event:/LOOPS/JUNGLE/SFX_River_loop
   m_EditorClassIdentifier: 
-  Path: event:/LOOPS/ENEMIES/SKULL/WalkLoop
+  Path: event:/LOOPS/JUNGLE/SFX_River_loop
   Guid:
-    Data1: 1769469904
-    Data2: 1324171215
-    Data3: 223261112
-    Data4: -224510959
+    Data1: -1037715091
+    Data2: 1176207133
+    Data3: -409019517
+    Data4: 796876951
   Banks:
   - {fileID: -8864589614331051459}
-  IsStream: 0
+  IsStream: 1
   Is3D: 1
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4000
+  Length: 98500
 --- !u!114 &7117127231357598524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,33 +580,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &7317969514000677946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/BGM_Jungle
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/BGM_Jungle
-  Guid:
-    Data1: 848325003
-    Data2: 1263784474
-    Data3: -1695406457
-    Data4: 1550152332
-  Banks:
-  - {fileID: -8864589614331051459}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 36000
 --- !u!114 &8162321038975417646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,3 +607,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &8837315386285344674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
+  Guid:
+    Data1: 1769469904
+    Data2: 1324171215
+    Data3: 223261112
+    Data4: -224510959
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000

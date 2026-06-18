@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: SortKey
       value: 3203516811
       objectReference: {fileID: 0}
+    - target: {fileID: -1735530381050428109, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -1735530381050428109, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
+      propertyPath: 'NetworkedBehaviours.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7883214692488244239}
     - target: {fileID: 888223497754564403, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
       propertyPath: m_Speed
       value: 5
@@ -56,6 +64,10 @@ PrefabInstance:
       propertyPath: JumpHitboxRadius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1241110036810319607, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
+      propertyPath: _ratAudioCollection
+      value: 
+      objectReference: {fileID: 11400000, guid: 10aedd8f974e26544a83379d5c81007b, type: 2}
     - target: {fileID: 1801824364051407797, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -171,5 +183,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5830580593018956972, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7883214692488244239}
   m_SourcePrefab: {fileID: 100100000, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
+--- !u!1 &1954613003617607606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5830580593018956972, guid: 031e97260d6e7294dbb9f04c00b158a7, type: 3}
+  m_PrefabInstance: {fileID: 5461261077680681754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7883214692488244239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954613003617607606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56ef85047904adea9bd191f6f59f97d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioCollection: {fileID: 11400000, guid: 10aedd8f974e26544a83379d5c81007b, type: 2}
