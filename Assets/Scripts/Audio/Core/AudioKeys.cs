@@ -22,6 +22,7 @@
       public const string SkullWalk =  "sfx_skull_walk";
       public const string SkullExplotion =  "sfx_skull_explotion";
       public const string SkullCharge = "sfx_skull_charge";      
+      
       //================================================================
       // BOSS SOUNDS
       //================================================================
@@ -29,5 +30,16 @@
       public const string BossEvoke =  "sfx_boss_evoke";
       public const string BossSpawn =  "sfx_boss_spawn";
       public const string BossWalk =  "sfx_boss_walk";
+      
+      //================================================================
+      // PLAYER SOUNDS
+      //================================================================
+      
+      public const string PlayerFootstep1 = "sfx_tank_footstep_1";
+      public const string PlayerFootstep2 = "sfx_tank_footstep_2";
+      public const string PlayerFootstep3 = "sfx_tank_footstep_3";
+      public const string PlayerFootstep4 = "sfx_tank_footstep_4";
+      public const string PlayerFootstep5 = "sfx_tank_footstep_5";
+
     }
 }

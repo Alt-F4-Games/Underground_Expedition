@@ -1,4 +1,5 @@
 ﻿using System;
+using Audio.Player;
 using Events;
 using Fusion;
 using Health;
@@ -35,6 +36,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private float _staminaRechargeRate = 1f;
     [SerializeField] private float _staminaDrainRate = 1f;
 
+    [Header("Audio")]
+    [SerializeField] private float walkFootstepInterval = 0.45f;
+    [SerializeField] private float sprintFootstepInterval = 0.25f;
+    
     [Networked] private bool IsSprinting { get; set; }
     
     [Networked] public float CurrentStamina { get; private set; }
@@ -49,6 +54,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     private Animator _animator;
     private EmpoweredStrikeSkill _strikeSkill;
+    private PlayerAudio _audio;
     
     public static NetworkPlayerController Local { get; private set; }
 
@@ -65,12 +71,15 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float _movementSpeed { get; set; }
     [Networked] private bool IsGrounded { get; set; }
     [Networked] private float VerticalSpeed { get; set; }
+    [Networked] private TickTimer FootstepTimer { get; set; }
     
     // Animation variables
     [Networked, OnChangedRender(nameof(OnHitReceived))]
     private int HitCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnAttackReceived))]
     private int AttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnFootstepReceived))]
+    private int FootstepCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -84,6 +93,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
+        _audio = GetComponent<PlayerAudio>();
         
         // Cache the Stats Manager
         _statsManager = GetComponent<PlayerStatsManager>();
@@ -216,6 +226,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         }
 
         HandleMovement(input);
+        HandleFootsteps(input);
         HandleJump(input);
         HandleSprint(input);
         
@@ -254,6 +265,31 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             _controller.Move(moveDir);
     }
 
+    private void HandleFootsteps(NetworkInputPlayer input)
+    {
+        if (!HasStateAuthority)
+            return;
+
+        if (!_controller.Grounded)
+            return;
+
+        if (input.MoveDirection.sqrMagnitude < 0.01f)
+            return;
+
+        if (!FootstepTimer.ExpiredOrNotRunning(Runner))
+            return;
+
+        FootstepCounter++;
+
+        float interval = IsSprinting
+            ? sprintFootstepInterval
+            : walkFootstepInterval;
+
+        FootstepTimer = TickTimer.CreateFromSeconds(
+            Runner,
+            interval);
+    }
+    
     private void HandleSprint(NetworkInputPlayer input)
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
@@ -368,5 +404,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             CurrentStamina = MaxStamina;
         else if (CurrentStamina < 0f)
             CurrentStamina = 0f;
+    }
+    
+    private void OnFootstepReceived()
+    {
+        _audio?.PlayFootstep();
     }
 }
