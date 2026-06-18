@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639173999675884745
+  lastModified: 639174033539683800
   FileSizes:
   - Name: Desktop
-    Value: 7671040
+    Value: 7676320
   Exists: 1
 --- !u!114 &-6755408602546814690
 MonoBehaviour:
@@ -143,11 +143,38 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639173999675922753
+  lastModified: 639174033539704220
   FileSizes:
   - Name: Desktop
-    Value: 2420
+    Value: 2474
   Exists: 1
+--- !u!114 &-2794961205378218811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Attack_Miss
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Attack_Miss
+  Guid:
+    Data1: 1684010267
+    Data2: 1203830291
+    Data3: -614871135
+    Data4: -2095166184
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-1285106030042246055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,13 +306,14 @@ MonoBehaviour:
   - {fileID: -343277248598416666}
   - {fileID: 5557952545951438}
   - {fileID: -6755408602546814690}
+  - {fileID: -2794961205378218811}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8864589614331051459}
   StringsBanks:
   - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 639173999675922753
+  cacheTime: 639174033539704220
   SerializableEventsDict:
   - key: event:/SFX/RAT/SFX_Rat_Damaged02
     index: 0
@@ -355,6 +383,8 @@ MonoBehaviour:
     index: 32
   - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_5
     index: 33
+  - key: event:/SFX/CHARACTER/SFX_Attack_Miss
+    index: 34
 --- !u!114 &5557952545951438
 MonoBehaviour:
   m_ObjectHideFlags: 0

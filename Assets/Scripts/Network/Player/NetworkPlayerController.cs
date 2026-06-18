@@ -54,8 +54,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     private Animator _animator;
     private EmpoweredStrikeSkill _strikeSkill;
-    private PlayerAudio _audio;
-    
+    private IPlayerAudio _audio;    
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -70,6 +69,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float _currentPitch { get; set; }
     [Networked] private float _movementSpeed { get; set; }
     [Networked] private bool IsGrounded { get; set; }
+    [Networked] private bool WasGrounded { get; set; }
     [Networked] private float VerticalSpeed { get; set; }
     [Networked] private TickTimer FootstepTimer { get; set; }
     
@@ -80,6 +80,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private int AttackCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnFootstepReceived))]
     private int FootstepCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnLandReceived))]
+    private int LandCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -93,7 +95,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
-        _audio = GetComponent<PlayerAudio>();
+        _audio = GetComponent<IPlayerAudio>();
         
         // Cache the Stats Manager
         _statsManager = GetComponent<PlayerStatsManager>();
@@ -232,6 +234,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         
         IsGrounded = _controller.Grounded;
         VerticalSpeed = _controller.Velocity.y;
+        HandleLanding();
     }
 
     private void HandleMovement(NetworkInputPlayer input)
@@ -288,6 +291,19 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         FootstepTimer = TickTimer.CreateFromSeconds(
             Runner,
             interval);
+    }
+    
+    private void HandleLanding()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        if (!WasGrounded && IsGrounded)
+        {
+            LandCounter++;
+        }
+
+        WasGrounded = IsGrounded;
     }
     
     private void HandleSprint(NetworkInputPlayer input)
@@ -406,8 +422,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             CurrentStamina = 0f;
     }
     
-    private void OnFootstepReceived()
-    {
-        _audio?.PlayFootstep();
-    }
+    private void OnFootstepReceived() { _audio?.PlayFootstep();}
+    private void OnLandReceived() { _audio?.PlayLand(); }
 }

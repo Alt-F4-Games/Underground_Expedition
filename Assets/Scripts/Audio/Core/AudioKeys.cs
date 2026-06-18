@@ -40,6 +40,8 @@
       public const string PlayerFootstep3 = "sfx_tank_footstep_3";
       public const string PlayerFootstep4 = "sfx_tank_footstep_4";
       public const string PlayerFootstep5 = "sfx_tank_footstep_5";
+      public const string PlayerJumpOff = "sfx_tank_jumpoff";
+      
 
     }
 }

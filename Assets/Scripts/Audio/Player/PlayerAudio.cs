@@ -22,6 +22,11 @@ namespace Audio.Player
             PlayOneShot(_footsteps[index]);
         }
 
+        public override void PlayLand()
+        {
+            PlayOneShot(AudioKeys.PlayerJumpOff);
+        }
+        
         public override void PlayDamage()
         {
             // futuro
