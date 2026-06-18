@@ -4,6 +4,7 @@ using Tools.EventSystem;
 using UI;
 using UnityEngine;
 using Skills.Core;
+using Network;
 
 namespace Health
 {
@@ -19,6 +20,9 @@ namespace Health
         // reference to the Skill Manager for loose coupling
         private PlayerSkillManager _skillManager;
         
+        // reference to the Stats Manager (Facade)
+        private PlayerStatsManager _statsManager;
+        
         private NetworkPlayerController _playerController;
 
         private float _lastAttackTime;
@@ -30,6 +34,9 @@ namespace Health
         {
             // Cache the Skill Manager located on the same Player Prefab
             _skillManager = GetComponent<PlayerSkillManager>();
+            
+            // Cache the Stats Manager
+            _statsManager = GetComponent<PlayerStatsManager>();
             
             // Cache the PlayerController located on the same Player Prefab
             _playerController = GetComponent<NetworkPlayerController>();
@@ -76,7 +83,7 @@ namespace Health
         private void RPC_RequestAttack()
         {
             if (!HasStateAuthority) return;
-            
+
             Vector3 attackerPosition = transform.position;
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
             
@@ -92,7 +99,13 @@ namespace Health
 
             if (health)
             {
-                int finalDamage = _damage;
+                // Fetch the dynamic multiplier from the Stats Manager (default to 1f if null)
+                float currentMultiplier = _statsManager != null ? _statsManager.DamageMultiplier : 1f;
+                
+                // Calculate base damage considering active buffs
+                int baseCalculatedDamage = Mathf.RoundToInt(_damage * currentMultiplier);
+                
+                int finalDamage = baseCalculatedDamage;
                 
                 if (_skillManager != null)
                 {
