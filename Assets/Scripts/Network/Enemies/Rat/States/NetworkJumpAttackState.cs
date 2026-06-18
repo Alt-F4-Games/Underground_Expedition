@@ -1,8 +1,6 @@
-﻿using Events;
-using Fusion;
+﻿using Fusion;
 using UnityEngine;
 using Health;
-using Tools.EventSystem;
 
 namespace Network.Enemies.States
 {
@@ -76,7 +74,7 @@ namespace Network.Enemies.States
             
             Debug.Log($"[SERVER] {_enemy.gameObject.name} launched Jump Attack.");
             
-            EventController.Instance.TriggerEvent(new EnemyAttackEvent { enemyObject = _enemy.Object});
+            _enemy.EnemyAudio?.PlayAttack();
         }
 
         public void Update()

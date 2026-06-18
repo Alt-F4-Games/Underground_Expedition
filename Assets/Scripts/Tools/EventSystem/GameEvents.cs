@@ -21,11 +21,6 @@ namespace Tools.EventSystem
 
     }
 
-    public class EnemyAttackEvent : GameEvent
-    {
-        public NetworkObject enemyObject;
-    }
-
     public class EnemyTakeDamageEvent : GameEvent
     {
         public NetworkObject enemyObject;

@@ -9,12 +9,10 @@ namespace Audio.Enemies
 {
     public class SkullAudio : EnemyAudioBase
     {
-        private NetworkObject _networkObject;
         private NetworkSkullController _controller;
         
         private void Awake()
         {
-            _networkObject = GetComponent<NetworkObject>();
             _controller = GetComponent<NetworkSkullController>();
         }
         

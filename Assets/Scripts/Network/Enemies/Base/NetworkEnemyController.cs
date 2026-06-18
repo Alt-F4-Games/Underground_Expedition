@@ -2,6 +2,7 @@
 using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
+using Audio.Enemies;
 
 namespace Network.Enemies
 {
@@ -28,10 +29,12 @@ namespace Network.Enemies
         [Networked, OnChangedRender(nameof(OnStateChanged))]
         public NetworkEnemyState CurrentState { get; set; }
         public event Action<NetworkEnemyState> OnEnemyStateChanged;
+        public IEnemyAudio EnemyAudio { get; private set; }
 
         public override void Spawned()
         {
             Agent = GetComponent<NavMeshAgent>();
+            EnemyAudio = GetComponent<IEnemyAudio>();
 
             // Initialize FSM only on the Host (Server)
             if (HasStateAuthority)

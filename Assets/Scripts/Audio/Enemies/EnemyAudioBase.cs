@@ -20,8 +20,14 @@ namespace Audio.Enemies
 
         protected void StartLoop(string audioKey)
         {
-            if (movementEmitter != null && movementEmitter.IsPlaying())
-                return;
+            if (movementEmitter != null)
+            {
+                if (movementEmitter.IsPlaying())
+                    return;
+
+                movementEmitter.Release();
+                movementEmitter = null;
+            }
 
             if (!audioCollection.TryGetAudio(audioKey, out var sound))
                 return;
@@ -33,18 +39,33 @@ namespace Audio.Enemies
 
         protected void StopLoop()
         {
-            movementEmitter?.Stop();
+            if (movementEmitter == null)
+                return;
+
+            movementEmitter.Stop();
+            movementEmitter.Release();
+            movementEmitter = null;
         }
 
         protected virtual void OnDestroy()
         {
+            movementEmitter?.Stop();
             movementEmitter?.Release();
         }
         
-        public virtual void PlayDeath() { }
+        public override void Despawned(NetworkRunner runner, bool hasState)
+        {
+            StopLoop();
 
-        public virtual void PlayDamage() { }
+            movementEmitter?.Release();
+            movementEmitter = null;
 
-        public virtual void PlayExplosion() { }
+            base.Despawned(runner, hasState);
+        }
+        
+        public virtual void PlayDeath() {}
+        public virtual void PlayDamage() {}
+        public virtual void PlayExplosion() {}
+        public virtual void PlayAttack() {}
     }
 }
