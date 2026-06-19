@@ -19,6 +19,9 @@ namespace Network.Enemies
         [Header("Attack Settings")]
         public int AttackDamage = 10;
         public float AttackCooldown = 1.2f;
+        
+        [Header("Death Settings")]
+        public float DeathDuration = 2.5f;
 
         public NetworkEnemyStateMachine StateMachine { get; private set; }
         public NetworkObject TargetPlayer { get; protected set; } // Current target being chased
@@ -95,7 +98,7 @@ namespace Network.Enemies
         public virtual INetworkState GetPatrolState() => new NetworkPatrolState();
         public virtual INetworkState GetChaseState() => new NetworkChaseState();
         public virtual INetworkState GetAttackState() => new NetworkAttackState();
-        public virtual INetworkState GetDeadState() => new NetworkDeadState(2.5f);
+        public virtual INetworkState GetDeadState() => new NetworkDeadState(DeathDuration);
 
     }
 }
