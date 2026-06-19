@@ -155,7 +155,19 @@ MonoBehaviour:
     m_ActionId: d124f674-5eec-4634-9466-e0565dc9c25c
     m_ActionName: 'Keyboard/Interact[/Mouse/leftButton]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8787894531382339445}
+        m_TargetAssemblyTypeName: NetworkController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 3c99ab89-f796-4f25-a2b1-40f5ea486181
     m_ActionName: 'Keyboard/Attack[/Mouse/leftButton]'
   - m_PersistentCalls:
@@ -222,6 +234,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4027483d-c3fc-44ce-ab4b-2f1c4d85f29b
     m_ActionName: 'Keyboard/UpgradeModifier[/Keyboard/leftCtrl]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8787894531382339445}
+        m_TargetAssemblyTypeName: NetworkController, Assembly-CSharp
+        m_MethodName: OnDrop
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 21565912-e8e1-4098-89f0-75691a51c968
+    m_ActionName: 'Keyboard/OnDrop[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8787894531382339445}
+        m_TargetAssemblyTypeName: NetworkController, Assembly-CSharp
+        m_MethodName: OnUseItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4cc029a3-254d-4a4a-8dd5-1c0997867d4b
+    m_ActionName: 'Keyboard/OnUseItem[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Keyboard
