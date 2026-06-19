@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: anim_open
+  m_Name: KM_Chest_Jungle_RIG_AN_Open
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -17,7 +17,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+        value: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -26,7 +26,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.375
-        value: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+        value: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
         inSlope: {x: 0, y: 0, z: 0, w: 0}
         outSlope: {x: 0, y: 0, z: 0, w: 0}
         tangentMode: 0
@@ -36,7 +36,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest
+    path: KM_Chest_Jungle_RIG
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -61,7 +61,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest/Bottom
+    path: KM_Chest_Jungle_RIG/Bottom
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -131,17 +131,17 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.2916667
         value: {x: -0.0777537, y: -0.0000027914116, z: 0.00000024555573, w: 0.9969726}
-        inSlope: {x: -2.9128225, y: -0.0000020100115, z: 0.0000067679953, w: -0.14247826}
-        outSlope: {x: -2.9128225, y: -0.0000020100115, z: 0.0000067679953, w: -0.14247826}
+        inSlope: {x: -2.9128222, y: -0.0000020100115, z: 0.0000067679957, w: -0.14247826}
+        outSlope: {x: -2.9128222, y: -0.0000020100115, z: 0.0000067679957, w: -0.14247826}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
         time: 0.33333334
-        value: {x: -0.1698614, y: -0.0000029089395, z: 0.00000032972667, w: 0.985468}
-        inSlope: {x: -1.4849861, y: -0.0000029333203, z: 0.0000039693873, w: -0.20981531}
-        outSlope: {x: -1.4849861, y: -0.0000029333203, z: 0.0000039693873, w: -0.20981531}
+        value: {x: -0.16986139, y: -0.0000029089395, z: 0.00000032972673, w: 0.985468}
+        inSlope: {x: -1.4849862, y: -0.0000029333203, z: 0.0000039693873, w: -0.20981531}
+        outSlope: {x: -1.4849862, y: -0.0000029333203, z: 0.0000039693873, w: -0.20981531}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -149,8 +149,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.375
         value: {x: -0.20150252, y: -0.000003035855, z: 0.0000005763379, w: 0.979488}
-        inSlope: {x: -0.75938684, y: -0.0000030459712, z: 0.0000059186714, w: -0.14351895}
-        outSlope: {x: -0.75938684, y: -0.0000030459712, z: 0.0000059186714, w: -0.14351895}
+        inSlope: {x: -0.7593872, y: -0.0000030459712, z: 0.00000591867, w: -0.14351895}
+        outSlope: {x: -0.7593872, y: -0.0000030459712, z: 0.00000591867, w: -0.14351895}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -158,7 +158,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest/Bottom/Top
+    path: KM_Chest_Jungle_RIG/Bottom/Top
   m_CompressedRotationCurves: []
   m_EulerCurves: []
   m_PositionCurves:
@@ -186,7 +186,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest
+    path: KM_Chest_Jungle_RIG
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -211,7 +211,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest/Bottom
+    path: KM_Chest_Jungle_RIG/Bottom
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -236,7 +236,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest/Bottom/Top
+    path: KM_Chest_Jungle_RIG/Bottom/Top
   m_ScaleCurves:
   - curve:
       serializedVersion: 2
@@ -262,7 +262,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest
+    path: KM_Chest_Jungle_RIG
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -287,7 +287,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest/Bottom
+    path: KM_Chest_Jungle_RIG/Bottom
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -312,7 +312,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Arm_Chest/Bottom/Top
+    path: KM_Chest_Jungle_RIG/Bottom/Top
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 24

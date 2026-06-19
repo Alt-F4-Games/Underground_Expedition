@@ -86,6 +86,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0e7cbeadd54dc3ebeaf9d68c6cad2579, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8781424327624947257}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0e7cbeadd54dc3ebeaf9d68c6cad2579, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2228797665243532907}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0e7cbeadd54dc3ebeaf9d68c6cad2579, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1551914661520838166}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0e7cbeadd54dc3ebeaf9d68c6cad2579, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2909762908794813477}
   m_SourcePrefab: {fileID: 100100000, guid: 0e7cbeadd54dc3ebeaf9d68c6cad2579, type: 3}
 --- !u!1 &5102973405940632955 stripped
 GameObject:
@@ -123,7 +132,7 @@ Animator:
   m_GameObject: {fileID: 5102973405940632955}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8ca8a2bc2c09f614796130b681fbbea4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 29fd5ab48d6e141609de28f37b158b33, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -135,3 +144,89 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2228797665243532907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5102973405940632955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1673055531
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1551914661520838166}
+  - {fileID: 2909762908794813477}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1551914661520838166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5102973405940632955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e927c07828ce461a81dc79eb5c67c218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootTable:
+  - itemGameplayId: obj_leaf
+    minDrops: 3
+    maxDrops: 6
+    amountPerDrop: 1
+    dropChance: 1
+  - itemGameplayId: obj_rock
+    minDrops: 1
+    maxDrops: 7
+    amountPerDrop: 1
+    dropChance: 1
+  - itemGameplayId: obj_healing_ointment
+    minDrops: 1
+    maxDrops: 3
+    amountPerDrop: 1
+    dropChance: 0.3
+  - itemGameplayId: obj_jade
+    minDrops: 1
+    maxDrops: 1
+    amountPerDrop: 1
+    dropChance: 0.05
+  spawnMode: 1
+  dropRadius: 1.5
+  directionalReference: {fileID: 5591984104022939585}
+  forwardDistance: 1.5
+  sideSpread: 1
+  dropHeightOffset: 1
+--- !u!114 &2909762908794813477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5102973405940632955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f546fa35d96b4d609264549fed0f50f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promptMessage: Interact
+  _interactionDuration: 1.5
+  _fresnelOnValue: 1
+  _fresnelOffValue: 0
+  _fresnelProperty: _FresnelIntensity
+  closedPrompt: Open Chest
+  openedPrompt: Empty
+  chestAnimator: {fileID: 8781424327624947257}
+  _IsOpened:
+    _value: 0
+--- !u!4 &5591984104022939585 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e7cbeadd54dc3ebeaf9d68c6cad2579, type: 3}
+  m_PrefabInstance: {fileID: 5336781601266626602}
+  m_PrefabAsset: {fileID: 0}

@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4370533661722556717
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      propertyPath: m_Name
+      value: PF_Chest
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -51596973185532239}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3009129388725828968}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5996433331634627989}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 184042273300263155}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7350358623211099487}
+  m_SourcePrefab: {fileID: 100100000, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+--- !u!1 &3487519923139314812 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c46097a7efbf9c278a83489eadf4eb13, type: 3}
+  m_PrefabInstance: {fileID: 4370533661722556717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-51596973185532239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487519923139314812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 797403198
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 184042273300263155}
+  - {fileID: 7350358623211099487}
+  ForceRemoteRenderTimeframe: 0
+--- !u!65 &3009129388725828968
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487519923139314812}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1776981, y: 0.56867635, z: 0.4440155}
+  m_Center: {x: 0.0024003983, y: 0.2792737, z: -0.08775711}
+--- !u!95 &5996433331634627989
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487519923139314812}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22edc1674c18c7751be536a3a03cbfde, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &184042273300263155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487519923139314812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e927c07828ce461a81dc79eb5c67c218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootTable:
+  - itemGameplayId: obj_jade
+    minDrops: 1
+    maxDrops: 3
+    amountPerDrop: 1
+    dropChance: 1
+  - itemGameplayId: obj_ruby
+    minDrops: 1
+    maxDrops: 2
+    amountPerDrop: 1
+    dropChance: 1
+  - itemGameplayId: obj_gold_ingot
+    minDrops: 1
+    maxDrops: 2
+    amountPerDrop: 1
+    dropChance: 0.5
+  - itemGameplayId: obj_healing_ointment
+    minDrops: 1
+    maxDrops: 2
+    amountPerDrop: 1
+    dropChance: 0.2
+  spawnMode: 1
+  dropRadius: 1.5
+  directionalReference: {fileID: 0}
+  forwardDistance: 1.5
+  sideSpread: 1
+  dropHeightOffset: 1
+--- !u!114 &7350358623211099487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487519923139314812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f546fa35d96b4d609264549fed0f50f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promptMessage: Interact
+  _interactionDuration: 1.5
+  _fresnelOnValue: 1
+  _fresnelOffValue: 0
+  _fresnelProperty: _FresnelIntensity
+  closedPrompt: Open Chest
+  openedPrompt: Empty
+  chestAnimator: {fileID: 5996433331634627989}
+  _IsOpened:
+    _value: 0
