@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639174033539683800
+  lastModified: 639174859245690877
   FileSizes:
   - Name: Desktop
-    Value: 7676320
+    Value: 7696704
   Exists: 1
 --- !u!114 &-6755408602546814690
 MonoBehaviour:
@@ -38,6 +38,33 @@ MonoBehaviour:
     Data2: 1317678824
     Data3: 277552824
     Data4: -1270361557
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6399700237918093701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Death2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Death2
+  Guid:
+    Data1: -1333570480
+    Data2: 1243567415
+    Data3: -1943793735
+    Data4: -867263859
   Banks:
   - {fileID: -8864589614331051459}
   IsStream: 0
@@ -143,10 +170,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639174033539704220
+  lastModified: 639174859245716063
   FileSizes:
   - Name: Desktop
-    Value: 2474
+    Value: 2518
   Exists: 1
 --- !u!114 &-2794961205378218811
 MonoBehaviour:
@@ -307,13 +334,14 @@ MonoBehaviour:
   - {fileID: 5557952545951438}
   - {fileID: -6755408602546814690}
   - {fileID: -2794961205378218811}
+  - {fileID: -6399700237918093701}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8864589614331051459}
   StringsBanks:
   - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 639174033539704220
+  cacheTime: 639174859245716063
   SerializableEventsDict:
   - key: event:/SFX/RAT/SFX_Rat_Damaged02
     index: 0
@@ -385,6 +413,8 @@ MonoBehaviour:
     index: 33
   - key: event:/SFX/CHARACTER/SFX_Attack_Miss
     index: 34
+  - key: event:/SFX/CHARACTER/SFX_Tank_Death2
+    index: 35
 --- !u!114 &5557952545951438
 MonoBehaviour:
   m_ObjectHideFlags: 0

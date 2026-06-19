@@ -133,5 +133,13 @@ namespace Skills.Core
 
             return currentDamage;
         }
+        
+        public bool IsEmpoweredAttackActive()
+        {
+            if (_slot1 is EmpoweredStrikeSkill strike)
+                return strike.HasCharges;
+
+            return false;
+        }
     }
 }

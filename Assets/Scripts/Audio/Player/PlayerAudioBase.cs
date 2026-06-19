@@ -17,14 +17,14 @@ namespace Audio.Player
         }
 
         public virtual void PlayFootstep() { }
+        public virtual void PlayMissAttack() { }
         public virtual void PlayAttack() { }
-        public virtual void PlayDamage() { }
+        public virtual void PlayDamaged() { }
         public virtual void PlayDeath() { }
-        public virtual void PlayJump() { }
         public virtual void PlayLand() { }
         public virtual void PlayInteract() { }
         public virtual void PlayUseItem() { }
-        public virtual void PlaySkill1() { }
-        public virtual void PlaySkill2() { }
+        public virtual void PlayEmpoweredAttack() { }
+        public virtual void PlayAttackAOE() { }
     }
 }

@@ -61,3 +61,51 @@ MonoBehaviour:
         Data3: -446724711
         Data4: -1670598577
       Path: event:/SFX/CHARACTER/SFX_Tank_JumpOff
+  - id: sfx_tank_missattack
+    eventReference:
+      Guid:
+        Data1: 1684010267
+        Data2: 1203830291
+        Data3: -614871135
+        Data4: -2095166184
+      Path: event:/SFX/CHARACTER/SFX_Attack_Miss
+  - id: sfx_tank_attack
+    eventReference:
+      Guid:
+        Data1: 288908369
+        Data2: 1120133932
+        Data3: 394211767
+        Data4: 409309361
+      Path: event:/SFX/CHARACTER/SFX_Tank_Attack
+  - id: sfx_tank_damaged
+    eventReference:
+      Guid:
+        Data1: 474982094
+        Data2: 1133552886
+        Data3: -594322518
+        Data4: -922383064
+      Path: event:/SFX/CHARACTER/SFX_Tank_Damaged
+  - id: sfx_tank_death
+    eventReference:
+      Guid:
+        Data1: 1628958610
+        Data2: 1170421943
+        Data3: 110449281
+        Data4: -1809326878
+      Path: event:/SFX/CHARACTER/SFX_Tank_Death
+  - id: sfx_tank_abilityEa
+    eventReference:
+      Guid:
+        Data1: -1831316747
+        Data2: 1179334319
+        Data3: -1449439871
+        Data4: -1915510815
+      Path: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack_VO
+  - id: sfx_tank_abilityAoe
+    eventReference:
+      Guid:
+        Data1: -1485887853
+        Data2: 1156892518
+        Data3: 1892787880
+        Data4: 1119723981
+      Path: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE_VO

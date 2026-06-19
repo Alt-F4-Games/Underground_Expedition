@@ -22,24 +22,12 @@ namespace Audio.Player
             PlayOneShot(_footsteps[index]);
         }
 
-        public override void PlayLand()
-        {
-            PlayOneShot(AudioKeys.PlayerJumpOff);
-        }
-        
-        public override void PlayDamage()
-        {
-            // futuro
-        }
-
-        public override void PlayAttack()
-        {
-            // futuro
-        }
-
-        public override void PlayDeath()
-        {
-            // futuro
-        }
+        public override void PlayLand() { PlayOneShot(AudioKeys.PlayerJumpOff); }
+        public override void PlayAttack() { PlayOneShot(AudioKeys.PlayerAttack); }
+        public override void PlayMissAttack() { PlayOneShot(AudioKeys.PlayerMissAttack); }
+        public override void PlayDamaged() { PlayOneShot(AudioKeys.PlayerDamaged); }
+        public override void PlayDeath() { PlayOneShot(AudioKeys.PlayerDeath); }
+        public override void PlayEmpoweredAttack() { PlayOneShot(AudioKeys.PlayerAbilityAttack); }
+        public override void PlayAttackAOE() { PlayOneShot(AudioKeys.PlayerAbilityAoe); }
     }
 }

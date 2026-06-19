@@ -41,7 +41,13 @@
       public const string PlayerFootstep4 = "sfx_tank_footstep_4";
       public const string PlayerFootstep5 = "sfx_tank_footstep_5";
       public const string PlayerJumpOff = "sfx_tank_jumpoff";
-      
+      public const string PlayerAttack = "sfx_tank_attack";
+      public const string PlayerMissAttack = "sfx_tank_missattack";
+      public const string PlayerDamaged = "sfx_tank_damaged";
+      public const string PlayerDeath = "sfx_tank_death";
+      public const string PlayerAbilityAoe = "sfx_tank_abilityAoe";
+      public const string PlayerAbilityAttack = "sfx_tank_abilityEa";
+
 
     }
 }

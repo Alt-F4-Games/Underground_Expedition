@@ -74,14 +74,18 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private TickTimer FootstepTimer { get; set; }
     
     // Animation variables
-    [Networked, OnChangedRender(nameof(OnHitReceived))]
-    private int HitCounter { get; set; }
-    [Networked, OnChangedRender(nameof(OnAttackReceived))]
-    private int AttackCounter { get; set; }
-    [Networked, OnChangedRender(nameof(OnFootstepReceived))]
-    private int FootstepCounter { get; set; }
-    [Networked, OnChangedRender(nameof(OnLandReceived))]
-    private int LandCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnHitReceived))] private int HitCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackReceived))] private int AttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnFootstepReceived))] private int FootstepCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnLandReceived))] private int LandCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackSoundReceived))] private int AttackSoundCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnMissSoundReceived))] private int MissSoundCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnDamagedReceived))] private int DamagedCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnDeathReceived))] private int DeathCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnEmpoweredAttackReceived))] private int EmpoweredAttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackAOEReceived))] private int AttackAOECounter { get; set; }
+    
+    [Networked, OnChangedRender(nameof(OnEmpoweredAttackAnimationReceived))] private int EmpoweredAttackAnimationCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -396,10 +400,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator == null)
             return;
 
-        if (_strikeSkill.RemainingStrikes <= 0)
-            _animator.SetTrigger("Attack");
-        if (_strikeSkill.RemainingStrikes > 0)
-            _animator.SetTrigger("Strike");
+        _animator.SetTrigger("Attack");
     }
 
     public void PlayAttackAnimation()
@@ -424,4 +425,74 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     private void OnFootstepReceived() { _audio?.PlayFootstep();}
     private void OnLandReceived() { _audio?.PlayLand(); }
+    private void OnAttackSoundReceived() { _audio?.PlayAttack(); }
+    private void OnMissSoundReceived() { _audio?.PlayMissAttack(); }
+    private void OnDamagedReceived() { _audio?.PlayDamaged(); }
+    private void OnDeathReceived() { _audio?.PlayDeath(); }
+    private void OnEmpoweredAttackReceived() { _audio?.PlayEmpoweredAttack(); }
+    private void OnAttackAOEReceived() { _audio?.PlayAttackAOE(); }
+    
+    private void OnEmpoweredAttackAnimationReceived()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.SetTrigger("Strike");
+    }
+    
+    public void PlayEmpoweredAttackAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        EmpoweredAttackAnimationCounter++;
+    }
+    
+    public void PlayAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackSoundCounter++;
+    }
+
+    public void PlayMissAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        MissSoundCounter++;
+    }
+    
+    public void PlayDamagedSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        DamagedCounter++;
+    }
+
+    public void PlayDeathSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        DeathCounter++;
+    }
+    
+    public void PlayEmpoweredAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        EmpoweredAttackCounter++;
+    }
+    
+    public void PlayAttackAoeSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackAOECounter++;
+    }
 }

@@ -3,14 +3,19 @@
     public interface IPlayerAudio
     {
         void PlayFootstep();
+        
+        void PlayMissAttack();
         void PlayAttack();
-        void PlayDamage();
+
+        void PlayEmpoweredAttack();
+        void PlayAttackAOE();
+        
+        void PlayDamaged();
         void PlayDeath();
-        void PlayJump();
+        
         void PlayLand();
+        
         void PlayInteract();
         void PlayUseItem();
-        void PlaySkill1();
-        void PlaySkill2();
     }
 }

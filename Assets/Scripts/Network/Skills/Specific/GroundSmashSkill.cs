@@ -78,6 +78,8 @@ namespace Skills
             // Start the Cooldown ONLY NOW, as the skill finished channeling
             StartCooldown(Runner);
 
+            _playerController?.PlayAttackAoeSound();
+            
             // Trigger visual feedback (VFX) for all clients
             SmashCount++;
 #if UNITY_EDITOR
