@@ -12492,7 +12492,7 @@ PrefabInstance:
       objectReference: {fileID: 1171307242}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_VersionIndex
-      value: 964
+      value: 967
       objectReference: {fileID: 0}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -12801,6 +12801,30 @@ PrefabInstance:
     - target: {fileID: 6009446608842247687, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: initialState
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13348,7 +13372,7 @@ PrefabInstance:
       objectReference: {fileID: 1426594787}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_VersionIndex
-      value: 774
+      value: 777
       objectReference: {fileID: 0}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -13661,6 +13685,22 @@ PrefabInstance:
     - target: {fileID: 5577404071846238865, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_Name
       value: MazeLoopingWall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14280,6 +14320,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 729667294}
+    - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_VersionIndex
+      value: 638
+      objectReference: {fileID: 0}
     - target: {fileID: 4556452275843783480, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: SortKey
       value: 863070187
@@ -14291,6 +14335,30 @@ PrefabInstance:
     - target: {fileID: 5577404071846238865, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_Name
       value: MazeLoopingWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15939,7 +16007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3314105918426128309, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 3443472559453942415, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_Name
@@ -31191,7 +31259,7 @@ PrefabInstance:
       objectReference: {fileID: 1766037510}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_VersionIndex
-      value: 846
+      value: 849
       objectReference: {fileID: 0}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -31509,6 +31577,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: MazeLoopingWall (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31730,7 +31818,7 @@ PrefabInstance:
       objectReference: {fileID: 1866621114}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_VersionIndex
-      value: 820
+      value: 823
       objectReference: {fileID: 0}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -31887,6 +31975,22 @@ PrefabInstance:
     - target: {fileID: 5577404071846238865, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_Name
       value: MazeLoopingWall (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32357,7 +32461,7 @@ PrefabInstance:
       objectReference: {fileID: 1095330945}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_VersionIndex
-      value: 846
+      value: 849
       objectReference: {fileID: 0}
     - target: {fileID: 2084920847319434152, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: m_SelectedEdges.Array.size
@@ -32682,6 +32786,26 @@ PrefabInstance:
     - target: {fileID: 6009446608842247687, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
       propertyPath: initialState
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638333325068788473, guid: e5f5c231bdd6eaf46a1533b6631234fe, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
