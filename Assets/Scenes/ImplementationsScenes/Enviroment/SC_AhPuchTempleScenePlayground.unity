@@ -16010,7 +16010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3314105918426128309, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3443472559453942415, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_Name
@@ -24289,6 +24289,13 @@ MonoBehaviour:
   _HasSpawned:
     _value: 0
   bossSpawnedEvent: {fileID: 11400000, guid: 801b3aff4a9d78c4189b5bbbb10ae446, type: 2}
+  ParticlePrefab: {fileID: 4532218815731361178, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+  ParticleDelay: 0
+  BossDelay: 5
+  _IsSequenceActive:
+    _value: 0
+  _HasSpawnedParticle:
+    _value: 0
 --- !u!1001 &1608969607
 PrefabInstance:
   m_ObjectHideFlags: 0
