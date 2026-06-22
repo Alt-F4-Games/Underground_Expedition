@@ -76,15 +76,17 @@ namespace Network.Enemies
             
             if (AuraComponent != null)
             {
-                AuraComponent.UpdateRadius(CurrentAuraRadius);
+                // NUEVO: Le pasamos el Runner.DeltaTime para que el crecimiento 
+                // corra al ritmo del ciclo de simulación de Fusion.
+                AuraComponent.UpdateRadius(CurrentAuraRadius, Runner.DeltaTime);
             }
 
-           if (HasStateAuthority && CurrentState == NetworkEnemyState.Idle)
+            if (HasStateAuthority && CurrentState == NetworkEnemyState.Idle)
             {
                 if (PatrolWaitTimer.Expired(Runner))
                 {
-                    PatrolWaitTimer = TickTimer.None; // Apagamos el timer para ahorrar cómputo
-                    StateMachine.ChangeState(GetPatrolState()); // Reanudamos la marcha
+                    PatrolWaitTimer = TickTimer.None; 
+                    StateMachine.ChangeState(GetPatrolState()); 
                 }
             }
             
@@ -134,6 +136,10 @@ namespace Network.Enemies
 
             if (node.NewVisionRange != 0f) VisionRange = node.NewVisionRange;
             if (node.NewAttackRange != 0f) AttackRange = node.NewAttackRange;
+            if (node.NewAuraGrowthSpeed != 0f && AuraComponent != null)
+            {
+                AuraComponent.GrowthSpeed = node.NewAuraGrowthSpeed;
+            }
             if (node.NewAttackCooldown != 0f) AttackCooldown = node.NewAttackCooldown;
 
             if (node.NewDashSpeedBoost != 0f) DashSpeedBoost = node.NewDashSpeedBoost;
