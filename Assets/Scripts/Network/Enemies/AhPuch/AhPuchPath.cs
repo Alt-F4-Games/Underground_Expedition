@@ -22,6 +22,7 @@ namespace Network.Enemies.Variants
                 
                 var evalNode = Waypoints[i].GetComponent<AhPuchEvalNode>();
                 var statNode = Waypoints[i].GetComponent<AhPuchStatNode>();
+                var waitNode = Waypoints[i].GetComponent<AhPuchWaitNode>(); 
 
                 if (evalNode != null)
                 {
@@ -38,6 +39,12 @@ namespace Network.Enemies.Variants
                     Gizmos.DrawCube(Waypoints[i].position, Vector3.one * 0.6f);
                     // Draw the specific detection radius
                     Gizmos.DrawWireSphere(Waypoints[i].position, statNode.DetectionRadius);
+                }
+                else if (waitNode != null)
+                {
+                    // Wait nodes are White cubes
+                    Gizmos.color = Color.white;
+                    Gizmos.DrawCube(Waypoints[i].position, Vector3.one * 0.5f);
                 }
                 else
                 {
