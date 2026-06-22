@@ -40,6 +40,8 @@ namespace Network.Enemies
 
         [Networked] public float CurrentAuraRadius { get; set; }
         
+        [Networked] public TickTimer PatrolWaitTimer { get; set; }
+        
         public float BaseSpeed { get; private set; }
         
         [HideInInspector] public bool IsDashing = false;
@@ -74,7 +76,18 @@ namespace Network.Enemies
             
             if (AuraComponent != null)
             {
-                AuraComponent.UpdateRadius(CurrentAuraRadius);
+                // NUEVO: Le pasamos el Runner.DeltaTime para que el crecimiento 
+                // corra al ritmo del ciclo de simulación de Fusion.
+                AuraComponent.UpdateRadius(CurrentAuraRadius, Runner.DeltaTime);
+            }
+
+            if (HasStateAuthority && CurrentState == NetworkEnemyState.Idle)
+            {
+                if (PatrolWaitTimer.Expired(Runner))
+                {
+                    PatrolWaitTimer = TickTimer.None; 
+                    StateMachine.ChangeState(GetPatrolState()); 
+                }
             }
             
             if (animator == null) return;
@@ -123,6 +136,10 @@ namespace Network.Enemies
 
             if (node.NewVisionRange != 0f) VisionRange = node.NewVisionRange;
             if (node.NewAttackRange != 0f) AttackRange = node.NewAttackRange;
+            if (node.NewAuraGrowthSpeed != 0f && AuraComponent != null)
+            {
+                AuraComponent.GrowthSpeed = node.NewAuraGrowthSpeed;
+            }
             if (node.NewAttackCooldown != 0f) AttackCooldown = node.NewAttackCooldown;
 
             if (node.NewDashSpeedBoost != 0f) DashSpeedBoost = node.NewDashSpeedBoost;
@@ -162,6 +179,23 @@ namespace Network.Enemies
         }
         
         // PATHING & NAVIGATION
+        
+        // NUEVO: Metodo para evaluar si toca pausar en el nodo actual
+        public void EvaluateWaitNode(Transform waypoint)
+        {
+            if (!HasStateAuthority) return;
+
+            if (waypoint.TryGetComponent(out AhPuchWaitNode waitNode))
+            {
+                // Seteamos el timer autoritativo basado en el tiempo configurado
+                PatrolWaitTimer = TickTimer.CreateFromSeconds(Runner, waitNode.WaitTime);
+                
+                // Cambiamos al estado Idle (detendrá el avance y pondrá la animación correspondiente)
+                StateMachine.ChangeState(GetIdleState());
+                
+                Debug.Log($"[SERVER] Ah Puch descansando por {waitNode.WaitTime} segundos en el nodo.");
+            }
+        }
 
         public void SetNearestPathIndex()
         {

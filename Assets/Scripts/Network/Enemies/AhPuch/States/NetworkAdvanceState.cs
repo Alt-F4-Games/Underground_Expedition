@@ -48,6 +48,23 @@ namespace Network.Enemies.States
                         _enemy.ApplyStatNode(statNode);
                     }
                     
+                    // NUEVO: Evaluación del nodo de espera
+                    var waitNode = currentWaypoint.GetComponent<AhPuchWaitNode>();
+                    if (waitNode != null)
+                    {
+                        // Avanzamos el índice para que al retomar la patrulla vaya al siguiente punto
+                        if (_enemy.CurrentPathIndex < _enemy.PatrolPath.Waypoints.Count - 1)
+                        {
+                            _enemy.CurrentPathIndex++;
+                        }
+                        
+                        // Llamamos al método del controlador que creamos en el paso anterior
+                        _enemy.EvaluateWaitNode(currentWaypoint);
+                        
+                        // Cortamos la ejecución para evitar que intente avanzar en este mismo frame
+                        return; 
+                    }
+
                     var evalNode = currentWaypoint.GetComponent<AhPuchEvalNode>();
                     if (evalNode != null)
                     {
