@@ -6,5 +6,7 @@
         void PlayDamage();
         void PlayExplosion();
         void PlayAttack();
+        void PlaySpawn();
+        void PlayEvoke();
     }
 }

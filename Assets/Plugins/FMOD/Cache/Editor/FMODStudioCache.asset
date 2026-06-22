@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639174859245690877
+  lastModified: 639177517184958715
   FileSizes:
   - Name: Desktop
-    Value: 7696704
+    Value: 7696064
   Exists: 1
 --- !u!114 &-6755408602546814690
 MonoBehaviour:
@@ -170,10 +170,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639174859245716063
+  lastModified: 639177517184989828
   FileSizes:
   - Name: Desktop
-    Value: 2518
+    Value: 2520
   Exists: 1
 --- !u!114 &-2794961205378218811
 MonoBehaviour:
@@ -306,7 +306,6 @@ MonoBehaviour:
   - {fileID: -5714071939607029022}
   - {fileID: 8162321038975417646}
   - {fileID: 3795961265664606068}
-  - {fileID: 2066970095988117764}
   - {fileID: -5520878928163057727}
   - {fileID: 5108494433520001098}
   - {fileID: -559719796990834279}
@@ -335,13 +334,14 @@ MonoBehaviour:
   - {fileID: -6755408602546814690}
   - {fileID: -2794961205378218811}
   - {fileID: -6399700237918093701}
+  - {fileID: 2066246440198436322}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8864589614331051459}
   StringsBanks:
   - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 639174859245716063
+  cacheTime: 639177517184989828
   SerializableEventsDict:
   - key: event:/SFX/RAT/SFX_Rat_Damaged02
     index: 0
@@ -357,63 +357,63 @@ MonoBehaviour:
     index: 5
   - key: event:/SFX/RAT/SFX_Rat_Death
     index: 6
-  - key: event:/SFX/BOSS/SFX_Boss_Spawn
-    index: 7
   - key: event:/SFX/SKULL/SFX_Skull_Death
-    index: 8
+    index: 7
   - key: event:/SFX/RAT/SFX_Rat_Attack02
-    index: 9
+    index: 8
   - key: event:/SFX/SKULL/SFX_Skull_Attack
-    index: 10
+    index: 9
   - key: event:/BGM/JUNGLE/BGM_Jungle
-    index: 11
+    index: 10
   - key: event:/LOOPS/JUNGLE/SFX_River_loop
-    index: 12
+    index: 11
   - key: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
-    index: 13
+    index: 12
   - key: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
-    index: 14
+    index: 13
   - key: event:/SFX/PYRAMID/SFX_StoneDoorAlone
-    index: 15
+    index: 14
   - key: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
-    index: 16
+    index: 15
   - key: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
-    index: 17
+    index: 16
   - key: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
-    index: 18
+    index: 17
   - key: event:/SFX/CHARACTER/SFX_Tank_Attack
-    index: 19
+    index: 18
   - key: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack
-    index: 20
+    index: 19
   - key: event:/SFX/CHARACTER/SFX_Tank_Death
-    index: 21
+    index: 20
   - key: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE_VO
-    index: 22
+    index: 21
   - key: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE
-    index: 23
+    index: 22
   - key: event:/SFX/CHARACTER/SFX_Tank_Damaged
-    index: 24
+    index: 23
   - key: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack_VO
-    index: 25
+    index: 24
   - key: event:/SFX/CHARACTER/SFX_Tank_Attack_VO
-    index: 26
+    index: 25
   - key: event:/UI/mus_underexp_menu_loop
-    index: 27
+    index: 26
   - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_1
-    index: 28
+    index: 27
   - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_2
-    index: 29
+    index: 28
   - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_4
-    index: 30
+    index: 29
   - key: event:/SFX/CHARACTER/SFX_Tank_JumpOff
-    index: 31
+    index: 30
   - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_3
-    index: 32
+    index: 31
   - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_5
-    index: 33
+    index: 32
   - key: event:/SFX/CHARACTER/SFX_Attack_Miss
-    index: 34
+    index: 33
   - key: event:/SFX/CHARACTER/SFX_Tank_Death2
+    index: 34
+  - key: event:/SFX/BOSS/SFX_Boss_Spawn 2
     index: 35
 --- !u!114 &5557952545951438
 MonoBehaviour:
@@ -658,7 +658,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &2066970095988117764
+--- !u!114 &2066246440198436322
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -668,14 +668,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/BOSS/SFX_Boss_Spawn
+  m_Name: event:/SFX/BOSS/SFX_Boss_Spawn 2
   m_EditorClassIdentifier: 
-  Path: event:/SFX/BOSS/SFX_Boss_Spawn
+  Path: event:/SFX/BOSS/SFX_Boss_Spawn 2
   Guid:
-    Data1: -1950428762
-    Data2: 1116008525
-    Data3: 450476175
-    Data4: 1857692867
+    Data1: 1133812355
+    Data2: 1200093468
+    Data3: -1450809444
+    Data4: 1635162209
   Banks:
   - {fileID: -8864589614331051459}
   IsStream: 0

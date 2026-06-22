@@ -67,5 +67,7 @@ namespace Audio.Enemies
         public virtual void PlayDamage() {}
         public virtual void PlayExplosion() {}
         public virtual void PlayAttack() {}
+        public virtual void PlaySpawn() {}
+        public virtual void PlayEvoke() {}
     }
 }
