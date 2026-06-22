@@ -127,6 +127,31 @@ MonoBehaviour:
   TargetLayer:
     serializedVersion: 2
     m_Bits: 8
+  GrowthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  GrowthSpeed: 2
 --- !u!54 &1032700693687288471
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -813,13 +838,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent: {fileID: 8306625115853594782}
   PatrolPath: {fileID: 0}
-  VisionRange: 8
-  AttackRange: 1.5
+  VisionRange: 0
+  AttackRange: 0
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 8
   AttackDamage: 10
   AttackCooldown: 1.2
+  DeathDuration: 2.5
   _CurrentState: 0
   DashSpeedBoost: 2
   DashDurationSuccess: 3
@@ -852,6 +878,8 @@ MonoBehaviour:
   _maxHealth: 1000000000
   _CurrentHealth: 0
   _IsAlive: 0
+  enemyData: {fileID: 0}
+  expPerKill: 0
 --- !u!95 &5879053502354797678
 Animator:
   serializedVersion: 7
