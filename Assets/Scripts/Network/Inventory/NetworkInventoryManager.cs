@@ -43,9 +43,6 @@ public class NetworkInventoryManager : NetworkBehaviour
     //-------------------------- Events ----------------------------
     public static event Action OnLocalPlayerSpawned;
     
-    //---------- Player identifier used for local persistence ----------
-    public static string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
-
     // -------------------------- LIFECYCLE ----------------------------------
     public override void Spawned()
     {
@@ -312,12 +309,22 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
     }
 
+    //---------- Player identifier used for local persistence ----------
+    public static string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
+
+    // NUEVO: Generamos la clave compuesta vinculada a la sala actual para persistencia de sesión
+    private string GetSessionKey()
+    {
+        string roomName = (Runner != null && Runner.SessionInfo.IsValid) ? Runner.SessionInfo.Name : "OfflineRoom";
+        return $"{roomName}_{LocalPlayerId}";
+    }
+
     // -------------------- LOCAL PERSISTENCE HELPERS -------------------------
     private void LoadLocalAndSyncToServer()     
     {
         if (!HasInputAuthority) return;
 
-        string id = LocalPlayerId;
+        string id = GetSessionKey(); // Modificado: Ahora busca el JSON de esta sala específica
         var saved = InventorySaveSystem.Load(id);
         if (saved == null) return;
 
@@ -327,10 +334,13 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     public void SaveLocalInventory()
     {
-        string playerId = LocalPlayerId;
+        // Modificado: Chequeo de seguridad por si se llama durante el Despawn cuando el sistema ya se limpió
+        if (inventorySystem == null) return; 
+
+        string playerId = GetSessionKey(); // Modificado: Ahora guarda el JSON con el nombre de esta sala
         var data = inventorySystem.ToSavedData();
         InventorySaveSystem.Save(playerId, data);
-        Debug.Log($"[Inventory] Saved inventory for player {playerId}");
+        Debug.Log($"[Inventory] Saved inventory for Session-Player key: {playerId}");
     }
 
     // -------------------- UTILITIES ---------------------------------------

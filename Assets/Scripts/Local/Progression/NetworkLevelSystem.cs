@@ -98,5 +98,14 @@ namespace Local.Progression
         {
             return _expSystem != null ? _expSystem.MaxLevel : 0;
         }
+        
+        // ==================================================
+        // LOAD SAVED DATA (SERVER SIDE)
+        // ==================================================
+        public void Server_SetSkillPoints(int points)
+        {
+            if (!HasStateAuthority) return;
+            SkillPoints = points;
+        }
     }
 }

@@ -28,8 +28,19 @@ namespace Local.Progression
             if (Object.HasInputAuthority)
             {
                 ProgressionUI.Instance?.RegisterPlayer(this);
-                
+                // NUEVO: Cargar datos locales y enviarlos al host al nacer
+                LoadLocalAndSyncToServer();
             }
+        }
+
+        public override void Despawned(NetworkRunner runner, bool hasState)
+        {
+            if (HasInputAuthority) SaveLocalProgression();
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (HasInputAuthority) SaveLocalProgression();
         }
 
         private void OnEnable()
@@ -153,5 +164,99 @@ namespace Local.Progression
         public int GetLevel() => Level;
         public int GetMaxExp() => BaseExp;
         public int MaxLevel => maxLevel;
+
+        // ==================================================
+        // PERSISTENCIA DE SESIÓN (NUEVA IMPLEMENTACIÓN)
+        // ==================================================
+
+        public static string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
+
+        private string GetSessionKey()
+        {
+            string roomName = (Runner != null && Runner.SessionInfo.IsValid) ? Runner.SessionInfo.Name : "OfflineRoom";
+            return $"{roomName}_{LocalPlayerId}_Progression"; // Sufijo para no pisar el inventario
+        }
+
+        private void LoadLocalAndSyncToServer()
+        {
+            if (!HasInputAuthority) return;
+
+            string id = GetSessionKey();
+            string json = PlayerPrefs.GetString(id, ""); 
+            
+            if (string.IsNullOrEmpty(json)) return;
+
+            RPC_SendSavedProgressionJson(json);
+        }
+
+        public void SaveLocalProgression()
+        {
+            if (!HasInputAuthority) return;
+
+            int sp = 0;
+            if (TryGetComponent(out NetworkLevelSystem levelSystem))
+                sp = levelSystem.GetSkillPoints();
+
+            var data = new SavedProgressionData
+            {
+                level = Level,
+                currentExp = CurrentExp,
+                baseExp = BaseExp,
+                skillPoints = sp
+            };
+
+            string json = JsonUtility.ToJson(data);
+            PlayerPrefs.SetString(GetSessionKey(), json);
+            PlayerPrefs.Save();
+            
+            Debug.Log($"[Progression] Saved progression for Session-Player key: {GetSessionKey()}");
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        private void RPC_SendSavedProgressionJson(string json)
+        {
+            if (!HasStateAuthority || string.IsNullOrEmpty(json)) return;
+
+            try
+            {
+                var saved = JsonUtility.FromJson<SavedProgressionData>(json);
+                if (saved != null)
+                {
+                    Level = saved.level;
+                    CurrentExp = saved.currentExp;
+                    BaseExp = saved.baseExp;
+                    
+                    if (TryGetComponent(out NetworkLevelSystem levelSystem))
+                    {
+                        levelSystem.Server_SetSkillPoints(saved.skillPoints);
+                    }
+
+                    // CRÍTICO: Reaplicar los stats pasivos según el nivel cargado
+                    if (saved.level > 1 && TryGetComponent(out PlayerStatsManager stats))
+                    {
+                        for (int i = 0; i < (saved.level - 1); i++)
+                        {
+                            stats.ApplyStatsServer();
+                        }
+                    }
+
+                    Debug.Log("[Progression] Server applied saved progression from client.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[Progression] Failed to parse saved JSON: {ex.Message}");
+            }
+        }
+    }
+
+    // CLASE DE DATOS PARA SERIALIZAR
+    [Serializable]
+    public class SavedProgressionData
+    {
+        public int level;
+        public int currentExp;
+        public int baseExp;
+        public int skillPoints;
     }
 }
