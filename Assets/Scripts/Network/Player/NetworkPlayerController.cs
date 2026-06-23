@@ -1,11 +1,13 @@
 ﻿using System;
 using Audio.Player;
 using Events;
+﻿using Events;
 using Fusion;
 using Health;
 using Network;
 using Skills;
 using Tools.EventSystem;
+using Tools.Utils;
 using UnityEngine;
 using Unity.Cinemachine;
 
@@ -48,6 +50,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
+    private NetworkGroundChecker _networkGroundChecker;
     
     // Reference to the Stats Manager (Facade)
     private PlayerStatsManager _statsManager;
@@ -100,6 +103,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
         _audio = GetComponent<IPlayerAudio>();
+        _networkGroundChecker = GetComponentInChildren<NetworkGroundChecker>();
         
         // Cache the Stats Manager
         _statsManager = GetComponent<PlayerStatsManager>();
@@ -205,7 +209,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator != null)
         {
             _animator.SetFloat("movementSpeed", _movementSpeed);
-            _animator.SetBool("isGrounded", IsGrounded);
+            _animator.SetBool("isGrounded", _networkGroundChecker.IsGrounded);
             _animator.SetFloat("verticalSpeed", VerticalSpeed);
         }
     }
@@ -236,7 +240,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         HandleJump(input);
         HandleSprint(input);
         
-        IsGrounded = _controller.Grounded;
         VerticalSpeed = _controller.Velocity.y;
         HandleLanding();
     }
@@ -357,8 +360,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private void HandleJump(NetworkInputPlayer input)
     {
-        if (input.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
-            _controller.Jump();
+        if (input.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority && _networkGroundChecker.IsGrounded)
+            _controller.Jump(true);
     }
 
     public void ApplyStun(float duration)
