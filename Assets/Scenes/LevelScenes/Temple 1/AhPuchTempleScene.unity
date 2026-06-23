@@ -13064,6 +13064,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 356092694}
     m_Modifications:
+    - target: {fileID: 1618545117413947896, guid: ca3b47ff2820dbb40ab14d960dc4fec3, type: 3}
+      propertyPath: _requiredItemGameplayId
+      value: obj_totem
+      objectReference: {fileID: 0}
     - target: {fileID: 3027538524860100916, guid: ca3b47ff2820dbb40ab14d960dc4fec3, type: 3}
       propertyPath: SortKey
       value: 1541088005
@@ -14591,6 +14595,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 539701214}
     m_Modifications:
+    - target: {fileID: 1618545117413947896, guid: ca3b47ff2820dbb40ab14d960dc4fec3, type: 3}
+      propertyPath: _requiredItemGameplayId
+      value: obj_totem
+      objectReference: {fileID: 0}
     - target: {fileID: 3027538524860100916, guid: ca3b47ff2820dbb40ab14d960dc4fec3, type: 3}
       propertyPath: SortKey
       value: 3545772654
@@ -16033,7 +16041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3314105918426128309, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.0007324219
       objectReference: {fileID: 0}
     - target: {fileID: 3443472559453942415, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_Name

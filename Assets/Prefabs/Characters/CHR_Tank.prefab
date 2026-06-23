@@ -1042,9 +1042,9 @@ MonoBehaviour:
   _normalFOV: 100
   _sprintFOV: 115
   _fovSpeed: 8
-  _walkSpeed: 4
+  _walkSpeed: 3.5
   _maxStaminaBase: 100
-  _sprintSpeed: 6
+  _sprintSpeed: 6.5
   _staminaRechargeDelay: 1.3
   _staminaRechargeRate: 12
   _staminaDrainRate: 20
@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae603723ec0423eb60c39948ba1822d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 10
+  _damage: 7
   _attackCooldown: 1
   _detector: {fileID: 1677644503068379561}
 --- !u!114 &4389933759543655436
@@ -1197,7 +1197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentageExp: 50
-  maxLevel: 8
+  maxLevel: 15
 --- !u!114 &3540976059797022835
 MonoBehaviour:
   m_ObjectHideFlags: 0

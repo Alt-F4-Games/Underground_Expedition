@@ -1,6 +1,7 @@
 using Events;
 using Fusion;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Network.Spawn
 {
@@ -35,14 +36,27 @@ namespace Network.Spawn
             {
                 Collider[] hits = Physics.OverlapSphere(transform.position, ActivationRadius, PlayerLayer);
                 
-                if (hits.Length > 0)
+                HashSet<NetworkObject> playersInArea = new HashSet<NetworkObject>();
+                
+                foreach (var hit in hits)
+                {
+                    var netObj = hit.GetComponentInParent<NetworkObject>();
+                    if (netObj != null)
+                    {
+                        playersInArea.Add(netObj);
+                    }
+                }
+                
+                int totalPlayers = NetworkController.Instance != null ? NetworkController.Instance.ActivePlayerCount : 1;
+                
+                if (playersInArea.Count > 0 && playersInArea.Count >= totalPlayers)
                 {
                     IsSequenceActive = true;
                     
                     ParticleTimer = TickTimer.CreateFromSeconds(Runner, ParticleDelay);
                     BossTimer = TickTimer.CreateFromSeconds(Runner, BossDelay);
                     
-                    Debug.Log($"[SERVER] Secuencia de Boss iniciada. Partícula en {ParticleDelay}s, Jefe en {BossDelay}s.");
+                    Debug.Log($"[SERVER] Sequence initiated: All {totalPlayers} players are in the boss area!");
                 }
             }
             else
