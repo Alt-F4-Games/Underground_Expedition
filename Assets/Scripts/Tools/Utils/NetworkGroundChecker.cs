@@ -12,8 +12,8 @@ namespace Tools.Utils
         [SerializeField] private LayerMask groundMask;
         
         // Events
-        public Action<bool> OnGrounded;
-        public Action<bool> OnLeaveGround;
+        public Action OnGrounded;
+        public Action OnLeaveGround;
         
         // Variables
         private bool _isGrounded;
@@ -21,7 +21,7 @@ namespace Tools.Utils
         [Networked, OnChangedRender(nameof(OnGroundedChanged))]
         public NetworkBool IsGrounded { get; set; }
 
-        private void FixedUpdate()
+        public override void FixedUpdateNetwork()
         {
             if (Object.HasStateAuthority)
             {
@@ -32,8 +32,8 @@ namespace Tools.Utils
         
         private void OnGroundedChanged()
         {
-            if (IsGrounded) OnGrounded?.Invoke(IsGrounded);
-            else OnLeaveGround?.Invoke(IsGrounded);
+            if (IsGrounded) OnGrounded?.Invoke();
+            else OnLeaveGround?.Invoke();
         }
 
         private void OnDrawGizmos()

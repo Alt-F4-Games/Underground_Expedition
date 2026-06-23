@@ -71,7 +71,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
     [Networked] private float _movementSpeed { get; set; }
-    [Networked] private bool IsGrounded { get; set; }
     [Networked] private bool WasGrounded { get; set; }
     [Networked] private float VerticalSpeed { get; set; }
     [Networked] private TickTimer FootstepTimer { get; set; }
@@ -80,7 +79,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked, OnChangedRender(nameof(OnHitReceived))] private int HitCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnAttackReceived))] private int AttackCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnFootstepReceived))] private int FootstepCounter { get; set; }
-    [Networked, OnChangedRender(nameof(OnLandReceived))] private int LandCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnAttackSoundReceived))] private int AttackSoundCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnMissSoundReceived))] private int MissSoundCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnDamagedReceived))] private int DamagedCounter { get; set; }
@@ -144,6 +142,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             _cinemachineCamera.Follow = _cameraPivot;
             _cinemachineCamera.LookAt = _cameraPivot;
         }
+        
+        _networkGroundChecker.OnGrounded += HandleLanding;
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
@@ -152,6 +152,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         {
             _health.OnDamageTaken -= OnDamageTaken;
         }
+        
+        _networkGroundChecker.OnGrounded -= HandleLanding;
     }
 
     private void SpawnCamera()
@@ -241,7 +243,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         HandleSprint(input);
         
         VerticalSpeed = _controller.Velocity.y;
-        HandleLanding();
     }
 
     private void HandleMovement(NetworkInputPlayer input)
@@ -304,13 +305,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         if (!HasStateAuthority)
             return;
-
-        if (!WasGrounded && IsGrounded)
-        {
-            LandCounter++;
-        }
-
-        WasGrounded = IsGrounded;
+        
+        _audio?.PlayLand();
     }
     
     private void HandleSprint(NetworkInputPlayer input)
@@ -427,7 +423,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     }
     
     private void OnFootstepReceived() { _audio?.PlayFootstep();}
-    private void OnLandReceived() { _audio?.PlayLand(); }
     private void OnAttackSoundReceived() { _audio?.PlayAttack(); }
     private void OnMissSoundReceived() { _audio?.PlayMissAttack(); }
     private void OnDamagedReceived() { _audio?.PlayDamaged(); }
