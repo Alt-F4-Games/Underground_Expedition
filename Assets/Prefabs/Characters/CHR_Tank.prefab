@@ -55,6 +55,56 @@ MonoBehaviour:
   _rayOrigin: {fileID: 3180960906323710526}
   _forwardOffsetMultiplier: 1
   _drawGizmos: 1
+--- !u!1 &2378626589121574900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7603539558635443046}
+  - component: {fileID: 8954920738381726407}
+  m_Layer: 3
+  m_Name: GroundChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7603539558635443046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2378626589121574900}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0051, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9131975494254900801}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8954920738381726407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2378626589121574900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00f060f6a039ffbe8600a4ea4753be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkDistance: 0.15
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _IsGrounded:
+    _value: 0
 --- !u!1 &3369843368397728456
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +872,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
       insertIndex: -1
       addedObject: {fileID: 769572606168693567}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7603539558635443046}
     - targetCorrespondingSourceObject: {fileID: -4515491557174825216, guid: 1fc1d6df04984e4769e8f80d7969d942, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4316185593958856105}
@@ -967,7 +1020,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.68
   m_Radius: 0.2
-  m_SlopeLimit: 60
+  m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0.001
@@ -1008,6 +1061,7 @@ MonoBehaviour:
   - {fileID: 8407366263889867682}
   - {fileID: 759461725232283544}
   - {fileID: 9075773306712206622}
+  - {fileID: 8954920738381726407}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &-5681399805886807003
 MonoBehaviour:
@@ -1023,7 +1077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stateAuthorityChangeErrorCorrectionDelta: 0
   gravity: -20
-  jumpImpulse: 7
+  jumpImpulse: 0.5
   acceleration: 20
   braking: 12
   maxSpeed: 6
