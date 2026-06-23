@@ -2,6 +2,7 @@ using System;
 using Fusion;
 using UnityEngine;
 using System.Collections.Generic;
+using Audio.Enemies;
 using Network.Enemies.Components;
 using Network.Enemies;
 using Network.Enemies.States;
@@ -49,6 +50,7 @@ namespace Network.Enemies
         [HideInInspector] public int CurrentPathIndex = 0;
         
         [SerializeField] private Animator animator;
+        private IEnemyAudio _enemyAudio;
 
         // List to store all summon zones in the level
         private List<Network.Spawn.SummonPoint> _allSummonPoints = new List<Network.Spawn.SummonPoint>();
@@ -56,6 +58,8 @@ namespace Network.Enemies
         public override void Spawned()
         {
             base.Spawned();
+            
+            _enemyAudio = GetComponent<IEnemyAudio>();
             
             if (HasStateAuthority)
             {
@@ -193,6 +197,8 @@ namespace Network.Enemies
                 // Cambiamos al estado Idle (detendrá el avance y pondrá la animación correspondiente)
                 StateMachine.ChangeState(GetIdleState());
                 
+                _enemyAudio?.PlaySpawn();
+                
                 Debug.Log($"[SERVER] Ah Puch descansando por {waitNode.WaitTime} segundos en el nodo.");
             }
         }
@@ -278,6 +284,7 @@ namespace Network.Enemies
                 case NetworkEnemyState.Attacking: // Invoke
                     animator.SetBool("IsMoving", false);
                     animator.SetBool("IsCasting", true);
+                    _enemyAudio.PlayEvoke();
                     break;
             }
         }

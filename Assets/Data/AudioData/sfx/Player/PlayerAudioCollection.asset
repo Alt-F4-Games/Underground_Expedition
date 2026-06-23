@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12bf3c03ad404422bc4f68ea6ec42b83, type: 3}
+  m_Name: PlayerAudioCollection
+  m_EditorClassIdentifier: 
+  entries:
+  - id: sfx_tank_footstep_1
+    eventReference:
+      Guid:
+        Data1: -1752215795
+        Data2: 1086150813
+        Data3: 1309155727
+        Data4: 590602346
+      Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_1
+  - id: sfx_tank_footstep_2
+    eventReference:
+      Guid:
+        Data1: 428379662
+        Data2: 1324751970
+        Data3: -1013518710
+        Data4: -969792240
+      Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_2
+  - id: sfx_tank_footstep_3
+    eventReference:
+      Guid:
+        Data1: -986421948
+        Data2: 1213769084
+        Data3: -1260621381
+        Data4: -250048107
+      Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_3
+  - id: sfx_tank_footstep_4
+    eventReference:
+      Guid:
+        Data1: -1387553759
+        Data2: 1171645407
+        Data3: -980210513
+        Data4: -1383119862
+      Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_4
+  - id: sfx_tank_footstep_5
+    eventReference:
+      Guid:
+        Data1: -463970823
+        Data2: 1317678824
+        Data3: 277552824
+        Data4: -1270361557
+      Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_5
+  - id: sfx_tank_jumpoff
+    eventReference:
+      Guid:
+        Data1: -1922574019
+        Data2: 1198304567
+        Data3: -446724711
+        Data4: -1670598577
+      Path: event:/SFX/CHARACTER/SFX_Tank_JumpOff
+  - id: sfx_tank_missattack
+    eventReference:
+      Guid:
+        Data1: 1684010267
+        Data2: 1203830291
+        Data3: -614871135
+        Data4: -2095166184
+      Path: event:/SFX/CHARACTER/SFX_Attack_Miss
+  - id: sfx_tank_attack
+    eventReference:
+      Guid:
+        Data1: 288908369
+        Data2: 1120133932
+        Data3: 394211767
+        Data4: 409309361
+      Path: event:/SFX/CHARACTER/SFX_Tank_Attack
+  - id: sfx_tank_damaged
+    eventReference:
+      Guid:
+        Data1: 474982094
+        Data2: 1133552886
+        Data3: -594322518
+        Data4: -922383064
+      Path: event:/SFX/CHARACTER/SFX_Tank_Damaged
+  - id: sfx_tank_death
+    eventReference:
+      Guid:
+        Data1: 1628958610
+        Data2: 1170421943
+        Data3: 110449281
+        Data4: -1809326878
+      Path: event:/SFX/CHARACTER/SFX_Tank_Death
+  - id: sfx_tank_abilityEa
+    eventReference:
+      Guid:
+        Data1: -1831316747
+        Data2: 1179334319
+        Data3: -1449439871
+        Data4: -1915510815
+      Path: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack_VO
+  - id: sfx_tank_abilityAoe
+    eventReference:
+      Guid:
+        Data1: -1485887853
+        Data2: 1156892518
+        Data3: 1892787880
+        Data4: 1119723981
+      Path: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE_VO

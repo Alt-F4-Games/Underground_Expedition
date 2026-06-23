@@ -1,3 +1,6 @@
+﻿using System;
+using Audio.Player;
+using Events;
 ﻿using Events;
 using Fusion;
 using Health;
@@ -35,6 +38,10 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private float _staminaRechargeRate = 1f;
     [SerializeField] private float _staminaDrainRate = 1f;
 
+    [Header("Audio")]
+    [SerializeField] private float walkFootstepInterval = 0.45f;
+    [SerializeField] private float sprintFootstepInterval = 0.25f;
+    
     [Networked] private bool IsSprinting { get; set; }
     
     [Networked] public float CurrentStamina { get; private set; }
@@ -50,7 +57,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     private Animator _animator;
     private EmpoweredStrikeSkill _strikeSkill;
-    
+    private IPlayerAudio _audio;    
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -64,13 +71,22 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
     [Networked] private float _movementSpeed { get; set; }
+    [Networked] private bool WasGrounded { get; set; }
     [Networked] private float VerticalSpeed { get; set; }
+    [Networked] private TickTimer FootstepTimer { get; set; }
     
     // Animation variables
-    [Networked, OnChangedRender(nameof(OnHitReceived))]
-    private int HitCounter { get; set; }
-    [Networked, OnChangedRender(nameof(OnAttackReceived))]
-    private int AttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnHitReceived))] private int HitCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackReceived))] private int AttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnFootstepReceived))] private int FootstepCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackSoundReceived))] private int AttackSoundCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnMissSoundReceived))] private int MissSoundCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnDamagedReceived))] private int DamagedCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnDeathReceived))] private int DeathCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnEmpoweredAttackReceived))] private int EmpoweredAttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackAOEReceived))] private int AttackAOECounter { get; set; }
+    
+    [Networked, OnChangedRender(nameof(OnEmpoweredAttackAnimationReceived))] private int EmpoweredAttackAnimationCounter { get; set; }
 
     private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
 
@@ -84,6 +100,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
+        _audio = GetComponent<IPlayerAudio>();
         _networkGroundChecker = GetComponentInChildren<NetworkGroundChecker>();
         
         // Cache the Stats Manager
@@ -125,6 +142,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             _cinemachineCamera.Follow = _cameraPivot;
             _cinemachineCamera.LookAt = _cameraPivot;
         }
+        
+        _networkGroundChecker.OnGrounded += HandleLanding;
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
@@ -133,6 +152,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         {
             _health.OnDamageTaken -= OnDamageTaken;
         }
+        
+        _networkGroundChecker.OnGrounded -= HandleLanding;
     }
 
     private void SpawnCamera()
@@ -217,6 +238,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         }
 
         HandleMovement(input);
+        HandleFootsteps(input);
         HandleJump(input);
         HandleSprint(input);
         
@@ -254,6 +276,39 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             _movementSpeed = 0f;
     }
 
+    private void HandleFootsteps(NetworkInputPlayer input)
+    {
+        if (!HasStateAuthority)
+            return;
+
+        if (!_controller.Grounded)
+            return;
+
+        if (input.MoveDirection.sqrMagnitude < 0.01f)
+            return;
+
+        if (!FootstepTimer.ExpiredOrNotRunning(Runner))
+            return;
+
+        FootstepCounter++;
+
+        float interval = IsSprinting
+            ? sprintFootstepInterval
+            : walkFootstepInterval;
+
+        FootstepTimer = TickTimer.CreateFromSeconds(
+            Runner,
+            interval);
+    }
+    
+    private void HandleLanding()
+    {
+        if (!HasStateAuthority)
+            return;
+        
+        _audio?.PlayLand();
+    }
+    
     private void HandleSprint(NetworkInputPlayer input)
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
@@ -344,10 +399,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator == null)
             return;
 
-        if (_strikeSkill.RemainingStrikes <= 0)
-            _animator.SetTrigger("Attack");
-        if (_strikeSkill.RemainingStrikes > 0)
-            _animator.SetTrigger("Strike");
+        _animator.SetTrigger("Attack");
     }
 
     public void PlayAttackAnimation()
@@ -368,5 +420,77 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             CurrentStamina = MaxStamina;
         else if (CurrentStamina < 0f)
             CurrentStamina = 0f;
+    }
+    
+    private void OnFootstepReceived() { _audio?.PlayFootstep();}
+    private void OnAttackSoundReceived() { _audio?.PlayAttack(); }
+    private void OnMissSoundReceived() { _audio?.PlayMissAttack(); }
+    private void OnDamagedReceived() { _audio?.PlayDamaged(); }
+    private void OnDeathReceived() { _audio?.PlayDeath(); }
+    private void OnEmpoweredAttackReceived() { _audio?.PlayEmpoweredAttack(); }
+    private void OnAttackAOEReceived() { _audio?.PlayAttackAOE(); }
+    
+    private void OnEmpoweredAttackAnimationReceived()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.SetTrigger("Strike");
+    }
+    
+    public void PlayEmpoweredAttackAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        EmpoweredAttackAnimationCounter++;
+    }
+    
+    public void PlayAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackSoundCounter++;
+    }
+
+    public void PlayMissAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        MissSoundCounter++;
+    }
+    
+    public void PlayDamagedSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        DamagedCounter++;
+    }
+
+    public void PlayDeathSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        DeathCounter++;
+    }
+    
+    public void PlayEmpoweredAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        EmpoweredAttackCounter++;
+    }
+    
+    public void PlayAttackAoeSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackAOECounter++;
     }
 }

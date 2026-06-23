@@ -19,6 +19,7 @@ namespace Skills
         public int RemainingStrikes { get; private set; }
         
         private ChangeDetector _changeDetector;
+        public bool HasCharges => RemainingStrikes > 0;
 
         public override void Spawned()
         {

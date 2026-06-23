@@ -1,0 +1,1206 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8864589614331051459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639177562806801578
+  FileSizes:
+  - Name: Desktop
+    Value: 11377408
+  Exists: 1
+--- !u!114 &-6755408602546814690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Footstep_5
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_5
+  Guid:
+    Data1: -463970823
+    Data2: 1317678824
+    Data3: 277552824
+    Data4: -1270361557
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6399700237918093701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Death2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Death2
+  Guid:
+    Data1: -1333570480
+    Data2: 1243567415
+    Data3: -1943793735
+    Data4: -867263859
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5753194651860206786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BOSS/SFX_Boss_Evoke
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BOSS/SFX_Boss_Evoke
+  Guid:
+    Data1: 1867977505
+    Data2: 1340156439
+    Data3: -788131456
+    Data4: -1260886897
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5714071939607029022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Explotion
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Explotion
+  Guid:
+    Data1: -1690662857
+    Data2: 1101391260
+    Data3: 618530993
+    Data4: 1093099157
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5520878928163057727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Death
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Death
+  Guid:
+    Data1: 856058060
+    Data2: 1267168801
+    Data3: 398165178
+    Data4: 106940553
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5018459587039114225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/BGM/PYRAMID/BGM_Pir\xE1mide 2"
+  m_EditorClassIdentifier: 
+  Path: "event:/BGM/PYRAMID/BGM_Pir\xE1mide 2"
+  Guid:
+    Data1: -1877933187
+    Data2: 1075209617
+    Data3: -313972078
+    Data4: -2094662023
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 126500
+--- !u!114 &-4777183301618554565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639177562806816519
+  FileSizes:
+  - Name: Desktop
+    Value: 2608
+  Exists: 1
+--- !u!114 &-2794961205378218811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Attack_Miss
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Attack_Miss
+  Guid:
+    Data1: 1684010267
+    Data2: 1203830291
+    Data3: -614871135
+    Data4: -2095166184
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-1285106030042246055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
+  Guid:
+    Data1: 1396255738
+    Data2: 1250393205
+    Data3: 1843227311
+    Data4: 471578960
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-559719796990834279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Attack
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Attack
+  Guid:
+    Data1: -1057528785
+    Data2: 1276421157
+    Data3: 324909702
+    Data4: 1516886398
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-343277248598416666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_JumpOff
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_JumpOff
+  Guid:
+    Data1: -1922574019
+    Data2: 1198304567
+    Data3: -446724711
+    Data4: -1670598577
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -4777183301618554565}
+  - {fileID: -8864589614331051459}
+  EditorEvents:
+  - {fileID: 2043989497202384599}
+  - {fileID: 7117127231357598524}
+  - {fileID: -5753194651860206786}
+  - {fileID: 1960822790554532048}
+  - {fileID: -5714071939607029022}
+  - {fileID: 8162321038975417646}
+  - {fileID: 3795961265664606068}
+  - {fileID: -5520878928163057727}
+  - {fileID: 5108494433520001098}
+  - {fileID: -559719796990834279}
+  - {fileID: 1765435382890351914}
+  - {fileID: 6488521701993813497}
+  - {fileID: 1767382117796244585}
+  - {fileID: 3697989235280245727}
+  - {fileID: 988924650022443405}
+  - {fileID: 4310572211356555379}
+  - {fileID: 8837315386285344674}
+  - {fileID: -1285106030042246055}
+  - {fileID: 8028495595227976197}
+  - {fileID: 1251518883341557533}
+  - {fileID: 4643962844817132868}
+  - {fileID: 2862227636305913689}
+  - {fileID: 1569608157932852552}
+  - {fileID: 1020367037988494891}
+  - {fileID: 8865779098659529159}
+  - {fileID: 5693565898247831453}
+  - {fileID: 2940979653968629315}
+  - {fileID: 6132823324338315204}
+  - {fileID: 5787661406273803664}
+  - {fileID: 8012094228613933593}
+  - {fileID: -343277248598416666}
+  - {fileID: 5557952545951438}
+  - {fileID: -6755408602546814690}
+  - {fileID: -2794961205378218811}
+  - {fileID: -6399700237918093701}
+  - {fileID: 2066246440198436322}
+  - {fileID: 4984973533004982662}
+  - {fileID: -5018459587039114225}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -8864589614331051459}
+  StringsBanks:
+  - {fileID: -4777183301618554565}
+  cacheVersion: 131859
+  cacheTime: 639177562806816519
+  SerializableEventsDict:
+  - key: event:/SFX/RAT/SFX_Rat_Damaged02
+    index: 0
+  - key: event:/SFX/RAT/SFX_Rat_Damaged01
+    index: 1
+  - key: event:/SFX/BOSS/SFX_Boss_Evoke
+    index: 2
+  - key: event:/SFX/RAT/SFX_Rat_Attack01
+    index: 3
+  - key: event:/SFX/SKULL/SFX_Skull_Explotion
+    index: 4
+  - key: event:/SFX/SKULL/SFX_Skull_Damaged
+    index: 5
+  - key: event:/SFX/RAT/SFX_Rat_Death
+    index: 6
+  - key: event:/SFX/SKULL/SFX_Skull_Death
+    index: 7
+  - key: event:/SFX/RAT/SFX_Rat_Attack02
+    index: 8
+  - key: event:/SFX/SKULL/SFX_Skull_Attack
+    index: 9
+  - key: event:/BGM/JUNGLE/BGM_Jungle
+    index: 10
+  - key: event:/LOOPS/JUNGLE/SFX_River_loop
+    index: 11
+  - key: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
+    index: 12
+  - key: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
+    index: 13
+  - key: event:/SFX/PYRAMID/SFX_StoneDoorAlone
+    index: 14
+  - key: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
+    index: 15
+  - key: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
+    index: 16
+  - key: event:/SFX/PYRAMID/SFX_StoneDoorArmonic
+    index: 17
+  - key: event:/SFX/CHARACTER/SFX_Tank_Attack
+    index: 18
+  - key: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack
+    index: 19
+  - key: event:/SFX/CHARACTER/SFX_Tank_Death
+    index: 20
+  - key: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE_VO
+    index: 21
+  - key: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE
+    index: 22
+  - key: event:/SFX/CHARACTER/SFX_Tank_Damaged
+    index: 23
+  - key: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack_VO
+    index: 24
+  - key: event:/SFX/CHARACTER/SFX_Tank_Attack_VO
+    index: 25
+  - key: event:/UI/mus_underexp_menu_loop
+    index: 26
+  - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_1
+    index: 27
+  - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_2
+    index: 28
+  - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_4
+    index: 29
+  - key: event:/SFX/CHARACTER/SFX_Tank_JumpOff
+    index: 30
+  - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_3
+    index: 31
+  - key: event:/SFX/CHARACTER/SFX_Tank_Footstep_5
+    index: 32
+  - key: event:/SFX/CHARACTER/SFX_Attack_Miss
+    index: 33
+  - key: event:/SFX/CHARACTER/SFX_Tank_Death2
+    index: 34
+  - key: event:/SFX/BOSS/SFX_Boss_Spawn 2
+    index: 35
+  - key: event:/BGM/JUNGLE/BGM_Jungle 2
+    index: 36
+  - key: "event:/BGM/PYRAMID/BGM_Pir\xE1mide 2"
+    index: 37
+--- !u!114 &5557952545951438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Footstep_3
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_3
+  Guid:
+    Data1: -986421948
+    Data2: 1213769084
+    Data3: -1260621381
+    Data4: -250048107
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &988924650022443405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PYRAMID/SFX_StoneDoorAlone
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PYRAMID/SFX_StoneDoorAlone
+  Guid:
+    Data1: 1472413124
+    Data2: 1223677199
+    Data3: -447286107
+    Data4: -58794616
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1020367037988494891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Damaged
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Damaged
+  Guid:
+    Data1: 474982094
+    Data2: 1133552886
+    Data3: -594322518
+    Data4: -922383064
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1251518883341557533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack
+  Guid:
+    Data1: 468695687
+    Data2: 1137356724
+    Data3: -1033577334
+    Data4: -1841410287
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1569608157932852552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE
+  Guid:
+    Data1: 338598603
+    Data2: 1231262958
+    Data3: -228179544
+    Data4: -1274876104
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1765435382890351914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BGM/JUNGLE/BGM_Jungle
+  m_EditorClassIdentifier: 
+  Path: event:/BGM/JUNGLE/BGM_Jungle
+  Guid:
+    Data1: 2019065418
+    Data2: 1226266156
+    Data3: -1730843006
+    Data4: -843552611
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 316577
+--- !u!114 &1767382117796244585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
+  m_EditorClassIdentifier: 
+  Path: "event:/BGM/PYRAMID/BGM_Pir\xE1mide"
+  Guid:
+    Data1: -1485706081
+    Data2: 1246291034
+    Data3: 1118915498
+    Data4: 861412823
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 126500
+--- !u!114 &1960822790554532048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Attack01
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Attack01
+  Guid:
+    Data1: -2113611729
+    Data2: 1248357208
+    Data3: 1089622965
+    Data4: 1933335446
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2043989497202384599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Damaged02
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Damaged02
+  Guid:
+    Data1: 762279682
+    Data2: 1195553928
+    Data3: -375978091
+    Data4: 138048472
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2066246440198436322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BOSS/SFX_Boss_Spawn 2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BOSS/SFX_Boss_Spawn 2
+  Guid:
+    Data1: 1133812355
+    Data2: 1200093468
+    Data3: -1450809444
+    Data4: 1635162209
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2862227636305913689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE_VO
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Ability_AOE_VO
+  Guid:
+    Data1: -1485887853
+    Data2: 1156892518
+    Data3: 1892787880
+    Data4: 1119723981
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2940979653968629315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/mus_underexp_menu_loop
+  m_EditorClassIdentifier: 
+  Path: event:/UI/mus_underexp_menu_loop
+  Guid:
+    Data1: 1598718463
+    Data2: 1210202178
+    Data3: -475643750
+    Data4: 547521244
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 36000
+--- !u!114 &3697989235280245727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/RAT/Rat_walk_loop
+  Guid:
+    Data1: 182590143
+    Data2: 1305501886
+    Data3: 992138630
+    Data4: 55888740
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1896
+--- !u!114 &3795961265664606068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Death
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Death
+  Guid:
+    Data1: 1749411998
+    Data2: 1280057302
+    Data3: 1983353472
+    Data4: 98432030
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4310572211356555379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/BOSS/Boss_walk_loop
+  Guid:
+    Data1: 22444484
+    Data2: 1232272353
+    Data3: 1621373589
+    Data4: -1590790339
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 11500
+--- !u!114 &4643962844817132868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Death
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Death
+  Guid:
+    Data1: 1628958610
+    Data2: 1170421943
+    Data3: 110449281
+    Data4: -1809326878
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4984973533004982662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BGM/JUNGLE/BGM_Jungle 2
+  m_EditorClassIdentifier: 
+  Path: event:/BGM/JUNGLE/BGM_Jungle 2
+  Guid:
+    Data1: -756861130
+    Data2: 1199797347
+    Data3: 13892481
+    Data4: 1524128397
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 316500
+--- !u!114 &5108494433520001098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Attack02
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Attack02
+  Guid:
+    Data1: -1911591961
+    Data2: 1288264904
+    Data3: -308745043
+    Data4: 112372891
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &5693565898247831453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Attack_VO
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Attack_VO
+  Guid:
+    Data1: -1375453954
+    Data2: 1296815340
+    Data3: -1143742029
+    Data4: -1574809906
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &5787661406273803664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Footstep_2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_2
+  Guid:
+    Data1: 428379662
+    Data2: 1324751970
+    Data3: -1013518710
+    Data4: -969792240
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &6132823324338315204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Footstep_1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_1
+  Guid:
+    Data1: -1752215795
+    Data2: 1086150813
+    Data3: 1309155727
+    Data4: 590602346
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &6488521701993813497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/JUNGLE/SFX_River_loop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/JUNGLE/SFX_River_loop
+  Guid:
+    Data1: -1037715091
+    Data2: 1176207133
+    Data3: -409019517
+    Data4: 796876951
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 98500
+--- !u!114 &7117127231357598524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RAT/SFX_Rat_Damaged01
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RAT/SFX_Rat_Damaged01
+  Guid:
+    Data1: -1893976049
+    Data2: 1318918985
+    Data3: -1650731624
+    Data4: -1050473920
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8012094228613933593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Footstep_4
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Footstep_4
+  Guid:
+    Data1: -1387553759
+    Data2: 1171645407
+    Data3: -980210513
+    Data4: -1383119862
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8028495595227976197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Attack
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Attack
+  Guid:
+    Data1: 288908369
+    Data2: 1120133932
+    Data3: 394211767
+    Data4: 409309361
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8162321038975417646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SKULL/SFX_Skull_Damaged
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SKULL/SFX_Skull_Damaged
+  Guid:
+    Data1: -637954461
+    Data2: 1314287442
+    Data3: -1473373307
+    Data4: 507537304
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8837315386285344674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
+  m_EditorClassIdentifier: 
+  Path: event:/LOOPS/ENEMIES/SKULL/Skull_walk_loop
+  Guid:
+    Data1: 1769469904
+    Data2: 1324171215
+    Data3: 223261112
+    Data4: -224510959
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
+--- !u!114 &8865779098659529159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack_VO
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CHARACTER/SFX_Tank_Ability_EmpoweredAttack_VO
+  Guid:
+    Data1: -1831316747
+    Data2: 1179334319
+    Data3: -1449439871
+    Data4: -1915510815
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0

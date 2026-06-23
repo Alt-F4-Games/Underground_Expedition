@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
-using System; 
+using System;
+using Audio.BGM;
 using Network;
 using Network.Quests;
 using UI;
@@ -277,7 +278,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
                 controller.Teleport(pos);
             }
         }
-
+        Debug.Log($"[NETWORK] SceneLoadDone | ActiveScene = {SceneManager.GetActiveScene().name}");
+        BGMAudioManager.Instance?.RefreshMusic();
         Debug.Log("[NETWORK] Players teleported with offset");
     }
 
