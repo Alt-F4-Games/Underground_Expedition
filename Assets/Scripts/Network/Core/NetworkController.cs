@@ -22,6 +22,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _players = new();
 
     public static NetworkController Instance;
+    
+    public int ActivePlayerCount => _players.Count;
 
     [Header("Test Items")]
     [SerializeField] private NetworkObject _testEnemyPrefab;
