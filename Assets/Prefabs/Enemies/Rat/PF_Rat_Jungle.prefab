@@ -208,7 +208,7 @@ NavMeshAgent:
   m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 300
-  m_StoppingDistance: 3
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -236,7 +236,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   AttackDamage: 5
-  AttackCooldown: 1.5
+  AttackCooldown: 1
   DeathDuration: 2.5
   _CurrentState: 0
   SnitchRange: 10
@@ -247,7 +247,7 @@ MonoBehaviour:
   SwarmLayer:
     serializedVersion: 2
     m_Bits: 1024
-  JumpChargeTime: 1
+  JumpChargeTime: 2
   JumpSpeed: 8
   JumpExtraDistance: 2
   JumpHeight: 1
@@ -269,6 +269,7 @@ MonoBehaviour:
   _IsAlive: 0
   enemyData: {fileID: 11400000, guid: eaadfb14477f5594c83872d07d3b97e5, type: 2}
   expPerKill: 10
+  deathDespawnDelay: 0.35
 --- !u!95 &-6943888105121886843
 Animator:
   serializedVersion: 7

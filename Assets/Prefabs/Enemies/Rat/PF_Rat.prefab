@@ -240,7 +240,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   AttackDamage: 5
-  AttackCooldown: 1.5
+  AttackCooldown: 1
   DeathDuration: 2.5
   _CurrentState: 0
   SnitchRange: 10
@@ -251,7 +251,7 @@ MonoBehaviour:
   SwarmLayer:
     serializedVersion: 2
     m_Bits: 1024
-  JumpChargeTime: 1
+  JumpChargeTime: 2
   JumpSpeed: 8
   JumpExtraDistance: 2
   JumpHeight: 1
@@ -273,6 +273,7 @@ MonoBehaviour:
   _IsAlive: 0
   enemyData: {fileID: 11400000, guid: eaadfb14477f5594c83872d07d3b97e5, type: 2}
   expPerKill: 10
+  deathDespawnDelay: 0.35
 --- !u!95 &6347241161532845461
 Animator:
   serializedVersion: 7
