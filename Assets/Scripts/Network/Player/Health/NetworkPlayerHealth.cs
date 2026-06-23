@@ -15,9 +15,9 @@ namespace Health
         [SerializeField] private float _respawnDelay = 3f;
 
         private NetworkCharacterController _controller;
-
+        private NetworkPlayerController _playerController;
         private Renderer[] _renderers;
-
+        private Vector3 _pendingRespawnPosition;
         private PlayerDiedEvent _playerDiedEvent = new ();
         public override void Spawned()
         {
@@ -30,7 +30,7 @@ namespace Health
             }
 
             _controller = GetComponent<NetworkCharacterController>();
-
+            _playerController = GetComponent<NetworkPlayerController>();
             _renderers = GetComponentsInChildren<Renderer>(true);
         }
 
@@ -45,36 +45,41 @@ namespace Health
         protected override void Death()
         {
             base.Death();
-            
+
+            _playerController?.PlayDeathSound();
+
             _playerDiedEvent.IsAlive = IsAlive;
             EventController.Instance.TriggerEvent(_playerDiedEvent);
 
-            if (!HasStateAuthority) return;
-
-            Debug.Log($"{gameObject.name} died");
+            if (!HasStateAuthority)
+                return;
 
             foreach (var r in _renderers)
             {
                 r.enabled = false;
             }
 
-            Vector3 spawnPosition = Vector3.zero;
-
             if (RespawnManager.Instance != null)
             {
-                spawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
+                _pendingRespawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
             }
 
-            if (_controller != null)
+            if (_controller)
             {
-                _controller.enabled = true;
-                _controller.Teleport(spawnPosition);
-            }
-
-            if (_controller != null)
                 _controller.enabled = false;
+            }
 
             Runner.StartCoroutine(RespawnCoroutine());
+        }
+        
+        public override void TakeDamage(int damage, PlayerRef playerRef)
+        {
+            base.TakeDamage(damage, playerRef);
+
+            if (IsAlive)
+            {
+                _playerController?.PlayDamagedSound();
+            }
         }
 
         // ============================================================
@@ -84,6 +89,14 @@ namespace Health
         private IEnumerator RespawnCoroutine()
         {
             yield return new WaitForSeconds(_respawnDelay);
+
+            if (_controller)
+            {
+                _controller.enabled = true;
+
+                _controller.Teleport(_pendingRespawnPosition);
+            }
+
             Respawn();
         }
 

@@ -2,6 +2,7 @@
 using Fusion;
 using UnityEngine;
 using Network.Quests.Runtime;
+using UnityEngine;
 
 namespace Tools.EventSystem
 {
@@ -16,6 +17,13 @@ namespace Tools.EventSystem
         public PlayerRef killer;
         public int exp;
         public string enemyId;
+        public NetworkObject enemyObject;
+
+    }
+
+    public class EnemyTakeDamageEvent : GameEvent
+    {
+        public NetworkObject enemyObject;
     }
 
     public class PlayerDiedEvent : GameEvent

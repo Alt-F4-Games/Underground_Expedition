@@ -1,3 +1,5 @@
+using Audio.Enemies;
+using Events;
 using Health;
 using Network.Enemies.Core;
 using Network.Enemies.States;
@@ -34,11 +36,13 @@ namespace Network.Enemies
         // Components
         private NetworkEnemyHealth _enemyHealth;
         private Animator _animator;
+        private IEnemyAudio _enemyAudio;
 
         private void Awake()
         {
             _enemyHealth = GetComponent<NetworkEnemyHealth>();
             _animator  = GetComponent<Animator>();
+            _enemyAudio = GetComponent<IEnemyAudio>();
         }
 
         private void OnEnable()
@@ -114,7 +118,7 @@ namespace Network.Enemies
 
                 case NetworkEnemyState.Charging:
                     _animator.SetBool("IsMoving", false);
-                    _animator.SetBool("IsCharging", true);
+                    _animator.SetBool("IsCharging", true); ;
                     break;
 
                 case NetworkEnemyState.Exploding:
@@ -160,10 +164,12 @@ namespace Network.Enemies
 
         public void OnExplode()
         {
-            if (HasStateAuthority)
-            {
-                RPC_SpawnExplosionVFX();
-            }
+            if (!HasStateAuthority)
+                return;
+
+            RPC_SpawnExplosionVFX();
+
+            _enemyAudio?.PlayExplosion();
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

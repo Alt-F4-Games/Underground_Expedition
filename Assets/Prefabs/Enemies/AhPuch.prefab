@@ -704,6 +704,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b779093e0ce67ae42aeb7ecb17ad2560, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5879053502354797678}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b779093e0ce67ae42aeb7ecb17ad2560, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7479129174855773700}
   m_SourcePrefab: {fileID: 100100000, guid: b779093e0ce67ae42aeb7ecb17ad2560, type: 3}
 --- !u!4 &4635568415787299725 stripped
 Transform:
@@ -784,6 +787,7 @@ MonoBehaviour:
   - {fileID: -2051686855633486531}
   - {fileID: 6993195091993953977}
   - {fileID: 4618154336711006403}
+  - {fileID: 7479129174855773700}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &-2051686855633486531
 MonoBehaviour:
@@ -880,6 +884,7 @@ MonoBehaviour:
   _IsAlive: 0
   enemyData: {fileID: 0}
   expPerKill: 0
+  deathDespawnDelay: 0.35
 --- !u!95 &5879053502354797678
 Animator:
   serializedVersion: 7
@@ -902,6 +907,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7479129174855773700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287763781523741090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5e6cbc59b44361b482e39fdbe14a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioCollection: {fileID: 11400000, guid: f1381ffb27ad81246b855c087ce9524e, type: 2}
 --- !u!4 &8669391431923811096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b779093e0ce67ae42aeb7ecb17ad2560, type: 3}

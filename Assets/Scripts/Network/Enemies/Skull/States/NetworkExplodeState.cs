@@ -1,8 +1,10 @@
 using Fusion;
 using UnityEngine;
 using System.Collections.Generic;
+using Events;
 using Health;
 using Network.Enemies.Core;
+using Tools.EventSystem;
 
 namespace Network.Enemies.States
 {
@@ -17,6 +19,9 @@ namespace Network.Enemies.States
         private bool _hasExploded;
         
         private HashSet<NetworkObject> _hitTargets;
+        
+        private float _despawnTimer;
+        private const float DESPAWN_DELAY = 0.4f;
 
         public NetworkExplodeState(float radius, int damage, float stunTime)
         {
@@ -29,6 +34,9 @@ namespace Network.Enemies.States
         {
             _enemy = enemy;
             _hasExploded = false;
+            
+            _despawnTimer = DESPAWN_DELAY;
+            
             _hitTargets = new HashSet<NetworkObject>();
             
             if (_enemy.Agent != null && _enemy.Agent.isOnNavMesh)
@@ -36,11 +44,9 @@ namespace Network.Enemies.States
                 _enemy.Agent.isStopped = true;
             }
 
-            var listeners = _enemy.GetComponents<IOnExplodeListener>();
-
-            foreach (var listener in listeners)
+            if (_enemy is NetworkSkullController skull)
             {
-                listener.OnExplode();
+                skull.OnExplode();
             }
         }
 
@@ -50,6 +56,13 @@ namespace Network.Enemies.States
             {
                 Explode();
                 _hasExploded = true;
+            }
+            
+            _despawnTimer -= _enemy.Runner.DeltaTime;
+
+            if (_despawnTimer <= 0f && _enemy.HasStateAuthority)
+            {
+                _enemy.Runner.Despawn(_enemy.Object);
             }
         }
 
@@ -75,11 +88,6 @@ namespace Network.Enemies.States
                 stunnable?.ApplyStun(_stunTime);
 
                 _hitTargets.Add(netObj);
-            }
-            
-            if (_enemy.HasStateAuthority)
-            {
-                _enemy.Runner.Despawn(_enemy.Object);
             }
         }
 

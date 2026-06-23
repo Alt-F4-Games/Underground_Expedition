@@ -87,11 +87,10 @@ namespace Health
             Vector3 attackerPosition = transform.position;
             NetworkObject target = _detector.GetClosestTarget(attackerPosition);
             
-            _playerController?.PlayAttackAnimation();
-
             if (!target)
             {
-                Debug.Log("[SERVER] No targets in area");
+                _playerController?.PlayMissAttackSound();
+                _playerController?.PlayAttackAnimation();
                 return;
             }
 
@@ -100,19 +99,31 @@ namespace Health
             if (health)
             {
                 // Fetch the dynamic multiplier from the Stats Manager (default to 1f if null)
-                float currentMultiplier = _statsManager != null ? _statsManager.DamageMultiplier : 1f;
+                float currentMultiplier = _statsManager ? _statsManager.DamageMultiplier : 1f;
                 
                 // Calculate base damage considering active buffs
                 int baseCalculatedDamage = Mathf.RoundToInt(_damage * currentMultiplier);
                 
+                bool empoweredAttack = _skillManager && _skillManager.IsEmpoweredAttackActive();
+                
                 int finalDamage = baseCalculatedDamage;
                 
-                if (_skillManager != null)
+                if (_skillManager)
                 {
                     finalDamage = _skillManager.GetModifiedDamage(finalDamage);
                 }
+                
+                if (empoweredAttack)
+                {
+                    _playerController?.PlayEmpoweredAttackAnimation();
+                    _playerController?.PlayEmpoweredAttackSound();
+                }
+                else
+                {
+                    _playerController?.PlayAttackAnimation();
+                    _playerController?.PlayAttackSound();
+                }
 
-                Debug.Log($"[SERVER] Applying {finalDamage} damage to: {target.name}");
                 health.TakeDamage(finalDamage, Object.InputAuthority); 
             }
         }
