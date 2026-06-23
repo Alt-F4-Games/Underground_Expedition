@@ -48,6 +48,12 @@
       public const string PlayerAbilityAoe = "sfx_tank_abilityAoe";
       public const string PlayerAbilityAttack = "sfx_tank_abilityEa";
 
+      //================================================================
+      // ENVIRONMENT SOUNDS
+      //================================================================
+
+      public const string BGMJungle = "bgm_jungle";
+      public const string BGMPyramid = "bgm_pyramid";
 
     }
 }

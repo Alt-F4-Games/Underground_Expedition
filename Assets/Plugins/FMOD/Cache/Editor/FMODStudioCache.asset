@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639177517184958715
+  lastModified: 639177562806801578
   FileSizes:
   - Name: Desktop
-    Value: 7696064
+    Value: 11377408
   Exists: 1
 --- !u!114 &-6755408602546814690
 MonoBehaviour:
@@ -155,6 +155,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-5018459587039114225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/BGM/PYRAMID/BGM_Pir\xE1mide 2"
+  m_EditorClassIdentifier: 
+  Path: "event:/BGM/PYRAMID/BGM_Pir\xE1mide 2"
+  Guid:
+    Data1: -1877933187
+    Data2: 1075209617
+    Data3: -313972078
+    Data4: -2094662023
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 126500
 --- !u!114 &-4777183301618554565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,10 +197,10 @@ MonoBehaviour:
   Path: ../../Facultad/Music & Sound Effects/FMOD PROJECTS/Underground_Expedition/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639177517184989828
+  lastModified: 639177562806816519
   FileSizes:
   - Name: Desktop
-    Value: 2520
+    Value: 2608
   Exists: 1
 --- !u!114 &-2794961205378218811
 MonoBehaviour:
@@ -335,13 +362,15 @@ MonoBehaviour:
   - {fileID: -2794961205378218811}
   - {fileID: -6399700237918093701}
   - {fileID: 2066246440198436322}
+  - {fileID: 4984973533004982662}
+  - {fileID: -5018459587039114225}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8864589614331051459}
   StringsBanks:
   - {fileID: -4777183301618554565}
   cacheVersion: 131859
-  cacheTime: 639177517184989828
+  cacheTime: 639177562806816519
   SerializableEventsDict:
   - key: event:/SFX/RAT/SFX_Rat_Damaged02
     index: 0
@@ -415,6 +444,10 @@ MonoBehaviour:
     index: 34
   - key: event:/SFX/BOSS/SFX_Boss_Spawn 2
     index: 35
+  - key: event:/BGM/JUNGLE/BGM_Jungle 2
+    index: 36
+  - key: "event:/BGM/PYRAMID/BGM_Pir\xE1mide 2"
+    index: 37
 --- !u!114 &5557952545951438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,6 +880,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &4984973533004982662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BGM/JUNGLE/BGM_Jungle 2
+  m_EditorClassIdentifier: 
+  Path: event:/BGM/JUNGLE/BGM_Jungle 2
+  Guid:
+    Data1: -756861130
+    Data2: 1199797347
+    Data3: 13892481
+    Data4: 1524128397
+  Banks:
+  - {fileID: -8864589614331051459}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 316500
 --- !u!114 &5108494433520001098
 MonoBehaviour:
   m_ObjectHideFlags: 0
