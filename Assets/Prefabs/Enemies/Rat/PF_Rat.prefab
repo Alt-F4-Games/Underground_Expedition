@@ -241,6 +241,7 @@ MonoBehaviour:
     m_Bits: 8
   AttackDamage: 5
   AttackCooldown: 1.5
+  DeathDuration: 2.5
   _CurrentState: 0
   SnitchRange: 10
   SnitchListenRange: 25
@@ -250,7 +251,7 @@ MonoBehaviour:
   SwarmLayer:
     serializedVersion: 2
     m_Bits: 1024
-  JumpChargeTime: 2
+  JumpChargeTime: 1
   JumpSpeed: 8
   JumpExtraDistance: 2
   JumpHeight: 1
