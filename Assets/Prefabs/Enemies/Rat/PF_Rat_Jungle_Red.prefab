@@ -120,6 +120,14 @@ PrefabInstance:
       propertyPath: SortKey
       value: 183109253
       objectReference: {fileID: 0}
+    - target: {fileID: 8779790197632786732, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779790197632786732, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+      propertyPath: 'NetworkedBehaviours.Array.data[4]'
+      value: 
+      objectReference: {fileID: 698908560933873980}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -128,6 +136,17 @@ PrefabInstance:
       addedObject: {fileID: 1382661496005208285}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+--- !u!114 &698908560933873980 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -8162957218717266674, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
+  m_PrefabInstance: {fileID: 505630259368223794}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56ef85047904adea9bd191f6f59f97d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4413393526234668993 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4196187230759107571, guid: ad863487ab43d78d9befe187df7099bf, type: 3}
