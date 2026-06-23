@@ -283,7 +283,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (!HasStateAuthority)
             return;
 
-        if (!_controller.Grounded)
+        if (!_networkGroundChecker.IsGrounded)
             return;
 
         if (input.MoveDirection.sqrMagnitude < 0.01f)
