@@ -23,4 +23,7 @@ MonoBehaviour:
     objectiveType: 3
     targetId: guide
     requiredAmount: 1
-  rewards: []
+  rewards:
+  - itemId: obj_healing_ointment
+    quantity: 3
+    experience: 10

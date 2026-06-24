@@ -184,8 +184,10 @@ MonoBehaviour:
   _maxHealth: 1
   _CurrentHealth: 0
   _IsAlive: 0
+  _MaxHealth: 0
   enemyData: {fileID: 11400000, guid: 0f25540cfaef19977b09129134e5c8dd, type: 2}
   expPerKill: 0
+  deathDespawnDelay: 0.35
 --- !u!114 &8668230390268576050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,9 +203,9 @@ MonoBehaviour:
   lootTable:
   - itemGameplayId: obj_bone_dust
     minDrops: 1
-    maxDrops: 3
+    maxDrops: 2
     amountPerDrop: 1
-    dropChance: 0.7
+    dropChance: 1
   - itemGameplayId: obj_jade
     minDrops: 1
     maxDrops: 2
