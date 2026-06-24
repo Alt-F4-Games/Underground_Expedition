@@ -58,9 +58,6 @@ public class NetworkInventoryManager : NetworkBehaviour
         {
             Local = this;
             OnLocalPlayerSpawned?.Invoke();
-
-            // Client loads its local JSON and sends it to the server
-            LoadLocalAndSyncToServer();
         }
 
         _managerChanges = null;
@@ -69,9 +66,6 @@ public class NetworkInventoryManager : NetworkBehaviour
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        if (HasInputAuthority)
-            SaveLocalInventory();
-
         if (HasInputAuthority && Local == this)
             Local = null;
     }
@@ -142,12 +136,6 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
 
         SafeAssignInventorySystem();
-    }
-
-    private void OnApplicationQuit()
-    {
-        if (HasInputAuthority)
-            SaveLocalInventory();
     }
 
     // -------------------- PUBLIC INPUT METHODS --------------
@@ -284,65 +272,7 @@ public class NetworkInventoryManager : NetworkBehaviour
             worldItem.ResetPickupRequest();
         }
     }
-
-    // -------------------- SAVED INVENTORY SYNC (client -> server) -----------
     
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SendSavedInventoryJson(string json)    
-    {
-        if (!HasStateAuthority) return;
-
-        if (string.IsNullOrEmpty(json)) return;
-
-        try
-        {
-            var saved = JsonUtility.FromJson<SavedInventoryData>(json);
-            if (saved != null)
-            {
-                inventorySystem.LoadFromSavedData(saved);
-                Debug.Log("[Inventory] Server applied saved inventory from client.");
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[Inventory] Failed to parse saved JSON: {ex.Message}");
-        }
-    }
-
-    //---------- Player identifier used for local persistence ----------
-    public static string LocalPlayerId => SystemInfo.deviceUniqueIdentifier;
-
-    // NUEVO: Generamos la clave compuesta vinculada a la sala actual para persistencia de sesión
-    private string GetSessionKey()
-    {
-        string roomName = (Runner != null && Runner.SessionInfo.IsValid) ? Runner.SessionInfo.Name : "OfflineRoom";
-        return $"{roomName}_{LocalPlayerId}";
-    }
-
-    // -------------------- LOCAL PERSISTENCE HELPERS -------------------------
-    private void LoadLocalAndSyncToServer()     
-    {
-        if (!HasInputAuthority) return;
-
-        string id = GetSessionKey(); // Modificado: Ahora busca el JSON de esta sala específica
-        var saved = InventorySaveSystem.Load(id);
-        if (saved == null) return;
-
-        string json = JsonUtility.ToJson(saved);
-        RPC_SendSavedInventoryJson(json);
-    }
-
-    public void SaveLocalInventory()
-    {
-        // Modificado: Chequeo de seguridad por si se llama durante el Despawn cuando el sistema ya se limpió
-        if (inventorySystem == null) return; 
-
-        string playerId = GetSessionKey(); // Modificado: Ahora guarda el JSON con el nombre de esta sala
-        var data = inventorySystem.ToSavedData();
-        InventorySaveSystem.Save(playerId, data);
-        Debug.Log($"[Inventory] Saved inventory for Session-Player key: {playerId}");
-    }
-
     // -------------------- UTILITIES ---------------------------------------
     private void SafeAssignInventorySystem()    
     {

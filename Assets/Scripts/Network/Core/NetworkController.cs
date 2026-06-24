@@ -284,21 +284,14 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     // ============================================================
-    // SHUTDOWN
-    // ============================================================
-
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
-    {
-        var inv = NetworkInventoryManager.Local;
-
-        if (inv && inv.HasInputAuthority)
-            inv.SaveLocalInventory();
-    }
-
-    // ============================================================
     // EMPTY CALLBACKS
     // ============================================================
-
+    
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) 
+    {
+        Debug.Log($"[NETWORK] Shutdown: {shutdownReason}");
+    }
+    
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }

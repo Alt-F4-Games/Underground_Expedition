@@ -1,7 +1,6 @@
 ﻿using System;
 using Audio.Player;
 using Events;
-﻿using Events;
 using Fusion;
 using Health;
 using Network;
@@ -127,7 +126,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (HasStateAuthority)
         {
             MaxStamina = _maxStaminaBase;
-            CurrentStamina = MaxStamina;
+            // CurrentStamina assignment eliminado, manejado por el Inyector de Sesión.
         }
 
         _renderer.material.color = Color.yellow;
@@ -439,7 +438,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private void OnAttackAOEReceived()
     {
-        _animator.SetTrigger("GroundSmash");
+        if (_animator != null)
+            _animator.SetTrigger("GroundSmash");
         _audio?.PlayAttackAOE();
     }
     
@@ -505,5 +505,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             return;
 
         AttackAOECounter++;
+    }
+
+    public void Server_SetStamina(float staminaValue)
+    {
+        if (!HasStateAuthority) return;
+        CurrentStamina = staminaValue;
     }
 }

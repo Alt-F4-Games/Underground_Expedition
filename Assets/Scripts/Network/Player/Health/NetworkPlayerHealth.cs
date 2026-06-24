@@ -19,6 +19,7 @@ namespace Health
         private Renderer[] _renderers;
         private Vector3 _pendingRespawnPosition;
         private PlayerDiedEvent _playerDiedEvent = new ();
+        
         public override void Spawned()
         {
             base.Spawned();
@@ -26,7 +27,6 @@ namespace Health
             if (HasStateAuthority)
             {
                 MaxHealth = 100; 
-                CurrentHealth = MaxHealth;
             }
 
             _controller = GetComponent<NetworkCharacterController>();
@@ -148,6 +148,16 @@ namespace Health
             if (!HasStateAuthority) return;
             MaxHealth += amount;
             CurrentHealth += amount; // Fill the added health
+        }
+
+        // ============================================================
+        // SESSION INJECTOR API
+        // ============================================================
+
+        public void Server_SetHealth(int healthValue)
+        {
+            if (!HasStateAuthority) return;
+            CurrentHealth = healthValue;
         }
     }
 }

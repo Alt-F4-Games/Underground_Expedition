@@ -458,34 +458,25 @@ public class NetworkInventorySystem : NetworkBehaviour
     public int GetCapacity(SlotType type) => GetArrayByType(type).Length;
 
     // =====================================================================
-    //                             SAVE / LOAD
+    //                             SAVE / LOAD SESSION
     // =====================================================================
 
-    public SavedInventoryData ToSavedData()
+    public void PopulateSessionData(SavedSessionData data)
     {
-        var data = new SavedInventoryData();
-
-        // Copy BaseSlots
         for (int i = 0; i < BaseSlots.Length; i++)
             data.baseSlots.Add(new SavedSlot(BaseSlots[i].ItemId, BaseSlots[i].Quantity));
 
-        // Copy HotbarSlots
         for (int i = 0; i < HotbarSlots.Length; i++)
             data.hotbarSlots.Add(new SavedSlot(HotbarSlots[i].ItemId, HotbarSlots[i].Quantity));
-
-        return data;
     }
 
-    public void LoadFromSavedData(SavedInventoryData data)
+    public void LoadFromSessionData(SavedSessionData data)
     {
-        if (!HasStateAuthority)
-            return;
+        if (!HasStateAuthority) return;
 
-        // Base
         for (int i = 0; i < BaseSlots.Length && i < data.baseSlots.Count; i++)
             BaseSlots.Set(i, new NetworkInventorySlot(data.baseSlots[i].itemId, data.baseSlots[i].quantity));
 
-        // Hotbar
         for (int i = 0; i < HotbarSlots.Length && i < data.hotbarSlots.Count; i++)
             HotbarSlots.Set(i, new NetworkInventorySlot(data.hotbarSlots[i].itemId, data.hotbarSlots[i].quantity));
     }
