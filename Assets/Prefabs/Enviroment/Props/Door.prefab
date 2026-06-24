@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 25d5e851ba96465459b9849f1583f5bc, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 80f26c7bd3c924c4295339615fd4aadc, type: 2}
+      objectReference: {fileID: 2100000, guid: b310508bbeb449d419f4fedd1bc655cb, type: 2}
     - target: {fileID: 919132149155446097, guid: 25d5e851ba96465459b9849f1583f5bc, type: 3}
       propertyPath: m_Name
       value: Door
@@ -109,5 +109,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _promptMessage: Interact
   _interactionDuration: 1.5
+  _fresnelOnValue: 1
+  _fresnelOffValue: 0
+  _fresnelProperty: _FresnelIntensity
   areaGate: {fileID: 0}
   sceneName: 

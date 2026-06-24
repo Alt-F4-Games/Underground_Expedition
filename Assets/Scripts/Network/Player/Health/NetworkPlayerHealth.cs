@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Events;
 using Fusion;
 using Network.Spawn;
@@ -15,22 +16,24 @@ namespace Health
         [SerializeField] private float _respawnDelay = 3f;
 
         private NetworkCharacterController _controller;
-
+        private NetworkPlayerController _playerController;
+        public static NetworkPlayerHealth LocalPlayerHealth;
         private Renderer[] _renderers;
-
+        private Vector3 _pendingRespawnPosition;
         private PlayerDiedEvent _playerDiedEvent = new ();
+        public event Action<int, int> OnHealthChanged;
+        
+        private int _lastRenderedHealth = -1;
+        private int _lastRenderedMaxHealth = -1;
         public override void Spawned()
         {
             base.Spawned();
-            
-            if (HasStateAuthority)
-            {
-                MaxHealth = 100; 
-                CurrentHealth = MaxHealth;
-            }
+
+            if (HasInputAuthority)
+                LocalPlayerHealth = this;
 
             _controller = GetComponent<NetworkCharacterController>();
-
+            _playerController = GetComponent<NetworkPlayerController>();
             _renderers = GetComponentsInChildren<Renderer>(true);
         }
 
@@ -45,36 +48,38 @@ namespace Health
         protected override void Death()
         {
             base.Death();
-            
+
+            _playerController?.PlayDeathSound();
+
             _playerDiedEvent.IsAlive = IsAlive;
             EventController.Instance.TriggerEvent(_playerDiedEvent);
 
-            if (!HasStateAuthority) return;
+            if (!HasStateAuthority)
+                return;
 
-            Debug.Log($"{gameObject.name} died");
-
-            foreach (var r in _renderers)
-            {
-                r.enabled = false;
-            }
-
-            Vector3 spawnPosition = Vector3.zero;
+            SetRenderers(false);
 
             if (RespawnManager.Instance != null)
             {
-                spawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
+                _pendingRespawnPosition = RespawnManager.Instance.GetCurrentSpawnPosition();
             }
 
-            if (_controller != null)
+            if (_controller)
             {
-                _controller.enabled = true;
-                _controller.Teleport(spawnPosition);
-            }
-
-            if (_controller != null)
                 _controller.enabled = false;
+            }
 
             Runner.StartCoroutine(RespawnCoroutine());
+        }
+        
+        public override void TakeDamage(int damage, PlayerRef playerRef)
+        {
+            base.TakeDamage(damage, playerRef);
+
+            if (IsAlive)
+            {
+                _playerController?.PlayDamagedSound();
+            }
         }
 
         // ============================================================
@@ -84,6 +89,14 @@ namespace Health
         private IEnumerator RespawnCoroutine()
         {
             yield return new WaitForSeconds(_respawnDelay);
+
+            if (_controller)
+            {
+                _controller.enabled = true;
+
+                _controller.Teleport(_pendingRespawnPosition);
+            }
+
             Respawn();
         }
 
@@ -94,11 +107,7 @@ namespace Health
             if (_controller)
                 _controller.enabled = true;
 
-            foreach (var r in _renderers)
-            {
-                r.enabled = true;
-            }
-
+            SetRenderers(true);
             Revive();
 
             Debug.Log($"{gameObject.name} respawned");
@@ -106,14 +115,13 @@ namespace Health
 
         private void IncreaseMaxHealth(PlayerStatsEvent evt)
         {
-            if (!HasStateAuthority) return;
+            if (!HasStateAuthority)
+                return;
 
-            Debug.Log($"{gameObject.name} max health: {MaxHealth}");
-            Debug.Log($"{gameObject.name} health PLUS: {evt.MaxHealth}");
-            MaxHealth += evt.MaxHealth;
+            if (evt.Player != Object)
+                return;
             
-            Debug.Log($"{gameObject.name} max health: {MaxHealth}");
-
+            MaxHealth += evt.MaxHealth;
             CurrentHealth = MaxHealth;
         }
 
@@ -135,6 +143,33 @@ namespace Health
             if (!HasStateAuthority) return;
             MaxHealth += amount;
             CurrentHealth += amount; // Fill the added health
+        }
+        
+        private void SetRenderers(bool enabled)
+        {
+            for (int i = 0; i < _renderers.Length; i++)
+            {
+                _renderers[i].enabled = enabled;
+            }
+        }
+        
+        public override void Render()
+        {
+            base.Render();
+
+            if (!HasInputAuthority)
+                return;
+
+            if (CurrentHealth != _lastRenderedHealth ||
+                MaxHealth != _lastRenderedMaxHealth)
+            {
+                _lastRenderedHealth = CurrentHealth;
+                _lastRenderedMaxHealth = MaxHealth;
+
+                OnHealthChanged?.Invoke(
+                    CurrentHealth,
+                    MaxHealth);
+            }
         }
     }
 }

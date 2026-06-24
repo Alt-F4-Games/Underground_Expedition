@@ -1,10 +1,13 @@
 ﻿using System;
+using Audio.Player;
 using Events;
+﻿using Events;
 using Fusion;
 using Health;
 using Network;
 using Skills;
 using Tools.EventSystem;
+using Tools.Utils;
 using UnityEngine;
 using Unity.Cinemachine;
 
@@ -35,21 +38,26 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private float _staminaRechargeRate = 1f;
     [SerializeField] private float _staminaDrainRate = 1f;
 
-    [Networked] private bool IsSprinting { get; set; }
+    [Header("Audio")]
+    [SerializeField] private float walkFootstepInterval = 0.45f;
+    [SerializeField] private float sprintFootstepInterval = 0.25f;
     
+    [Networked] private bool IsSprinting { get; set; }
     [Networked] public float CurrentStamina { get; private set; }
     [Networked] public float MaxStamina { get; private set; } 
     [Networked] private float RechargeDelayTimer { get; set; }
 
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
-    
-    // Reference to the Stats Manager (Facade)
+    private NetworkGroundChecker _networkGroundChecker;
     private PlayerStatsManager _statsManager;
     
     private Animator _animator;
     private EmpoweredStrikeSkill _strikeSkill;
+    private IPlayerAudio _audio;    
     
+    private float _lastRenderedStamina;
+    private float _lastRenderedMaxStamina;
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -63,18 +71,24 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float _yaw { get; set; }
     [Networked] private float _currentPitch { get; set; }
     [Networked] private float _movementSpeed { get; set; }
-    [Networked] private bool IsGrounded { get; set; }
+    [Networked] private bool WasGrounded { get; set; }
     [Networked] private float VerticalSpeed { get; set; }
+    [Networked] private TickTimer FootstepTimer { get; set; }
     
-    // Animation variables
-    [Networked, OnChangedRender(nameof(OnHitReceived))]
-    private int HitCounter { get; set; }
-    [Networked, OnChangedRender(nameof(OnAttackReceived))]
-    private int AttackCounter { get; set; }
-
-    private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
-
-    private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseMaxStamina); }
+    public event Action<float,float> OnStaminaChanged;
+    
+    [Networked, OnChangedRender(nameof(OnHitReceived))] private int HitCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackReceived))] private int AttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnFootstepReceived))] private int FootstepCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnLandReceived))] private int LandCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackSoundReceived))] private int AttackSoundCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnMissSoundReceived))] private int MissSoundCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnDamagedReceived))] private int DamagedCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnDeathReceived))] private int DeathCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnEmpoweredAttackReceived))] private int EmpoweredAttackCounter { get; set; }
+    [Networked, OnChangedRender(nameof(OnAttackAOEReceived))] private int AttackAOECounter { get; set; }
+    
+    [Networked, OnChangedRender(nameof(OnEmpoweredAttackAnimationReceived))] private int EmpoweredAttackAnimationCounter { get; set; }
     
     // ============================================================
     // SPAWN
@@ -84,17 +98,23 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     {
         _controller = GetComponent<NetworkCharacterController>();
         _health = GetComponent<NetworkPlayerHealth>();
-        
-        // Cache the Stats Manager
+        _audio = GetComponent<IPlayerAudio>();
+        _networkGroundChecker = GetComponentInChildren<NetworkGroundChecker>();
         _statsManager = GetComponent<PlayerStatsManager>();
-        
-        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
         _animator = GetComponent<Animator>();
         _strikeSkill = GetComponent<EmpoweredStrikeSkill>();
-        
-        if (_health != null)
+
+        if (HasInputAuthority)
         {
-            _health.OnDamageTaken += OnDamageTaken;
+            Local = this;
+            SpawnCamera();
+            _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
+        }
+        
+        if (HasStateAuthority)
+        {
+            MaxStamina = _maxStaminaBase;
+            CurrentStamina = MaxStamina;
         }
         
         if (!HasInputAuthority)
@@ -102,36 +122,23 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             if (_cameraPivot != null) _cameraPivot.gameObject.SetActive(false);
             return;
         }
-        
-        Local = this;
-
-        if (HasStateAuthority)
-        {
-            MaxStamina = _maxStaminaBase;
-            CurrentStamina = MaxStamina;
-        }
-
-        _renderer.material.color = Color.yellow;
-
-        // Primero instanciamos la cámara local
-        SpawnCamera();
-
-        // Buscamos la CinemachineCamera de forma segura en la escena de este cliente
-        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
-        
+       
         if (_cinemachineCamera != null && _cameraPivot != null)
         {
             _cinemachineCamera.Follow = _cameraPivot;
             _cinemachineCamera.LookAt = _cameraPivot;
         }
+        
+        _health.OnDamageTaken += OnDamageTaken;
+        _networkGroundChecker.OnGrounded += HandleLanding;
+        EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina);
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        if (_health != null)
-        {
-            _health.OnDamageTaken -= OnDamageTaken;
-        }
+        _health.OnDamageTaken -= OnDamageTaken;
+        _networkGroundChecker.OnGrounded -= HandleLanding;
+        EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseMaxStamina);
     }
 
     private void SpawnCamera()
@@ -189,8 +196,22 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator != null)
         {
             _animator.SetFloat("movementSpeed", _movementSpeed);
-            _animator.SetBool("isGrounded", IsGrounded);
+            _animator.SetBool("isGrounded", _networkGroundChecker.IsGrounded);
             _animator.SetFloat("verticalSpeed", VerticalSpeed);
+        }
+        
+        if (HasInputAuthority)
+        {
+            if (!Mathf.Approximately(CurrentStamina, _lastRenderedStamina) ||
+                !Mathf.Approximately(MaxStamina, _lastRenderedMaxStamina))
+            {
+                _lastRenderedStamina = CurrentStamina;
+                _lastRenderedMaxStamina = MaxStamina;
+
+                OnStaminaChanged?.Invoke(
+                    CurrentStamina,
+                    MaxStamina);
+            }
         }
     }
 
@@ -216,11 +237,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         }
 
         HandleMovement(input);
+        HandleFootsteps(input);
         HandleJump(input);
         HandleSprint(input);
         
-        IsGrounded = _controller.Grounded;
         VerticalSpeed = _controller.Velocity.y;
+        HandleLanding();
     }
 
     private void HandleMovement(NetworkInputPlayer input)
@@ -251,9 +273,47 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (moveDir.sqrMagnitude > 0.01f)
             _movementSpeed = IsSprinting ? 1f : 0.5f;
         else
-            _controller.Move(moveDir);
+            _movementSpeed = 0f;
     }
 
+    private void HandleFootsteps(NetworkInputPlayer input)
+    {
+        if (!HasStateAuthority)
+            return;
+
+        if (!_networkGroundChecker.IsGrounded)
+            return;
+
+        if (input.MoveDirection.sqrMagnitude < 0.01f)
+            return;
+
+        if (!FootstepTimer.ExpiredOrNotRunning(Runner))
+            return;
+
+        FootstepCounter++;
+
+        float interval = IsSprinting
+            ? sprintFootstepInterval
+            : walkFootstepInterval;
+
+        FootstepTimer = TickTimer.CreateFromSeconds(
+            Runner,
+            interval);
+    }
+    
+    private void HandleLanding()
+    {
+        if (!HasStateAuthority)
+            return;
+        
+        if (!WasGrounded && _networkGroundChecker.IsGrounded)
+        {
+            LandCounter++;
+        }
+
+        WasGrounded = _networkGroundChecker.IsGrounded;
+    }
+    
     private void HandleSprint(NetworkInputPlayer input)
     {
         bool wantsToSprint = input.Buttons.IsSet(NetworkInputPlayer.SPRINT_BUTTON);
@@ -301,8 +361,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     private void HandleJump(NetworkInputPlayer input)
     {
-        if (input.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority)
-            _controller.Jump();
+        if (input.Buttons.IsSet(NetworkInputPlayer.JUMP_BUTTON) && HasStateAuthority && _networkGroundChecker.IsGrounded)
+            _controller.Jump(true);
     }
 
     public void ApplyStun(float duration)
@@ -313,7 +373,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     public void IncreaseMaxStamina(PlayerStatsEvent evt)
     {
-        if (!HasStateAuthority) return;
+        if (!HasStateAuthority)
+            return;
+
+        if (evt.Player != Object)
+            return;
 
         MaxStamina += evt.MaxStamina;
         CurrentStamina = MaxStamina;
@@ -344,10 +408,7 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         if (_animator == null)
             return;
 
-        if (_strikeSkill.RemainingStrikes <= 0)
-            _animator.SetTrigger("Attack");
-        if (_strikeSkill.RemainingStrikes > 0)
-            _animator.SetTrigger("Strike");
+        _animator.SetTrigger("Attack");
     }
 
     public void PlayAttackAnimation()
@@ -368,5 +429,83 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             CurrentStamina = MaxStamina;
         else if (CurrentStamina < 0f)
             CurrentStamina = 0f;
+    }
+    
+    private void OnFootstepReceived() { _audio?.PlayFootstep();}
+    private void OnLandReceived() { _audio?.PlayLand(); }
+    private void OnAttackSoundReceived() { _audio?.PlayAttack(); }
+    private void OnMissSoundReceived() { _audio?.PlayMissAttack(); }
+    private void OnDamagedReceived() { _audio?.PlayDamaged(); }
+    private void OnDeathReceived() { _audio?.PlayDeath(); }
+    private void OnEmpoweredAttackReceived() { _audio?.PlayEmpoweredAttack(); }
+
+    private void OnAttackAOEReceived()
+    {
+        _animator.SetTrigger("GroundSmash");
+        _audio?.PlayAttackAOE();
+    }
+    
+    private void OnEmpoweredAttackAnimationReceived()
+    {
+        if (_animator == null)
+            return;
+
+        _animator.SetTrigger("Strike");
+    }
+    
+    public void PlayEmpoweredAttackAnimation()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        EmpoweredAttackAnimationCounter++;
+    }
+    
+    public void PlayAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackSoundCounter++;
+    }
+
+    public void PlayMissAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        MissSoundCounter++;
+    }
+    
+    public void PlayDamagedSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        DamagedCounter++;
+    }
+
+    public void PlayDeathSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        DeathCounter++;
+    }
+    
+    public void PlayEmpoweredAttackSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        EmpoweredAttackCounter++;
+    }
+    
+    public void PlayAttackAoeSound()
+    {
+        if (!HasStateAuthority)
+            return;
+
+        AttackAOECounter++;
     }
 }

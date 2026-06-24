@@ -202,11 +202,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4532218815731361178, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
       propertyPath: m_Name
-      value: vfx_whisp
+      value: vfx_wisp
       objectReference: {fileID: 0}
     - target: {fileID: 4532218815731361178, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566857888375583182, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0.11068753
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566857888375583182, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0.10588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566857888375583182, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.r
+      value: 0.6117647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566857888375583182, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.b
+      value: 0.08338118
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566857888375583182, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.g
+      value: 0.080738656
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566857888375583182, guid: 9b9121d2ddb8ced42be2e39346aa284a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.r
+      value: 0.42162424
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -269,7 +293,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 0e122a4033ce1414fa9655ff04717e55, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 80f26c7bd3c924c4295339615fd4aadc, type: 2}
+      objectReference: {fileID: 2100000, guid: b310508bbeb449d419f4fedd1bc655cb, type: 2}
     - target: {fileID: 919132149155446097, guid: 0e122a4033ce1414fa9655ff04717e55, type: 3}
       propertyPath: m_Name
       value: Altar
@@ -352,6 +376,7 @@ MonoBehaviour:
   _fresnelOnValue: 1
   _fresnelOffValue: 0
   _fresnelProperty: _FresnelIntensity
+  _requiredItemGameplayId: 
 --- !u!114 &6555122269901699326
 MonoBehaviour:
   m_ObjectHideFlags: 0

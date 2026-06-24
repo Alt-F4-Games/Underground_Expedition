@@ -18,8 +18,23 @@ namespace Network.Enemies.Components
         [Tooltip("Layer(s) that the aura can damage (e.g., PlayerLayer)")]
         public LayerMask TargetLayer;
 
-        private SphereCollider _collider;
+        // ==========================================
+        // NUEVO: Configuraciones de Progresión
+        // ==========================================
+        [Header("Aura Progression")]
+        [Tooltip("Curva para suavizar el crecimiento/decrecimiento del aura.")]
+        public AnimationCurve GrowthCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
         
+        [Tooltip("Velocidad base a la que el aura alcanza su nuevo tamaño.")]
+        public float GrowthSpeed = 2f;
+
+        private float _currentVisualRadius;
+        private float _targetRadius;
+        private float _startRadius;
+        private float _transitionProgress = 1f;
+        // ==========================================
+
+        private SphereCollider _collider;
         private HashSet<PlayerRespawnPoint> _corruptedPoints = new();
 
         private void Awake()
@@ -28,12 +43,37 @@ namespace Network.Enemies.Components
             _collider.isTrigger = true;
         }
 
-        public void UpdateRadius(float newRadius)
+        // Modificamos la firma para recibir el deltaTime del Runner
+        public void UpdateRadius(float newRadius, float deltaTime)
         {
-            if (_collider != null)
+            if (_collider == null) return;
+
+            // Si el radio objetivo cambia, iniciamos una nueva transición
+            if (Mathf.Abs(_targetRadius - newRadius) > 0.001f)
             {
-                transform.localScale = Vector3.one * newRadius * 2f;
+                // Si es la primera vez (radio actual es 0), seteamos el inicio ahí o hacemos snap. 
+                // Lo dejamos animar desde el tamaño actual para un efecto visual fluido.
+                _startRadius = _currentVisualRadius; 
+                _targetRadius = newRadius;
+                _transitionProgress = 0f;
             }
+
+            // Calculamos la interpolación progresiva si estamos en transición
+            if (_transitionProgress < 1f)
+            {
+                _transitionProgress += deltaTime * GrowthSpeed;
+                if (_transitionProgress > 1f) _transitionProgress = 1f; // Tope de seguridad
+
+                float curveValue = GrowthCurve.Evaluate(_transitionProgress);
+                _currentVisualRadius = Mathf.Lerp(_startRadius, _targetRadius, curveValue);
+            }
+            else
+            {
+                _currentVisualRadius = _targetRadius;
+            }
+
+            // Aplicamos la escala real
+            transform.localScale = Vector3.one * _currentVisualRadius * 2f;
         }
 
         private void OnTriggerEnter(Collider other)
