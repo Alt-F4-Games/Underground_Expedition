@@ -23,4 +23,7 @@ MonoBehaviour:
     objectiveType: 2
     targetId: obj_healing_ointment
     requiredAmount: 5
-  rewards: []
+  rewards:
+  - itemId: obj_canteen
+    quantity: 2
+    experience: 50

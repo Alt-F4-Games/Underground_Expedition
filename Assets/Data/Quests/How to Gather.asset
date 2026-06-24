@@ -14,17 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questId: how_to_gather
   questName: How to Gather
-  description: Break 2 pots and collect 5 leaves from trees.
+  description: Break 2 vases and collect 5 leaves from trees.
   questType: 0
   requirementType: 0
   requiredQuestId: 
   objectives:
   - displayName: Destroy vases.
     objectiveType: 0
-    targetId: 
-    requiredAmount: 0
-  - displayName: Collect leaves.
-    objectiveType: 3
-    targetId: 
-    requiredAmount: 0
-  rewards: []
+    targetId: enemy_vase
+    requiredAmount: 5
+  rewards:
+  - itemId: obj_healing_ointment
+    quantity: 2
+    experience: 40
