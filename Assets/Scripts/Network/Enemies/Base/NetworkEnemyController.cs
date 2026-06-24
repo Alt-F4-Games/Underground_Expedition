@@ -1,6 +1,8 @@
-﻿using Fusion;
+﻿using System;
+using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
+using Audio.Enemies;
 
 namespace Network.Enemies
 {
@@ -19,6 +21,9 @@ namespace Network.Enemies
         [Header("Attack Settings")]
         public int AttackDamage = 10;
         public float AttackCooldown = 1.2f;
+        
+        [Header("Death Settings")]
+        public float DeathDuration = 2.5f;
 
         public NetworkEnemyStateMachine StateMachine { get; private set; }
         public NetworkObject TargetPlayer { get; protected set; } // Current target being chased
@@ -26,10 +31,13 @@ namespace Network.Enemies
         // Networked enum. Triggers OnStateChanged on all clients when updated by the Host
         [Networked, OnChangedRender(nameof(OnStateChanged))]
         public NetworkEnemyState CurrentState { get; set; }
+        public event Action<NetworkEnemyState> OnEnemyStateChanged;
+        public IEnemyAudio EnemyAudio { get; private set; }
 
         public override void Spawned()
         {
             Agent = GetComponent<NavMeshAgent>();
+            EnemyAudio = GetComponent<IEnemyAudio>();
 
             // Initialize FSM only on the Host (Server)
             if (HasStateAuthority)
@@ -77,6 +85,7 @@ namespace Network.Enemies
         void OnStateChanged()
         {
             HandleStateChanged();
+            OnEnemyStateChanged?.Invoke(CurrentState);
         }
         
         protected virtual void HandleStateChanged(){}
@@ -95,7 +104,7 @@ namespace Network.Enemies
         public virtual INetworkState GetPatrolState() => new NetworkPatrolState();
         public virtual INetworkState GetChaseState() => new NetworkChaseState();
         public virtual INetworkState GetAttackState() => new NetworkAttackState();
-        public virtual INetworkState GetDeadState() => new NetworkDeadState(2.5f);
+        public virtual INetworkState GetDeadState() => new NetworkDeadState(DeathDuration);
 
     }
 }

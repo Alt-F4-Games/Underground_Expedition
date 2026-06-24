@@ -17,6 +17,9 @@ namespace Network.Enemies
         
         [Tooltip("Modifies the AttackRange and automatically scales the aura radius.")]
         public float NewAttackRange = 0f;
+        
+        [Tooltip("Modifies the aura growth speed. 0 = No change.")]
+        public float NewAuraGrowthSpeed = 0f;
 
         [Header("Combat Overrides (0 = No change)")]
         public float NewAttackCooldown = 0f;

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4600619372093366992}
   - component: {fileID: 4556452275843783480}
   - component: {fileID: 6009446608842247687}
+  - component: {fileID: 8638333325068788473}
   m_Layer: 0
   m_Name: MazeLoopingWall
   m_TagString: Untagged
@@ -388,3 +389,19 @@ MonoBehaviour:
   initialState: 1
   eventChannel: {fileID: 11400000, guid: 5e5a23ff292a7404c9dc6f6aeabc6c1b, type: 2}
   invert: 1
+--- !u!208 &8638333325068788473
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577404071846238865}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

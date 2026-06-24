@@ -73,6 +73,8 @@ namespace Network.Enemies.States
             _jumpDuration = totalDistance / Mathf.Max(0.1f, _jumpSpeed);
             
             Debug.Log($"[SERVER] {_enemy.gameObject.name} launched Jump Attack.");
+            
+            _enemy.EnemyAudio?.PlayAttack();
         }
 
         public void Update()

@@ -16,8 +16,6 @@ namespace Network.Environment.ToggleableObjects
             {
                 IsActive = initialState;
             }
-
-            ApplyState();
         }
 
         public override void Render()

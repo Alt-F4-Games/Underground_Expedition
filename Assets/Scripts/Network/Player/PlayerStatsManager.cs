@@ -132,6 +132,7 @@ namespace Network
         {
             if (!HasStateAuthority) return;
 
+            _playerStatsEvent.Player = Object;
             _playerStatsEvent.MaxHealth =  _plusMaxHealth;
             _playerStatsEvent.MaxStamina =  _plusMaxStamimna;
             _playerStatsEvent.PlayerDamage =  _plusPlayerDamage;

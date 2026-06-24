@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5151594434394585697}
   - component: {fileID: 3785217335198914087}
   - component: {fileID: 3492547940858447173}
+  - component: {fileID: 7931283208030767812}
   m_Layer: 0
   m_Name: OnBossSpawnedWall
   m_TagString: Untagged
@@ -388,3 +389,19 @@ MonoBehaviour:
   initialState: 1
   eventChannel: {fileID: 11400000, guid: 801b3aff4a9d78c4189b5bbbb10ae446, type: 2}
   invert: 1
+--- !u!208 &7931283208030767812
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257764732911657287}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+  m_TimeToStationary: 0.5

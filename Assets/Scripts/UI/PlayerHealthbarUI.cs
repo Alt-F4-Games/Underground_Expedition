@@ -9,42 +9,45 @@ namespace UI
     {
         [Header("UI")]
         [SerializeField] private Slider healthSlider;
+
         [SerializeField] private TextMeshProUGUI healthText;
 
-        private NetworkPlayerHealth _networkPlayerHealth;
+        private NetworkPlayerHealth _playerHealth;
 
-        void Start()
+        private void Start()
         {
-            FindLocalPlayer();
+            Connect();
         }
 
-        void Update()
+        private void Connect()
         {
-            if (_networkPlayerHealth == null)
+            _playerHealth = NetworkPlayerHealth.LocalPlayerHealth;
+
+            if (_playerHealth == null)
             {
-                FindLocalPlayer();
+                Invoke(nameof(Connect), 0.25f);
                 return;
             }
 
-            healthSlider.maxValue = _networkPlayerHealth.MaxHealth;
-            healthSlider.value = _networkPlayerHealth.CurrentHealth;
+            _playerHealth.OnHealthChanged += UpdateHealthUI;
 
-            healthText.text =
-                $"{_networkPlayerHealth.CurrentHealth} / {_networkPlayerHealth.MaxHealth}";
+            UpdateHealthUI(
+                _playerHealth.CurrentHealth,
+                _playerHealth.MaxHealth);
         }
 
-        private void FindLocalPlayer()
+        private void OnDestroy()
         {
-            var players = FindObjectsOfType<NetworkPlayerHealth>();
+            if (_playerHealth != null)
+                _playerHealth.OnHealthChanged -= UpdateHealthUI;
+        }
 
-            foreach (var player in players)
-            {
-                if (player.HasInputAuthority)
-                {
-                    _networkPlayerHealth = player;
-                    return;
-                }
-            }
+        private void UpdateHealthUI(int current, int max)
+        {
+            healthSlider.maxValue = max;
+            healthSlider.value = current;
+
+            healthText.SetText("{0}/{1}", current, max);
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Skills.Core;
 using Local.Progression;
+using Network.Player.Progression;
 
 namespace UI
 {
