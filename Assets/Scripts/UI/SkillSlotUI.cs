@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Skills;
 using TMPro;
 using Local.Progression;
+using Network.Player.Progression;
 
 namespace UI
 {
