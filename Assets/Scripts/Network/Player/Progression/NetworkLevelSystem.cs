@@ -1,12 +1,11 @@
 using System;
-using Fusion;
-using Player;
-using UnityEngine;
 using Events;
+using Fusion;
+using Local.Progression;
 using Tools.EventSystem;
+using UnityEngine;
 
-
-namespace Local.Progression
+namespace Network.Player.Progression
 {
     public class NetworkLevelSystem : NetworkBehaviour
     {

@@ -33,6 +33,7 @@ namespace Tools.EventSystem
 
     public class PlayerStatsEvent : GameEvent
     {
+        public NetworkObject Player;
         public int MaxHealth;
         public float MaxStamina;
         public int PlayerDamage;

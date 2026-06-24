@@ -43,7 +43,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [SerializeField] private float sprintFootstepInterval = 0.25f;
     
     [Networked] private bool IsSprinting { get; set; }
-    
     [Networked] public float CurrentStamina { get; private set; }
     [Networked] public float MaxStamina { get; private set; } 
     [Networked] private float RechargeDelayTimer { get; set; }
@@ -51,13 +50,14 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private NetworkCharacterController _controller;
     private NetworkPlayerHealth _health;
     private NetworkGroundChecker _networkGroundChecker;
-    
-    // Reference to the Stats Manager (Facade)
     private PlayerStatsManager _statsManager;
     
     private Animator _animator;
     private EmpoweredStrikeSkill _strikeSkill;
     private IPlayerAudio _audio;    
+    
+    private float _lastRenderedStamina;
+    private float _lastRenderedMaxStamina;
     public static NetworkPlayerController Local { get; private set; }
 
     [Networked] private TickTimer StunTimer { get; set; }
@@ -75,7 +75,8 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked] private float VerticalSpeed { get; set; }
     [Networked] private TickTimer FootstepTimer { get; set; }
     
-    // Animation variables
+    public event Action<float,float> OnStaminaChanged;
+    
     [Networked, OnChangedRender(nameof(OnHitReceived))] private int HitCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnAttackReceived))] private int AttackCounter { get; set; }
     [Networked, OnChangedRender(nameof(OnFootstepReceived))] private int FootstepCounter { get; set; }
@@ -88,10 +89,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     [Networked, OnChangedRender(nameof(OnAttackAOEReceived))] private int AttackAOECounter { get; set; }
     
     [Networked, OnChangedRender(nameof(OnEmpoweredAttackAnimationReceived))] private int EmpoweredAttackAnimationCounter { get; set; }
-
-    private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina); }
-
-    private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseMaxStamina); }
     
     // ============================================================
     // SPAWN
@@ -103,17 +100,21 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
         _health = GetComponent<NetworkPlayerHealth>();
         _audio = GetComponent<IPlayerAudio>();
         _networkGroundChecker = GetComponentInChildren<NetworkGroundChecker>();
-        
-        // Cache the Stats Manager
         _statsManager = GetComponent<PlayerStatsManager>();
-        
-        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
         _animator = GetComponent<Animator>();
         _strikeSkill = GetComponent<EmpoweredStrikeSkill>();
-        
-        if (_health != null)
+
+        if (HasInputAuthority)
         {
-            _health.OnDamageTaken += OnDamageTaken;
+            Local = this;
+            SpawnCamera();
+            _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
+        }
+        
+        if (HasStateAuthority)
+        {
+            MaxStamina = _maxStaminaBase;
+            CurrentStamina = MaxStamina;
         }
         
         if (!HasInputAuthority)
@@ -121,40 +122,23 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             if (_cameraPivot != null) _cameraPivot.gameObject.SetActive(false);
             return;
         }
-        
-        Local = this;
-
-        if (HasStateAuthority)
-        {
-            MaxStamina = _maxStaminaBase;
-            CurrentStamina = MaxStamina;
-        }
-
-        _renderer.material.color = Color.yellow;
-
-        // Primero instanciamos la cámara local
-        SpawnCamera();
-
-        // Buscamos la CinemachineCamera de forma segura en la escena de este cliente
-        _cinemachineCamera = FindObjectOfType<CinemachineCamera>();
-        
+       
         if (_cinemachineCamera != null && _cameraPivot != null)
         {
             _cinemachineCamera.Follow = _cameraPivot;
             _cinemachineCamera.LookAt = _cameraPivot;
         }
         
+        _health.OnDamageTaken += OnDamageTaken;
         _networkGroundChecker.OnGrounded += HandleLanding;
+        EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseMaxStamina);
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        if (_health != null)
-        {
-            _health.OnDamageTaken -= OnDamageTaken;
-        }
-        
+        _health.OnDamageTaken -= OnDamageTaken;
         _networkGroundChecker.OnGrounded -= HandleLanding;
+        EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseMaxStamina);
     }
 
     private void SpawnCamera()
@@ -214,6 +198,20 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
             _animator.SetFloat("movementSpeed", _movementSpeed);
             _animator.SetBool("isGrounded", _networkGroundChecker.IsGrounded);
             _animator.SetFloat("verticalSpeed", VerticalSpeed);
+        }
+        
+        if (HasInputAuthority)
+        {
+            if (!Mathf.Approximately(CurrentStamina, _lastRenderedStamina) ||
+                !Mathf.Approximately(MaxStamina, _lastRenderedMaxStamina))
+            {
+                _lastRenderedStamina = CurrentStamina;
+                _lastRenderedMaxStamina = MaxStamina;
+
+                OnStaminaChanged?.Invoke(
+                    CurrentStamina,
+                    MaxStamina);
+            }
         }
     }
 
@@ -375,7 +373,11 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     
     public void IncreaseMaxStamina(PlayerStatsEvent evt)
     {
-        if (!HasStateAuthority) return;
+        if (!HasStateAuthority)
+            return;
+
+        if (evt.Player != Object)
+            return;
 
         MaxStamina += evt.MaxStamina;
         CurrentStamina = MaxStamina;
