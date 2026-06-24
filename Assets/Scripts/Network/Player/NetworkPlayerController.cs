@@ -436,7 +436,12 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
     private void OnDamagedReceived() { _audio?.PlayDamaged(); }
     private void OnDeathReceived() { _audio?.PlayDeath(); }
     private void OnEmpoweredAttackReceived() { _audio?.PlayEmpoweredAttack(); }
-    private void OnAttackAOEReceived() { _audio?.PlayAttackAOE(); }
+
+    private void OnAttackAOEReceived()
+    {
+        _animator.SetTrigger("GroundSmash");
+        _audio?.PlayAttackAOE();
+    }
     
     private void OnEmpoweredAttackAnimationReceived()
     {
