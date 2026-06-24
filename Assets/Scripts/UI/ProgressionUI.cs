@@ -1,5 +1,6 @@
 ﻿using Fusion;
 using Local.Progression;
+using Network.Player.Progression;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

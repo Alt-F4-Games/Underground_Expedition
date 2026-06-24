@@ -10,12 +10,11 @@ namespace Health
 
         [Networked] public int CurrentHealth { get; protected set; }
         [Networked] public bool IsAlive { get; set; }
+        [Networked] public int MaxHealth { get; protected set; }
         
         public Action OnDamageTaken;
         public Action<int> OnDamageFeedback;
-
-        public int MaxHealth { get ; protected set; }
-
+        
         // ============================================================
         // Initialization
         // ============================================================
@@ -24,11 +23,10 @@ namespace Health
         {
             if (HasStateAuthority)
             {
+                MaxHealth = _maxHealth;
                 CurrentHealth = _maxHealth;
                 IsAlive = true;
             }
-
-            Debug.Log($"[Health] Spawned with HP: {CurrentHealth}");
         }
 
         // ============================================================
@@ -65,22 +63,16 @@ namespace Health
         {
             if (damage <= 0)
             {
-                Debug.LogError("Damage amount cannot be negative or zero");
                 return;
             }
 
             if (!IsAlive)
             {
-                Debug.Log($"[SERVER] {gameObject.name} is already dead");
                 return;
             }
-
-            int previousHealth = CurrentHealth;
-
+            
             CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
-
-            Debug.Log($"[SERVER] {gameObject.name} took {damage} damage. HP: {previousHealth} -> {CurrentHealth}");
-
+            
             if (CurrentHealth <= 0)
             {
                 Death();
@@ -97,17 +89,12 @@ namespace Health
         
         private void ApplyHeal(int heal)
         {
-            if (heal <= 0)
-            {
-                Debug.LogError("Heal amount cannot be negative or zero");
-                return;
-            }
+            if (heal <= 0) 
+                return; 
 
             if (!IsAlive) return;
 
             CurrentHealth = Mathf.Min(CurrentHealth + heal, _maxHealth);
-
-            Debug.Log($"{gameObject.name} healed {heal}. HP: {CurrentHealth}");
         }
         
         
@@ -120,8 +107,6 @@ namespace Health
             if (!IsAlive) return;
 
             IsAlive = false;
-
-            Debug.Log($"{gameObject.name} has died.");
         }
 
         // ============================================================
@@ -134,8 +119,6 @@ namespace Health
 
             IsAlive = true;
             CurrentHealth = _maxHealth;
-
-            Debug.Log($"{gameObject.name} has revived.");
         }
     }
 }

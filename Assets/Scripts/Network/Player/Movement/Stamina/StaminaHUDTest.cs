@@ -1,45 +1,46 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Fusion;
-using Player;
 
 public class StaminaHUDTest : MonoBehaviour
 {
-    [Header("UI")]
-    [SerializeField] private Slider staminaSlider;
+    [SerializeField]
+    private Slider staminaSlider;
 
-    private NetworkPlayerStamina _stamina;
+    private NetworkPlayerController _player;
 
-    void Start()
+    private void Start()
     {
-        FindLocalPlayer();
+        Connect();
     }
 
-    void Update()
+    private void Connect()
     {
-        if (_stamina == null)
+        _player = NetworkPlayerController.Local;
+
+        if (_player == null)
         {
-            FindLocalPlayer();
+            Invoke(nameof(Connect), 0.25f);
             return;
         }
 
-        staminaSlider.maxValue = _stamina.GetMaxStamina();
-        staminaSlider.value = _stamina.GetCurrentStamina();
-        
+        _player.OnStaminaChanged += UpdateUI;
+
+        UpdateUI(
+            _player.CurrentStamina,
+            _player.MaxStamina);
     }
 
-    private void FindLocalPlayer()
+    private void OnDestroy()
     {
-        var players = FindObjectsOfType<NetworkPlayerStamina>();
-
-        foreach (var player in players)
+        if (_player != null)
         {
-            if (player.HasInputAuthority)
-            {
-                _stamina = player;
-                Debug.Log("[HUD] Local player stamina linked");
-                return;
-            }
+            _player.OnStaminaChanged -= UpdateUI;
         }
+    }
+
+    private void UpdateUI(float current, float max)
+    {
+        staminaSlider.maxValue = max;
+        staminaSlider.value = current;
     }
 }
