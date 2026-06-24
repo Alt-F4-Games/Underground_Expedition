@@ -22,7 +22,6 @@ namespace Health
         private Vector3 _pendingRespawnPosition;
         private PlayerDiedEvent _playerDiedEvent = new ();
         
-        // --- EVENTOS Y VARIABLES DE RENDER (De develop) ---
         public event Action<int, int> OnHealthChanged;
         private int _lastRenderedHealth = -1;
         private int _lastRenderedMaxHealth = -1;
@@ -31,13 +30,11 @@ namespace Health
         {
             base.Spawned();
             
-            // --- SETEO DE VIDA INICIAL (De net-persist-implement) ---
             if (HasStateAuthority)
             {
                 MaxHealth = 100; 
             }
-
-            // --- SETEO DEL LOCAL PLAYER (De develop) ---
+            
             if (HasInputAuthority)
                 LocalPlayerHealth = this;
 
@@ -153,7 +150,7 @@ namespace Health
         }
 
         // ============================================================
-        // SESSION INJECTOR API (De net-persist-implement)
+        // SESSION INJECTOR API
         // ============================================================
 
         public void Server_SetHealth(int healthValue)
@@ -163,7 +160,7 @@ namespace Health
         }
 
         // ============================================================
-        // MÉTODOS DE RENDER Y UI (De develop)
+        // MÉTODOS DE RENDER Y UI
         // ============================================================
 
         private void SetRenderers(bool enabled)

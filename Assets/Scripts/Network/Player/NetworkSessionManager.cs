@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine;
 using Local.Progression;
+using Network.Player.Progression;
 using Health;
 
 public class NetworkSessionManager : NetworkBehaviour
