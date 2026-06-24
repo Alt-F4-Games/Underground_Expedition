@@ -9701,6 +9701,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 785387761}
+  - {fileID: 1476135041}
   - {fileID: 1759933235}
   - {fileID: 1613734603}
   - {fileID: 205037860}
@@ -18122,8 +18123,8 @@ GameObject:
   - component: {fileID: 1476135038}
   - component: {fileID: 1476135037}
   - component: {fileID: 1476135036}
-  m_Layer: 0
-  m_Name: Prism
+  m_Layer: 6
+  m_Name: TempleRamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18416,12 +18417,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476135035}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 633.03, y: 200.84, z: 55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 728681846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1499436201 stripped
 Transform:
@@ -26565,6 +26566,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: AhPuchTemple
       objectReference: {fileID: 0}
+    - target: {fileID: 3186087328179392967, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4255144907020970351, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8496712294198761092, guid: 2c55d70ce55b73c4a9c4c466dc8d4261, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26892,4 +26905,3 @@ SceneRoots:
   - {fileID: 495079270}
   - {fileID: 296132516}
   - {fileID: 1786328126}
-  - {fileID: 1476135041}
