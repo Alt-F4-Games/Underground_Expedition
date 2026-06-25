@@ -7,24 +7,36 @@ namespace UI
         [SerializeField]
         protected GameObject root;
 
+        protected virtual void Update()
+        {
+            if (!root.activeSelf)
+                return;
+
+            if (!ReferenceEquals(InputManager.ActiveWindow, this))
+                return;
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Close();
+            }
+        }
+
         public virtual void Open()
         {
-            root.SetActive(true);
+            if (!InputManager.TryOpenWindow(this))
+                return;
 
-            InputManager.SetMode(InputMode.UI);
-            InputBlocker.PushBlock();
+            root.SetActive(true);
         }
 
         public virtual void Close()
         {
+            if (!root.activeSelf)
+                return;
+
             root.SetActive(false);
 
-            InputBlocker.PopBlock();
-
-            if (!InputBlocker.IsBlocked)
-            {
-                InputManager.SetMode(InputMode.Game);
-            }
+            InputManager.CloseWindow(this);
         }
     }
 }

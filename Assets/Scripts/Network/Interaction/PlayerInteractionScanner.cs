@@ -1,4 +1,5 @@
 using Fusion;
+using UI;
 using UnityEngine;
 
 namespace Network.Interaction
@@ -41,7 +42,7 @@ namespace Network.Interaction
             // We only perform visual detection for the local player
             if (!HasInputAuthority) return;
             
-            if (!UI.InputManager.IsGameMode())
+            if (!InputManager.IsGameMode)
             {
                 ClearDetection();
                 return;

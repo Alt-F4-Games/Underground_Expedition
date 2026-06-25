@@ -275,6 +275,7 @@ MonoBehaviour:
   _maxHealth: 20
   _CurrentHealth: 0
   _IsAlive: 0
+  _MaxHealth: 0
   enemyData: {fileID: 11400000, guid: eaadfb14477f5594c83872d07d3b97e5, type: 2}
   expPerKill: 10
   deathDespawnDelay: 0.35
@@ -317,7 +318,7 @@ MonoBehaviour:
     minDrops: 1
     maxDrops: 4
     amountPerDrop: 1
-    dropChance: 0.15
+    dropChance: 1
   spawnMode: 0
   dropRadius: 1.31
   directionalReference: {fileID: 0}

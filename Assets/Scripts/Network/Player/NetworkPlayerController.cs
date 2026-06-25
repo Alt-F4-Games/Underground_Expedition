@@ -221,9 +221,6 @@ public class NetworkPlayerController : NetworkBehaviour, IStunnable
 
     public override void FixedUpdateNetwork()
     {
-        if (!UI.InputManager.IsGameMode())
-            return;
-        
         if (_health != null && !_health.IsAlive) return;
         if (!GetInput(out NetworkInputPlayer input)) return;
 

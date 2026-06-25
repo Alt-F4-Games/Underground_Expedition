@@ -51,6 +51,12 @@ namespace Health
                 exp = expPerKill,
                 enemyObject = Object
             };
+
+            if (HasStateAuthority)
+            {
+                if (TryGetComponent(out NetworkEnemyController controller) && controller.StateMachine != null)
+                    controller.StateMachine.ChangeState(controller.GetDeadState());
+            }
             
             EventController.Instance.TriggerEvent(enemyDiedEvent);
             
