@@ -75,8 +75,7 @@ public class InventoryUI : MonoBehaviour
 
         inventoryPanelRoot.SetActive(true);
 
-        InputManager.SetMode(InputMode.UI);
-        InputBlocker.PushBlock();
+        InputManager.PushUI();
 
         RefreshAll();
     }
@@ -90,12 +89,7 @@ public class InventoryUI : MonoBehaviour
 
         inventoryPanelRoot.SetActive(false);
 
-        InputBlocker.PopBlock();
-
-        if (!InputBlocker.IsBlocked)
-        {
-            InputManager.SetMode(InputMode.Game);
-        }
+        InputManager.PopUI();
     }
 
     // =====================================================================

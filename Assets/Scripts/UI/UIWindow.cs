@@ -11,20 +11,14 @@ namespace UI
         {
             root.SetActive(true);
 
-            InputManager.SetMode(InputMode.UI);
-            InputBlocker.PushBlock();
+            InputManager.PushUI();
         }
 
         public virtual void Close()
         {
             root.SetActive(false);
 
-            InputBlocker.PopBlock();
-
-            if (!InputBlocker.IsBlocked)
-            {
-                InputManager.SetMode(InputMode.Game);
-            }
+            InputManager.PopUI();
         }
     }
 }
