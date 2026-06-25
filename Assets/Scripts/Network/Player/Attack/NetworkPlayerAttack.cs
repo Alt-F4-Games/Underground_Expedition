@@ -17,28 +17,21 @@ namespace Health
         [Header("References")]
         [SerializeField] private AttackAreaDetector _detector;
         
-        // reference to the Skill Manager for loose coupling
         private PlayerSkillManager _skillManager;
-        
-        // reference to the Stats Manager (Facade)
         private PlayerStatsManager _statsManager;
-        
         private NetworkPlayerController _playerController;
 
         private float _lastAttackTime;
-        
+        private NetworkButtons _previousButtons;
+        private TickTimer _attackCooldownTimer;
+
         private void OnEnable() { EventController.Instance.AddListener<PlayerStatsEvent>(IncreaseAttack); }
         private void OnDisable() { EventController.Instance.RemoveListener<PlayerStatsEvent>(IncreaseAttack); }
 
         public override void Spawned()
         {
-            // Cache the Skill Manager located on the same Player Prefab
             _skillManager = GetComponent<PlayerSkillManager>();
-            
-            // Cache the Stats Manager
             _statsManager = GetComponent<PlayerStatsManager>();
-            
-            // Cache the PlayerController located on the same Player Prefab
             _playerController = GetComponent<NetworkPlayerController>();
         }
 
@@ -46,26 +39,30 @@ namespace Health
         // INPUT (CLIENT ONLY)
         // ============================================================
 
-        private void Update()
+        public override void FixedUpdateNetwork()
         {
-            if (!HasInputAuthority) return;
-
-            if (InputBlocker.IsBlocked)
-                    return;
+            if (!HasInputAuthority)
+                return;
             
-            if (Input.GetMouseButtonDown(0))
+            if (!GetInput(out NetworkInputPlayer input))
+                return;
+
+            NetworkButtons pressed = input.Buttons.GetPressed(_previousButtons);
+
+            if (pressed.IsSet(NetworkInputPlayer.ATTACK_BUTTON))
             {
                 TryAttack();
             }
+
+            _previousButtons = input.Buttons;
         }
 
         private void TryAttack()
         {
-            if (Time.time - _lastAttackTime < _attackCooldown)
+            if (!_attackCooldownTimer.ExpiredOrNotRunning(Runner))
                 return;
 
-            _lastAttackTime = Time.time;
-            
+            _attackCooldownTimer = TickTimer.CreateFromSeconds(Runner, _attackCooldown);
             RPC_RequestAttack();
         }
         
