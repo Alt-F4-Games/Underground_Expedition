@@ -404,6 +404,7 @@ MonoBehaviour:
   _maxHealth: 30
   _CurrentHealth: 0
   _IsAlive: 0
+  _MaxHealth: 0
   enemyData: {fileID: 11400000, guid: 884439cbf12f03f4e90050b1635d66de, type: 2}
   expPerKill: 20
   deathDespawnDelay: 0.35
@@ -445,8 +446,8 @@ MonoBehaviour:
   - itemGameplayId: obj_tooth
     minDrops: 2
     maxDrops: 6
-    amountPerDrop: 0
-    dropChance: 0.4
+    amountPerDrop: 1
+    dropChance: 1
   spawnMode: 0
   dropRadius: 1.5
   directionalReference: {fileID: 0}
