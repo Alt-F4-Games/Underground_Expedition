@@ -14,7 +14,6 @@ public class InventoryUI : UIWindow
     private List<InventorySlotUI> _baseSlotsUI = new();
 
     private NetworkInventoryManager _currentManager;
-    private bool _isOpen;
 
     
     private void OnEnable()
@@ -76,7 +75,7 @@ public class InventoryUI : UIWindow
     
     private void HandleInventoryToggle()
     {
-        if (_isOpen)
+        if (root.activeSelf)
         {
             Close();
             return;
@@ -87,22 +86,21 @@ public class InventoryUI : UIWindow
     
     public override void Open()
     {
-        if (_isOpen)
+        if (root.activeSelf)
             return;
-
-        _isOpen = true;
 
         base.Open();
 
-        RefreshAll();
+        if (root.activeSelf)
+        {
+            RefreshAll();
+        }
     }
 
     public override void Close()
     {
-        if (!_isOpen)
+        if (!root.activeSelf)
             return;
-
-        _isOpen = false;
 
         base.Close();
     }
@@ -145,9 +143,10 @@ public class InventoryUI : UIWindow
     // Refresh
     // =====================================================================
     
-    public void RefreshAll()    // Refreshes all UI slot visuals if the panel is open.
+    public void RefreshAll()
     {
-        if (!_currentManager || !_isOpen) return;
+        if (!_currentManager || !root.activeSelf)
+            return;
 
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
 
@@ -169,10 +168,4 @@ public class InventoryUI : UIWindow
                 uiList[i].Clear();
         }
     }
-
-    // =====================================================================
-    // Helpers
-    // =====================================================================
-
-    public bool IsVisible() => _isOpen;
 }

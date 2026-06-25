@@ -46,17 +46,6 @@ namespace UI.Crafting
         
         feedbackText.gameObject.SetActive(false);
     }
-
-    private void Update()
-    {
-        if (!root.activeSelf)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Close();
-        }
-    }
     
     // =========================================================
     // OPEN / CLOSE
