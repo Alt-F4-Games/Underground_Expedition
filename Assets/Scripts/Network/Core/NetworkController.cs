@@ -29,6 +29,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Test Items")]
     [SerializeField] private NetworkObject _testEnemyPrefab;
     private bool worldItemsSpawned = false;
+    
+    public static event Action OnInventoryPressed;
 
     // ---------------- INPUT ----------------
     [Header("Mouse Settings")]
@@ -100,6 +102,14 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnJump(InputAction.CallbackContext context) => _jumpPressed = context.ReadValue<float>() > 0;
     public void OnSprint(InputAction.CallbackContext context) => _sprintPressed = context.ReadValue<float>() > 0;
     public void OnInteract(InputAction.CallbackContext context) => _interactPressed = context.ReadValueAsButton();
+    
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+
+        OnInventoryPressed?.Invoke();
+    }
 
     public void OnLook(InputAction.CallbackContext context) 
     { 

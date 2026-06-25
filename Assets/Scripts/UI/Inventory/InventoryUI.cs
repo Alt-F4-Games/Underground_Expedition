@@ -3,7 +3,7 @@ using Local.Inventory;
 using UI;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIWindow
 {
     [Header("Containers")]
     [SerializeField] private Transform backpackContainer;
@@ -11,14 +11,22 @@ public class InventoryUI : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject slotPrefab;
 
-    [Header("UI Root")]
-    [SerializeField] private GameObject inventoryPanelRoot;
-
     private List<InventorySlotUI> _baseSlotsUI = new();
 
     private NetworkInventoryManager _currentManager;
     private bool _isOpen;
 
+    
+    private void OnEnable()
+    {
+        NetworkController.OnInventoryPressed += HandleInventoryToggle;
+    }
+
+    private void OnDisable()
+    {
+        NetworkController.OnInventoryPressed -= HandleInventoryToggle;
+    }
+    
     // =====================================================================
     // Unity Lifecycle
     // =====================================================================
@@ -30,7 +38,7 @@ public class InventoryUI : MonoBehaviour
         
         NetworkInventoryManager.OnLocalPlayerSpawned += ConnectToLocalPlayer;   // Subscribe so we connect when the local player spawns
 
-        inventoryPanelRoot.SetActive(false);
+        root.SetActive(false);
     }
 
     private void OnDestroy()
@@ -66,30 +74,37 @@ public class InventoryUI : MonoBehaviour
     // UI Visibility
     // =====================================================================
     
-    public void Show()
+    private void HandleInventoryToggle()
+    {
+        if (_isOpen)
+        {
+            Close();
+            return;
+        }
+
+        Open();
+    }
+    
+    public override void Open()
     {
         if (_isOpen)
             return;
 
         _isOpen = true;
 
-        inventoryPanelRoot.SetActive(true);
-
-        InputManager.PushUI();
+        base.Open();
 
         RefreshAll();
     }
 
-    public void Hide()
+    public override void Close()
     {
         if (!_isOpen)
             return;
 
         _isOpen = false;
 
-        inventoryPanelRoot.SetActive(false);
-
-        InputManager.PopUI();
+        base.Close();
     }
 
     // =====================================================================

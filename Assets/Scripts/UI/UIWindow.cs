@@ -9,16 +9,20 @@ namespace UI
 
         public virtual void Open()
         {
-            root.SetActive(true);
+            if (!InputManager.TryOpenWindow(this))
+                return;
 
-            InputManager.PushUI();
+            root.SetActive(true);
         }
 
         public virtual void Close()
         {
+            if (!root.activeSelf)
+                return;
+
             root.SetActive(false);
 
-            InputManager.PopUI();
+            InputManager.CloseWindow(this);
         }
     }
 }

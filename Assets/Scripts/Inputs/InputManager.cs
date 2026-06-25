@@ -12,6 +12,7 @@ namespace UI
     public static class InputManager
     {
         public static InputMode Mode { get; private set; } = InputMode.Game;
+        public static object ActiveWindow { get; private set; }
 
         public static bool IsGameMode => Mode == InputMode.Game;
 
@@ -72,6 +73,34 @@ namespace UI
                 mode == InputMode.UI;
 
             OnInputModeChanged?.Invoke(mode);
+        }
+        
+        public static bool TryOpenWindow(object window)
+        {
+            if (window == null)
+                return false;
+
+            if (ActiveWindow != null &&
+                !ReferenceEquals(ActiveWindow, window))
+            {
+                return false;
+            }
+
+            ActiveWindow = window;
+
+            PushUI();
+
+            return true;
+        }
+
+        public static void CloseWindow(object window)
+        {
+            if (!ReferenceEquals(ActiveWindow, window))
+                return;
+
+            ActiveWindow = null;
+
+            PopUI();
         }
     }
 }
