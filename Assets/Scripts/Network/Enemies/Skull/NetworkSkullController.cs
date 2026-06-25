@@ -118,7 +118,7 @@ namespace Network.Enemies
 
                 case NetworkEnemyState.Charging:
                     _animator.SetBool("IsMoving", false);
-                    _animator.SetBool("IsCharging", true); ;
+                    _animator.SetBool("IsCharging", true);
                     break;
 
                 case NetworkEnemyState.Exploding:
