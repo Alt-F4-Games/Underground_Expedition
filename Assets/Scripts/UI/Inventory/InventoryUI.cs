@@ -3,7 +3,7 @@ using Local.Inventory;
 using UI;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIWindow
 {
     [Header("Containers")]
     [SerializeField] private Transform backpackContainer;
@@ -11,14 +11,21 @@ public class InventoryUI : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject slotPrefab;
 
-    [Header("UI Root")]
-    [SerializeField] private GameObject inventoryPanelRoot;
-
     private List<InventorySlotUI> _baseSlotsUI = new();
 
     private NetworkInventoryManager _currentManager;
-    private bool _isOpen;
 
+    
+    private void OnEnable()
+    {
+        NetworkController.OnInventoryPressed += HandleInventoryToggle;
+    }
+
+    private void OnDisable()
+    {
+        NetworkController.OnInventoryPressed -= HandleInventoryToggle;
+    }
+    
     // =====================================================================
     // Unity Lifecycle
     // =====================================================================
@@ -30,7 +37,7 @@ public class InventoryUI : MonoBehaviour
         
         NetworkInventoryManager.OnLocalPlayerSpawned += ConnectToLocalPlayer;   // Subscribe so we connect when the local player spawns
 
-        inventoryPanelRoot.SetActive(false);
+        root.SetActive(false);
     }
 
     private void OnDestroy()
@@ -66,36 +73,36 @@ public class InventoryUI : MonoBehaviour
     // UI Visibility
     // =====================================================================
     
-    public void Show()
+    private void HandleInventoryToggle()
     {
-        if (_isOpen)
+        if (root.activeSelf)
+        {
+            Close();
+            return;
+        }
+
+        Open();
+    }
+    
+    public override void Open()
+    {
+        if (root.activeSelf)
             return;
 
-        _isOpen = true;
+        base.Open();
 
-        inventoryPanelRoot.SetActive(true);
-
-        InputManager.SetMode(InputMode.UI);
-        InputBlocker.PushBlock();
-
-        RefreshAll();
+        if (root.activeSelf)
+        {
+            RefreshAll();
+        }
     }
 
-    public void Hide()
+    public override void Close()
     {
-        if (!_isOpen)
+        if (!root.activeSelf)
             return;
 
-        _isOpen = false;
-
-        inventoryPanelRoot.SetActive(false);
-
-        InputBlocker.PopBlock();
-
-        if (!InputBlocker.IsBlocked)
-        {
-            InputManager.SetMode(InputMode.Game);
-        }
+        base.Close();
     }
 
     // =====================================================================
@@ -136,9 +143,10 @@ public class InventoryUI : MonoBehaviour
     // Refresh
     // =====================================================================
     
-    public void RefreshAll()    // Refreshes all UI slot visuals if the panel is open.
+    public void RefreshAll()
     {
-        if (!_currentManager || !_isOpen) return;
+        if (!_currentManager || !root.activeSelf)
+            return;
 
         var sys = _currentManager.GetComponent<NetworkInventorySystem>();
 
@@ -160,10 +168,4 @@ public class InventoryUI : MonoBehaviour
                 uiList[i].Clear();
         }
     }
-
-    // =====================================================================
-    // Helpers
-    // =====================================================================
-
-    public bool IsVisible() => _isOpen;
 }

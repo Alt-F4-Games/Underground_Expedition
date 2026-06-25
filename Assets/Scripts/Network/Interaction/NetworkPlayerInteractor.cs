@@ -34,23 +34,13 @@ namespace Network.Interaction
 
         public override void FixedUpdateNetwork()
         {
-            if (!UI.InputManager.IsGameMode())
+            if (GetInput(out NetworkInputPlayer input))
             {
-                ResetInteraction();
-                return;
-            }
-
-            if (GetInput(
-                    out NetworkInputPlayer input))
-            {
-                bool isPressingInteract =
-                    input.Buttons.IsSet(
-                        NetworkInputPlayer.INTERACT_BUTTON);
+                bool isPressingInteract = input.Buttons.IsSet(NetworkInputPlayer.INTERACT_BUTTON);
 
                 if (HasStateAuthority)
                 {
-                    ProcessServerInteraction(
-                        isPressingInteract);
+                    ProcessServerInteraction(isPressingInteract);
                 }
             }
         }

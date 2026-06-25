@@ -29,6 +29,8 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Test Items")]
     [SerializeField] private NetworkObject _testEnemyPrefab;
     private bool worldItemsSpawned = false;
+    
+    public static event Action OnInventoryPressed;
 
     // ---------------- INPUT ----------------
     [Header("Mouse Settings")]
@@ -100,10 +102,18 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnJump(InputAction.CallbackContext context) => _jumpPressed = context.ReadValue<float>() > 0;
     public void OnSprint(InputAction.CallbackContext context) => _sprintPressed = context.ReadValue<float>() > 0;
     public void OnInteract(InputAction.CallbackContext context) => _interactPressed = context.ReadValueAsButton();
+    
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+
+        OnInventoryPressed?.Invoke();
+    }
 
     public void OnLook(InputAction.CallbackContext context) 
     { 
-        if (InputBlocker.IsBlocked)
+        if (InputManager.IsBlocked)
             return;
         
         Vector2 mouseDelta = context.ReadValue<Vector2>();
@@ -135,47 +145,38 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputPlayer();
-        
-        if (InputBlocker.IsBlocked)
+
+        if (InputManager.IsBlocked)
         {
             data.MoveDirection = Vector3.zero;
-            
             data.Buttons = default;
-            
-            data.MouseRotation = new Vector2(
-                _accumulatedYaw,
-                _accumulatedPitch);
+            data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch);
 
             input.Set(data);
 
+            _dropPressed = false;
+            _useItemPressed = false;
+
             return;
         }
+
+        data.MoveDirection = new Vector3(_moveInput.x, 0f, _moveInput.y);
+        data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch);
         
-        data.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed); 
+        data.Buttons.Set(NetworkInputPlayer.JUMP_BUTTON, _jumpPressed);
         data.Buttons.Set(NetworkInputPlayer.SPRINT_BUTTON, _sprintPressed);
         data.Buttons.Set(NetworkInputPlayer.INTERACT_BUTTON, _interactPressed);
+        data.Buttons.Set(NetworkInputPlayer.ATTACK_BUTTON, _attackPressed);
         
         data.Buttons.Set(NetworkInputPlayer.SKILL1_BUTTON, _skill1Pressed);
         data.Buttons.Set(NetworkInputPlayer.SKILL2_BUTTON, _skill2Pressed);
-        data.Buttons.Set(NetworkInputPlayer.ATTACK_BUTTON, _attackPressed);
         data.Buttons.Set(NetworkInputPlayer.UPGRADE_MODIFIER, _upgradeModifierPressed);
         
         data.Buttons.Set(NetworkInputPlayer.DROP_BUTTON, _dropPressed);
         data.Buttons.Set(NetworkInputPlayer.USE_ITEM_BUTTON, _useItemPressed);
-        
-        if (InputManager.Mode != InputMode.Game)
-        {
-            data.MoveDirection = Vector3.zero;
-            data.MouseRotation = Vector2.zero;
-        }
-        else
-        {
-            data.MoveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
-            data.MouseRotation = new Vector2(_accumulatedYaw, _accumulatedPitch); 
-        }
-        
+
         input.Set(data);
-        
+
         _dropPressed = false;
         _useItemPressed = false;
     }
