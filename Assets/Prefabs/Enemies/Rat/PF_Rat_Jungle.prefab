@@ -274,7 +274,7 @@ MonoBehaviour:
   _MaxHealth: 0
   enemyData: {fileID: 11400000, guid: eaadfb14477f5594c83872d07d3b97e5, type: 2}
   expPerKill: 10
-  deathDespawnDelay: 0.35
+  deathDespawnDelay: 3
 --- !u!95 &-6943888105121886843
 Animator:
   serializedVersion: 7
@@ -312,9 +312,9 @@ MonoBehaviour:
   lootTable:
   - itemGameplayId: obj_rat_tail
     minDrops: 1
-    maxDrops: 4
+    maxDrops: 2
     amountPerDrop: 1
-    dropChance: 1
+    dropChance: 0.8
   spawnMode: 0
   dropRadius: 1.31
   directionalReference: {fileID: 0}
