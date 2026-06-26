@@ -16059,8 +16059,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3314105918426128309, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -26.888464
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314105918426128309, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.00018310547
       objectReference: {fileID: 0}
     - target: {fileID: 3443472559453942415, guid: 1e3c7b4d2c53a844e9c31ec42e473da2, type: 3}
       propertyPath: m_Name
@@ -16850,12 +16854,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6491480765441972990, guid: ab0e33275ea68b241bc1f3cee07f7845, type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6491480765441972990, guid: ab0e33275ea68b241bc1f3cee07f7845, type: 3}
       propertyPath: 'NetworkedBehaviours.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1120293362}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16906,6 +16910,8 @@ MonoBehaviour:
   _collider: {fileID: 1120293359}
   _resurrectionAltarRespawn: {fileID: 846542648}
   _bossProximitySpawner: {fileID: 1605898511}
+  _IsOpen:
+    _value: 0
 --- !u!1001 &1120302985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20183,6 +20189,8 @@ MonoBehaviour:
   _collider: {fileID: 1338940433}
   _resurrectionAltarRespawn: {fileID: 937467054}
   _bossProximitySpawner: {fileID: 1605898511}
+  _IsOpen:
+    _value: 0
 --- !u!4 &1342464413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4100579721056282977, guid: 16d661c806b41cc47bac8ebf42351a73, type: 3}
@@ -25910,6 +25918,14 @@ PrefabInstance:
       propertyPath: SortKey
       value: 92469287
       objectReference: {fileID: 0}
+    - target: {fileID: 6491480765441972990, guid: ab0e33275ea68b241bc1f3cee07f7845, type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491480765441972990, guid: ab0e33275ea68b241bc1f3cee07f7845, type: 3}
+      propertyPath: 'NetworkedBehaviours.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1338940436}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
