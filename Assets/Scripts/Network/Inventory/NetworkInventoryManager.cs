@@ -49,7 +49,8 @@ public class NetworkInventoryManager : NetworkBehaviour
     // -------------------------- LIFECYCLE ----------------------------------
     public override void Spawned()
     {
-        SafeAssignInventorySystem();
+        inventorySystem = GetComponent<NetworkInventorySystem>();
+
         _playerController = GetComponent<NetworkPlayerController>();
         
         if (HasStateAuthority)
@@ -229,62 +230,34 @@ public class NetworkInventoryManager : NetworkBehaviour
         }
     }
 
-    // -------------------- PICKUPS (Client requests pickup, server validates) --------------
+    // -------------------- PICKUPS (Server Authority) --------------
     
     public void RequestPickupItem(NetworkWorldItem item)    
-    {
-        if (!HasInputAuthority) return;
-        if (item == null || !item.Object.IsValid) return;
-        RPC_RequestPickup(item);
-    }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_RequestPickup(NetworkWorldItem item)
     {
         if (!HasStateAuthority) return;
 
         if (item == null || !item.Object.IsValid)
         {
-            RPC_PickupResult(false, item != null ? item.Object : null);
+            if (item != null) item.ResetPickupRequest();
             return;
         }
-
-        var worldItem = item.GetComponent<NetworkWorldItem>();
-        if (worldItem == null)
-        {
-            RPC_PickupResult(false, item.Object);
-            return;
-        }
-
+        
         const float maxDist = 3f;
-        if (Vector3.Distance(transform.position, worldItem.transform.position) > maxDist)
+        if (Vector3.Distance(transform.position, item.transform.position) > maxDist)
         {
-            RPC_PickupResult(false, item.Object);
+            item.ResetPickupRequest();
             return;
         }
-
-        bool added = inventorySystem.Server_AddItemGlobal(worldItem.ItemId, worldItem.Quantity);
+        
+        bool added = inventorySystem.Server_AddItemGlobal(item.ItemId, item.Quantity);
+        
         if (added)
         {
             Runner.Despawn(item.Object);
-            RPC_PickupResult(true, item.Object);
         }
         else
         {
-            RPC_PickupResult(false, item.Object);
-        }
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
-    private void RPC_PickupResult(bool success, NetworkObject itemNetObj)
-    {
-        if (itemNetObj == null) return;
-        var worldItem = itemNetObj.GetComponent<NetworkWorldItem>();
-        if (worldItem == null) return;
-
-        if (!success)
-        {
-            worldItem.ResetPickupRequest();
+            item.ResetPickupRequest();
         }
     }
 
@@ -336,6 +309,7 @@ public class NetworkInventoryManager : NetworkBehaviour
     // -------------------- UTILITIES ---------------------------------------
     private void SafeAssignInventorySystem()    
     {
-        inventorySystem = GetComponent<NetworkInventorySystem>();
+        if (inventorySystem == null)
+            inventorySystem = GetComponent<NetworkInventorySystem>();
     }
 }
