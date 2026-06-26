@@ -1,3 +1,4 @@
+using System;
 using Fusion;
 using UnityEngine;
 using Network.Spawn;
@@ -15,6 +16,8 @@ namespace Network.Interaction.Altar
 
         private PlayerRespawnPoint _respawnPoint;
         private int _cachedNetworkId = -1;
+        
+        public event Action Altar1Activated;
         
         private int RequiredNetworkId 
         {
@@ -91,6 +94,7 @@ namespace Network.Interaction.Altar
 
                 Debug.Log($"[Server] Altar {name} activated using {_requiredItemGameplayId} by {player.Object.InputAuthority}");
                 RespawnManager.Instance.ActivatePoint(_respawnPoint);
+                Altar1Activated?.Invoke();
             }
         }
         
