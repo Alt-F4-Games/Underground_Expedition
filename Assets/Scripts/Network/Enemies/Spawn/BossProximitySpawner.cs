@@ -1,7 +1,9 @@
+using System;
 using Events;
 using Fusion;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace Network.Spawn
 {
@@ -27,6 +29,8 @@ namespace Network.Spawn
 
         [Networked] public TickTimer ParticleTimer { get; set; }
         [Networked] public TickTimer BossTimer { get; set; }
+        
+        public event Action BossSpawnedEvent;
 
         public override void FixedUpdateNetwork()
         {
@@ -56,7 +60,6 @@ namespace Network.Spawn
                     ParticleTimer = TickTimer.CreateFromSeconds(Runner, ParticleDelay);
                     BossTimer = TickTimer.CreateFromSeconds(Runner, BossDelay);
                     
-                    Debug.Log($"[SERVER] Sequence initiated: All {totalPlayers} players are in the boss area!");
                 }
             }
             else
@@ -80,7 +83,6 @@ namespace Network.Spawn
             {
                 Vector3 spawnPos = CustomSpawnPoint != null ? CustomSpawnPoint.position : transform.position;
                 Instantiate(ParticlePrefab, spawnPos, Quaternion.identity);
-                Debug.Log("[CLIENT/SERVER] Efecto de partícula invocado.");
             }
         }
 
@@ -91,6 +93,7 @@ namespace Network.Spawn
             if (Object.HasStateAuthority)
             {
                 bossSpawnedEvent.RaiseEvent(true);
+                BossSpawnedEvent?.Invoke();
             }
         }
     }
